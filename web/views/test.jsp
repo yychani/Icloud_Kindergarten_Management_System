@@ -12,6 +12,7 @@
 <body>
     <%@ include file="/views/common/presidentMenu.jsp" %>
     <%@ include file="/views/common/calendar.jsp" %>
+    
     <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
