@@ -52,8 +52,8 @@
             width: 100px;
             height: 40px;
             border-radius: 10px;
-            background: rgb(177, 177, 177);
-            color: black;
+            background: rgb(177, 177, 177) !important;
+            color: black !important;
             font-weight: bold;
             border: none;
             cursor: pointer;
@@ -62,7 +62,7 @@
         button:hover,
         .submit:hover,
         .cancel:hover {
-            background: rgb(241, 241, 188) !important;
+            background: rgb(44, 44, 44) !important;
             color: gray !important;
         }
 
@@ -168,13 +168,6 @@
                     </select></td>
             </tr>
             <tr>
-                <td colspan="2" class="label"><label for="">성별 : </label></td>
-                <td colspan="2" class="input"><input type="radio" name="gender" value="female" checked><label
-                        for="female" style="vertical-align: center;">여</label><input type="radio" name="gender"
-                        value="male" style="vertical-align: center; margin-left: 50px;"><label for="male">남</label>
-                </td>
-            </tr>
-            <tr>
                 <td colspan="2" class="label"><label for="">응급처치 동의서 : </label></td>
                 <td colspan="2" class="input"><input type="radio" name="emergency" value="agree" checked><label
                         for="emergency" style="vertical-align: center;">동의</label><input type="radio" name="emergency"
@@ -233,7 +226,7 @@
             <tr></tr>
         </table>
         <div style="margin-left: 36%; margin-bottom: 50px;">
-            <input type="button" value="아이추가" class="submit"><input type="submit" value="완료" class="submit" onclick="location.href='../index.jsp'" style="margin-left: 50px;"> <input type="button" value="취소" style="margin-left: 50px;"
+            <input type="button" value="아이추가" class="submit"><input type="submit" value="완료" class="submit" onclick="location.href='<%=request.getContextPath()%>/index.jsp'" style="margin-left: 50px;"> <input type="button" class="cancel" value="취소" style="margin-left: 50px;"
                 class="cancel">
         </div>
         <input type="hidden" name="userId" value="<%=request.getParameter("userId") %>">

@@ -13,6 +13,10 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 <style>
+table {
+    margin: 50px auto;
+}
+
 input[type=text] {
 	border-radius: 10px;
 	width: 300px;
@@ -44,21 +48,21 @@ input[type=checkbox] {
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/presidentMenu.jsp"%>
 	<div style="margin: 0 15%;">
-		<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항</h1>
+		<h1 style="text-decoration: underline; text-underline-position: under;">메뉴 사용 관리</h1>
     </div>
-    <%@ include file="/views/common/board.jsp"%>
+    
 	<script>
 		$(function() {
-			$(".li1").addClass("on");
-			$(".topMenuLi:nth-child(1)").addClass("on");
+			$(".li4").addClass("on");
+			$(".topMenuLi:nth-child(2)").addClass("on");
 
 			$(".topMenuLi").mouseover(function() {
-				$(".li1").removeClass("on");
-				$(".topMenuLi:nth-child(1)").removeClass("on");
+				$(".li4").removeClass("on");
+				$(".topMenuLi:nth-child(2)").removeClass("on");
 			});
 			$(".topMenuLi").mouseleave(function() {
-				$(".li1").addClass("on");
-				$(".topMenuLi:nth-child(1)").addClass("on");
+				$(".li4").addClass("on");
+				$(".topMenuLi:nth-child(2)").addClass("on");
 			});
 		}); 
 	</script>

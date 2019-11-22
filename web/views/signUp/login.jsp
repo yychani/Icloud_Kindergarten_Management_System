@@ -34,7 +34,7 @@
 		}
 
 		input[type=submit]:hover, input[type=button]:hover {
-			background: rgb(241, 241, 188) !important;
+			background: rgb(44, 44, 44) !important;
 			color: gray !important;
 		}
 	</style>
