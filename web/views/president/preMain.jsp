@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
     <style>
-    table {
+    #todoList {
     	margin: 70px auto;
     }
         th {
@@ -35,7 +35,7 @@
 </head>
 <body style="overflow-x:hidden">
     <%@ include file="/views/common/presidentMenu.jsp" %>
-    <table>
+    <table id="todoList">
         <tr>
             <th></th>
             <th>오늘 해야할 일</th>

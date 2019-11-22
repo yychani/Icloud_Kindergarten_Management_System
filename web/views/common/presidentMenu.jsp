@@ -21,6 +21,11 @@
         border: none;
         cursor: pointer;
     }
+
+    input[type='button']:hover {
+        background: rgb(44, 44, 44) !important;
+        color: rgb(255, 255, 255) !important;
+    }
 </style>
 <table style="margin-top: 10px;">
     <tr>
@@ -44,35 +49,46 @@
                 <ul>
                     <li class="topMenuLi"> <a class="menuLink" href="">소식</a>
                         <ul class="submenu">
-                            <li class="li1"><a href="" class="submenuLink">원 공지사항</a></li>
+                            <li class="li1"><a href="<%=request.getContextPath() %>/views/president/preKNotice.jsp"
+                                    class="submenuLink">원 공지사항</a></li>
                             <li>|</li>
                             <li class="li2"><a href="" class="submenuLink">원장님 알림장</a></li>
                         </ul>
                     </li>
                     <li class="topMenuLi"> <a class="menuLink" href="">업무</a>
                         <ul class="submenu">
-                            <li class="li3"><a href="" class="submenuLink">선생님 업무분장</a></li>
+                            <li class="li3"><a href="<%=request.getContextPath() %>/views/president/preWorkD.jsp"
+                                    class="submenuLink">선생님 업무분장</a></li>
                             <li>|</li>
-                            <li class="li4"><a href="" class="submenuLink">메뉴사용관리</a></li>
+                            <li class="li4"><a href="<%=request.getContextPath() %>/views/president/menuAble.jsp"
+                                    class="submenuLink">메뉴사용관리</a></li>
                             <li>|</li>
                             <li class="li5"><a href="" class="submenuLink">원 일정</a></li>
                             <li>|</li>
-                            <li class="li6"><a href="" class="submenuLink">방과후 페이지</a></li>
+                            <li class="li6"><a href="<%=request.getContextPath() %>/views/president/preAs.jsp"
+                                    class="submenuLink">방과후 페이지</a></li>
                             <li>|</li>
                             <li class="li7"><a href="" class="submenuLink">식단표</a></li>
                             <li>|</li>
-                            <li class="li8"><a href="" class="submenuLink">현장체험학습</a></li>
+                            <li class="li8"><a href="<%=request.getContextPath() %>/views/president/preFTL.jsp"
+                                    class="submenuLink">현장체험학습</a></li>
+                            <li>|</li>
+                            <li class="li8"><a href="<%=request.getContextPath() %>/views/president/preCManagement.jsp"
+                                    class="submenuLink">반 관리</a></li>
                         </ul>
                     </li>
                     <li class="topMenuLi"> <a class="menuLink" href="">게시판</a>
                         <ul class="submenu">
-                            <li class="li9"><a href="" class="submenuLink">학부모 게시판</a></li>
+                            <li class="li9"><a href="<%=request.getContextPath() %>/views/president/prePBoard.jsp"
+                                    class="submenuLink">학부모 게시판</a></li>
                             <li>|</li>
-                            <li class="li10"><a href="" class="submenuLink longLink">유치원 운영위원회 게시판</a></li>
+                            <li class="li10"><a href="<%=request.getContextPath() %>/views/president/preHBoard.jsp"
+                                    class="submenuLink longLink">유치원 운영위원회 게시판</a></li>
 
                         </ul>
                     </li>
-                    <li class="topMenuLi"> <a class="menuLink" href="">선생님 관리</a></li>
+                    <li class="topMenuLi"> <a class="menuLink"
+                            href="<%=request.getContextPath() %>/views/president/preTManagement.jsp">선생님 관리</a></li>
                     <li class="topMenuLi"> <a class="menuLink" href="">원아 관리</a> </li>
                     <li class="topMenuLi"> <a class="menuLink" href="">마이페이지</a>
                         <ul class="submenu">
@@ -95,8 +111,6 @@
                             target: '.bell.outline.icon',
                             html: alarm
                         });
-
-
                     </script>
                 </ul>
             </nav>
