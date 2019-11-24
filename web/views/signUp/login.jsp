@@ -34,7 +34,7 @@
 		}
 
 		input[type=submit]:hover, input[type=button]:hover {
-			background: rgb(241, 241, 188) !important;
+			background: rgb(44, 44, 44) !important;
 			color: gray !important;
 		}
 	</style>
@@ -74,7 +74,7 @@
 		</table>
 		
 	</form>
-	<button onclick="location.href='<%=request.getContextPath() %>/views/test.jsp'"> 메뉴 테스트</button>
+	<button onclick="location.href='<%=request.getContextPath() %>/views/parents/parMain.jsp'"> 메뉴 테스트</button>
 	<%@ include file="/views/common/footer.jsp" %>
 </body>
 

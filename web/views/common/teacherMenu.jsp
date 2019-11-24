@@ -1,13 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/menu.css" />
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <style>
+
 	table {
 		text-align: center;
 		margin: 50px auto;
 	}
 	#menu {
 		border: 0;
+
+	.menuLink, .submenuLink{
+		font-family: 'Noto Sans KR', sans-serif;
+
 	}
 	input[type='button'] {
 		width: 100px;

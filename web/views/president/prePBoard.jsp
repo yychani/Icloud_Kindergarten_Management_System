@@ -44,22 +44,23 @@ input[type=checkbox] {
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/presidentMenu.jsp"%>
 	<div style="margin: 0 15%;">
-		<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항</h1>
+		<h1 style="text-decoration: underline; text-underline-position: under;">학부모 게시판</h1>
     </div>
     <%@ include file="/views/common/board.jsp"%>
 	<script>
 		$(function() {
-			$(".li1").addClass("on");
-			$(".topMenuLi:nth-child(1)").addClass("on");
+			$(".li9").addClass("on");
+			$(".topMenuLi:nth-child(3)").addClass("on");
 
 			$(".topMenuLi").mouseover(function() {
-				$(".li1").removeClass("on");
-				$(".topMenuLi:nth-child(1)").removeClass("on");
+				$(".li9").removeClass("on");
+				$(".topMenuLi:nth-child(3)").removeClass("on");
 			});
 			$(".topMenuLi").mouseleave(function() {
-				$(".li1").addClass("on");
-				$(".topMenuLi:nth-child(1)").addClass("on");
+				$(".li9").addClass("on");
+				$(".topMenuLi:nth-child(3)").addClass("on");
 			});
+            $("#write").attr("hidden", true);
 		}); 
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>

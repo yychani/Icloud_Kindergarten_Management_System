@@ -10,7 +10,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 </head>
 <body>
+
     <%@ include file="/views/common/teacherMenu.jsp" %>
+
     <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
