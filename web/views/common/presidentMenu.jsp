@@ -10,7 +10,9 @@
     .menuLink, .submenuLink{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
-
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
     input[type='button'] {
         width: 100px;
         height: 40px;
@@ -27,7 +29,7 @@
         color: rgb(255, 255, 255) !important;
     }
 </style>
-<table style="margin-top: 10px;">
+<table style="margin-top: 10px; width: 100%;">
     <tr>
         <td rowspan="2" id="menu">
             <div id="logo">
@@ -52,7 +54,7 @@
                             <li class="li1"><a href="<%=request.getContextPath() %>/views/president/preKNotice.jsp"
                                     class="submenuLink">원 공지사항</a></li>
                             <li>|</li>
-                            <li class="li2"><a href="" class="submenuLink">원장님 알림장</a></li>
+                            <li class="li2"><a href="<%=request.getContextPath() %>/views/president/preAnnouncement.jsp" class="submenuLink">원장님 알림장</a></li>
                         </ul>
                     </li>
                     <li class="topMenuLi"> <a class="menuLink" href="">업무</a>
@@ -72,9 +74,6 @@
                             <li>|</li>
                             <li class="li8"><a href="<%=request.getContextPath() %>/views/president/preFTL.jsp"
                                     class="submenuLink">현장체험학습</a></li>
-                            <li>|</li>
-                            <li class="li8"><a href="<%=request.getContextPath() %>/views/president/preCManagement.jsp"
-                                    class="submenuLink">반 관리</a></li>
                         </ul>
                     </li>
                     <li class="topMenuLi"> <a class="menuLink" href="">게시판</a>
@@ -89,10 +88,10 @@
                     </li>
                     <li class="topMenuLi"> <a class="menuLink"
                             href="<%=request.getContextPath() %>/views/president/preTManagement.jsp">선생님 관리</a></li>
-                    <li class="topMenuLi"> <a class="menuLink" href="">원아 관리</a> </li>
+                    <li class="topMenuLi"> <a class="menuLink" href="<%=request.getContextPath() %>/views/president/preKManagement.jsp">원아 관리</a> </li>
                     <li class="topMenuLi"> <a class="menuLink" href="">마이페이지</a>
                         <ul class="submenu">
-                            <li class="li11"><a href="" class="submenuLink">원 정보</a></li>
+                            <li class="li11"><a href="<%=request.getContextPath() %>/views/president/preKInfo.jsp" class="submenuLink">원 정보</a></li>
                             <li>|</li>
                             <li class="li12"><a href="" class="submenuLink">건의/문의 확인</a></li>
 

@@ -27,8 +27,8 @@
         </select>
         <div style="border: 1px solid black; width: 100%; height: 200px; margin-bottom: 10px;"id="chatContext">
         </div>
-        <input type="text" style="width: 73%; height: 30px;" name="sendMassage" id="sendMassage">
-        &nbsp;&nbsp;<input type="submit" name="sendBtn" id="sendBtn" value="보내기">
+        <input type="text" style="width: 73%; height: 30px; border: 1px solid rgba(211, 211, 211, 0.842)" name="sendMassage" id="sendMassage">
+        &nbsp;&nbsp;<input type="submit" name="sendBtn" id="sendBtn" style="width: 47px; height: 25px;" value="보내기">
     </form>
 </div>
 <script>
