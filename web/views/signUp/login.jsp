@@ -41,20 +41,20 @@
 </head>
 
 <body>
-	<form action="" method="post">
+	<form action="<%=request.getContextPath()%>/login" method="post">
 		<h1 align="center" style="margin-top: 50px;">로그인</h1>
 		<table class="input">
 			<tr>
 				<td colspan="2" style="width: 300px;">
 					<div class="ui left icon input">
-						<input type="text" placeholder="아이디를 입력해주세요"> <i class="user icon"></i>
+						<input type="text" placeholder="아이디를 입력해주세요" name="userId"> <i class="user icon"></i>
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<div class="ui left icon input">
-						<input type="text" placeholder="비밀번호를 입력해주세요"> <i class="lock icon"></i>
+						<input type="password" placeholder="비밀번호를 입력해주세요" name="userPwd"> <i class="lock icon"></i>
 					</div>
 				</td>
 			</tr>

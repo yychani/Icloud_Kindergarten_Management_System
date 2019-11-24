@@ -168,7 +168,7 @@
 		<br>
 		<table border="0" cellspacing="1" cellpadding="1" bgcolor="#FFFFFF" style="margin-top: 0;">
 			<thead>
-				<tr style="background: rgba(255, 236, 151, 0.548)">
+				<tr style="background: rgba(255, 236, 151, 0.548); height: 30px;">
 					<td width='60px'>
 						<div align="center">
 							<font color="red">일</font>
