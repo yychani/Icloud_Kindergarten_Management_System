@@ -49,9 +49,7 @@ input[type=submit]:hover, input[type=button]:hover {
 	<button
 		onclick="location.href='<%=request.getContextPath()%>/views/signUp/login.jsp'">로그인화면</button>
 	<button
-
-		onclick="location.href='<%=request.getContextPath()%>/views/teacher/tcMain.jsp'"> 
-
+		onclick="location.href='<%=request.getContextPath()%>/views/president/preMain.jsp'"> 
 		메뉴 테스트</button></div>
 	<%@ include file="/views/common/footer.jsp"%>
 </body>
