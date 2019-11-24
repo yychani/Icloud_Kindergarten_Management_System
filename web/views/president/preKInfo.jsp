@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <style>
         table {
             margin: 50px auto;
@@ -68,6 +72,7 @@
 
         .ui.statistics>.statistic {
             margin: 0 2em 2em;
+            color : rgba(102, 226, 90, 0.2)
         }
     </style>
 </head>
@@ -117,14 +122,99 @@
                 </div>
             </div>
         </div>
-        <table border="1" id="KInfo" style="width: 100%; margin: 0 auto">
+        <table id="KInfo" style="width: 80%; margin: 0 auto">
             <tr>
                 <td style="width: 100%; text-align: center; padding-right: 0;"><label id="title">년도별 원아 수</label></td>
+                <td style="width: 100%; text-align: center; padding-right: 0;"><label id="title">학급별 원아 수</label></td>
             </tr>
             <tr>
-                <td></td>
+                <td>
+                    <canvas id="logChart" width="500px" height="200px">
+                        <p>Hello Fallback World</p>
+                    </canvas>
+                </td>
+                <td>
+                    <canvas id="logChart2" width="500px" height="200px">
+                        <p>Hello Fallback World</p>
+                    </canvas>
+                </td>
             </tr>
         </table>
+
+        <script>
+            var ctx = document.getElementById("logChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["2016년", "2017년", "2018년", "2019년"],
+                    datasets: [{
+                        label: "원아 수",
+                        data: ['89', '96', '87', '100'], //컨트롤러에서 모델로 받아온다.
+                        backgroundColor: [
+                            'rgba(255, 213, 99, 0.2)',
+                            'rgba(255, 213, 99, 0.2)',
+                            'rgba(255, 213, 99, 0.2)',
+                            'rgba(255, 213, 99, 0.2)'
+
+                        ],
+                        borderColor: [
+                            'rgba(255, 213, 99, 1)',
+                            'rgba(255, 213, 99, 1)',
+                            'rgba(255, 213, 99, 1)',
+                            'rgba(255, 213, 99, 1)'
+
+                        ],
+                        borderWidth: 1
+                    }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+        <script>
+            var ctx2 = document.getElementById("logChart2").getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ["만 3세", "만 4세", "만 5세"],
+                    datasets: [{
+                        label: "만 x세",
+                        data: ['30', '37', '33'], //컨트롤러에서 모델로 받아온다.
+                        backgroundColor: [
+                            'rgba(255, 99, 99, 0.2)',
+                            'rgba(102, 226, 90, 0.2)',
+                            'rgba(99, 180, 255, 0.2)'
+
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 99, 1)',
+                            'rgba(102, 226, 90, 1)',
+                            'rgba(99, 180, 255, 1)'
+
+                        ],
+                        borderWidth: 1
+                    }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
     </div>
     <script>
         $(function () {

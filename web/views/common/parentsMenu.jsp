@@ -29,7 +29,7 @@
 		<td id="menu">
 			<div style="float: right;">
 				<input type="button" style="margin-right:20px;"
-					onclick="location.href='<%=request.getContextPath()%>/index.jsp'" value="로그아웃">
+					onclick="logout();" value="로그아웃">
 			</div>
 		</td>
 	</tr>
@@ -102,6 +102,14 @@
 							target: '.bell.outline.icon',
 							html: alarm
 						});
+						
+						function logout() {
+                        	var check = window.confirm("로그아웃 하시겠습니까?");
+            				
+            				if(check) {
+            					location.href = '<%=request.getContextPath()%>/logout';
+            				}
+                        }
 					</script>
 				</ul>
 			</nav>

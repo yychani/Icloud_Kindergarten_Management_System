@@ -9,5 +9,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5"/>
+	<classpathentry kind="lib" path="C:/Users/Ungken/Desktop/KH/Dev/Java/eclipse-jee-oxygen-3a-win32-x86_64/eclipse/lombok.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>
