@@ -44,15 +44,15 @@
 			width: 100px;
 			height: 40px;
 			border-radius: 10px;
-			background: rgb(177, 177, 177);
-			color: black;
+			background: rgb(177, 177, 177) !important;
+            color: black !important;
 			font-weight: bold;
 			border: none;
 			cursor: pointer;
 		}
 
 		button:hover, .submit:hover, .cancel:hover {
-			background: rgb(241, 241, 188) !important;
+			background: rgb(44, 44, 44) !important;
 			color: gray !important;
 		}
 
@@ -151,13 +151,6 @@
 					</select> - <input type="text" id="midPhone" style="width: 30%"> - <input type="text" id="lastPhone"
 						style="width: 30%"></td>
 			</tr>
-			<tr>
-				<td colspan="2" class="label"><label for="">성별 : </label></td>
-				<td colspan="2" class="input"><input type="radio" name="gender" value="female" checked><label
-						for="female" style="vertical-align: center;">여</label><input type="radio" name="gender"
-						value="male" style="vertical-align: center; margin-left: 50px;"><label for="male">남</label>
-				</td>
-			</tr>
 		</table>
 		<div style="width: 60%; margin: 50px auto;">
 			<div class="terms">
@@ -186,7 +179,7 @@
 		</div>
 		<div style="margin-left: 42%; margin-bottom:50px;">
 			<input type="submit" value="다음" class="submit"> <input type="button" value="취소" style="margin-left: 50px;"
-				class="cancel"  onclick="location.href='/index.jsp'">
+				class="cancel"  onclick="location.href='<%=request.getContextPath()%>/index.jsp'">
 		</div>
 	</form>
 	<%@ include file="/views/common/footer.jsp" %>

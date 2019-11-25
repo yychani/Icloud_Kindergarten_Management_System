@@ -13,10 +13,6 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 <style>
-table {
-	margin: 70px auto;
-}
-
 input[type=text] {
 	border-radius: 10px;
 	width: 300px;
@@ -55,6 +51,15 @@ input[type=checkbox] {
 		$(function() {
 			$(".li1").addClass("on");
 			$(".topMenuLi:nth-child(1)").addClass("on");
+
+			$(".topMenuLi").mouseover(function() {
+				$(".li1").removeClass("on");
+				$(".topMenuLi:nth-child(1)").removeClass("on");
+			});
+			$(".topMenuLi").mouseleave(function() {
+				$(".li1").addClass("on");
+				$(".topMenuLi:nth-child(1)").addClass("on");
+			});
 		}); 
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
