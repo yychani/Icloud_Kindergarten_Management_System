@@ -8,7 +8,7 @@
 <style>
 	h2 {
 		padding-left:30px;
-	}
+	} 
 </style>
 </head>
 <body style="overflow-x:hidden">
