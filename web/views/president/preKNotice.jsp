@@ -19,11 +19,6 @@ input[type=text] {
 	height: 30px;
 }
 
-td {
-	padding: 10px 30px;
-	padding-left: 0;
-}
-
 input[type=checkbox] {
 	width: 15px;
 	height: 15px;
