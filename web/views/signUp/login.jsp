@@ -41,7 +41,7 @@
 </head>
 
 <body>
-	<form action="<%=request.getContextPath()%>/login" method="post">
+	<form action="<%=request.getContextPath()%>/login.me" method="post">
 		<h1 align="center" style="margin-top: 50px;">로그인</h1>
 		<table class="input">
 			<tr>

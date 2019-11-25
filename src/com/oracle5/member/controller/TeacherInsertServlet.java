@@ -9,44 +9,41 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.member.model.service.MemberService;
 import com.oracle5.member.model.vo.Member;
+import com.oracle5.member.model.vo.Teacher;
 
-@WebServlet("/login.me")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/insertTeacher.me")
+public class TeacherInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public LoginServlet() {
+    public TeacherInsertServlet() {
         super();
     }
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
-		
+		String password = request.getParameter("userPwd");
+		String name = request.getParameter("name");
+		String className = request.getParameter("className");
+
 		Member requestMember = new Member();
+		Teacher requestTeacher = new Teacher();
+		
 		requestMember.setMemberId(userId);
-		requestMember.setMemberPwd(userPwd);
+		requestMember.setMemberPwd(password);
+		requestMember.setMemberName(name);
+		requestTeacher.setClassName(className);
 		
-		Member loginMember = new MemberService().loginMember(requestMember);
+		int result = new MemberService().insertTeacher(requestMember, requestTeacher);
 		
-		if(loginMember != null) {
-			request.getSession().setAttribute("loginMember", loginMember);
-			
-			if(loginMember.getUType().equals("교사")) {
-				if(loginMember.getMemberId().equals("admin")) {
-					response.sendRedirect("views/president/preMain.jsp");
-				}else {
-					response.sendRedirect("views/teacher/tcMain.jsp");
-				}
-			}else if(loginMember.getUType().equals("학부모")) {
-				response.sendRedirect("views/parents/paMain.jsp");
-			}
+		if(result > 0) {
+			response.sendRedirect("views/common/successPage.jsp?successCode=5");
 		}else {
-			request.setAttribute("msg", "로그인에러!!");
+			request.setAttribute("msg", "선생님 계정 추가 에러!!");
 			
-			request.getRequestDispatcher("../common/errorPage.jsp").forward(request, response);
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

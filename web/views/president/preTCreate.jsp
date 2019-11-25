@@ -14,10 +14,6 @@
             margin: 50px auto;
         }
 
-        td {
-            padding: 10px 30px;
-            padding-left: 0;
-        }
 
         input[type=checkbox] {
             width: 15px;
@@ -35,6 +31,7 @@
             border: none;
             cursor: pointer;
         }
+
         .submit {
             width: 100px;
             height: 40px !important;
@@ -45,6 +42,7 @@
             border: none;
             cursor: pointer;
         }
+
         .cancel {
             width: 100px;
             height: 40px !important;
@@ -55,10 +53,13 @@
             border: none;
             cursor: pointer;
         }
-        .submit:hover, .cancel:hover {
+
+        .submit:hover,
+        .cancel:hover {
             background: rgb(44, 44, 44) !important;
             color: white !important;
         }
+
         .label {
             width: 150px;
             height: 60px;
@@ -83,7 +84,6 @@
         .terms {
             font-size: 15pt;
         }
-        
     </style>
 </head>
 
@@ -92,49 +92,66 @@
     <div style="margin: 0 15%;">
         <h1 style="text-decoration: underline; text-underline-position: under;">선생님 관리</h1>
     </div>
-    <form action="<%=request.getContextPath() %>/views/president/preTManagement.jsp" method="post">
+    <form action="<%=request.getContextPath() %>/insertTeacher.me" method="post" onsubmit="return validate()">
         <h1 align="center" style="margin-top: 50px;">선생님 계정 생성</h1>
         <table>
             <tr>
-                <td colspan="2" class="label"><label for="">아이디 : </label></td>
+                <td colspan="2" class="label"><label>아이디 : </label></td>
                 <td colspan="2" class="input"><input type="text" placeholder=" ID를 입력해주세요" id="userId" name="userId"
                         style="width: 80%; height: 20px"></td>
                 <td><button id="test">중복 확인</button></td>
             </tr>
             <tr>
-                <td colspan="2" class="label"><label for="">비밀번호 : </label></td>
-                <td colspan="2" class="input"><input type="text" placeholder=" 비밀번호를 입력해주세요" id="password"
-                        style="width: 90%; height: 20px"></td>
+                <td colspan="2" class="label"><label>비밀번호 : </label></td>
+                <td colspan="2" class="input"><input type="password" placeholder=" 비밀번호를 입력해주세요" id="password"
+                        style="width: 90%; height: 20px" name="userPwd"></td>
                 <td rowspan="2" class="description">
                 </td>
             </tr>
 
             <tr>
-                <td colspan="2" class="label"><label for="">비밀번호 확인 : </label></td>
-                <td colspan="2" class="input"><input type="text" placeholder=" 비밀번호를 입력해주세요" id="passCheck"
-                        style="width: 90%; height: 20px"></td>
+                <td colspan="2" class="label"><label>비밀번호 확인 : </label></td>
+                <td colspan="2" class="input"><input type="password" placeholder=" 비밀번호를 입력해주세요" id="passCheck"
+                        style="width: 90%; height: 20px" name="passCheck"></td>
             </tr>
             <tr>
-                <td colspan="2" class="label"><label for="">이름 : </label></td>
+                <td colspan="2" class="label"><label>이름 : </label></td>
                 <td colspan="2" class="input"><input type="text" placeholder=" 이름을 입력해주세요" id="name"
-                        style="width: 50%; height: 20px"></td>
+                        style="width: 50%; height: 20px" name="name"></td>
             </tr>
             <tr>
-                <td colspan="2" class="label"><label for="">담당 반 : </label></td>
-                <td colspan="2" class="input"><select style="width: 30%; font-size: 12pt;" id="className">
+                <td colspan="2" class="label"><label>담당 반 : </label></td>
+                <td colspan="2" class="input"><select style="width: 30%; font-size: 12pt;" id="className" name="className">
                         <option value="none" selected>반 이름</option>
-                        <option value="sunflower">해바라기 반</option>
-                        <option value="rose">장미 반</option>
-                        <option value="tulip">반 DB에서 끌어오기</option>
+                        <option value="해바라기">해바라기 반</option>
+                        <option value="장미">장미 반</option>
+                        <option value="튤립">반 DB에서 끌어오기</option>
                     </select></td>
             </tr>
         </table>
         <div style="margin-left: 36%; margin-bottom: 50px;">
-               <input type="submit" value="계정 생성" class="submit" onclick="location.href='<%=request.getContextPath() %>/views/president/TManagement.jsp'" style="margin-left: 50px;"> <input type="button" value="취소" class="cancel" style="margin-left: 50px;"
-                    class="cancel">
-            </div>
+            <input type="submit" value="계정 생성" class="submit" style="margin-left: 50px;"> 
+            <input type="button" value="취소" class="cancel" style="margin-left: 50px;" class="cancel">
+        </div>
     </form>
     <script>
+        function validate() {
+            var pass = document.getElementById("userPwd").value;
+            var pass1 = document.getElementById("passCheck").value;
+            console.log(pass + " " + pass1);
+            if (pass == "" || pass1 == "") {
+                alert("비밀번호를 입력하세요");
+                document.getElementById('password').select();
+                return false;
+            }
+            else if (pass != pass1) {
+                alert("비밀번호가 일치 하지 않습니다.");
+                document.getElementById('passCheck').select();
+                return false;
+            } else {
+                return true;
+            }
+        }
         $(function () {
             $(".topMenuLi:nth-child(4)").addClass("on");
 
