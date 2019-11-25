@@ -1,6 +1,6 @@
 #topMenu {
         height: 40px;
-        width: 1200px;
+        width: 100%;
         display: inline-block;
         vertical-align: middle;
     }
@@ -134,4 +134,11 @@
         vertical-align: middle;
         }
     #topMenu .topMenuLi.on ul.submenu{height: 32px;}
-	#topMenu .topMenuLi.on .on a{color: black;background-color: #dddddd;}
+    #topMenu .topMenuLi.on .on a{color: black;background-color: #dddddd;}
+    @media (max-width: 787px) {
+        #topMenu {
+            height: 40px;
+            width: 100%;
+            display: block;
+        }
+    }

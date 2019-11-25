@@ -150,6 +150,6 @@
 			</div>
 		</td>
 		<td name="page" class="page" colspan="6" align="center" style="border: 0"></td>
-		<td name="writing" class="writing" colspan="2" style="border: 0; padding-right: 0" align="right"><button>글쓰기</button></td>
+		<td name="writing" class="writing" colspan="2" style="border: 0; padding-right: 0" align="right"><button id="write">글쓰기</button></td>
 	</tr>
 </table>
