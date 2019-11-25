@@ -13,6 +13,9 @@
 		border: none;
 		cursor: pointer;
 	}
+	#menu {
+		border: 0;
+	}
 </style>
 <table style="margin-top: 10px;">
 	<tr>
@@ -35,53 +38,53 @@
 				<ul>
 					<li class="topMenuLi"><a class="menuLink" href="">소식</a>
 						<ul class="submenu">
-							<li><a href="" class="submenuLink">원 공지사항</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsNotice.jsp" class="submenuLink">원 공지사항</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">반 공지사항</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsClassNotice.jsp" class="submenuLink">반 공지사항</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">가정통신문</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsFamilyL.jsp" class="submenuLink">가정통신문</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">원 일정</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsCalendar.jsp" class="submenuLink">원 일정</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">식단표</a></li>
+							<li class="li"><a href="" class="submenuLink">식단표</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
 						<ul class="submenu">
-							<li><a href="" class="submenuLink">학부모 게시판</a></li>
+							<li class="li"><a href="" class="submenuLink">학부모 게시판</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink longLink">유치원 운영위원회
+							<li class="li"><a href="" class="submenuLink longLink">유치원 운영위원회
 									게시판</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">방과후 </a>
 						<ul class="submenu">
-							<li><a href="" class="submenuLink longLink">방과후 프로그램</a></li>
+							<li class="li"><a href="" class="submenuLink longLink">방과후 프로그램</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">방과후 신청</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/asApply.jsp" class="submenuLink">방과후 신청</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">방과후 신청 이력</a></li>
+							<li class="li"><a href="" class="submenuLink">방과후 신청 이력</a></li>
 						</ul>
 					</li>
 
 					<li class="topMenuLi"><a class="menuLink" href="">내 아이</a>
 						<ul class="submenu">
-							<li><a href="" class="submenuLink">내 아이 정보</a></li>
+							<li class="li"><a href="" class="submenuLink">내 아이 정보</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">알림장</a></li>
+							<li class="li"><a href="" class="submenuLink">알림장</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">출결사항</a></li>
+							<li class="li"><a href="" class="submenuLink">출결사항</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">투약의뢰서</a></li>
+							<li class="li"><a href="" class="submenuLink">투약의뢰서</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">귀가동의서</a></li>
+							<li class="li"><a href="" class="submenuLink">귀가동의서</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">마이페이지</a>
 						<ul class="submenu">
-							<li><a href="" class="submenuLink">내 정보</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/myUser.jsp"  class="submenuLink">내 정보</a></li>
 							<li>|</li>
-							<li><a href="" class="submenuLink">건의/문의 신청</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/myQ&Alist.jsp" class="submenuLink">건의/문의 신청</a></li>
 
 						</ul>
 					</li>
