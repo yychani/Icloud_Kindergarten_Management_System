@@ -67,23 +67,47 @@
 	}
 
 	td {
-		font-family: "돋움";
+		font-family: 'Noto Sans KR', sans-serif;
 		color: #595959;
 	}
 
 	th {
-		font-family: "돋움";
+		font-family: 'Noto Sans KR', sans-serif;
 		color: #000000;
 	}
 
 	select {
-		font-family: "돋움";
+		font-family: 'Noto Sans KR', sans-serif;
 		color: #595959;
 	}
 
 	.divDotText {
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	A:link {
+		font-family: 'Noto Sans KR', sans-serif;
+		color: #000000;
+		text-decoration: none;
+	}
+
+	A:visited {
+		font-family: 'Noto Sans KR', sans-serif;
+		color: #000000;
+		text-decoration: none;
+	}
+
+	A:active {
+		font-family: 'Noto Sans KR', sans-serif;
+		color: red;
+		text-decoration: none;
+	}
+
+	A:hover {
+		font-family: 'Noto Sans KR', sans-serif;
+		color: red;
+		text-decoration: none;
 	}
 
 	#calendarFrm {

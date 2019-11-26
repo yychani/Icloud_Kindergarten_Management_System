@@ -15,7 +15,7 @@
 </head>
 <body>
 	<script>
-		successCode = <%=successCode%>;
+		successCode = <%=successCode %>;
 		console.log(successCode);
 		
 		var msg = "";
@@ -31,6 +31,9 @@
 		} else if(successCode == 4){
 			msg = "회원 탈퇴가 완료 되었습니다.";
 			path = "<%=request.getContextPath()%>/index.jsp";
+		} else if(successCode == 5){
+			msg = "선생님 계정 생성이 완료 되었습니다.";
+			path = "<%=request.getContextPath()%>/selectAllTeacher";	
 		}
 
 		alert(msg);

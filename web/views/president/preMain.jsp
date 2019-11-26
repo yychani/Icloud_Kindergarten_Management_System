@@ -13,6 +13,9 @@
     #todoList {
     	margin: 70px auto;
     }
+    #todoList tr td {
+        padding: 15px 10px;
+    }
         th {
             text-align: left;
         }
@@ -20,11 +23,6 @@
             border-radius: 10px;
             width: 300px;
             height: 30px;
-        }
-        
-        td {
-        	padding: 10px 30px;
-        	padding-left: 0;
         }
         input[type=checkbox] {
         	width: 15px;

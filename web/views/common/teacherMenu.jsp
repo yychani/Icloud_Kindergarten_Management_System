@@ -36,7 +36,7 @@
 	<tr>
 		<td rowspan="2" id="menu">
 			<div id="logo">
-				<a href="<%=request.getContextPath()%>">
+				<a href="<%=request.getContextPath()%>/views/teacher/tcMain.jsp">
 					<img src="<%=request.getContextPath() %>/images/logo.png"
 						style="width: 300px; display: inline-block;"></a>
 			</div>
