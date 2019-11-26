@@ -26,6 +26,23 @@
 		width: 1%;
 	}
 </style>
+<script>
+		$(function() {
+			  $(".li:nth-child(1)").addClass("on");
+			  
+		    $(".topMenuLi:nth-child(5)").addClass("on");
+		   
+		    $(".topMenuLi").mouseover(function() {
+		      $(".li:nth-child(1)").removeClass("on");
+		      $(".topMenuLi:nth-child(5)").removeClass("on");
+		   });
+		  
+		    $(".topMenuLi").mouseleave(function() {
+		      $(".li:nth-child(1)").addClass("on");
+		      $(".topMenuLi:nth-child(5)").addClass("on");
+		   });
+		}); 
+	</script>
 </head>
 <body>
     <%@ include file="/views/common/teacherMenu.jsp" %>

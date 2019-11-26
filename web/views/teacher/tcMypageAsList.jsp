@@ -24,7 +24,7 @@
         }
 
         td {
-            padding: 10px 0px;
+            padding: 0px 0px;
             padding-left: 0;
         }
 

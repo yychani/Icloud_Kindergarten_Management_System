@@ -20,7 +20,7 @@ input[type=text] {
 }
 
 td {
-	padding: 10px 30px;
+	padding: 0px 0px;
 	padding-left: 0;
 }
 
