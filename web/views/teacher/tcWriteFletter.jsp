@@ -11,7 +11,7 @@
 <style>
 input[type=text] {
 	border-radius: 10px;
-	width: 600px;
+	width: 100%;
 	height: 30px;
 }
 input[type='submit'] {
@@ -26,7 +26,6 @@ input[type='submit'] {
 	}
 textarea {
 	border-radius: 10px;
-	width: 600px;
 }
 </style>
 <script>

@@ -11,7 +11,7 @@
 <style>
 input[type=text] {
 	border-radius: 10px;
-	width: 600px;
+	width: 100%;
 	height: 30px;
 }
 input[type=radio] {
@@ -29,7 +29,7 @@ input[type='submit'] {
 	}
 textarea {
 	border-radius: 10px;
-	width: 600px;
+	width: 100%;
 }
 select {
 	width: 100px;
@@ -55,9 +55,9 @@ table {
 			<option value="이원경">이원경</option>
 		</select>
 		<h3 style="text-decoration: underline; text-underline-position: under;">특이사항</h3>
-		<textarea style="resize: none;" cols="80" rows="10"></textarea>
+		<textarea style="resize: none;" rows="10"></textarea>
 		<h3 style="text-decoration: underline; text-underline-position: under;">준비물</h3>
-		<textarea style="resize: none;" cols="80" rows="10"></textarea>
+		<textarea style="resize: none;" rows="10"></textarea>
 		<h3 style="text-decoration: underline; text-underline-position: under;">오늘 하루 건강</h3>
 		<input type="radio" name="health" id="health1" value="좋음"/><label for="health1">좋음</label>
 		<input type="radio" name="health" id="health2" value="보통"/><label for="health2">보통</label>

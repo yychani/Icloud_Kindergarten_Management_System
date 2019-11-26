@@ -86,30 +86,6 @@
 		text-overflow: ellipsis;
 	}
 
-	A:link {
-		font-family: "돋움";
-		color: #000000;
-		text-decoration: none;
-	}
-
-	A:visited {
-		font-family: "돋움";
-		color: #000000;
-		text-decoration: none;
-	}
-
-	A:active {
-		font-family: "돋움";
-		color: red;
-		text-decoration: none;
-	}
-
-	A:hover {
-		font-family: "돋움";
-		color: red;
-		text-decoration: none;
-	}
-
 	#calendarFrm {
 		margin-top: 30px;
 	}
