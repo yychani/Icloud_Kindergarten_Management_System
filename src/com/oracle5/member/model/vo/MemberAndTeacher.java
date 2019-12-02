@@ -1,12 +1,11 @@
 package com.oracle5.member.model.vo;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import lombok.Data;
 
 @Data
-public class Member implements Serializable{
+public class MemberAndTeacher {
 	private String memberId;
 	private String memberName;
 	private String memberPwd;
@@ -15,5 +14,12 @@ public class Member implements Serializable{
 	private String uType;
 	private String email;
 	private String phone;
-	private Date leaveDate; 
+	private Date leaveDate;
+	private Date tEntDate;
+	private String tDescription;
+	private String imgSrc;
+	private String className;
+	private int pId; 
+	private String pName;
+	 
 }

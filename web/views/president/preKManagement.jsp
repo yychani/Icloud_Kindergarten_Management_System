@@ -97,6 +97,7 @@
         input[type='text'] {
             text-align: center;
         }
+        input:focus {outline:none;}
     </style>
 </head>
 
@@ -139,10 +140,10 @@
         </tr>
         <tr>
             <form action="<%=request.getContextPath()%>/views/president/preKdetail.jsp" method="get">
-                <td class="no"><input type="text" name="no" style="background: none" value="1"></td>
-                <td class="name"><input type="text" name="name" style="background: none" value="윤재영"></td>
-                <td class="class"><input type="text" name="class" style="background: none" value="해바라기"></td>
-                <td class="parents"><input type="text" name="parents" style="background: none" value="김경숙"></td>
+                <td class="no"><input type="text" name="no" style="background: none" value="1" readonly></td>
+                <td class="name"><input type="text" name="name" style="background: none" value="윤재영" readonly></td>
+                <td class="class"><input type="text" name="class" style="background: none" value="해바라기" readonly></td>
+                <td class="parents"><input type="text" name="parents" style="background: none" value="김경숙" readonly></td>
                 <td class="detail" style="padding-right: 0;"><input type="submit" class="detailBtn"
                         style="width: 60px; font-size: 8pt; height: 20px;" class="submit" value="상세보기"></td>
             </form>

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.oracle5.member.model.vo.Member;
+import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Teacher;
 
 import static com.oracle5.common.JDBCTemplate.*;
@@ -73,7 +74,8 @@ public class MemberDao {
 
 		try {
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, requestTeacher.getClassName());
+			pstmt.setInt(1, requestTeacher.getTeacherNo());
+			pstmt.setString(2, requestTeacher.getClassName());
 
 			result = pstmt.executeUpdate();
 
@@ -109,44 +111,9 @@ public class MemberDao {
 		return result;
 	}
 
-	public ArrayList<Member> selectAllMember(Connection con) {
-		ArrayList<Member> list = null;
-		Statement stmt = null;
-		ResultSet rset = null;
-		
-		String query = prop.getProperty("selectAllMember");
-		
-		try {
-			stmt = con.createStatement();
-			
-			rset = stmt.executeQuery(query);
-			
-			if(rset != null) {
-				list = new ArrayList<>();
-				while(rset.next()) {
-					Member m = new Member();
-					m.setMemberId(rset.getString("USER_ID"));
-					m.setMemberName(rset.getString("USER_NAME"));
-					m.setMemberPwd(rset.getString("USER_PWD"));
-					m.setMemberRno(rset.getString("USER_RNO"));
-					m.setMemberNo(rset.getInt("USER_NO"));
-					m.setUType(rset.getString("USER_TYPE"));
-					m.setEmail(rset.getString("EMAIL"));
-					m.setPhone(rset.getString("PHONE"));
-					m.setLeaveDate(rset.getDate("LEAVE_DATE"));
-					
-					list.add(m);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
 
-	public ArrayList<Teacher> selectAllTeacher(Connection con) {
-		ArrayList<Teacher> list = null;
+	public ArrayList<MemberAndTeacher> selectAllTeacher(Connection con) {
+		ArrayList<MemberAndTeacher> list = null;
 		Statement stmt = null;
 		ResultSet rset = null;
 		
@@ -160,22 +127,79 @@ public class MemberDao {
 			if(rset != null) {
 				list = new ArrayList<>();
 				while(rset.next()) {
-					Teacher t = new Teacher();
-					t.setTeacherNo(rset.getInt("T_NO"));
-					t.setTEntDate(rset.getDate("T_ENTDATE"));
-					t.setTDescription(rset.getString("T_DESCRIPTION"));
-					t.setImgSrc(rset.getString("IMGSRC"));
-					t.setPId(Integer.parseInt(rset.getString("PID")));
-					t.setClassName(rset.getString("T_CLASS"));
+					MemberAndTeacher mt = new MemberAndTeacher();
+					mt.setMemberId(rset.getString("USER_ID"));
+					mt.setMemberName(rset.getString("USER_NAME"));
+					mt.setMemberPwd(rset.getString("USER_PWD"));
+					mt.setMemberRno(rset.getString("USER_RNO"));
+					mt.setMemberNo(rset.getInt("USER_NO"));
+					mt.setUType(rset.getString("USER_TYPE"));
+					mt.setEmail(rset.getString("EMAIL"));
+					mt.setPhone(rset.getString("PHONE"));
+					mt.setLeaveDate(rset.getDate("LEAVE_DATE"));
+					mt.setTEntDate(rset.getDate("T_ENTDATE"));
+					mt.setTDescription(rset.getString("T_DESCRIPTION"));
+					mt.setImgSrc(rset.getString("IMGSRC"));
+					mt.setPId(Integer.parseInt(rset.getString("PID")));
+					mt.setClassName(rset.getString("T_CLASS"));
+					mt.setPName(rset.getString("PNAME"));
 					
-					list.add(t);
+					list.add(mt);
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(stmt);
+			close(rset);
 		}
 		
-		
 		return list;
+	}
+
+	public int deleteTeacher(Connection con, String userId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("deleteTeacher");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, userId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int searchMemberNo(Connection con, Member requestMember) {
+		int userNo = 0;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("searchMemberNo");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, requestMember.getMemberId());
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				userNo = rset.getInt("USER_NO");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return userNo;
 	}
 }
