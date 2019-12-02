@@ -64,6 +64,16 @@
 		text-align: left;
 	}
 	.slash div, .backslash div { text-align: right; }
+	input[type='button'] {
+		width: 100px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgb(63, 63, 63);
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+	}
 </style>
 </head>
 <body> 

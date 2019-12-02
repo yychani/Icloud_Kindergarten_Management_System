@@ -57,6 +57,26 @@
 	.childbutton {
 		float:right;
 	}
+	.outerDetail {
+		margin: 20px 21%;
+		padding: 5px;
+		padding-left:0;
+		padding-right:0;
+		height: 300px;
+	}
+	.imgDetail {
+		width: 250px;
+	}
+	input[type='button'] {
+		width: 100px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgb(63, 63, 63);
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+	}
 </style>
 </head>
 <body> 
@@ -65,7 +85,7 @@
  	<h1  align="center" style="text-decoration: underline; text-underline-position: under;">박건후 상세정보</h1>
  	</div>
  	<hr width="60%" />
- 	<div class="outerDetail" style="margin:20px 20%; padding:10px; height:300px;">  	
+ 	<div class="outerDetail">  	
 		<div class="imgDetail" >
 		<img src="<%= request.getContextPath() %>/images/img.jpg" alt=""/>
 		</div>

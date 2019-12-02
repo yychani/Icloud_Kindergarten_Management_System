@@ -80,7 +80,6 @@ input[type=submit]:hover, input[type=button]:hover {
 	<%
 		}
 	%>
-
 	<%@ include file="/views/common/footer.jsp"%>
 </body>
 
