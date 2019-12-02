@@ -1,15 +1,18 @@
+<%@page import="com.oracle5.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	Member loginUser = (Member) session.getAttribute("loginMember");
+%>
 <!DOCTYPE html>
 <html>
-
 <head>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>메인 화면</title>
 <style>
 table[type=input] {
 	margin: 50px auto;
@@ -44,13 +47,39 @@ input[type=submit]:hover, input[type=button]:hover {
 </head>
 
 <body>
+
+	<%
+		if (loginUser == null) {
+	%>
 	<h1 align="center" style="margin-top: 50px;">로그인</h1>
 	<div align="center">
-	<button
-		onclick="location.href='<%=request.getContextPath()%>/views/signUp/login.jsp'">로그인화면</button>
-	<button
-		onclick="location.href='<%=request.getContextPath()%>/views/teacher/tcMain.jsp'"> 
-		메뉴 테스트</button></div>
+		<button
+			onclick="location.href='<%=request.getContextPath()%>/views/signUp/login.jsp'">로그인화면</button>
+		<button
+			onclick="location.href='<%=request.getContextPath()%>/views/president/preMain.jsp'">
+			메뉴 테스트</button>
+	</div>
+	<%
+		} else {
+	%>
+	<div align="center">
+		<h1><%=loginUser.getMemberName()%>님 어서오세요!
+		</h1>
+		<button
+			onclick="location.href=<%if (loginUser.getUType().equals("교사")) {
+					if (loginUser.getMemberId().equals("admin")) {%>
+										'<%=request.getContextPath()%>/views/president/preMain.jsp'
+									<%} else {%>
+										'<%=request.getContextPath()%>/views/teacher/tcMain.jsp'
+									<%}
+				} else if (loginUser.getUType().equals("학부모")) {%>
+										'<%=request.getContextPath()%>/views/parents/paMain.jsp'
+							<%}%>">메인으로
+			이동하기</button>
+	</div>
+	<%
+		}
+	%>
 	<%@ include file="/views/common/footer.jsp"%>
 </body>
 

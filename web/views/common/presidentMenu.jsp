@@ -35,6 +35,7 @@
 		font-weight: bold;
 		border: none;
 		cursor: pointer;
+		background: rgba(247, 251, 255, 0.753);
 	}
 
 	input[type='button']:hover {
@@ -44,7 +45,6 @@
 </style>
 <%
 	if (loginUser == null || !loginUser.getMemberId().equals("admin")) {
-		System.out.println("여긴가");
 		request.setAttribute("msg", "잘못된 경로로 접근하셨습니다.");
 		request.getRequestDispatcher("../common/errorPage.jsp").forward(request, response);
 	} else {
