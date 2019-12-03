@@ -20,7 +20,7 @@
 	<%@ include file="/views/common/parentsMenu.jsp"%>
 	
 	<h2>방과후 프로그램</h2>
-	<div id="div1">
+	<%-- <div id="div1">
 		<table align="center">
 			<tr>
 				<td colspan="2"><h4>음악 프로그램</h4></td>
@@ -55,7 +55,8 @@
 					아이들의 이야기 미술 프로그램</td>
 			</tr>
 		</table>
-	</div>
+	</div> --%>
+	<%@ include file="/views/parents/asList.jsp" %>
 	<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
