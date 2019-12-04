@@ -139,11 +139,6 @@
                         style="width: 45%; height: 20px"></td>
             </tr>
             <tr>
-                <td colspan="2" class="label"><label for="">거주지 : </label></td>
-                <td colspan="2" class="input"><input type="text" placeholder="주소를 입력해주세요" id="name"
-                        style="width: 80%; height: 20px"></td>
-            </tr>
-            <tr>
                 <td colspan="2" class="label"><label for="">본적 : </label></td>
                 <td colspan="2" class="input"><input type="text" placeholder="주소를 입력해주세요" id="name"
                         style="width: 80%; height: 20px"></td>
@@ -177,11 +172,13 @@
             </tr>
             <tr>
                 <td colspan="2" class="label"><label for="">입학전 학적사항 : </label></td>
-                <td colspan="3" class="input"><input type="text" id="datepicker" style="width: 20%;"
+                <td colspan="3" class="input" id="dateTd">
+                <div id="dateclone"><input type="text" id="datepicker"  style="width: 20%;"
                         placeholder="날짜 입력"><input type="text" placeholder="XX유치원"
                         style="margin-left: 20px; width:20%;"> <input type="text" placeholder="특이사항"
                         style="margin-left: 20px; width:30%;">
                     <button id="add" style="width: 65px; height: 30px; margin-left: 20px;">추가</button>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -211,8 +208,12 @@
                         <button id="addFamily" style="width: 65px; height: 30px; margin-left: 20px;">추가</button>
                     </div>
                     <script>
-                        $("#addFamily").click(function() {
-                            $("#clone").clone(true).appendTo($("#familyTd:last-child"));
+                   	    $("#addFamily").click(function() {
+                        	$("#clone").clone(true).appendTo($("#familyTd:last-child"));
+                        	return false;
+                    	})
+                        $("#add").on("click", function() {
+                            $("#dateclone").clone(true).appendTo($("#dateTd:last-child"));
                             return false;
                         })
                     </script>

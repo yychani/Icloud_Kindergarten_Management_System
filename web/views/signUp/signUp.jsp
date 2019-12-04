@@ -87,7 +87,7 @@
 </head>
 
 <body>
-	<form action="<%=request.getContextPath() %>/views/signUp/signUpKid.jsp" method="post">
+	<form action="<%=request.getContextPath() %>/insertParent.me" method="post">
 		<h1 align="center" style="margin-top: 50px;">회원 가입</h1>
 		<table>
 			<tr>
@@ -98,7 +98,7 @@
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">비밀번호 : </label></td>
-				<td colspan="2" class="input"><input type="text" placeholder=" 비밀번호를 입력해주세요" id="password"
+				<td colspan="2" class="input"><input type="password" placeholder=" 비밀번호를 입력해주세요" id="password" name="userPwd"
 						style="width: 90%; height: 20px"></td>
 				<td rowspan="2" class="description">비밀번호는 특수문자 / 문자 / 숫자 포함 형태의
 					<br>8~15자리 이내로 입력하셔야 합니다.
@@ -107,25 +107,30 @@
 
 			<tr>
 				<td colspan="2" class="label"><label for="">비밀번호 확인 : </label></td>
-				<td colspan="2" class="input"><input type="text" placeholder=" 비밀번호를 입력해주세요" id="passCheck"
+				<td colspan="2" class="input"><input type="password" placeholder=" 비밀번호를 입력해주세요" id="passCheck"
 						style="width: 90%; height: 20px"></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">이름 : </label></td>
-				<td colspan="2" class="input"><input type="text" placeholder=" 이름을 입력해주세요" id="name"
+				<td colspan="2" class="input"><input type="text" placeholder=" 이름을 입력해주세요" id="name" name="name"
 						style="width: 50%; height: 20px"></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">주민등록번호 : </label></td>
-				<td colspan="3" class="input"><input type="text" id="userNumber1" style="width: 25%; height: 20px"> -
-					<input type="text" id="userNumber2" placeholder="주민번호 뒷자리는 암호화 되어 보관됩니다."
+				<td colspan="3" class="input"><input type="text" id="userNumber1" name="userNumber1" maxlength="6" style="width: 25%; height: 20px"> -
+					<input type="password" id="userNumber2" name="userNumber2" maxlength="7" placeholder="주민번호 뒷자리는 암호화 되어 보관됩니다."
 						style="width: 35%; height: 20px"></td>
 
 			</tr>
+			 <tr>
+                <td colspan="2" class="label"><label for="">주소 : </label></td>
+                <td colspan="2" class="input"><input type="text" placeholder="주소를 입력해주세요" id="address" name="address"
+                        style="width: 80%; height: 20px"></td>
+            </tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">이메일 : </label></td>
-				<td colspan="2" class="input"><input type="text" id="firstEmail" style="width: 40%; height: 20px"> @
-					<select style="width: 50%; height: 30px; font-size: 12pt;" id="lastEmail">
+				<td colspan="2" class="input"><input type="text" id="firstEmail" name="firstEmail" style="width: 40%; height: 20px"> @
+					<select style="width: 50%; height: 30px; font-size: 12pt;" id="lastEmail" name="lastEmail">
 						<option value="none" selected>example.com</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="naver.com">naver.com</option>
@@ -141,15 +146,14 @@
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">핸드폰 : </label></td>
-				<td colspan="2" class="input"><select style="width: 20%; font-size: 12pt;" id="firstPhone">
-						<option value="none" selected>01X</option>
-						<option value="010">010</option>
+				<td colspan="2" class="input"><select style="width: 20%; font-size: 12pt;" id="firstPhone" name="firstPhone">
+						<option value="010" selected>010</option>
 						<option value="011">011</option>
 						<option value="016">016</option>
 						<option value="017">017</option>
 						<option value="019">019</option>
-					</select> - <input type="text" id="midPhone" style="width: 30%"> - <input type="text" id="lastPhone"
-						style="width: 30%"></td>
+					</select> - <input type="text" id="midPhone" name="midPhone" maxlength="4" style="width: 30%"> - <input type="text" id="lastPhone" name="lastPhone"
+						maxlength="4" style="width: 30%"></td>
 			</tr>
 		</table>
 		<div style="width: 60%; margin: 50px auto;">
@@ -178,11 +182,27 @@
 			</div>
 		</div>
 		<div style="margin-left: 42%; margin-bottom:50px;">
-			<input type="submit" value="다음" class="submit"> <input type="button" value="취소" style="margin-left: 50px;"
+			<input type="button" id="signupBtn" value="다음" class="submit"> <input type="button" value="취소" style="margin-left: 50px;"
 				class="cancel"  onclick="location.href='<%=request.getContextPath()%>/index.jsp'">
 		</div>
 	</form>
 	<%@ include file="/views/common/footer.jsp" %>
+	<script>
+		checked = $("input:checkbox[name=terms1]:checked").length;
+		
+		$("input:checkbox[name=terms1]").change(function() {
+			checked = $("input:checkbox[name=terms1]:checked").length;
+			if(checked == 3) {
+				$("#signupBtn").attr("type", "submit");
+			}
+		});
+		
+		$("#signupBtn").click(function() {
+			if(checked != 3) {
+				alert("약관에 동의해주세요.");
+			}
+		});
+	</script>
 </body>
 
 </html>
