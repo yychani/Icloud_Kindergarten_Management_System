@@ -12,7 +12,8 @@
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
 
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -34,13 +35,13 @@ body {
 }
 
 .card {
- 	position:absolute;	
-	left:50%;	
-	top:60%; 
+	position: absolute;
+	left: 50%;
+	top: 60%;
 	transform: translate(-50%, -50%);
 	width: 300px;
 	min-height: 300px;
-	height:400px;	
+	height: 400px;
 	background: #fff;
 	box-shadow: 0 20px 50px rgba(0, 0, 0, .1);
 	border-radius: 10px;
@@ -95,7 +96,6 @@ body {
 	font-size: 13px;
 }
 
-
 /* 
 .card .box ul {
 	margin: 0;
@@ -136,7 +136,7 @@ body {
 	box-sizing: border-box;
 }
 
- /* html, body {
+/* html, body {
 	 background-color: #202B33;
   color: #738491; 
 	font-family: "Open Sans";
@@ -144,7 +144,6 @@ body {
 	-webkit-font-smoothing: antialiased;
 	 overflow: hidden; 
 }  */
-
 article {
 	/* position: absolute;
   top: 0;
@@ -153,6 +152,9 @@ article {
 	left: 18%;
 	/* overflow: auto; */
 	/* padding: 20px; */
+}
+element.style{
+	align:center;
 }
 
 article>header {
@@ -165,7 +167,6 @@ article>header .title {
 	font-size: 1.3rem;
 	font-weight: 600;
 	margin-left: 20%;
-	
 }
 
 article section .chart {
@@ -178,44 +179,45 @@ article section .chart {
 	<%@ include file="/views/common/parentsMenu.jsp"%>
 	<br>
 	<h1 align="center">내아이 정보</h1>
-	<div style="height:500px;">
-	<div class="card">
-				<div class="box">
-					<div class="img">
-						<img src="<%=request.getContextPath()%>/images/건후.jpg">
-					</div>
-					<h2>
-						<span>박건후</span><br> <br>해바라기반
-					</h2>
-					<p>나이 : 만 3 세</p>
-					<p>키 : 88.5 cm</p>
-					<p>몸무게 : 15.2kg</p>
-					<p>특이사항 : 다문화가정</p>
-		
-				
+	<div style="height: 500px;">
+		<div class="card">
+			<div class="box">
+				<div class="img">
+					<img src="<%=request.getContextPath()%>/images/건후.jpg">
 				</div>
+				<h2>
+					<span>박건후</span><br> <br>해바라기반
+				</h2>
+				<p>나이 : 만 3 세</p>
+				<p>키 : 88.5 cm</p>
+				<p>몸무게 : 15.2kg</p>
+				<p>특이사항 : 다문화가정</p>
+
+
 			</div>
 		</div>
-			<div>
-				<article>
-					<header>
-						<div class="title">신체 발달 그래프</div>
-					</header>
-					<section>
-						<div class="chart">
-							<canvas id="c1" width="800" height="200"></canvas>
-						</div>
-					</section>
-				</article>
-			</div>
-		
+	</div>
+	<div>
+		<article align="center" style="width:1200px">
+			<header>
+				<div class="title">신체 발달 그래프</div>
+			</header>
+			<section>
+				<div class="chart">
+					<canvas id="c1" align="center" width="800" height="200"></canvas>
+				</div>
+			</section>
+		</article>
+	</div>
+
+
 	<!-- 내아이 정보 박스 -->
-	
+
 	<!-- 그래프 -->
-	
 
 
-	
+
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
 	<script
@@ -243,14 +245,13 @@ article section .chart {
 				pointBackgroundColor : "rgba(236,72,127,1)",
 				data : [ 1400, 1350, 1250, 1250, 1350, 1500, 1550 ],
 				label : "3번"
-			},
-			 {
+			}, {
 				backgroundColor : "rgba(236,72,127,.1)",
 				borderColor : "rgba(236,72,127,1)",
 				pointBackgroundColor : "rgba(236,72,127,1)",
 				data : [ 1200, 1350, 1250, 1250, 100, 1500, 1550 ],
 				label : "4번"
-			}],
+			} ],
 			labels : [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
 					"Saturday", "Sunday" ]
 		}
