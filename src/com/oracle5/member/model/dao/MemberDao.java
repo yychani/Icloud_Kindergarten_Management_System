@@ -202,4 +202,31 @@ public class MemberDao {
 		
 		return userNo;
 	}
+
+	public Member idCheck(Connection con, String userId) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		Member m = null;
+		
+		String query = prop.getProperty("idCheck");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				m = new Member();
+				m.setMemberId(rset.getString("USER_ID"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return m;
+	}
 }

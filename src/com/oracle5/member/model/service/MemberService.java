@@ -64,4 +64,13 @@ public class MemberService {
 		return result;
 	}
 
+	public Member idCheck(String userId) {
+		Connection con = getConnection();
+		
+		Member m = new MemberDao().idCheck(con, userId);
+		
+		close(con);
+		return m;
+	}
+
 }

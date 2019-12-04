@@ -25,9 +25,9 @@ public class ParentInsertServlet extends HttpServlet {
 		String firstEmail = request.getParameter("firstEmail");
 		String lastEmail = request.getParameter("lastEmail");
 		String email = firstEmail + "@" + lastEmail;
-		String firstPhone = request.getParameter("firstPhone");
-		String midPhone = request.getParameter("midPhone");
-		String lastPhone = request.getParameter("lastPhone");
+		String firstPhone = request.getParameter("tel1");
+		String midPhone = request.getParameter("tel2");
+		String lastPhone = request.getParameter("tel3");
 		String phone = firstPhone + "-" + midPhone + "-" + lastPhone;
 		
 		Member signupMember = new Member();
