@@ -5,19 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- 투약리스트 카드  -->
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
+
+<!-- 시멘틱ui -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
+	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+
 
 <!-- 글꼴  -->
 <link
@@ -25,28 +20,29 @@
 	rel="stylesheet">
 
 <style>
-h1 {
-	font-family: 'Noto Sans KR', sans-serif;
-	margin-top: 5%;
-	margin-bottom: 5%;
-	font-weight: bold;
-}
-
-h4 {
-	font-weight: bolder;
-}
-
-body {
-	font-family: 'Noto Sans KR', sans-serif;
-}
-
-#testbutton {
-	background-color: #87c541;
+.accordion {
+	background-color: #eee;
+	color: #444;
+	cursor: pointer;
+	padding: 18px;
 	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+	transition: 0.4s;
+	width: 1000px;
 }
 
-#box {
-	float: left;
+.active, .accordion:hover {
+	background-color: #ccc;
+}
+
+.panel {
+	padding: 0 18px;
+	background-color: white;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
 }
 </style>
 
@@ -54,111 +50,256 @@ body {
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
 	<h1 align="center">내아이 투약의뢰서 리스트</h1>
-	<!-- Cards container -->
-	<div class="container text-center">
-		<div class="row">
 
-			<!-- Card #1, Starter -->
-			<div id="box" class="col-lg-4 col-md-6 col-sm-10 pb-4 d-block">
-				<div class="pricing-item"
-					style="box-shadow: 0px 0px 30px -7px rgba(0, 0, 0, 0.29);">
-					<!-- Indicator of subscription type -->
-					<div class="pt-4 pb-3">
-						<h4>2019-03-29</h4>
-					</div>
-					<!-- Price class -->
-					<!-- <div class="pricing-price pb-1 text-primary color-primary-text ">
-                        <h1 style="font-weight: 1000; font-size: 3.5em;">
-                            <span style="   font-size: 25px;">2019-03-29</span>
-                        </h1>
-                    </div> -->
-					<!-- Perks of said subscription -->
-					<div class="pricing-description">
-						<ul class="list-unstyled mt-3 mb-4">
-							<li class="pl-3 pr-3">증상명 : 감기</li>
-							<li class="pl-3 pr-3">약의 종류 및 용량 : 해열제</li>
+	<div id="totalList" align="center">
+		<button class="accordion">2019-10-20</button>
+		<div class="panel">
 
-						</ul>
-					</div>
-					<!-- Button -->
-					<div class="pricing-button pb-4">
-						<button type="button" class="btn btn-lg btn-primary w-75"
-							id="testbutton">자세히 보기</button>
-					</div>
-				</div>
-			</div>
+				<table align="center" class="doesTable">
+					<tr>
+						<td><label>유아명 : </label></td>
+						<td><label>박건후</label></td>
+					</tr>
+					<tr>
+						<td><label>증상명 : </label></td>
+						<td><label>감기</label>
+						</td>
+					</tr>
+					<tr>
+						<td><label>약의 종류 및 용량 : </label></td>
+						<td><label>해열제 및 감기약 식후 한알씩</label>
+						</td>
+					</tr>
+					<tr>
+						<td><label>약의 보관 방법 :</label></td>
+						<td>
+							<div class="ui form">
+								<div class="grouped fields">
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="keepMedicine" value="상온"
+												id="ordinary" checked="checked"> <label
+												for="ordinary">상온</label>
+										</div>
 
-			<!-- Card #2, Intermediate -->
-			<div class="col-lg-4 col-md-6 col-sm-10 pb-4 d-block">
-				<div class="pricing-item"
-					style="box-shadow: 0px 0px 30px -7px rgba(0, 0, 0, 0.29);">
-					<!-- Indicator of subscription type -->
-					<div class="pt-4 pb-3">
-						<h4>2019-03-29</h4>
-					</div>
-					<!-- Price class -->
-					<!-- <div class="pricing-price pb-1 text-primary color-primary-text ">
-			<h1 style="font-weight: 1000; font-size: 3.5em;">
-				<span style="   font-size: 25px;">2019-03-29</span>
-			</h1>
-		</div> -->
-					<!-- Perks of said subscription -->
-					<div class="pricing-description">
-						<ul class="list-unstyled mt-3 mb-4">
-							<li class="pl-3 pr-3">증상명 : 감기</li>
-							<li class="pl-3 pr-3">약의 종류 및 용량 : 해열제</li>
+										<div class="ui radio checkbox">
+											<input type="radio" name="keepMedicine" value="냉온"
+												id="freeze"> <label for="freeze">냉온</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><label>투약 의뢰 기간 : </label></td>
+						<td>
+							<div class="ui mini icon input">
+								<input type="date" id="dosingPeriodStart">~ <input
+									type="date" id="dosingPeriodEnd">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><label>투약 의뢰 시간 : </label></td>
+						<td>
+							<div id="dosingTimeArea" class="ui mini icon input">
+								<input class="timepicker" id='dosingTime' name='dosingTime'>
+								<button class="ui icon button timeplus" onclick="return false">
+									<i class="plus icon"></i>
+								</button>
+							</div>
 
-						</ul>
-					</div>
-					<!-- Button -->
-					<div class="pricing-button pb-4">
-						<button type="button" class="btn btn-lg btn-primary w-75"
-							id="testbutton">자세히 보기</button>
-					</div>
-				</div>
-			</div>
-			
-				<div class="col-lg-4 col-md-6 col-sm-10 pb-4 d-block">
-				<div class="pricing-item"
-					style="box-shadow: 0px 0px 30px -7px rgba(0, 0, 0, 0.29);">
-					<!-- Indicator of subscription type -->
-					<div class="pt-4 pb-3">
-						<h4>2019-03-29</h4>
-					</div>
-					<!-- Price class -->
-					<!-- <div class="pricing-price pb-1 text-primary color-primary-text ">
-			<h1 style="font-weight: 1000; font-size: 3.5em;">
-				<span style="   font-size: 25px;">2019-03-29</span>
-			</h1>
-		</div> -->
-					<!-- Perks of said subscription -->
-					<div class="pricing-description">
-						<ul class="list-unstyled mt-3 mb-4">
-							<li class="pl-3 pr-3">증상명 : 감기</li>
-							<li class="pl-3 pr-3">약의 종류 및 용량 : 해열제</li>
+						</td>
+					</tr>
+					<tr>
+						<td><label>비고 : </label></td>
+						<td><label>약먹기 싫어하는데 잘 달래서 먹여주세요~~</label></td>
+					</tr>
+					<tr>
+						<td><label>의뢰자 : </label></td>
+						<td><label>박주호</label>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+					</tr>
 
-						</ul>
-					</div>
-					<!-- Button -->
-					<div class="pricing-button pb-4">
-						<button type="button" class="btn btn-lg btn-primary w-75"
-							id="testbutton">자세히 보기</button>
-					</div>
-				</div>
-			</div>
+				</table>
+
+		</div>
+
+		<button class="accordion">2019-10-01</button>
+		<div class="panel">
+				<table align="center" class="doesTable">
+					<tr>
+						<td><label>유아명 : </label></td>
+						<td><label>박건후</label></td>
+					</tr>
+					<tr>
+						<td><label>증상명 : </label></td>
+						<td><label>감기</label>
+						</td>
+					</tr>
+					<tr>
+						<td><label>약의 종류 및 용량 : </label></td>
+						<td><label>해열제 및 감기약 식후 한알씩</label>
+						</td>
+					</tr>
+					<tr>
+						<td><label>약의 보관 방법 :</label></td>
+						<td>
+							<div class="ui form">
+								<div class="grouped fields">
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="keepMedicine" value="상온"
+												id="ordinary" checked="checked"> <label
+												for="ordinary">상온</label>
+										</div>
+
+										<div class="ui radio checkbox">
+											<input type="radio" name="keepMedicine" value="냉온"
+												id="freeze"> <label for="freeze">냉온</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><label>투약 의뢰 기간 : </label></td>
+						<td>
+							<div class="ui mini icon input">
+								<input type="date" id="dosingPeriodStart">~ <input
+									type="date" id="dosingPeriodEnd">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><label>투약 의뢰 시간 : </label></td>
+						<td>
+							<div id="dosingTimeArea" class="ui mini icon input">
+								<input class="timepicker" id='dosingTime' name='dosingTime'>
+								<button class="ui icon button timeplus" onclick="return false">
+									<i class="plus icon"></i>
+								</button>
+							</div>
+
+						</td>
+					</tr>
+					<tr>
+						<td><label>비고 : </label></td>
+						<td><label>약먹기 싫어하는데 잘 달래서 먹여주세요~~</label></td>
+					</tr>
+					<tr>
+						<td><label>의뢰자 : </label></td>
+						<td><label>박주호</label>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+					</tr>
+
+				</table>
+		</div>
+
+		<button class="accordion">2019-09-17</button>
+		<div class="panel">
+				<table align="center" class="doesTable">
+					<tr>
+						<td><label>유아명 : </label></td>
+						<td><label>박건후</label></td>
+					</tr>
+					<tr>
+						<td><label>증상명 : </label></td>
+						<td><label>감기</label>
+						</td>
+					</tr>
+					<tr>
+						<td><label>약의 종류 및 용량 : </label></td>
+						<td><label>해열제 및 감기약 식후 한알씩</label>
+						</td>
+					</tr>
+					<tr>
+						<td><label>약의 보관 방법 :</label></td>
+						<td>
+							<div class="ui form">
+								<div class="grouped fields">
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="keepMedicine" value="상온"
+												id="ordinary" checked="checked"> <label
+												for="ordinary">상온</label>
+										</div>
+
+										<div class="ui radio checkbox">
+											<input type="radio" name="keepMedicine" value="냉온"
+												id="freeze"> <label for="freeze">냉온</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><label>투약 의뢰 기간 : </label></td>
+						<td>
+							<div class="ui mini icon input">
+								<input type="date" id="dosingPeriodStart">~ <input
+									type="date" id="dosingPeriodEnd">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><label>투약 의뢰 시간 : </label></td>
+						<td>
+							<div id="dosingTimeArea" class="ui mini icon input">
+								<input class="timepicker" id='dosingTime' name='dosingTime'>
+								<button class="ui icon button timeplus" onclick="return false">
+									<i class="plus icon"></i>
+								</button>
+							</div>
+
+						</td>
+					</tr>
+					<tr>
+						<td><label>비고 : </label></td>
+						<td><label>약먹기 싫어하는데 잘 달래서 먹여주세요~~</label></td>
+					</tr>
+					<tr>
+						<td><label>의뢰자 : </label></td>
+						<td><label>박주호</label>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+					</tr>
+
+				</table>
+		</div>
+	</div>
+	<script>
+		var acc = document.getElementsByClassName("accordion");
+		var i;
+
+		for (i = 0; i < acc.length; i++) {
+			acc[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var panel = this.nextElementSibling;
+				if (panel.style.maxHeight) {
+					panel.style.maxHeight = null;
+				} else {
+					panel.style.maxHeight = panel.scrollHeight + "px";
+				}
+			});
+		}
+	</script>
 
 
 
-			
 
 
-			<script
-				src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-				integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
-				crossorigin="anonymous"></script>
 
-			<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-				integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-				crossorigin="anonymous"></script>
 </body>
 </html>

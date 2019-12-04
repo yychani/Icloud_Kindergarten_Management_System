@@ -20,7 +20,11 @@
 	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
 	rel="stylesheet">
 
-
+<!-- 시멘틱ui -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
 <!-- timepicker2  -->
 <link rel="stylesheet"
@@ -84,8 +88,9 @@ label {
 	height: 20px;
 	width: 20px;
 }
+
 img {
-	width:20px;
+	width: 20px;
 }
 </style>
 
@@ -112,7 +117,7 @@ img {
 						</h1>
 					</div>
 					<!-- Perks of said subscription -->
-					<form>
+					<form action="<%=request.getContextPath()%>/views/parents/mykidsGoHomeList.jsp" method="post">
 						<label>*유아의 귀가 시 아래의 보호자에게 인도하여 주십시오.</label>
 						<p>아래의 보호자 이외의 다른 사람에게 인계할 경우 사전에 반드시 연락을 취하겠습니다.</p>
 
@@ -120,67 +125,89 @@ img {
 
 							<tr>
 								<td><label>유아명 : </label></td>
-								<td><input type="text" name="kidsName" placeholder="유아명 입력"></td>
+								<td>
+									<div class="ui mini icon input">
+										<input type="text" placeholder="유아명 입력" name="kidsName">
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td><label>보호자 명 : </label></td>
-								<td><input type="text" name="parentsName"
-									placeholder="보호자 성명 입력"></td>
+								<td>
+									<div class="ui mini icon input">
+										<input type="text" placeholder="보호자 성명 입력" name="parentsName">
+									</div>
+								</td>
 
 							</tr>
 							<tr>
 								<td><label>인솔자 연락처 : </label></td>
-								<td><input type="tel" name="phone" id="phone"></td>
+								<td>
+									<div class="ui mini icon input">
+										<input type="tel" placeholder="인솔자 연락처 입력" name="phone"
+											id="phone">
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td><label>일자: </label></td>
-								<td><input type="text" id="datepicker"></td>
+								<td>
+									<div class="ui mini icon input">
+										<input type="date" id="dosingPeriodStart">
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td><label>귀가 요청 시간 : </label></td>
-								<td><input class="timepicker" id='timepicker' type='text' name='timepicker'></td>
+								<td>
+									<div class="ui mini icon input">
+										<input class="timepicker" id='timepicker' type='text'
+											name='timepicker'>
+									</div>
+								</td>
 							</tr>
 
-<script>
+							<script>
 			
 
-			$('.timepicker').timepicker({
-				timeFormat: 'h:mm p',
-				interval: '10',
-				minTime: '10',
-				maxTime: '6:00pm',
-				defaultTime: '11',
-				startTime: '09:00',
-				dynamic: true,
-				dropdown: true,
-				scrollbar: true
-			});
-					$(function(){
-						
-						$("#datepicker").datepicker({
-							dateFormat: 'yy-mm-dd', //날짜 표시 형식 설정
-							showOtherMonths: true, //이전 달과 다음 달 날짜를 표시
-							showMonthAfterYear:true, //연도 표시 후 달 표시
-							changeYear: true, //연도 선택 콤보박스
-							changeMonth: true, //월 선택 콤보박스
-							showOn: "both", //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
-							yearSuffix: "년", //연도 뒤에 나오는 텍스트 지정
-							monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-							monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-							dayNamesMin: ['일','월','화','수','목','금','토'],
-							dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'],
-							minDate: "-1M", // -1D:하루전, -1M:한달전, -1Y:일년전
-							maxDate: "+1M", // +1D:하루후, -1M:한달후, -1Y:일년후
-						 	buttonImage:"<%=request.getContextPath()%>/images/calendar.png" , //버튼에 띄워줄 이미지 경로
-							buttonImageOnly: true, //디폴트 버튼 대신 이미지 띄워줌
-							buttonText: "선택", //버튼 마우스오버 시 보이는 텍스트 
+							$('.timepicker').timepicker({
+								timeFormat: 'h:mm p',
+								interval: '10',
+								minTime: '10',
+								maxTime: '6:00pm',
+								defaultTime: '11',
+								startTime: '09:00',
+								dynamic: true,
+								dropdown: true,
+								scrollbar: true
 							});
-
 							
-						
-						
-						
-					});
+							$(function(){
+								
+								$("#datepicker").datepicker({
+									dateFormat: 'yy-mm-dd', //날짜 표시 형식 설정
+									showOtherMonths: true, //이전 달과 다음 달 날짜를 표시
+									showMonthAfterYear:true, //연도 표시 후 달 표시
+									changeYear: true, //연도 선택 콤보박스
+									changeMonth: true, //월 선택 콤보박스
+									showOn: "both", //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+									yearSuffix: "년", //연도 뒤에 나오는 텍스트 지정
+									monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+									monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+									dayNamesMin: ['일','월','화','수','목','금','토'],
+									dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'],
+									minDate: "-1M", // -1D:하루전, -1M:한달전, -1Y:일년전
+									maxDate: "+1M", // +1D:하루후, -1M:한달후, -1Y:일년후
+								 	buttonImage:"<%=request.getContextPath()%>/images/calendar.png" , //버튼에 띄워줄 이미지 경로
+									buttonImageOnly: true, //디폴트 버튼 대신 이미지 띄워줌
+									buttonText: "선택", //버튼 마우스오버 시 보이는 텍스트 
+									});
+		
+									
+								
+								
+								
+							});
 							
 						
 				<%-- $(function() {
@@ -238,11 +265,12 @@ img {
 						</table>
 						<!-- Button -->
 						<div class="pricing-button pb-4">
-							<button type="button" class="btn btn-lg btn-primary w-75"
-								id="testbutton">제출하기</button>
+							<button type="submit" class="btn btn-lg btn-primary w-75"
+								id="testbutton"
+							>제출하기</button>
 							<button type="button" class="btn btn-lg btn-primary w-75"
 								id="testbutton"
-								onclick="location.href='<%=request.getContextPath()%>/views/parents/mykidsDoseList.jsp'"
+								onclick="location.href='<%=request.getContextPath()%>/views/parents/mykidsGohomeList.jsp'"
 								value="투약의뢰서리스트">귀가동의서 리스트보기</button>
 						</div>
 					</form>
@@ -252,7 +280,7 @@ img {
 				</div>
 			</div>
 
-			
+
 
 
 			<script
