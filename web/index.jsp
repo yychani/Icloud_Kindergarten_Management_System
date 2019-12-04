@@ -56,7 +56,7 @@ input[type=submit]:hover, input[type=button]:hover {
 		<button
 			onclick="location.href='<%=request.getContextPath()%>/views/signUp/login.jsp'">로그인화면</button>
 		<button
-			onclick="location.href='<%=request.getContextPath()%>/views/president/preMain.jsp'">
+			onclick="location.href='<%=request.getContextPath()%>/test.jsp'">
 			메뉴 테스트</button>
 	</div>
 	<%

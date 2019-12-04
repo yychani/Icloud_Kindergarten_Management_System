@@ -4,9 +4,25 @@
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
 <style>
-	.menuLink, .submenuLink{
+table {
+		margin: 50px auto;
+		text-align: center;
+	}
+
+	#menu {
+		border: 0px;
+		
+	}
+
+	.menuLink,
+	.submenuLink {
 		font-family: 'Noto Sans KR', sans-serif;
 	}
+
+	body {
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+
 	input[type='button'] {
 		width: 100px;
 		height: 40px;
@@ -17,11 +33,13 @@
 		border: none;
 		cursor: pointer;
 	}
-	#menu {
-		border: 0;
+
+	input[type='button']:hover {
+		background: rgb(44, 44, 44) !important;
+		color: rgb(255, 255, 255) !important;
 	}
 </style>
-<table style="margin-top: 10px;">
+<table style="margin-top: 10px; width:100%;">
 	<tr>
 		<td rowspan="2" id="menu">
 			<div id="logo">
