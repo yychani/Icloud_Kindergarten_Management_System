@@ -110,21 +110,11 @@
         .menu tr:nth-of-type(2n+4) {
         	height: 60px;
         }
-        button {
-		width: 80px;
-		height: 40px;
-		border-radius: 10px;
-		background: rgb(63, 63, 63);
-		color: white;
-		font-weight: bold;
-		border: none;
-		cursor: pointer;
-	}
     </style>
 </head>
 
 <body style="overflow-x: hidden">
-    <%@ include file="/views/common/parentsMenu.jsp"%>
+    <%@ include file="/views/common/teacherMenu.jsp"%>
     <div style="margin: 0 15%;">
         <h1 style="text-decoration: underline; text-underline-position: under;">식단표</h1>
     </div>

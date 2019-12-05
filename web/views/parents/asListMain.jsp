@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
 	h2 {
@@ -18,8 +18,9 @@
 </head>
 <body style="overflow-x:hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
-	
-	<h2>방과후 프로그램</h2>
+	<div style="margin: 0 15%;">
+	<h2 style="text-decoration: underline; text-underline-position: under;"><U>방과후 프로그램</U></h2>
+	</div>
 	<%-- <div id="div1">
 		<table align="center">
 			<tr>
