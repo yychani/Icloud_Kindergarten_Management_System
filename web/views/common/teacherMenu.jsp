@@ -68,7 +68,7 @@
 					<li class="topMenuLi"><a class="menuLink" href="">업무</a>
 						<ul class="submenu">
 							<li class="li"><a href="" class="submenuLink">업무분장</a></li>
-							<li>|</li>
+							<li>|</li> 
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcCommonNote.jsp" class="submenuLink">반 공통 알림장</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcNote.jsp" class="submenuLink">원아별 알림장</a></li>
@@ -79,7 +79,11 @@
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcParentAccount.jsp" class="submenuLink">학부모 관리</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcAsList.jsp" class="submenuLink">신청 관리</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcAsList.jsp" class="submenuLink">방과후 신청 관리</a></li>
+							<li>|</li>
+							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcDoesList.jsp" class="submenuLink">투약 의뢰서 관리</a></li>
+							<li>|</li>
+							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcRtnList.jsp" class="submenuLink">귀가 동의서 관리</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>

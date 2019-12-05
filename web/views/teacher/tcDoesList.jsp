@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>방과후 신청  관리</title>
+    <title>투약 의뢰서 관리</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -110,11 +110,11 @@
 <body style="overflow-x: hidden">
     <%@ include file="/views/common/teacherMenu.jsp"%>
     <div style="margin: 0 15%;">
-        <h1 style="text-decoration: underline; text-underline-position: under;">방과후 신청 관리 페이지</h1>
+        <h1 style="text-decoration: underline; text-underline-position: under;">투약 의뢰서 관리 페이지</h1>
     </div>
     <div style="margin: 20px 20%">
 	    <select name="as" id="as">
-	        <option value="신청자 리스트" selected>신청자 리스트</option>
+	        <option value="투약 의뢰서 리스트" selected>투약 의뢰서 리스트</option>
 	        <option value="이전 신청 이력">이전 신청 이력</option>
 	    </select>
     </div>
@@ -197,17 +197,17 @@
     </div>
     <script>
         $(function () {
-        	 $(".li:nth-child(13)").addClass("on");
+        	 $(".li:nth-child(15)").addClass("on");
        	  
              $(".topMenuLi:nth-child(2)").addClass("on");
             
              $(".topMenuLi").mouseover(function() {
-               $(".li:nth-child(13)").removeClass("on");
+               $(".li:nth-child(15)").removeClass("on");
                $(".topMenuLi:nth-child(2)").removeClass("on");
             });
            
              $(".topMenuLi").mouseleave(function() {
-               $(".li:nth-child(13)").addClass("on");
+               $(".li:nth-child(15)").addClass("on");
                $(".topMenuLi:nth-child(2)").addClass("on");
             });
             
@@ -220,7 +220,7 @@
             });
             
             $("#as").change(function(){
-                 if($(this).val() == "신청자 리스트"){
+                 if($(this).val() == "투약 의뢰서 리스트"){
                     $("#table2").attr("hidden", true);
                     $("#table1").attr("hidden", false);
                  }else if($(this).val() == "이전 신청 이력"){
