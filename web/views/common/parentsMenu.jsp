@@ -104,9 +104,9 @@ table {
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">마이페이지</a>
 						<ul class="submenu">
-							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/myUser.jsp"  class="submenuLink">내 정보</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/myPagePassCheck.jsp"  class="submenuLink">내 정보</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/myQ&Alist.jsp" class="submenuLink">건의/문의 신청</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/mypageQ&Alist.jsp" class="submenuLink">건의/문의 신청</a></li>
 						</ul>
 					</li>
 					<li style="float: right;" class="topMenuLi">
