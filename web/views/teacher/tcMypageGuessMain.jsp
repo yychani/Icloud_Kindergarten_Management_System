@@ -10,17 +10,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
     <script>
       $(function() {
-    	  $(".li:nth-child(5)").addClass("on");
+    	  $(".li:nth-child(3)").addClass("on");
     	  
           $(".topMenuLi:nth-child(5)").addClass("on");
          
           $(".topMenuLi").mouseover(function() {
-            $(".li:nth-child(5)").removeClass("on");
+            $(".li:nth-child(3)").removeClass("on");
             $(".topMenuLi:nth-child(5)").removeClass("on");
          });
         
           $(".topMenuLi").mouseleave(function() {
-            $(".li:nth-child(5)").addClass("on");
+            $(".li:nth-child(3)").addClass("on");
             $(".topMenuLi:nth-child(5)").addClass("on");
          });
       }); 
