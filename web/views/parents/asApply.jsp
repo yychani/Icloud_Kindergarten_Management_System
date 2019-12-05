@@ -1,131 +1,103 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 시멘틱ui -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
 <style>
+/* .btnArea {
+	width: 500px;
+	margin: 5% auto;
+} */
 
-table {
-	margin: 70px auto; 
+.outBox {
+	/* magin: 10% 20%; */
+	margin:10% auto;
+	width: 800px;
 }
-    
-input[type=text] {
-	border-radius: 10px;
-	width: 300px;
-	height: 30px;
+#waiting{
+	background:white;
 }
-
-td {
-	padding: 10px 30px;
-	padding-left: 0;
+.ui.steps .step.active:afte{
+    display: block;
+    backgound:white;
 }
-
-input[type=checkbox] {
-	width: 15px;
-	height: 15px;
-	vertical-align: center;
-}
-	button {
-		width: 80px;
-		height: 40px;
-		border-radius: 10px;
-		background: rgb(63, 63, 63);
-		color: white;
-		font-weight: bold;
-		border: none;
-		cursor: pointer;
-	}
-	#asTable{
-		margin: auto auto;
-		margin-top: 50px;	
-		border: 3px double black;
-		width: 300px;
-		height: 400px;
-		text-align: center;
-		box-shadow: 0px 0px 30px -7px gray;
-	}
-	#name{
-		font-size: 18px;
-		background: skyblue;
-		color: white;
-		display: inline-block;
-		padding: 4px 10px;
-		border-radius: 15px;
-	
-	}
-	#className{
-		font-size :17px; 
-		background: rgb(247,230,0);
-		color: brown;
-		display: inline-block;
-		padding: 4px 10px;
-		border-radius: 15px;
-		
-	
-	}
-	.Btn:hover{
-		
-		cursor:pointer;
-		box-shadow: 0px 0px 30px -7px gray;
-	
-	}
-
 </style>
 
 </head>
-<body style="overflow-x:hidden">
+<body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
-	<h2 align="center">방과후 신청</h2>
-	<div>
-	<form id="asArea">
-	<table align="center" id="asTable" >
-		<tr>
-			<th colspan="2">내아이 방과후 신청</th>
-		</tr>
-		<tr>
-			<td colspan="2"><img src="<%=request.getContextPath()%>/images/block.PNG"></td>
-		</tr>
-		<tr>
-			<td colspan="2"><label id="name">박건후</label></td>
-		</tr>
-		<tr>
-			<td colspan="2"><label id="className">해바라기 반 </label></td>
-		</tr>
-		<tr>
-			<td><button class="Btn">신청</button></td>
-			<td><button class="Btn">미신청</button></td>
-		</tr>
-	
-	
-	
-	</table>
-	</form>
+
+
+<div class="outBox" align="center">
+	<div class="ui steps" align="center">
+		<div class="step">
+			<i class="handshake outline icon"></i>
+			<div class="content">
+				<div class="title">방과후 신청</div>
+				<div class="description">*매달 신청</div>
+			</div>
+		</div>
+		<div class="active step"  id="waiting">
+			<i class="hourglass half icon"></i>
+			<div class="content">
+				<div class="title">승인 대기</div>
+				<div class="description">*승인이 완료되면 매달 1일 방과 후 시작</div>
+			</div>
+		</div>
+		<div class="disabled step">
+			<i class="info icon"></i>
+			<div class="content">
+				<div class="title">승인 완료</div>
+			</div>
+		</div>
 	</div>
-	<br><br><br><br><br>
-	<script>
-    $(function() {
-        $(".li1").addClass("on");
-        $(".topMenuLi:nth-child(3)").addClass("on");
+	<br>
+	<br>
+	<br>
+	<div class="btnArea" align="center">
+		<button id="asApplyBtn" class="ui olive button" onclick="asApply();">방과 후 신청하기</button>
+	</div>
+</div>
 
-        $(".topMenuLi").mouseover(function() {
-           $(".li1").removeClass("on");
-           $(".topMenuLi:nth-child(3)").removeClass("on");
-        });
-        $(".topMenuLi").mouseleave(function() {
-           $(".li1").addClass("on");
-           $(".topMenuLi:nth-child(3)").addClass("on");
-        });
+<!-- 방과 후 신청 버튼 모달 -->
+<div class="ui basic modal">
+  <div class="ui icon header">
+    <i class="hand point right outline icon"></i>
+    다음 달 방과 후 신청을 하시겠습니까?
+  </div>
+  <div class="actions">
+    <div class="ui red basic cancel inverted button">
+      <i class="remove icon"></i>
+      취소
+    </div>
+    <div class="ui green ok inverted button">
+      <i class="checkmark icon"></i>
+      신청
+    </div>
+  </div>
+</div>
 
-     });  
-	</script>
+<script>
+	function asApply(){
+		$('.ui.basic.modal')
+		  .modal('show')
+		;
+	}
+</script>
+
+
+
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
 </body>

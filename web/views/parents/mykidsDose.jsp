@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 
 <title>Document</title>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 시멘틱ui -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
@@ -45,7 +46,7 @@ h1 {
 </head>
 <body style="overflow-x: hidden">
    <%@ include file="/views/common/parentsMenu.jsp"%>
-   <div class="ui olive inverted segment outBox" style="margin: 5% 30%;">
+   <div class="ui olive inverted segment outBox" style="margin: 5% 30%;" align="center">
       <div class="ui raised segment">
          <br>
          <h1 align="center">투약의뢰서 작성</h1>
