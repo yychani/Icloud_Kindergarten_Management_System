@@ -73,7 +73,7 @@ table {
 							<li>|</li>
 							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/asApply.jsp" class="submenuLink">방과후 신청</a></li>
 							<li>|</li>
-							<li class="li"><a href="" class="submenuLink">방과후 신청 이력</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/asApplyList.jsp" class="submenuLink">방과후 신청 이력</a></li>
 						</ul>
 					</li>
 

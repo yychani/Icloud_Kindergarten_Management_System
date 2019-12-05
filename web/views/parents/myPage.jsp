@@ -20,7 +20,7 @@
 	margin: 5% auto;
 }
 
-td {
+#myPageTable>td {
 	width: 300px;
 	height: 50px;
 	/* border: 1px solid black; */
@@ -48,7 +48,7 @@ td {
 		<h5 class="ui top attached header" align="center">회원정보</h5>
 		<div class="ui attached segment">
 			<form method="post" onsubmit="return true">
-				<table>
+				<table id="myPageTable">
 					<tr>
 						<td style="width: 50px;">아이디</td>
 						<td style="width: 20px">:</td>
@@ -99,7 +99,7 @@ td {
 					</tr>
 				</table>
 				<div class="btns">
-					<button type="button" class="ui yellow basic button" align="left">아이정보</button>
+					<button type="button" class="ui yellow basic button" align="left" onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageModKid.jsp'">아이정보</button>
 					<button type="button" id="psssChangeBtn"
 						class="ui positive basic button" onclick="passChangeModal();">비밀번호
 						변경</button>
