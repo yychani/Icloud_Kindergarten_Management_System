@@ -23,21 +23,7 @@ table {
 		font-family: 'Noto Sans KR', sans-serif;
 	}
 
-	input[type='button'] {
-		width: 100px;
-		height: 40px;
-		border-radius: 10px;
-		background: rgb(63, 63, 63);
-		color: white;
-		font-weight: bold;
-		border: none;
-		cursor: pointer;
-	}
 
-	input[type='button']:hover {
-		background: rgb(44, 44, 44) !important;
-		color: rgb(255, 255, 255) !important;
-	}
 </style>
 <table style="margin-top: 10px; width:100%;">
 	<tr>
@@ -73,7 +59,7 @@ table {
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
 						<ul class="submenu">
-							<li class="li"><a href="<%=request.getContextPath() %>/views/boardParentsBoard.jsp" class="submenuLink">학부모 게시판</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardParentsBoard.jsp" class="submenuLink">학부모 게시판</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardCommittee.jsp" class="submenuLink longLink">유치원 운영위원회
 									게시판</a></li>
@@ -81,7 +67,7 @@ table {
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">방과후 </a>
 						<ul class="submenu">
-							<li class="li"><a href="/views/parents/asListMain.jsp" class="submenuLink longLink">방과후 프로그램</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/asListMain.jsp" class="submenuLink longLink">방과후 프로그램</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/asApply.jsp" class="submenuLink">방과후 신청</a></li>
 							<li>|</li>
