@@ -21,13 +21,14 @@ public class LoginServlet extends HttpServlet {
 		
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
-		
 		Member requestMember = new Member();
 		requestMember.setMemberId(userId);
 		requestMember.setMemberPwd(userPwd);
 		
 		Member loginMember = new MemberService().loginMember(requestMember);
 		
+		System.out.println(loginMember);
+		System.out.println(userPwd);
 		if(loginMember != null) {
 			request.getSession().setAttribute("loginMember", loginMember);
 			
@@ -43,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 		}else {
 			request.setAttribute("msg", "로그인에러!!");
 			
-			request.getRequestDispatcher("../common/errorPage.jsp").forward(request, response);
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}
 

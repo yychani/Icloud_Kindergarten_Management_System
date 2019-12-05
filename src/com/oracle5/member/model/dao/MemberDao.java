@@ -10,8 +10,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
+import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.Teacher;
 
 import static com.oracle5.common.JDBCTemplate.*;
@@ -46,12 +48,12 @@ public class MemberDao {
 			if (rset.next()) {
 				loginMember = new Member();
 
-				loginMember.setMemberId(rset.getString("USER_ID"));
-				loginMember.setMemberName(rset.getString("USER_NAME"));
-				loginMember.setMemberPwd(rset.getString("USER_PWD"));
-				loginMember.setMemberRno(rset.getString("USER_RNO"));
-				loginMember.setMemberNo(rset.getInt("USER_NO"));
-				loginMember.setUType(rset.getString("USER_TYPE"));
+				loginMember.setMemberId(rset.getString("ID"));
+				loginMember.setMemberName(rset.getString("NAME"));
+				loginMember.setMemberPwd(rset.getString("PWD"));
+				loginMember.setMemberRno(rset.getString("RNO"));
+				loginMember.setMemberNo(rset.getInt("M_NO"));
+				loginMember.setUType(rset.getString("TYPE"));
 				loginMember.setEmail(rset.getString("EMAIL"));
 				loginMember.setPhone(rset.getString("PHONE"));
 				loginMember.setLeaveDate(rset.getDate("LEAVE_DATE"));
@@ -75,7 +77,6 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, requestTeacher.getTeacherNo());
-			pstmt.setString(2, requestTeacher.getClassName());
 
 			result = pstmt.executeUpdate();
 
@@ -128,12 +129,12 @@ public class MemberDao {
 				list = new ArrayList<>();
 				while(rset.next()) {
 					MemberAndTeacher mt = new MemberAndTeacher();
-					mt.setMemberId(rset.getString("USER_ID"));
-					mt.setMemberName(rset.getString("USER_NAME"));
-					mt.setMemberPwd(rset.getString("USER_PWD"));
-					mt.setMemberRno(rset.getString("USER_RNO"));
-					mt.setMemberNo(rset.getInt("USER_NO"));
-					mt.setUType(rset.getString("USER_TYPE"));
+					mt.setMemberId(rset.getString("ID"));
+					mt.setMemberName(rset.getString("NAME"));
+					mt.setMemberPwd(rset.getString("PWD"));
+					mt.setMemberRno(rset.getString("RNO"));
+					mt.setMemberNo(rset.getInt("M_NO"));
+					mt.setUType(rset.getString("TYPE"));
 					mt.setEmail(rset.getString("EMAIL"));
 					mt.setPhone(rset.getString("PHONE"));
 					mt.setLeaveDate(rset.getDate("LEAVE_DATE"));
@@ -141,7 +142,6 @@ public class MemberDao {
 					mt.setTDescription(rset.getString("T_DESCRIPTION"));
 					mt.setImgSrc(rset.getString("IMGSRC"));
 					mt.setPId(Integer.parseInt(rset.getString("PID")));
-					mt.setClassName(rset.getString("T_CLASS"));
 					mt.setPName(rset.getString("PNAME"));
 					
 					list.add(mt);
@@ -187,11 +187,11 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, requestMember.getMemberId());
-			
+			System.out.println(requestMember.getMemberId());
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				userNo = rset.getInt("USER_NO");
+				userNo = rset.getInt("M_NO");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -218,7 +218,7 @@ public class MemberDao {
 			
 			if(rset.next()) {
 				m = new Member();
-				m.setMemberId(rset.getString("USER_ID"));
+				m.setMemberId(rset.getString("ID"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -228,5 +228,106 @@ public class MemberDao {
 		}
 		
 		return m;
+	}
+
+	public int insertMemberP(Connection con, Member m) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+
+		String query = prop.getProperty("insertMemberP");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, m.getMemberId());
+			pstmt.setString(2, m.getMemberName());
+			pstmt.setString(3, m.getMemberPwd());
+			pstmt.setString(4, m.getMemberRno());
+			pstmt.setString(5, m.getEmail());
+			pstmt.setString(6, m.getPhone());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int insertParent(Connection con, Parents p) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+
+		String query = prop.getProperty("insertParent");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, p.getPNo());
+			pstmt.setString(2, p.getPAddress());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public ArrayList<Ban> selectBan(Connection con) {
+		ResultSet rset = null;
+		Statement stmt = null;
+		ArrayList<Ban> list = null;
+		
+		String query = prop.getProperty("selectBan");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset != null) {
+				list = new ArrayList<>();
+				while(rset.next()) {
+					Ban b = new Ban();
+					b.setBanNo(rset.getInt("B_NO"));
+					b.setBanName(rset.getString("B_NAME"));
+					
+					list.add(b);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
+			close(rset);
+		}
+		return list;
+	}
+
+	public int insertBanList(Connection con, Ban ban, Teacher requestTeacher) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+
+		String query = prop.getProperty("insertBanList");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, ban.getBanNo());
+			pstmt.setInt(2, requestTeacher.getTeacherNo());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
 	}
 }

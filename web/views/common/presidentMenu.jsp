@@ -35,7 +35,6 @@
 		font-weight: bold;
 		border: none;
 		cursor: pointer;
-		background: rgba(247, 251, 255, 0.753);
 	}
 
 	input[type='button']:hover {

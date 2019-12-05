@@ -4,10 +4,8 @@
 <html>
 
 <head>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>회원 가입</title>
 <style>
@@ -85,38 +83,33 @@ input {
 }
 </style>
 <script>
-		$(function() {
-			$("#emailCheck").click(function(){
-				var fisrtEmail = $("#firstEmail").val();
-				var lastEmail = $("#lastEmail").val();
-				var email = fisrtEmail + "@" + lastEmail;
-					$.ajax({
-						url : '<%=request.getContextPath()%>/emailCheck.do',
-				type : 'post',
-				data : {
-					email : email
-				},
-				success : function(data) {
-					$("#emailCheckTextConfirm").val(data);
-				},
-				error : function(data) {
-					console.log("에러!");
-				}
+	$(function() {
+		$("#emailCheck").click(function(){
+			var fisrtEmail = $("#firstEmail").val();
+			var lastEmail = $("#lastEmail").val();
+			var email = fisrtEmail + "@" + lastEmail;
+				$.ajax({
+					url : '<%=request.getContextPath()%>/emailCheck.do',
+					type : 'post',
+					data : {email:email},
+					success : function(data) {
+						$("#emailCheckTextConfirm").val(data);
+					},
+					error : function(data) {
+						console.log("에러!");
+					}
+				});
 			});
-		});
 
 		$("#idCheckBtn").click(function() {
 			var userId = $("#userId").val();
 			$.ajax({
 				url : "/main/userIdCheck.me",
 				type : "post",
-				data : {
-					userId : userId
-				},
+				data : {userId:userId},
 				success : function(data) {
 					$("#idCheck").html(data);
-				},
-
+				}
 			});
 		});
 	});
@@ -124,29 +117,22 @@ input {
 </head>
 
 <body>
-	<form action="<%=request.getContextPath()%>/insertParent.me"
-		method="post" onsubmit="return validate();">
+	<form action="<%=request.getContextPath()%>/insertParent.me" method="post" onsubmit="return validate();">
 		<h1 align="center" style="margin-top: 50px;">회원 가입</h1>
 		<table>
 			<tr>
 				<td colspan="2" class="label"><label for="">아이디 : </label></td>
-				<td colspan="2" class="input"><input type="text"
-					placeholder=" ID를 입력해주세요" id="userId" name="userId"
-					style="width: 80%; height: 20px"></td>
+				<td colspan="2" class="input"><input type="text" placeholder=" ID를 입력해주세요" id="userId" name="userId" style="width: 80%; height: 20px"></td>
 				<td><button id="idCheckBtn" onclick="return false;">중복 확인</button></td>
 			</tr>
 			<tr>
 				<td colspan="2"></td>
-				<td colspan="2" align="left" id="idCheck"
-					style="height: 9px; padding: 0;"></td>
+				<td colspan="2" align="left" id="idCheck" style="height: 9px; padding: 0;"></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">비밀번호 : </label></td>
-				<td colspan="2" class="input"><input type="password"
-					placeholder=" 비밀번호를 입력해주세요" id="password" name="userPwd"
-					style="width: 90%; height: 20px"></td>
-				<td rowspan="2" class="description">비밀번호는 특수문자 / 영문자 / 숫자 포함 형태의
-					<br>8~15자리 이내로 입력하셔야 합니다.
+				<td colspan="2" class="input"><input type="password" placeholder=" 비밀번호를 입력해주세요" id="password" name="userPwd" style="width: 90%; height: 20px"></td>
+				<td rowspan="2" class="description">비밀번호는 특수문자 / 영문자 / 숫자 포함 형태의 <br>8~15자리 이내로 입력하셔야 합니다.
 				</td>
 			</tr>
 			<tr>
@@ -155,9 +141,7 @@ input {
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">비밀번호 확인 : </label></td>
-				<td colspan="2" class="input"><input type="password"
-					placeholder=" 비밀번호를 입력해주세요" id="passCheck"
-					style="width: 90%; height: 20px"></td>
+				<td colspan="2" class="input"><input type="password" placeholder=" 비밀번호를 입력해주세요" id="passCheck" style="width: 90%; height: 20px"></td>
 			</tr>
 			<tr>
 				<td colspan="2"></td>
@@ -165,66 +149,49 @@ input {
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">이름 : </label></td>
-				<td colspan="2" class="input"><input type="text"
-					placeholder=" 이름을 입력해주세요" id="name" name="name"
-					style="width: 50%; height: 20px"></td>
+				<td colspan="2" class="input"><input type="text" placeholder=" 이름을 입력해주세요" id="name" name="name" style="width: 50%; height: 20px"></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">주민등록번호 : </label></td>
-				<td colspan="3" class="input"><input type="text"
-					id="userNumber1" name="userNumber1" maxlength="6"
-					style="width: 25%; height: 20px"> - <input type="password"
-					id="userNumber2" name="userNumber2" maxlength="7"
-					placeholder="주민번호 뒷자리는 암호화 되어 보관됩니다."
-					style="width: 35%; height: 20px"></td>
+				<td colspan="3" class="input"><input type="text" id="userNumber1" name="userNumber1" maxlength="6" style="width: 25%; height: 20px">
+				 - <input type="password" id="userNumber2" name="userNumber2" maxlength="7" placeholder="주민번호 뒷자리는 암호화 되어 보관됩니다." style="width: 35%; height: 20px"></td>
 
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">주소 : </label></td>
-				<td colspan="2" class="input"><input type="text"
-					placeholder="주소를 입력해주세요" id="address" name="address"
-					style="width: 80%; height: 20px">
-					<input type="hidden" id="address1"
-					name="address1"></td>
+				<td colspan="2" class="input"><input type="text" placeholder="주소를 입력해주세요" id="address" name="address" style="width: 80%; height: 20px">
+					<input type="hidden" id="address1" name="address1"></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">이메일 : </label></td>
-				<td colspan="2" class="input"><input type="text"
-					id="firstEmail" name="firstEmail" style="width: 40%; height: 20px">
-					@ <select style="width: 50%; height: 30px; font-size: 12pt;"
-					id="lastEmail" name="lastEmail">
+				<td colspan="2" class="input"><input type="text" id="firstEmail" name="firstEmail" style="width: 40%; height: 20px">
+					@ <select style="width: 50%; height: 30px; font-size: 12pt;" id="lastEmail" name="lastEmail">
 						<option value="none" selected>example.com</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="naver.com">naver.com</option>
 						<option value="hanmail.com">hanmail.com</option>
 						<option value="kakao.co.kr">kakao.co.kr</option>
 				</select></td>
-				<td><button style="width: 150px" onclick="return false;"
-						id="emailCheck">인증 메일 보내기</button></td>
+				<td><button style="width: 150px" onclick="return false;" id="emailCheck">인증 메일 보내기</button></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">이메일 확인 : </label></td>
-				<td colspan="3" class="input"><input type="text"
-					id="emailCheckText" style="width: 40%; height: 20px"> 이메일로
-					온 인증번호를 입력해주세요</td>
-				<td class="description"><input type="hidden"
-					id="emailCheckTextConfirm"></td>
+				<td colspan="3" class="input"><input type="text" id="emailCheckText" style="width: 40%; height: 20px">
+				 이메일로 온 인증번호를 입력해주세요</td>
+				<td class="description"><input type="hidden" id="emailCheckTextConfirm"></td>
 			</tr>
 			<tr>
 				<td colspan="2" class="label"><label for="">핸드폰 : </label></td>
-				<td colspan="2" class="input"><select
-					style="width: 20%; font-size: 12pt;" id="tel1"
-					name="tel1">
+				<td colspan="2" class="input"><select style="width: 20%; font-size: 12pt;" id="tel1" name="tel1">
 						<option value="010" selected>010</option>
 						<option value="011">011</option>
 						<option value="016">016</option>
 						<option value="017">017</option>
 						<option value="019">019</option>
-				</select> - <input type="text" id="tel2" name="tel2" maxlength="4"
-					style="width: 30%"> - <input type="text" id="tel3"
-					name="tel3" maxlength="4" style="width: 30%">
-					<input type="hidden" id="tel21" name="tel21">
-					<input type="hidden" id="tel31" name="tel31"></td>
+				</select> - <input type="text" id="tel2" name="tel2" maxlength="4" style="width: 30%">
+				 - <input type="text" id="tel3" name="tel3" maxlength="4" style="width: 30%">
+					<input type="text" id="tel21" name="tel21">
+					<input type="text" id="tel31" name="tel31"></td>
 			</tr>
 		</table>
 		<div style="width: 60%; margin: 50px auto;">
@@ -264,8 +231,8 @@ input {
 	</form>
 	<%@ include file="/views/common/footer.jsp"%>
 
-<script    src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-<script    src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
 	<script>
 		checked = $("input:checkbox[name=terms1]:checked").length;
 
@@ -293,7 +260,6 @@ input {
 		var rno2 = /^[1-4][0-9]{6}$/;
 		
 		var inval_Arr = new Array(10).fill(false);
-		var msg = '입력한 정보들을 다시 한번 확인해주세요 :)';
 		
 		$("#idCheckBtn").click(function(){
 			if($("#userId").val() != ""){
@@ -321,8 +287,6 @@ input {
 			}
 		});
 		$("#passCheck").keyup(function(){
-			console.log($('#password').val());
-			console.log($('#passCheck').val());
 			if ($('#password').val() == $('#passCheck').val()) {
 				$("#pass2Check").css({"color":"green"});
 				$("#pass2Check").html("비밀번호가 일치합니다.");	
@@ -335,22 +299,19 @@ input {
 		});
 		
 		function validate() {
-			if($("#check").attr("value") == false) {
-				inval_Arr[1] = false;
-			}else {
-				inval_Arr[1] = true;
-			}
-			if($("#name").val() != ""){
-				inval_Arr[4] = true;
-			}else {
-				inval_Arr[4] = false;
-				msg = "이름을 입력해주세요!";
-			}
+			var msg = "입력한 정보들을 다시 한번 확인해주세요";
+			
 			if(tel1J.test($("#tel1").val()) && tel2J.test($("#tel2").val()) && tel3J.test($("#tel3").val())){
-				inval_Arr[5] = true;
+				inval_Arr[8] = true;
 			}else {
-				inval_Arr[5] = false;
+				inval_Arr[8] = false;
 				msg = "올바른 전화번호를 입력해주세요!";
+			}
+			if($("#emailCheckText").val() == $("#emailCheckTextConfirm").val()){
+				inval_Arr[7] = true;
+			}else {
+				inval_Arr[7] = false;
+				msg = "이메일 인증번호가 일치하지 않습니다!";
 			}
 			if($("#address").val() != ""){
 				inval_Arr[6] = true;
@@ -359,16 +320,21 @@ input {
 				msg = "주소를 입력해주세요!";
 			}
 			if(rno1.test($("#userNumber1").val()) && rno2.test($("#userNumber2").val())){
-				inval_Arr[7] = true;
+				inval_Arr[5] = true;
 			}else {
-				inval_Arr[7] = false;
+				inval_Arr[5] = false;
 				msg = "올바른 주민등록번호를 입력해주세요!";
 			}
-			if($("#emailCheckText").val() == $("#emailCheckTextConfirm").val()){
-				inval_Arr[8] = true;
+			if($("#name").val() != ""){
+				inval_Arr[4] = true;
 			}else {
-				inval_Arr[8] = false;
-				msg = "이메일 인증번호가 일치하지 않습니다!";
+				inval_Arr[4] = false;
+				msg = "이름을 입력해주세요!";
+			}
+			if($("#check").attr("value") == false) {
+				inval_Arr[1] = false;
+			}else {
+				inval_Arr[1] = true;
 			}
 			var validAll = true;
 			for(var i = 0; i < inval_Arr.length; i++){
@@ -385,7 +351,7 @@ input {
 		    // 암호화 이전의 문자열은 toString 함수를 사용하여 추출할 수 있다.
 		    var address1 = decrypted1.toString(CryptoJS.enc.Utf8);
 		    
-		    //$("#address1").val() = address1;
+		    $("#address1").val(decrypted1);
 		    
 		    var tel2 = $("#tel2").val(); 
 		    var encrypt2 = CryptoJS.AES.encrypt(tel2, passphrase);
@@ -394,7 +360,7 @@ input {
 		    // 암호화 이전의 문자열은 toString 함수를 사용하여 추출할 수 있다.
 		    var tel21 = decrypted2.toString(CryptoJS.enc.Utf8);
 		    
-		    //$("#tel21").val() = tel2;
+		   	$("#tel21").val(decrypted2);
 		    
 		    var tel3 = $("#tel3").val(); 
 		    var encrypt3 = CryptoJS.AES.encrypt(tel3, passphrase);
@@ -403,13 +369,10 @@ input {
 		    // 암호화 이전의 문자열은 toString 함수를 사용하여 추출할 수 있다.
 		    var tel31 = decrypted3.toString(CryptoJS.enc.Utf8);
 		    
-		    //$("#tel31").val() = tel3;
+		    $("#tel31").val(decrypted3);
 		    
-		    alert(decrypted1);
-		    alert(decrypted2);
-		    alert(decrypted3);
 			if(validAll){ // 유효성 모두 통과
-				return false;
+				return true;
 			} else{
 				alert(msg);
 				return false;

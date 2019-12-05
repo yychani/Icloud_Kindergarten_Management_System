@@ -85,6 +85,40 @@
             font-size: 15pt;
         }
     </style>
+    <script>
+	$(function() {
+		$("#idCheckBtn").click(function() {
+			var userId = $("#userId").val();
+			$.ajax({
+				url : "/main/userIdCheck.me",
+				type : "post",
+				data : {userId:userId},
+				success : function(data) {
+					$("#idCheck").html(data);
+				}
+			});
+		});
+		$.ajax({
+			url : "/main/selectBan.do",
+			type : "post",
+			success:function(data){
+				$select = $("#className");
+				$select.find("option").remove();
+				
+				for(var i = 0; i < data.length; i++){
+					
+					var className = decodeURIComponent(data[i].banName);
+					var selected = (i == 0) ? "selected" : "";
+					
+					$select.append("<option value='" + data[i].banNo + "' " + selected + ">" + className + "</option>");
+				}
+			},
+			error: function(data){
+				console.log("실패!");
+			}
+		});
+	});
+</script>
 </head>
 
 <body style="overflow-x: hidden">
@@ -99,8 +133,12 @@
                 <td colspan="2" class="label"><label>아이디 : </label></td>
                 <td colspan="2" class="input"><input type="text" placeholder=" ID를 입력해주세요" id="userId" name="userId"
                         style="width: 80%; height: 20px"></td>
-                <td><button id="test">중복 확인</button></td>
+                <td><button id="idCheckBtn" onclick="return false;">중복 확인</button></td>
             </tr>
+            <tr>
+				<td colspan="2"></td>
+				<td colspan="2" align="left" id="idCheck" style="height: 9px; padding: 0;"></td>
+			</tr>
             <tr>
                 <td colspan="2" class="label"><label>비밀번호 : </label></td>
                 <td colspan="2" class="input"><input type="password" placeholder=" 비밀번호를 입력해주세요" id="password"
@@ -108,12 +146,15 @@
                 <td rowspan="2" class="description">
                 </td>
             </tr>
-
             <tr>
                 <td colspan="2" class="label"><label>비밀번호 확인 : </label></td>
                 <td colspan="2" class="input"><input type="password" placeholder=" 비밀번호를 입력해주세요" id="passCheck"
                         style="width: 90%; height: 20px" name="passCheck"></td>
             </tr>
+            <tr>
+				<td colspan="2"></td>
+				<td colspan="2" align="left" style="height: 9px; padding: 0;"><span id="pass2Check"></span></td>
+			</tr>
             <tr>
                 <td colspan="2" class="label"><label>이름 : </label></td>
                 <td colspan="2" class="input"><input type="text" placeholder=" 이름을 입력해주세요" id="name"
@@ -122,10 +163,6 @@
             <tr>
                 <td colspan="2" class="label"><label>담당 반 : </label></td>
                 <td colspan="2" class="input"><select style="width: 30%; font-size: 12pt;" id="className" name="className">
-                        <option value="none" selected>반 이름</option>
-                        <option value="해바라기">해바라기 반</option>
-                        <option value="장미">장미 반</option>
-                        <option value="튤립">반 DB에서 끌어오기</option>
                     </select></td>
             </tr>
         </table>
@@ -135,6 +172,15 @@
         </div>
     </form>
     <script>
+	$("#passCheck").keyup(function(){
+		if ($('#password').val() == $('#passCheck').val()) {
+			$("#pass2Check").css({"color":"green"});
+			$("#pass2Check").html("비밀번호가 일치합니다.");	
+		} else {
+			$("#pass2Check").css({"color":"tomato"});
+			$("#pass2Check").html("비밀번호가 일치하지 않습니다.");	
+		}
+	});
         function validate() {
             var pass = document.getElementById("userPwd").value;
             var pass1 = document.getElementById("passCheck").value;
