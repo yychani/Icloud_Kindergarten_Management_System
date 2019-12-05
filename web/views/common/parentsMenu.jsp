@@ -54,11 +54,13 @@ table {
 							<li>|</li>
 							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsCalendar.jsp" class="submenuLink">원 일정</a></li>
 							<li>|</li>
-							<li class="li"><a href="" class="submenuLink">식단표</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsMealMenu.jsp" class="submenuLink">식단표</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
 						<ul class="submenu">
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardParentsBoard.jsp" class="submenuLink">아이들 사진 게시판</a></li>
+							<li>|</li>
 							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardParentsBoard.jsp" class="submenuLink">학부모 게시판</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardCommittee.jsp" class="submenuLink longLink">유치원 운영위원회

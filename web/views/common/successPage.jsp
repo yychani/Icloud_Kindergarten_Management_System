@@ -4,8 +4,6 @@
 <%
 	/* String msg = (String) session.getAttribute("msg");  */
 	int successCode = Integer.parseInt(request.getParameter("successCode"));
-
-	System.out.println("successCode : " + successCode);
 %>
 <!DOCTYPE html>
 <html>
