@@ -73,11 +73,13 @@
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcNote.jsp" class="submenuLink">원아별 알림장</a></li>
 							<li>|</li>
-							<li class="li"><a href="" class="submenuLink">출석 관리</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcChildAttend.jsp" class="submenuLink">출석 관리</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcChildMgmt.jsp" class="submenuLink">원아 관리</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcParentAccount.jsp" class="submenuLink">학부모 관리</a></li>
+							<li>|</li>
+							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcAsList.jsp" class="submenuLink">신청 관리</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
@@ -92,8 +94,6 @@
 					<li class="topMenuLi"><a class="menuLink" href="">마이페이지</a>
 						<ul class="submenu">
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcMyInfo.jsp" class="submenuLink">내 정보</a></li>
-							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcMypageAsList.jsp" class="submenuLink">방과후 신청 리스트</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcMypageGuessMain.jsp" class="submenuLink">건의/문의 확인</a></li>
 

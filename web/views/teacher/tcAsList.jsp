@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>신청 관리</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -97,7 +97,7 @@
 <body style="overflow-x: hidden">
     <%@ include file="/views/common/teacherMenu.jsp"%>
     <div style="margin: 0 15%;">
-        <h1 style="text-decoration: underline; text-underline-position: under;">방과후 페이지</h1>
+        <h1 style="text-decoration: underline; text-underline-position: under;">신청 관리 페이지</h1>
     </div>
     <select name="as" id="as" style="margin: 20px 20%;">
         <option value="신청자 리스트" selected>신청자 리스트</option>
@@ -182,18 +182,18 @@
     </div>
     <script>
         $(function () {
-        	 $(".li:nth-child(3)").addClass("on");
+        	 $(".li:nth-child(13)").addClass("on");
        	  
-             $(".topMenuLi:nth-child(5)").addClass("on");
+             $(".topMenuLi:nth-child(2)").addClass("on");
             
              $(".topMenuLi").mouseover(function() {
-               $(".li:nth-child(3)").removeClass("on");
-               $(".topMenuLi:nth-child(5)").removeClass("on");
+               $(".li:nth-child(13)").removeClass("on");
+               $(".topMenuLi:nth-child(2)").removeClass("on");
             });
            
              $(".topMenuLi").mouseleave(function() {
-               $(".li:nth-child(3)").addClass("on");
-               $(".topMenuLi:nth-child(5)").addClass("on");
+               $(".li:nth-child(13)").addClass("on");
+               $(".topMenuLi:nth-child(2)").addClass("on");
             });
             
             $("#allCheck").click(function() {

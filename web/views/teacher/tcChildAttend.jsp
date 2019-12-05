@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>일정표</title>
+    <title>출석관리</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -104,21 +104,15 @@
 <body style="overflow-x: hidden">
     <%@ include file="/views/common/teacherMenu.jsp"%>
     <div style="margin: 0 15%;">
-        <h1 style="text-decoration: underline; text-underline-position: under;">일정표</h1>
+        <h1 style="text-decoration: underline; text-underline-position: under;">출석관리</h1>
     </div>
     <%@ include file="/views/common/calendar.jsp" %>
-    <div style="margin: 5px auto; width: fit-content; min-width: 712px;">
-        <label>날짜 : </label><span id="dateOutput"></span><br><br>
-        <label>내용</label><br>
-        <textarea name="dateCont" id="dateCont" cols="100" rows="5" readonly></textarea><br>
-    </div>
-    <br /><br />
+ 
     
     <script>
         $(function () {
             var today = $(".date[bgcolor='#C9C9C9']");
             var todayVal = today.children(".dailyDate").val();
-            $("#dateOutput").text(todayVal);
             function calColor() {
                 $(".date").css("background", "white");
                 today.css("background", "#C9C9C9");
@@ -126,24 +120,23 @@
             }
             $(".li:nth-child(7)").addClass("on");
       	  
-            $(".topMenuLi:nth-child(1)").addClass("on");
+            $(".topMenuLi:nth-child(2)").addClass("on");
            
             $(".topMenuLi").mouseover(function() {
               $(".li:nth-child(7)").removeClass("on");
-              $(".topMenuLi:nth-child(1)").removeClass("on");
+              $(".topMenuLi:nth-child(2)").removeClass("on");
            });
           
             $(".topMenuLi").mouseleave(function() {
               $(".li:nth-child(7)").addClass("on");
-              $(".topMenuLi:nth-child(1)").addClass("on");
+              $(".topMenuLi:nth-child(2)").addClass("on");
            });
 
             $(".date").on("click", function(){
                 calColor();
                 var date = $(this).children(".dailyDate").val();
                 $(this).css("background", "rgba(30, 143, 255, 0.432)")
-                $("#dateOutput").text(date);
-                console.log(date);
+                location.href="tcChildAttendMgmt.jsp?date=" + date;
             });
         }); 
     </script>

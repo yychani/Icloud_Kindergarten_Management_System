@@ -134,6 +134,8 @@
 		<input type="button" class="childbutton" value="생활기록부" onclick="location.href='tcChildRecodeBook.jsp'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='tcChildObserve.jsp'"/>
+		<p class="childbutton">&nbsp;&nbsp;</p>
+		<input type="button" class="childbutton" value="신체정보" onclick="location.href='tcChildBodyInfo.jsp'"/>
 	</div>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
