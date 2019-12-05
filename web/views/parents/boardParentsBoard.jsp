@@ -29,7 +29,7 @@
 <body style="overflow-x:hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
 	<div style="margin: 0 15%;">
-		<h1 style="text-decoration: underline; text-underline-position: under;">학부모 게시판</h1>
+		<h2 style="text-decoration: underline; text-underline-position: under;">학부모 게시판</h2>
     </div>
 	
 	<%@ include file="/views/common/board.jsp" %>

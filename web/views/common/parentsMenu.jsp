@@ -54,7 +54,7 @@ table {
 							<li>|</li>
 							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsCalendar.jsp" class="submenuLink">원 일정</a></li>
 							<li>|</li>
-							<li class="li"><a href="" class="submenuLink">식단표</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsMealMenu.jsp" class="submenuLink">식단표</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
