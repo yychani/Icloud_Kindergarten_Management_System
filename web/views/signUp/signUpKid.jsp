@@ -230,7 +230,6 @@
             <input type="button" value="아이추가" class="submit"><input type="submit" value="완료" class="submit" onclick="location.href='<%=request.getContextPath()%>/index.jsp'" style="margin-left: 50px;"> <input type="button" class="cancel" value="취소" style="margin-left: 50px;"
                 class="cancel">
         </div>
-        <input type="hidden" name="userId" value="<%=request.getParameter("userId") %>">
     </form>
     
     <%@ include file="/views/common/footer.jsp"%>

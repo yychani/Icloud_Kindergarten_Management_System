@@ -2,10 +2,13 @@ package com.oracle5.member.model.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.oracle5.member.model.dao.MemberDao;
+import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
+import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.Teacher;
 
 import static com.oracle5.common.JDBCTemplate.*;
@@ -22,17 +25,21 @@ public class MemberService {
 		return loginMember;
 	}
 
-	public int insertTeacher(Member requestMember, Teacher requestTeacher) {
+	public int insertTeacher(HashMap<String, Object> hmap) {
 		Connection con = getConnection();
-
+		
+		Member requestMember = (Member) hmap.get("Member");
+		Teacher requestTeacher = (Teacher) hmap.get("Teacher");
+		Ban b = (Ban) hmap.get("Ban");
 		int result = md.insertMemberT(con, requestMember);
 		int result1 = 0;
 		if (result > 0) {
 			int userId = md.searchMemberNo(con, requestMember);
 			requestTeacher.setTeacherNo(userId);
 		} 
+		int result2 = md.insertBanList(con, b, requestTeacher);
 		result1 = md.insertTeacher(con, requestTeacher);
-		if (result1 > 0) {
+		if (result1 > 0 && result2 > 0) {
 			commit(con);
 		} else {
 			rollback(con);
@@ -71,6 +78,39 @@ public class MemberService {
 		
 		close(con);
 		return m;
+	}
+
+	public int insertParent(HashMap<String, Object> hmap) {
+		Connection con = getConnection();
+		
+		int result = 0;
+		Parents p = (Parents) hmap.get("Parent");
+		Member m = (Member) hmap.get("Member");
+		int result1 = new MemberDao().insertMemberP(con, m);
+		
+		if (result1 > 0) {
+			int userId = md.searchMemberNo(con, m);
+			p.setPNo(userId);
+		} 
+		int result2 = new MemberDao().insertParent(con, p);
+		
+		if (result1 > 0 && result2 > 0) {
+			commit(con);
+			result = 1;
+		} else {
+			rollback(con); 
+		}
+		close(con);
+		return result;
+	}
+
+	public ArrayList<Ban> selectBan() {
+		Connection con = getConnection();
+		System.out.println("servlet");
+		ArrayList<Ban> list = new MemberDao().selectBan(con);
+		
+		close(con);
+		return list;
 	}
 
 }
