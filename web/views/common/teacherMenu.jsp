@@ -4,7 +4,7 @@
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <style>
 	table {
-		margin: 50px auto;
+		margin: 50px auto; 
 		text-align: center;
 	}
 	#menu {
@@ -104,7 +104,7 @@
 						</ul>
 					</li>
 					<li style="float: right;" class="topMenuLi">
-						<div class="ui button" data-tooltip="Add users to your feed" data-position="bottom right"><i
+						<div class="ui button" data-position="bottom right" style="background:none"><i
 								class="bell outline icon"></i></div>
 					</li>
 					<script>

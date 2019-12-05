@@ -15,14 +15,11 @@
 
 <style>
 #outBox {
-	/* width : 800px; */
-	margin: 5% auto;
-	
+	margin: 50px 15%;	
 }
 
 #tableArea {
-	margin: 0 10%;
-	width: 1200px;
+	width: 100%;
 }
 
 #no {
@@ -53,9 +50,7 @@
 	float: right;
 }
         
-        #searchArea{
-        	padding-left: 10%;
-        }
+
         #writeBtnArea{
         	
         	padding-left: 85%;
@@ -95,7 +90,7 @@
 					<th id="date">작성일</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody> 
 				<tr>
 					<td id="no">3</td>
 					<td id="title">24</td>
@@ -170,35 +165,15 @@
 			</tbody>
 		</table>
 		<br>
-		<br>
-		<br>
         <div id="searchArea">
                 <input type="text" placeholder="Search" style="width:150px; height:30px;">
               <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
                       color: rgba(0,0,0,.6); ">Search</button>
               
-              <button style="margin-left:61.5%; width:100px; height:30px;" onclick="location.href='../common/boardWrite.jsp'">글쓰기</button>
+              <button style="float:right; width:100px; height:30px;" onclick="location.href='../common/boardWrite.jsp'">글쓰기</button>
               
         </div> 
 	</div>
-
-
-	<script>
-		$(function() {
-			$(".li1").addClass("on");
-			$(".topMenuLi:nth-child(5)").addClass("on");
-
-			$(".topMenuLi").mouseover(function() {
-				$(".li1").removeClass("on");
-				$(".topMenuLi:nth-child(5)").removeClass("on");
-			});
-			$(".topMenuLi").mouseleave(function() {
-				$(".li1").addClass("on");
-				$(".topMenuLi:nth-child(5)").addClass("on");
-			});
-
-		});
-	</script>
 
 </body>
 </html>

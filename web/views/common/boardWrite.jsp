@@ -5,7 +5,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <style>
-input[type=text] {
+input[type=text] { 
 	border-radius: 10px;
 	width: 100%;
 	height: 30px;

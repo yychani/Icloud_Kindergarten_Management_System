@@ -98,7 +98,7 @@ table {
 						</ul>
 					</li>
 					<li style="float: right;" class="topMenuLi">
-						<div class="ui button" data-tooltip="Add users to your feed" data-position="bottom right">
+						<div class="ui button" data-position="bottom right" style="background:none">
 							<i class="bell outline icon"></i>
 						</div>
 					</li>
@@ -108,7 +108,7 @@ table {
 							on: 'click',
 							position: 'data-position',
 							target: '.bell.outline.icon',
-							html: alarm
+							html: alarm 
 						});
 						
 						function logout() {
