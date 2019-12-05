@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<script
+<script 
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 시멘틱ui -->
 <link rel="stylesheet"
@@ -18,13 +18,12 @@
 <style>
 #outBox {
 	/* width : 800px; */
-	margin: 5% auto;
+	margin: 50px 15%;
 	
 }
 
 #tableArea {
-	margin: 0 10%;
-	width: 1200px;
+	width: 100%;
 }
 
 #no {
@@ -89,8 +88,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<br>
-		<br>
 		<br>
 		<button type="button" id="requestBtn" class="ui positive basic button"
 			onclick="">문의하기</button>

@@ -120,10 +120,10 @@
 						</ul>
 					</li>
 					<li style="float: right;" class="topMenuLi">
-						<div class="ui button" data-tooltip="Add users to your feed" data-position="bottom right">
+						<div class="ui button" data-position="bottom right" style="background:none">
 							<i class="bell outline icon"></i>
 						</div>
-					</li>
+					</li> 
 					<script>
 						var alarm = '<dl><dt>새소식</dt><a href="#"><dd>내용</dd></a><a href="#"><dd>내용</dd></a><a href="#"><dd>내용</dd></a></ul>';
 						$('.ui.button').popup({
