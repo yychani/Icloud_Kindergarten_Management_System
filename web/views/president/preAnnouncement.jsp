@@ -110,14 +110,30 @@
     <div style="margin: 5px auto; width: fit-content; min-width: 712px;">
         <label>날짜 : </label><span id="dateOutput"></span><br><br>
         <label>내용</label><br>
-        <textarea name="dateCont" id="dateCont" cols="100" rows="5" readonly></textarea><br>
+        <textarea name="dateCont" id="dateCont" cols="100" rows="5" readonly></textarea>
+        <input type="hidden" name="dateVal" id="dateVal"><br>
         <input type="button" name="edit" id="edit" value="수정하기"><input type="hidden" name="editComplete" id="editComplete" value="수정완료"> 
     </div>
     <script>
         $(function () {
             var today = $(".date[bgcolor='#C9C9C9']");
             var todayVal = today.children(".dailyDate").val();
+            var todayVal1 = today.children(".dailyDate1").val();
+            
             $("#dateOutput").text(todayVal);
+            $("#dateVal").val(todayVal1);
+            
+            $.ajax({
+            	url:"/main/selectPreNote.pre",
+            	data:{
+            		date:todayVal1
+            	},
+            	type:"post",
+                success:function(data){
+                	$("#dateCont").text(data);
+                }
+            });
+            
             function calColor() {
                 $(".date").css("background", "white");
                 today.css("background", "#C9C9C9");
@@ -138,9 +154,22 @@
             $(".date").on("click", function(){
                 calColor();
                 var date = $(this).children(".dailyDate").val();
+                var date1 = $(this).children(".dailyDate1").val();
                 $(this).css("background", "rgba(30, 143, 255, 0.432)")
                 $("#dateOutput").text(date);
-                console.log(date);
+                $("#dateVal").val(date1);
+                
+                $.ajax({
+                	url:"/main/selectPreNote.pre",
+                	data:{
+                		date:date1
+                	},
+                	type:"post",
+                    success:function(data){
+                    	$("#dateCont").val("");
+                    	$("#dateCont").val(data);
+                    }
+                })
             });
 
             $("#edit").on("click", function() {
@@ -152,6 +181,19 @@
                 $("#dateCont").prop("readonly", true);
                 $("#edit").prop("type", "button");
                 $(this).prop("type", "hidden");
+                var dateVal = $("#dateVal").val();
+                var dateCont = $("#dateCont").val();
+                $.ajax({
+                	url:"/main/InsertPreNote.pre",
+                	data:{
+                		date:dateVal,
+                		dateCont:dateCont
+                	},
+                	type:"post",
+                	success:function(data){
+                		console.log(data);
+                	}
+                });
             });
         }); 
     </script>

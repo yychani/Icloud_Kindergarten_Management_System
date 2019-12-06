@@ -215,6 +215,7 @@
 							}
 							;
 							String sUseDate = Integer.toString(year);
+							String srUseDate = Integer.toString(year);
 							sUseDate += Integer.toString(month + 1).length() == 1 ? "0" + Integer.toString(month + 1)
 									: Integer.toString(month + 1);
 							sUseDate += Integer.toString(index).length() == 1 ? "0" + Integer.toString(index)
@@ -228,6 +229,15 @@
 							sUseDate += Integer.toString(index).length() == 1 ? "0" + Integer.toString(index)
 									: Integer.toString(index);
 							sUseDate += "일 ";
+							
+							srUseDate = Integer.toString(year) + "-";
+							srUseDate += Integer.toString(month + 1).length() == 1 ? "0" + Integer.toString(month + 1)
+									: Integer.toString(month + 1);
+							srUseDate += "-";
+							srUseDate += Integer.toString(index).length() == 1 ? "0" + Integer.toString(index)
+									: Integer.toString(index);
+							
+							
 
 							String backColor = "#FFFFFF";
 							if (iUseDate == intToday) {
@@ -240,6 +250,7 @@
 					<%
 						out.println("<br>");
 							out.println("<input type='hidden' class='dailyDate' value='" + sUseDate + "'>");
+							out.println("<input type='hidden' class='dailyDate1' value='" + srUseDate + "'>");
 							out.println("<br>");
 
 							//기능 제거 
