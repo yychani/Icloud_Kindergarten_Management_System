@@ -26,7 +26,7 @@
           
           $(".writing > button").click("click", function(){
    			location.href="tcWriteNotice.jsp";
-   		});
+   		 });
       }); 
 </script>
 <style>

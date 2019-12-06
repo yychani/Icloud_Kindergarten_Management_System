@@ -38,9 +38,17 @@ public class MemberService {
 			int userId = md.searchMemberNo(con, requestMember);
 			requestTeacher.setTeacherNo(userId);
 		} 
+
+		
 		result1 = md.insertTeacher(con, requestTeacher);
 		int result2 = md.insertBanList(con, b, requestTeacher);
-		if (result1 > 0 && result2 > 0) {
+		int bcno = md.searchBanListNo(con, requestTeacher.getTeacherNo());
+		int result3 = 0;
+		if(bcno > 0) {
+			result3 = md.updateBcno(con, requestTeacher.getTeacherNo(), bcno);
+		}
+		
+		if (result1 > 0 && result2 > 0 && result3 > 0) {
 			commit(con);
 		} else {
 			rollback(con);

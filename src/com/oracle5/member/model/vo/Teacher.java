@@ -13,4 +13,5 @@ public class Teacher implements Serializable{
 	private String imgSrc;
 	private String className;
 	private int pId;  
+	private int bcNo;
 }
