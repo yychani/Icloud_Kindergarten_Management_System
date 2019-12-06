@@ -135,7 +135,7 @@ public class MemberService {
 		Ban b = (Ban) hmap.get("Ban");
 		Member requestMember = new Member();
 		requestMember.setMemberId(userId);
-		
+		System.out.println(userId);
 		int mNo = new MemberDao().searchMemberNo(con, requestMember);
 		c.setPno(mNo);
 		int result = 0;

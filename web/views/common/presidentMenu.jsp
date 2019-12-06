@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/menu.css" />
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <%
-	Member loginUser = (Member) session.getAttribute("loginUser");
+	Member loginUser = (Member) session.getAttribute("loginMember");
 %>
 <style>
 	table {

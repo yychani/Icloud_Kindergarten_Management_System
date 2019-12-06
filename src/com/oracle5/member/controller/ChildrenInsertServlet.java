@@ -95,7 +95,8 @@ public class ChildrenInsertServlet extends HttpServlet {
 			for(int i = 0; i < date.length; i++) {
 				Scholarly s = new Scholarly();
 				String[] dateArr = date[i].split("/");
-				String day = dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0];
+				String day = dateArr[2] + "-" + dateArr[0] + "-" + dateArr[1];
+				System.out.println(day);
 				java.sql.Date d = null;
 				if(date[i] != "") {
 					d = java.sql.Date.valueOf(day);
@@ -128,7 +129,7 @@ public class ChildrenInsertServlet extends HttpServlet {
 				fileList.add(at);
 			}
 
-			int banNo = Integer.parseInt(request.getParameter("className"));
+			int banNo = Integer.parseInt(multiRequest.getParameter("className"));
 			
 			ArrayList<Ban> list = new MemberService().selectBan();
 			String ban = "";

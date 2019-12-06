@@ -443,7 +443,7 @@ public class MemberDao {
 			pstmt.setString(1, childImg.getOriginName());
 			pstmt.setString(2, childImg.getChangeName());
 			pstmt.setString(3, childImg.getFilePath());
-			pstmt.setString(4, "원아");
+			pstmt.setInt(4, 1);
 			pstmt.setInt(5, childImg.getCId());
 
 			result = pstmt.executeUpdate();
@@ -474,6 +474,8 @@ public class MemberDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
 		}
 		
 		return result;
@@ -497,6 +499,8 @@ public class MemberDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
 		}
 		
 		return result;
@@ -562,7 +566,7 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(con);
+			close(pstmt);
 		}
 		
 		return delete;
@@ -580,7 +584,7 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(con);
+			close(pstmt);
 		}
 		
 		return delete;
