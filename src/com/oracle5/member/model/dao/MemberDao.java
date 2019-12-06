@@ -589,4 +589,27 @@ public class MemberDao {
 		
 		return delete;
 	}
+
+	public int insertTermsList(Connection con, Parents p) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+
+		String query = prop.getProperty("insertTermsList");
+
+		try {
+			for(int i = 1; i <= 3; i++) {
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, p.getPNo());
+				pstmt.setInt(2, i);
+
+				result += pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
 }
