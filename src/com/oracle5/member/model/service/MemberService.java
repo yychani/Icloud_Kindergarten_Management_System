@@ -106,8 +106,8 @@ public class MemberService {
 			p.setPNo(userId);
 		} 
 		int result2 = new MemberDao().insertParent(con, p);
-		
-		if (result1 > 0 && result2 > 0) {
+		int result3 = new MemberDao().insertTermsList(con, p);
+		if (result1 > 0 && result2 > 0 && result3 > 2) {
 			commit(con);
 			result = 1;
 		} else {
