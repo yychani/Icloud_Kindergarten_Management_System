@@ -90,7 +90,7 @@
 		</table>
 		<br>
 		<button type="button" id="requestBtn" class="ui positive basic button"
-			onclick="">문의하기</button>
+			onclick="location.href='../common/boardWrite.jsp'">문의하기</button>
 	</div>
 
 
