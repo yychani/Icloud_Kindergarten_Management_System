@@ -509,7 +509,7 @@ public class MemberDao {
 	public int insertBanList(Connection con, Ban b, int cNo, int tNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-
+		
 		String query = prop.getProperty("insertBanListC");
 
 		try {
@@ -518,7 +518,8 @@ public class MemberDao {
 			pstmt.setInt(2, cNo);
 			pstmt.setInt(3, tNo);
 			result = pstmt.executeUpdate();
-
+		
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -604,12 +605,25 @@ public class MemberDao {
 
 				result += pstmt.executeUpdate();
 			}
+
+	public int updateChildBcno(Connection con, int cNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateBcno");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cNo);
+			pstmt.setInt(2, cNo);
+			
+			result = pstmt.executeUpdate();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
-
 		return result;
 	}
 }

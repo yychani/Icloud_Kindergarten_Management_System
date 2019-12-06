@@ -156,8 +156,9 @@ public class MemberService {
 		// 반에 해당하는 선생 번호 조회
 		int tNo = new MemberDao().selectTno(con, b);
 		int result5 = new MemberDao().insertBanList(con, b, cNo, tNo);
-		
-		if(result1 > 0 && result2 > 0 && result3 > s.size() - 1 && result4 > f.size() - 1 && result5 > 0) {
+		//원아테이블 반변경이력 추가
+		int result6 = new MemberDao().updateChildBcno(con, cNo);
+		if(result1 > 0 && result2 > 0 && result3 > s.size() - 1 && result4 > f.size() - 1 && result5 > 0 && result6 > 0) {
 			commit(con);
 			result = 1;
 		}else {
