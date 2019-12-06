@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>방과후 신청</title>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -25,12 +25,15 @@
 	margin:10% auto;
 	width: 800px;
 }
-#waiting{
+#waiting, #complete{
 	background:white;
 }
 
 .ui.steps .step.active:after{
 	background:white;
+}
+.title{
+	color: #4183c4;
 }
 </style>
 
@@ -42,7 +45,7 @@
 <div class="outBox" align="center">
 	<div class="ui steps" align="center">
 		<div class="step">
-			<i class="handshake outline icon"></i>
+			<i class="edit outline icon"></i>
 			<div class="content">
 				<div class="title">방과후 신청</div>
 				<div class="description">*매달 신청</div>
@@ -55,8 +58,8 @@
 				<div class="description">*승인이 완료되면 매달 1일 방과 후 시작</div>
 			</div>
 		</div>
-		<div class="disabled step">
-			<i class="info icon"></i>
+		<div class="active step" id="complete">
+			<i class="handshake outline icon"></i>
 			<div class="content">
 				<div class="title">승인 완료</div>
 			</div>
