@@ -27,16 +27,18 @@ public class MemberService {
 
 	public int insertTeacher(HashMap<String, Object> hmap) {
 		Connection con = getConnection();
-		
+		 
 		Member requestMember = (Member) hmap.get("Member");
 		Teacher requestTeacher = (Teacher) hmap.get("Teacher");
 		Ban b = (Ban) hmap.get("Ban");
+		
 		int result = md.insertMemberT(con, requestMember);
 		int result1 = 0;
 		if (result > 0) {
 			int userId = md.searchMemberNo(con, requestMember);
 			requestTeacher.setTeacherNo(userId);
 		} 
+
 		
 		result1 = md.insertTeacher(con, requestTeacher);
 		int result2 = md.insertBanList(con, b, requestTeacher);
@@ -113,7 +115,6 @@ public class MemberService {
 
 	public ArrayList<Ban> selectBan() {
 		Connection con = getConnection();
-		System.out.println("servlet");
 		ArrayList<Ban> list = new MemberDao().selectBan(con);
 		
 		close(con);

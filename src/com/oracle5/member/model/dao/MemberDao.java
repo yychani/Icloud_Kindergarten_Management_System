@@ -32,7 +32,7 @@ public class MemberDao {
 
 	public Member loginMember(Connection con, Member requestMember) {
 		Member loginMember = null;
-		ResultSet rset = null;
+		ResultSet rset = null; 
 		PreparedStatement pstmt = null;
 
 		String query = prop.getProperty("loginMember");
@@ -188,7 +188,7 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, requestMember.getMemberId());
-			System.out.println("id : " +requestMember.getMemberId());
+
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {

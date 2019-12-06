@@ -29,8 +29,8 @@ public class LoginWrapper extends HttpServletRequestWrapper {
 		return value;
 	}
 
-	private static String getSha512(String parameter) {
-		String encPwd = null;
+	public static String getSha512(String parameter) {
+		String encPwd = null; 
 		
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-512"); // SHA-512라는 알고리즘 명, 만약 없는 알고리즘 입력시 exception발생
