@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<% String userId = (String) request.getParameter("userId"); %>
+	<% String userId = (String) request.getParameter("id"); %>
 <!DOCTYPE html>
 <html>
 
@@ -203,6 +203,11 @@
     				$("#kidFile").click();
     			});
     		});
+            $(function() {
+            	$("#className").change(function() {
+					console.log($(this).val());
+				});
+            })
             </script>
             <tr>
                 <td colspan="2" class="label"><label for="">응급처치 동의서 : </label></td>
