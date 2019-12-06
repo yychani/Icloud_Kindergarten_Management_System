@@ -164,6 +164,14 @@
 				</div>
 				<br>
 				<div class="changePass">
+				<div class="field" placeholder="Last Name">
+    <div class="ui pointing below label">
+      비밀번호는 특수문자 / 영문자 / 숫자 포함 형태의
+						8~15자리 이내로 입력하셔야 합니다.
+    </div>
+   
+  </div>
+				
 					<label>변경할 비밀번호 변경</label><br> <br>
 					<div class="ui input">
 						<input type="password" placeholder="새 비밀번호"><br>
