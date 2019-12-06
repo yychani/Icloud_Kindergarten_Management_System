@@ -6,6 +6,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 시멘틱ui -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
 <link
 	href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
@@ -18,108 +26,20 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<!-- 글꼴  -->
-<link
-	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
-	rel="stylesheet">
-
 <style>
-/* 내 아이 정보 박스 */
-body {
-	margin: 0;
-	padding: 0;
-	/*  font-family:sans-serif; */
-	font-family: 'Noto Sans KR', sans-serif;
-	background: #fbfbfb;
-	overflow-x: hidden;
+.outBox {
+	width: 500px;
+	margin: 5% auto;
 }
 
-.card {
-	position: absolute;
-	left: 50%;
-	top: 60%;
-	transform: translate(-50%, -50%);
-	width: 300px;
-	min-height: 300px;
-	height: 400px;
-	background: #fff;
-	box-shadow: 0 20px 50px rgba(0, 0, 0, .1);
-	border-radius: 10px;
-	transition: 0.5s;
+.ui.medium.image {
+	width: 200px;
+	height: auto;
 }
 
-.card:hover {
-	box-shadow: 0 30px 70px rgba(0, 0, 0, .2);
+.ui.yellow.label {
+	font-size: medium;
 }
-
-.card .box {
-	position: absolute;
-	top: 50%;
-	left: 0;
-	transform: translateY(-50%);
-	text-align: center;
-	padding: 20px;
-	box-sizing: border-box;
-	width: 100%;
-}
-
-.card .box .img {
-	width: 120px;
-	height: 120px;
-	margin: 0 auto;
-	border-radius: 50%;
-	overflow: hidden;
-}
-
-.card .box .img img {
-	width: 100%;
-	height: 100%;
-}
-
-.card .box h2 {
-	font-size: 15px;
-	color: #262626;
-	margin: 20px auto;
-}
-
-.card .box h2 span {
-	font-size: 18px;
-	background: #8ad633;
-	color: #fff;
-	display: inline-block;
-	padding: 4px 10px;
-	border-radius: 15px;
-}
-
-.card .box p {
-	color: #262626;
-	font-size: 13px;
-}
-
-/* 
-.card .box ul {
-	margin: 0;
-	padding: 0;
-}
-
-.card .box ul li {
-	list-style: none;
-	float: left;
-}
-
-.card .box ul li a {
-	display: block;
-	color: #aaa;
-	margin: 0 10px;
-	font-size: 20px;
-	transition: 0.5s;
-	text-align: center;
-}
-
-.card .box ul li:hover a {
-	color: #e91e63;
-	transform: rotateY(360deg);
-} */
 
 /* 그래프 */
 @import
@@ -149,12 +69,14 @@ article {
   top: 0;
   bottom: 0;
   right: 0; */
-	left: 18%;
+	/* left: 18%; */
 	/* overflow: auto; */
 	/* padding: 20px; */
+	
 }
-element.style{
-	align:center;
+
+element.style {
+	align: center;
 }
 
 article>header {
@@ -166,39 +88,42 @@ article>header .title {
 	float: left;
 	font-size: 1.3rem;
 	font-weight: 600;
-	margin-left: 20%;
+	/* margin-left: 20%; */
 }
 
 article section .chart {
 	height: 400px;
 }
 </style>
-</head>
 
+</head>
 <body>
+
 	<%@ include file="/views/common/parentsMenu.jsp"%>
-	<br>
-	<h1 align="center">내아이 정보</h1>
-	<div style="height: 500px;">
-		<div class="card">
-			<div class="box">
-				<div class="img">
-					<img src="<%=request.getContextPath()%>/images/건후.jpg">
-				</div>
-				<h2>
-					<span>박건후</span><br> <br>해바라기반
-				</h2>
+
+	<h2 class="ui header">내 아이 정보</h2>
+
+	<div class="outBox">
+		<div class="ui olive inverted segment mykidInfo" align="center">
+			<div class="ui raised segment">
+				<br>
+				<br> <img class="ui medium circular image"
+					src="<%=request.getContextPath()%>/images/건후.jpg"><br> <a class="ui yellow image label"> 박건후
+					<div class="detail">해바라기반</div>
+				</a><br>
+				<br>
 				<p>나이 : 만 3 세</p>
 				<p>키 : 88.5 cm</p>
 				<p>몸무게 : 15.2kg</p>
 				<p>특이사항 : 다문화가정</p>
-
-
+				<br>
+				<br>
 			</div>
 		</div>
 	</div>
-	<div>
-		<article align="center" style="width:1200px">
+
+	<div style="margin: 0 auto; width: fit-content;">
+		<article align="center" style="width: 1200px">
 			<header>
 				<div class="title">신체 발달 그래프</div>
 			</header>
@@ -210,18 +135,8 @@ article section .chart {
 		</article>
 	</div>
 
-
-	<!-- 내아이 정보 박스 -->
-
-	<!-- 그래프 -->
-
-
-
-
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
 
@@ -232,25 +147,25 @@ article section .chart {
 				borderColor : "rgba(56,175,91,1)",
 				pointBackgroundColor : "rgba(56,175,91,1)",
 				data : [ 1100, 1200, 935, 990, 1050, 1030, 1040 ],
-				label : "1번"
+				label : "남아 평균 키"
 			}, {
 				backgroundColor : "rgba(234,142,57,.1)",
 				borderColor : "rgba(234,142,57,1)",
 				pointBackgroundColor : "rgba(234,142,57,1)",
 				data : [ 1300, 1200, 1000, 1200, 1100, 1150, 1180 ],
-				label : "2번"
+				label : "내나이 키"
 			}, {
 				backgroundColor : "rgba(236,72,127,.1)",
 				borderColor : "rgba(236,72,127,1)",
 				pointBackgroundColor : "rgba(236,72,127,1)",
 				data : [ 1400, 1350, 1250, 1250, 1350, 1500, 1550 ],
-				label : "3번"
+				label : "유아 평균 몸무게"
 			}, {
 				backgroundColor : "rgba(236,72,127,.1)",
 				borderColor : "rgba(236,72,127,1)",
 				pointBackgroundColor : "rgba(236,72,127,1)",
 				data : [ 1200, 1350, 1250, 1250, 100, 1500, 1550 ],
-				label : "4번"
+				label : "내 아이 몸무게"
 			} ],
 			labels : [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
 					"Saturday", "Sunday" ]
@@ -280,5 +195,13 @@ article section .chart {
 	</script>
 
 
+
+
+
+
+
+
+
+	<%@ include file="/views/common/footer.jsp"%>
 </body>
 </html>
