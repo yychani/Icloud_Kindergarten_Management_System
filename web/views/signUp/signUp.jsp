@@ -190,8 +190,8 @@ input {
 						<option value="019">019</option>
 				</select> - <input type="text" id="tel2" name="tel2" maxlength="4" style="width: 30%">
 				 - <input type="text" id="tel3" name="tel3" maxlength="4" style="width: 30%">
-					<input type="text" id="tel21" name="tel21">
-					<input type="text" id="tel31" name="tel31"></td>
+					<input type="hidden" id="tel21" name="tel21">
+					<input type="hidden" id="tel31" name="tel31"></td>
 			</tr>
 		</table>
 		<div style="width: 60%; margin: 50px auto;">
@@ -284,7 +284,7 @@ input {
 				$("#pass1Check").css({"color":"green"});
 				$("#pass1Check").html("사용가능한 비밀번호 입니다.");	
 				inval_Arr[2] = true;
-			}
+			} 
 		});
 		$("#passCheck").keyup(function(){
 			if ($('#password').val() == $('#passCheck').val()) {
