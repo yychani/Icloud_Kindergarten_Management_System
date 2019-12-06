@@ -161,6 +161,6 @@
   </form>
 </div>
 
-
+<%@ include file="/views/common/chat.jsp"%>
 </body>
 </html>

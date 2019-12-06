@@ -95,7 +95,7 @@ article section .chart {
 	height: 400px;
 }
 </style>
-
+ 
 </head>
 <body>
 
@@ -139,7 +139,7 @@ article section .chart {
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
-
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 	<script>
 		var data1 = {
 			datasets : [ {
@@ -219,7 +219,7 @@ article section .chart {
 
 
 
-
+	<%@ include file="/views/common/chat.jsp"%>
 	<%@ include file="/views/common/footer.jsp"%>
 </body>
 </html>

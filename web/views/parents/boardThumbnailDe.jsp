@@ -54,9 +54,18 @@
 		#tableArea2{
 			width: 1000px;
 			margin: 0 auto;
-			font:  
+			font: bold;
 		
 		}
+		.ui.comments{
+		margin-left: 265px;
+		
+		}
+		.ui.blue.labeled.submit.icon.button{
+		margin-left: 510px;
+		
+		}
+		
 </style>
 </head>
 <body style="overflow-x: hidden">
@@ -171,8 +180,79 @@
 		<br><br>
 		
 	</form>
+	
+	
+	<div class="ui comments">
+  <h3 class="ui dividing header">댓글</h3>
+  <div class="comment">
+    <div class="content">
+      <a class="author">채성아</a>
+      <div class="metadata">
+        <span class="date">Today at 5:42PM</span>
+      </div>
+      <div class="text">
+           조용히해!
+      </div>
+      <div class="actions" onclick="">
+        <a class="reply">댓글달기</a>
+      </div>
+    </div>
+  </div>
+  <div class="comment">
+    <div class="content">
+      <a class="author">나미리</a>
+      <div class="metadata">
+        <span class="date">Yesterday at 12:30AM</span>
+      </div>
+      <div class="text">
+        <p>역시 해바라기반은 조용한날이 없다니깐~</p>
+      </div>
+      <div class="actions">
+        <a class="reply">댓글달기</a>
+      </div>
+    </div>
+    <div class="comments">
+      <div class="comment">
+        <div class="content">
+          <a class="author">권연주</a>
+          <div class="metadata">
+            <span class="date">Just now</span>
+          </div>
+          <div class="text">
+            한솔지금 몇시야
+          </div>
+          <div class="actions">
+            <a class="reply">댓글달기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="comment">
+    <div class="content">
+      <a class="author">한솔 임</a>
+      <div class="metadata">
+        <span class="date">5 days ago</span>
+      </div>
+      <div class="text">
+           죄송합니다.
+      </div>
+      <div class="actions">
+        <a class="reply">댓글달기</a>
+      </div>
+    </div>
+  </div>
+  <form class="ui reply form" action="">
+    <div class="field">
+      <textarea></textarea>
+    </div>
+    <div class="ui blue labeled submit icon button">
+      <i class="icon edit"></i> 등록하기
+    </div>
+  </form>
+</div>
 	<button class="TBtn" onclick="location.href='../parents/boardThumbnailMain.jsp'">뒤로가기</button>
-	<br><br>
+	
 	
 	
 	
@@ -193,6 +273,13 @@
         });
 
      });  
+    
+    $(function(){
+    	$(".icon edit").click(function(){
+    	
+    	})
+    	
+    })
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
