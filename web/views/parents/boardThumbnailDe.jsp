@@ -28,17 +28,8 @@
      	margin-right:auto;
  		text-align: center;	
 	}
+	
 
-	button {
-		width: 80px;
-		height: 30px;
-		border-radius: 10px;
-		background: skyblue;
-		color: white;
-		font-weight: bold;
-		border: none;
-		cursor: pointer;
-		}
 		
 		.imgi:hover{
 		padding: 10px 10px;
@@ -52,6 +43,12 @@
 		}
 		.TBtn{
 			margin-left:1000px;
+			border-radius: 250px;
+			background: skyblue;
+			color: white;
+			font-weight: bold;
+			border: none;
+			cursor: pointer;
 		
 		}
 		#tableArea2{
@@ -60,9 +57,9 @@
 		
 		}
 </style>
-<body>
+<body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
-	<h1 style="margin: 0 15%;" >아이들 사진 갤러리</h1>
+	<h1 style="margin: 0 15%; text-decoration: underline; text-underline-position: under;" >아이들 사진 갤러리</h1>
 	<h2 align="center">사진 제목</h2>
 	<div class="ui dividing header" align="center"></div>
 	<label id="textArea">2019 -12 - 19</label>
@@ -172,7 +169,7 @@
 		<br><br>
 		
 	</form>
-	<button class="TBtn">뒤로가기</button>
+	<button class="TBtn" onclick="location.href='../parents/boardThumbnailMain.jsp'">뒤로가기</button>
 	<br><br>
 	
 	
