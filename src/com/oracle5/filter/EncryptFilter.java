@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import com.oracle5.wrapper.LoginWrapper;
+import com.oreilly.servlet.MultipartRequest;
 
 @WebFilter("*.me")
 public class EncryptFilter implements Filter {
@@ -24,9 +25,8 @@ public class EncryptFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest hRequest = (HttpServletRequest) request;
-
 		LoginWrapper lw = new LoginWrapper(hRequest);
-		chain.doFilter(lw, response);
+		chain.doFilter(lw, response); 
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {

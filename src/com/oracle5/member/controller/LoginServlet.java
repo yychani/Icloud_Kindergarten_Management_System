@@ -22,13 +22,11 @@ public class LoginServlet extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		Member requestMember = new Member();
-		requestMember.setMemberId(userId);
+		requestMember.setMemberId(userId); 
 		requestMember.setMemberPwd(userPwd);
 		
 		Member loginMember = new MemberService().loginMember(requestMember);
 		
-		System.out.println(loginMember);
-		System.out.println(userPwd);
 		if(loginMember != null) {
 			request.getSession().setAttribute("loginMember", loginMember);
 			

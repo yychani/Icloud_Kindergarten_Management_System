@@ -32,7 +32,7 @@ public class MemberDao {
 
 	public Member loginMember(Connection con, Member requestMember) {
 		Member loginMember = null;
-		ResultSet rset = null;
+		ResultSet rset = null; 
 		PreparedStatement pstmt = null;
 
 		String query = prop.getProperty("loginMember");
@@ -138,8 +138,8 @@ public class MemberDao {
 					mt.setEmail(rset.getString("EMAIL"));
 					mt.setPhone(rset.getString("PHONE"));
 					mt.setLeaveDate(rset.getDate("LEAVE_DATE"));
-					mt.setTEntDate(rset.getDate("T_ENTDATE"));
-					mt.setTDescription(rset.getString("T_DESCRIPTION"));
+					mt.setTEntDate(rset.getDate("ENTDATE"));
+					mt.setTDescription(rset.getString("DESCRIPTION"));
 					mt.setImgSrc(rset.getString("IMGSRC"));
 					mt.setPId(Integer.parseInt(rset.getString("PID")));
 					mt.setPName(rset.getString("PNAME"));
@@ -187,7 +187,6 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, requestMember.getMemberId());
-			System.out.println(requestMember.getMemberId());
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
