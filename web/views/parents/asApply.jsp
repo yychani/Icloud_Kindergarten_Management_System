@@ -28,9 +28,9 @@
 #waiting{
 	background:white;
 }
-.ui.steps .step.active:afte{
-    display: block;
-    backgound:white;
+
+.ui.steps .step.active:after{
+	background:white;
 }
 </style>
 
