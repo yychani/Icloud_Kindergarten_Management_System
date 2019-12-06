@@ -38,6 +38,22 @@
 		});
 		console.log(cnt);
 	};
+	
+	$(function() {
+		$(".li:nth-child(7)").addClass("on");
+  	  
+        $(".topMenuLi:nth-child(2)").addClass("on");
+       
+        $(".topMenuLi").mouseover(function() {
+          $(".li:nth-child(7)").removeClass("on");
+          $(".topMenuLi:nth-child(2)").removeClass("on");
+       });
+      
+        $(".topMenuLi").mouseleave(function() {
+          $(".li:nth-child(7)").addClass("on");
+          $(".topMenuLi:nth-child(2)").addClass("on");
+       });
+	});
 </script>
 </head>
 <body>
@@ -94,6 +110,7 @@
     			<input type="button" value="저장하기" onclick="saveAttend()" style="float:right"/>
     		</div>
     </div>
+    <%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

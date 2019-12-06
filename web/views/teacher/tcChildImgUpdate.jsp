@@ -34,6 +34,7 @@
 <body>
 	<%@include file="/views/common/teacherMenu.jsp"  %>
 	<%@ include file="/views/common/boardWrite.jsp" %>
+	<%@ include file="/views/common/chat.jsp" %>
 	<%@include file= "/views/common/footer.jsp" %>
 </body>
 </html>

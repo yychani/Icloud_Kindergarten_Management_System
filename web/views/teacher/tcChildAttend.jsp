@@ -113,11 +113,12 @@
         $(function () {
             var today = $(".date[bgcolor='#C9C9C9']");
             var todayVal = today.children(".dailyDate").val();
+           
             function calColor() {
                 $(".date").css("background", "white");
                 today.css("background", "#C9C9C9");
-                
             }
+            
             $(".li:nth-child(7)").addClass("on");
       	  
             $(".topMenuLi:nth-child(2)").addClass("on");

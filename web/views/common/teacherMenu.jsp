@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
+<%
+	Member loginUser = (Member) session.getAttribute("loginMember");
+%>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/menu.css" />
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <style>
@@ -32,6 +35,12 @@
         color: rgb(255, 255, 255) !important;
     }
 </style>
+<%
+	if (loginUser == null || !loginUser.getUType().equals("교사")) {
+		request.setAttribute("msg", "잘못된 경로로 접근하셨습니다.");
+		request.getRequestDispatcher("../common/errorPage.jsp").forward(request, response);
+	} else {
+%>
 <table style="margin-top: 10px; width: 100%;">
 	<tr>
 		<td rowspan="2" id="menu">
@@ -130,3 +139,6 @@
 		</td>
 	</tr>
 </table>
+<%
+	}
+%>

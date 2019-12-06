@@ -279,6 +279,7 @@
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<input type="button" value="인쇄하기" style="float:right; background:lightgray; color:black" />
 	</div>
+	<%@ include file="/views/common/chat.jsp" %>
 	<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

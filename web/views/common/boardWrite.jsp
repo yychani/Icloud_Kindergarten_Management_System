@@ -27,10 +27,10 @@ textarea {
 }
 </style>
 
-<div style="margin: 0 30%; margin-bottom: 20px;">
+<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
-		<input type="text" placeholder="제목을 입력하세요">
+		<input type="text" id="title" name="title" placeholder="제목을 입력하세요">
 	</div>
 	
 	<br />
@@ -40,11 +40,11 @@ textarea {
 	<div class="ui form">
 		<div class="field">
 			<h3 style="text-underline-position: under;">내용</h3>
-			<textarea style="resize: none; width: 100%;" rows="25"
+			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
 			placeholder="내용을 입력하세요"></textarea>
 		</div>
 		
 	</div>
-	<br> <input type="file" /> <input type="submit" id="boardWrite"
+	<br> <input type="file" name="img" /> <input type="submit" id="boardWrite"
 		value="완료" style="float: right" />
 </div>

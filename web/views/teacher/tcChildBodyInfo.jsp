@@ -79,6 +79,7 @@
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="목록으로" onclick="location.href='tcChildMgmt.jsp'"/>
 	</div>
+	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
