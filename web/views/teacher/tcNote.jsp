@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String date = (String) request.getParameter("date");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +46,7 @@ table {
 <body>
 	<%@ include file="/views/common/teacherMenu.jsp" %>
  	<div style="margin: 0 15%;">
- 	<h1 style="text-decoration: underline; text-underline-position: under;">원아별 알림장</h1>
+ 	<h1 style="text-decoration: underline; text-underline-position: under;"><%= request.getParameter("date") %>&nbsp; 알림장</h1>
  	</div>
 	<form action="">
 	<div style="margin: 0 30%; padding-top :10px; padding-bottom:50px">

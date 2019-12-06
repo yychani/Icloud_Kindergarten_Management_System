@@ -52,7 +52,9 @@ textarea {
 	<div style="margin: 0 15%; padding-top:50px; padding-bottom:10px;">
  	<h1 style="text-decoration: underline; text-underline-position: under;">반 공지사항 작성</h1>
  	</div>
+ 	<form action="">
  	<%@ include file="/views/common/boardWrite.jsp" %>
+ 	</form>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

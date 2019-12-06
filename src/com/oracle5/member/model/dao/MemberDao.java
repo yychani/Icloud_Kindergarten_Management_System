@@ -138,11 +138,12 @@ public class MemberDao {
 					mt.setEmail(rset.getString("EMAIL"));
 					mt.setPhone(rset.getString("PHONE"));
 					mt.setLeaveDate(rset.getDate("LEAVE_DATE"));
-					mt.setTEntDate(rset.getDate("T_ENTDATE"));
-					mt.setTDescription(rset.getString("T_DESCRIPTION"));
+					mt.setTEntDate(rset.getDate("ENTDATE"));
+					mt.setTDescription(rset.getString("DESCRIPTION"));
 					mt.setImgSrc(rset.getString("IMGSRC"));
 					mt.setPId(Integer.parseInt(rset.getString("PID")));
 					mt.setPName(rset.getString("PNAME"));
+					mt.setClassName(rset.getString("B_NAME"));
 					
 					list.add(mt);
 				}
@@ -187,7 +188,7 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, requestMember.getMemberId());
-			System.out.println(requestMember.getMemberId());
+			System.out.println("id : " +requestMember.getMemberId());
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -280,7 +281,7 @@ public class MemberDao {
 
 	public ArrayList<Ban> selectBan(Connection con) {
 		ResultSet rset = null;
-		Statement stmt = null;
+		Statement stmt = null;	
 		ArrayList<Ban> list = null;
 		
 		String query = prop.getProperty("selectBan");
@@ -319,7 +320,7 @@ public class MemberDao {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, ban.getBanNo());
 			pstmt.setInt(2, requestTeacher.getTeacherNo());
-
+			System.out.println("tno : " + requestTeacher.getTeacherNo());
 			result = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -328,6 +329,52 @@ public class MemberDao {
 			close(pstmt);
 		}
 
+		return result;
+	}
+
+	public int searchBanListNo(Connection con, int teacherNo) {
+		int bcno = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("searchBanListNo");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, teacherNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				bcno = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return bcno;
+	}
+
+	public int updateBcno(Connection con, int teacherNo, int bcno) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("updateBcno");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, bcno);
+			pstmt.setInt(2, teacherNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
 		return result;
 	}
 }
