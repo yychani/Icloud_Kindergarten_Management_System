@@ -16,6 +16,8 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.oracle5.common.Oracle5FileRenamePolicy;
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.Children;
+import com.oracle5.member.model.vo.FamilyRelation;
+import com.oracle5.member.model.vo.Scholarly;
 import com.oreilly.servlet.MultipartRequest;
 import static com.oracle5.wrapper.LoginWrapper.*;
 
@@ -82,9 +84,12 @@ public class ChildrenInsertServlet extends HttpServlet {
 			requestChildren.setEmergency(emergency);
 			requestChildren.setDescription(kidUnique);
 			requestChildren.setImgSrc(filePath);
-			System.out.println(requestChildren);
+			
+			ArrayList<Scholarly> scholList = new ArrayList<>();
+			ArrayList<FamilyRelation> familyList = new ArrayList<>();
 			
 			for(int i = 0; i < date.length; i++) {
+				
 				System.out.println(date[i] + " " + agency[i] + " " + uniqueness[i]);
 			}
 			for(int i = 0; i < family.length; i++) {
