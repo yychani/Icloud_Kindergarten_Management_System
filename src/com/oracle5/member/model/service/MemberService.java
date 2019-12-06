@@ -102,8 +102,9 @@ public class MemberService {
 		int result1 = new MemberDao().insertMemberP(con, m);
 		
 		if (result1 > 0) {
-			int userId = md.searchMemberNo(con, m);
-			p.setPNo(userId);
+			int pNo = md.searchMemberNo(con, m);
+			p.setPNo(pNo);
+			System.out.println(p.getPNo());
 		} 
 		int result2 = new MemberDao().insertParent(con, p);
 		int result3 = new MemberDao().insertTermsList(con, p);
