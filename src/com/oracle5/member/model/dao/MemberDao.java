@@ -605,6 +605,13 @@ public class MemberDao {
 
 				result += pstmt.executeUpdate();
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 
 	public int updateChildBcno(Connection con, int cNo) {
 		PreparedStatement pstmt = null;
