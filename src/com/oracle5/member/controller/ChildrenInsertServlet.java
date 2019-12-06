@@ -151,7 +151,8 @@ public class ChildrenInsertServlet extends HttpServlet {
 			hmap.put("Ban", b);
 			
 			int result = new MemberService().insertChildren(hmap, userId);
-
+			int result1 = new MemberService().updateChildBcno(hmap, userId);
+			
 			if (result > 0) {
 				response.sendRedirect(request.getContextPath() + "/views/signUp/login.jsp");
 			} else {

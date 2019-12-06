@@ -142,6 +142,7 @@ public class MemberService {
 		int result = 0;
 		// 원아 테이블 insert
 		int result1 = new MemberDao().insertChildren(con, c);
+		System.out.println(result1);
 		
 		// 원아 번호
 		int cNo = new MemberDao().searchChildNo(con, c);
@@ -149,17 +150,21 @@ public class MemberService {
 		childImg.setCId(cNo);
 		// 업로드파일 테이블 insert
 		int result2 = new MemberDao().insertChildImg(con, childImg);
+		System.out.println(result2);
 		// 학적사항 테이블 insert
 		int result3 = new MemberDao().insertScholar(con, s, cNo);
+		System.out.println(result3);
 		// 가족관계 테이블 insert
 		int result4 = new MemberDao().insertFamily(con, f, cNo);
+		System.out.println(result4);
 		// 반변경 이력 테이블 insert
 		// 반에 해당하는 선생 번호 조회
 		int tNo = new MemberDao().selectTno(con, b);
 		int result5 = new MemberDao().insertBanList(con, b, cNo, tNo);
-		//원아테이블 반변경이력 추가
-		int result6 = new MemberDao().updateChildBcno(con, cNo);
-		if(result1 > 0 && result2 > 0 && result3 > s.size() - 1 && result4 > f.size() - 1 && result5 > 0 && result6 > 0) {
+		System.out.println(result5);
+		
+		
+		if(result1 > 0 && result2 > 0 && result3 > s.size() - 1 && result4 > f.size() - 1 && result5 > 0) {
 			commit(con);
 			result = 1;
 		}else {
@@ -185,6 +190,33 @@ public class MemberService {
 		}
 		close(con);
 		return delete;
+	}
+
+	public int updateChildBcno(HashMap<String, Object> hmap, String userId) {
+		Connection con = getConnection();
+		
+		Children c = (Children)hmap.get("Children");
+		Member requestMember = new Member();
+		requestMember.setMemberId(userId);
+		System.out.println(userId);
+		int mNo = new MemberDao().searchMemberNo(con, requestMember);
+		c.setPno(mNo);
+		
+		int cNo = new MemberDao().searchChildNo(con, c);
+		int bcno = new MemberDao().selectChildBcno(con, cNo);
+		System.out.println(bcno);
+		int result = new MemberDao().updateChildBcno(con, bcno, cNo);
+		System.out.println(result);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
 	}
 
 }
