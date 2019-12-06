@@ -316,5 +316,6 @@
 		 }); 
 	</script>
 
+	<%@ include file="/views/common/chat.jsp"%>
 </body>
 </html>

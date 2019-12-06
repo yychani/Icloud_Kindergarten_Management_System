@@ -40,6 +40,7 @@
 	
 	
 	</script>
+	<%@ include file="/views/common/chat.jsp"%>
 	<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

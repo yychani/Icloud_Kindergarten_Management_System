@@ -37,6 +37,16 @@
 #font{
 	font-size: 17px;
 }
+	button {
+		width: 80px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgb(63, 63, 63);
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+	}
 </style>
 </head>
 <body>
@@ -84,6 +94,30 @@
 		</div>
 	</div>
 	<!-- outer end -->
+	
+	<script>
+	
+	//메뉴바 고정
+ 	$(function() {
+	    $(".li1").addClass("on");
+	    $(".topMenuLi:nth-child(3)").addClass("on");
+
+	    $(".topMenuLi").mouseover(function() {
+	       $(".li1").removeClass("on");
+	       $(".topMenuLi:nth-child(3)").removeClass("on");
+	    });
+	    $(".topMenuLi").mouseleave(function() {
+	       $(".li1").addClass("on");
+	       $(".topMenuLi:nth-child(3)").addClass("on");
+	    });
+
+	 }); 
+     
+     
+	
+	
+	</script>
+	<%@ include file="/views/common/chat.jsp"%>
 	<%@ include file="/views/common/footer.jsp"%>
 </body>
 </html>
