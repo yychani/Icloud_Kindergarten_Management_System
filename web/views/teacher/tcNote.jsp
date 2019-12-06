@@ -42,6 +42,23 @@ table {
 	margin: 50px auto;
 }
 </style>
+<script>
+	$(function() {
+		$(".li:nth-child(5)").addClass("on");
+    	  
+        $(".topMenuLi:nth-child(2)").addClass("on");
+       
+        $(".topMenuLi").mouseover(function() {
+          $(".li:nth-child(5)").removeClass("on");
+          $(".topMenuLi:nth-child(2)").removeClass("on");
+       });
+      
+        $(".topMenuLi").mouseleave(function() {
+          $(".li:nth-child(5)").addClass("on");
+          $(".topMenuLi:nth-child(2)").addClass("on");
+       });
+	});
+</script>
 </head>
 <body>
 	<%@ include file="/views/common/teacherMenu.jsp" %>
@@ -69,6 +86,7 @@ table {
 		<input type="submit" value="완료" style="float:right; border-radius:5px;"/>
 	</div>
 	</form>
+	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

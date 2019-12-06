@@ -279,6 +279,7 @@
 		<input type="submit" value="완료" style="float:right"/>
 	</div>
 	</form>
+	<%@ include file="/views/common/chat.jsp" %>
 	<%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

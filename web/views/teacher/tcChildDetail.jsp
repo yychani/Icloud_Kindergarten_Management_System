@@ -137,6 +137,7 @@
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="신체정보" onclick="location.href='tcChildBodyInfo.jsp'"/>
 	</div>
+	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

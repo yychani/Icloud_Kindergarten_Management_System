@@ -53,6 +53,7 @@ textarea {
  	<h1 style="text-decoration: underline; text-underline-position: under;">가정통신문 작성</h1>
  	</div>
  	<%@ include file="/views/common/boardWrite.jsp" %>
+ 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>

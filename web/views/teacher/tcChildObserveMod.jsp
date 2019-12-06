@@ -217,6 +217,7 @@
 		<input type="submit" value="수정하기" style="float:right" />
 	</div>
 	</form>
+	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
     
     <script>

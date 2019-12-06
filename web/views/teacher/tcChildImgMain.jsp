@@ -50,6 +50,7 @@
 		<h1 style="text-decoration: underline; text-underline-position: under;">아이들 사진</h1>
 	</div>
 	<%@ include file="/views/common/board.jsp" %>
+	<%@ include file="/views/common/chat.jsp" %>
 	<%@include file="/views/common/footer.jsp" %>
 </body>
 </html>
