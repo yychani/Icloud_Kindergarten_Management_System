@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+
 <!-- 시멘틱ui -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
@@ -13,6 +14,8 @@
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
 <!-- jquery -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
@@ -102,6 +105,22 @@
 			$('#datepicker').datepicker('setDate', 'today');
 
 		}
+		
+		//메뉴바 고정
+		$(function() {
+		    $(".li1").addClass("on");
+		    $(".topMenuLi:nth-child(4)").addClass("on");
+
+		    $(".topMenuLi").mouseover(function() {
+		       $(".li1").removeClass("on");
+		       $(".topMenuLi:nth-child(4)").removeClass("on");
+		    });
+		    $(".topMenuLi").mouseleave(function() {
+		       $(".li1").addClass("on");
+		       $(".topMenuLi:nth-child(4)").addClass("on");
+		    });
+
+		 }); 
 	</script>
 
 </body>

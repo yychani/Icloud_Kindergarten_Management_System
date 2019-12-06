@@ -46,6 +46,27 @@
 			<button type="submit" class="ui positive basic button">확인</button>
 		</form>
 	</div>
+	
+	
+	<script>
+	//메뉴바 고정
+	$(function() {
+	    $(".li1").addClass("on");
+	    $(".topMenuLi:nth-child(4)").addClass("on");
+
+	    $(".topMenuLi").mouseover(function() {
+	       $(".li1").removeClass("on");
+	       $(".topMenuLi:nth-child(4)").removeClass("on");
+	    });
+	    $(".topMenuLi").mouseleave(function() {
+	       $(".li1").addClass("on");
+	       $(".topMenuLi:nth-child(4)").addClass("on");
+	    });
+
+	 });
+	
+	
+	</script>
 
 </body>
 </html>

@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <!-- 시멘틱ui -->
 <link rel="stylesheet"
@@ -296,6 +298,22 @@
 				}
 			});
 		}
+		
+		// 메뉴바 고정 
+		$(function() {
+		    $(".li1").addClass("on");
+		    $(".topMenuLi:nth-child(3)").addClass("on");
+
+		    $(".topMenuLi").mouseover(function() {
+		       $(".li1").removeClass("on");
+		       $(".topMenuLi:nth-child(3)").removeClass("on");
+		    });
+		    $(".topMenuLi").mouseleave(function() {
+		       $(".li1").addClass("on");
+		       $(".topMenuLi:nth-child(3)").addClass("on");
+		    });
+
+		 }); 
 	</script>
 
 </body>
