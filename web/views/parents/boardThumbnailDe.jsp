@@ -8,15 +8,13 @@
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 시멘틱ui -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-</head>
+
 <style>
 	#textArea{
 		margin-left: 1000px;
@@ -42,7 +40,9 @@
 			margin: 0 auto;
 		}
 		.TBtn{
-			margin-left:1000px;
+			width: 80px;
+			height:40px;
+			margin-left:1200px;
 			border-radius: 250px;
 			background: skyblue;
 			color: white;
@@ -54,9 +54,11 @@
 		#tableArea2{
 			width: 1000px;
 			margin: 0 auto;
+			font:  
 		
 		}
 </style>
+</head>
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
 	<h1 style="margin: 0 15%; text-decoration: underline; text-underline-position: under;" >아이들 사진 갤러리</h1>
@@ -164,7 +166,7 @@
 
 			</table>
 			<br>
-			<div  class="ui dividing header"></div>
+					<div  class="ui dividing header"></div>
 		</div>
 		<br><br>
 		
