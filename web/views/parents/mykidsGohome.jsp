@@ -123,6 +123,15 @@ img {
       
                            </tr>
                            <tr>
+                              <td id="labelText"><label>인솔자 명 : </label></td>
+                              <td>
+                                 <div class="ui mini icon input">
+                                    <input type="text" placeholder="인솔자 성명 입력" name="parentsName">
+                                 </div>
+                              </td>
+      
+                           </tr>
+                           <tr>
                               <td id="labelText"><label>인솔자 연락처 : </label></td>
                               <td>
                                  <div class="ui mini icon input">
