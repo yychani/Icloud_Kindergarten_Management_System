@@ -31,11 +31,11 @@ textarea {
 	border-radius: 10px;
 }
 h2 {
-	
+	padding-left:30px;
 }
 </style>
 </head>
-<body>
+<body style="overflow-x:hidden">
 <%@include file="/views/common/parentsMenu.jsp" %>
 
 <div style="margin: 50px 25%; margin-bottom: 20px;">
@@ -60,7 +60,7 @@ h2 {
 	<div class="ui form">
 		<div class="field">
 			<h3 style="text-underline-position: under;">내용</h3>
-			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
+			<textarea style="resize: none; width: 100%; height:250px;" rows="25" id="content" name="content"
 			placeholder="내용을 입력하세요"></textarea>
 		</div>
 		

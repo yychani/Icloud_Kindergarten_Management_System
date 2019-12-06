@@ -57,6 +57,7 @@ public class ParentInsertServlet extends HttpServlet {
 		hmap.put("Parent", requestParent);
 		
 		int result = new MemberService().insertParent(hmap);
+		
 		if(result > 0) {
 			response.sendRedirect("views/signUp/signUpKid.jsp?id=" + userId);
 		}else {

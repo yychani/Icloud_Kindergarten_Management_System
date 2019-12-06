@@ -509,7 +509,7 @@ public class MemberDao {
 	public int insertBanList(Connection con, Ban b, int cNo, int tNo) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-
+		
 		String query = prop.getProperty("insertBanListC");
 
 		try {
@@ -518,7 +518,8 @@ public class MemberDao {
 			pstmt.setInt(2, cNo);
 			pstmt.setInt(3, tNo);
 			result = pstmt.executeUpdate();
-
+		
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -588,5 +589,75 @@ public class MemberDao {
 		}
 		
 		return delete;
+	}
+
+	public int insertTermsList(Connection con, Parents p) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+
+		String query = prop.getProperty("insertTermsList");
+
+		try {
+			for(int i = 1; i <= 3; i++) {
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, p.getPNo());
+				pstmt.setInt(2, i);
+
+				result += pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateChildBcno(Connection con, int bcno, int cNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateChildBcno");
+		System.out.println("CNO : " + cNo);
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, bcno);
+			pstmt.setInt(2, cNo);
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		System.out.println("result : " + result);
+		return result;
+	}
+
+	public int selectChildBcno(Connection con, int cNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int bcno = 0;
+		
+		String query = prop.getProperty("selectChildBcno");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				bcno = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return bcno;
 	}
 }

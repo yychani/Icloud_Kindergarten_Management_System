@@ -18,7 +18,7 @@
 }
 
 #no {
-	width: 20px;
+	width: 60px;
 	text-align: center;
 }
 
@@ -71,6 +71,11 @@ input[type='button'] {
 	cursor: pointer;
 }
 
+
+   .boardTable>tbody>tr:hover{
+      opacity:0.8;
+      cursor: pointer;
+     background: rgba(245, 245, 245, 0.802);
 
 </style>
 </head>
