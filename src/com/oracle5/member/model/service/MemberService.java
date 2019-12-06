@@ -219,4 +219,13 @@ public class MemberService {
 		return result;
 	}
 
+	public ArrayList<MemberAndTeacher> selectTeacher() {
+		Connection con = getConnection();
+		
+		ArrayList<MemberAndTeacher> list = new MemberDao().selectTeacher(con);
+		
+		close(con);
+		return list;
+	}
+
 }

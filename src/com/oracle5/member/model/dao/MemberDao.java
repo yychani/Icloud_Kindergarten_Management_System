@@ -660,4 +660,32 @@ public class MemberDao {
 		
 		return bcno;
 	}
+
+	public ArrayList<MemberAndTeacher> selectTeacher(Connection con) {
+		ArrayList<MemberAndTeacher> list = null;
+		ResultSet rset = null;
+		Statement stmt = null;
+		
+		String query = prop.getProperty("selectTeacher");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset != null) {
+				list = new ArrayList<>();
+				while(rset.next()) {
+					MemberAndTeacher mt = new MemberAndTeacher();
+					mt.setMemberNo(rset.getInt("T_NO"));
+					mt.setMemberName(rset.getString("NAME"));
+					
+					list.add(mt);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }
