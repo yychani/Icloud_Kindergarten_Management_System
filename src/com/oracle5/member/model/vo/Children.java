@@ -14,5 +14,6 @@ public class Children implements Serializable{
 	private String imgSrc;
 	private String name;
 	private String rno; 
-	private String pno;
+	private int pno;
+	private int bcNo;
 }

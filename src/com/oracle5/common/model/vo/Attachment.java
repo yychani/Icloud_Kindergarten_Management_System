@@ -8,12 +8,14 @@ import lombok.Data;
 @Data
 public class Attachment implements Serializable{
 	private int fid;
-	private int bid;
 	private String originName;
 	private String changeName;
 	private String filePath;
 	private Date uploadDate;
 	private int fileLevel;
-	private int downloadCount;
 	private String status; 
+	private int type;
+	private int cId;
+	private int feedNo;
+	private int tId;
 }

@@ -3,7 +3,9 @@ package com.oracle5.member.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,8 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.oracle5.common.Oracle5FileRenamePolicy;
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.FamilyRelation;
 import com.oracle5.member.model.vo.Scholarly;
@@ -89,39 +93,76 @@ public class ChildrenInsertServlet extends HttpServlet {
 			ArrayList<FamilyRelation> familyList = new ArrayList<>();
 			
 			for(int i = 0; i < date.length; i++) {
+				Scholarly s = new Scholarly();
+				String[] dateArr = date[i].split("/");
+				String day = dateArr[2] + "/" + dateArr[1] + "/" + dateArr[0];
+				java.sql.Date d = null;
+				if(date[i] != "") {
+					d = java.sql.Date.valueOf(day);
+				}
 				
-				System.out.println(date[i] + " " + agency[i] + " " + uniqueness[i]);
+				s.setSDate(d);
+				s.setAgency(agency[i]);
+				s.setUniqueness(uniqueness[i]);
+				
+				scholList.add(s);
 			}
 			for(int i = 0; i < family.length; i++) {
-				System.out.println(family[i] + " " + familyname[i] + " " + familyPhone[i]);
+				FamilyRelation fr = new FamilyRelation();
+				
+				fr.setRelation(family[i]);
+				fr.setName(familyname[i]);
+				fr.setPhone(familyPhone[i]);
+				
+				familyList.add(fr);
 			}
 
-//			// Attatchment 객세 생성해서 ArrayList에 담기
-//			ArrayList<Attachment> fileList = new ArrayList<>();
-//
-//			// 전송 순서가 역순으로 들어왔기 때문에 반복문을 역순으로 돌려 ArrayList에 담기
-//			for (int i = originFiles.size() - 1; i >= 0; i--) {
-//				Attachment at = new Attachment();
-//				at.setFilePath(savePath);
-//				at.setOriginName(originFiles.get(i));
-//				at.setChangeName(saveFiles.get(i));
-//
-//				fileList.add(at);
-//			}
-//
-//			int result = new BoardService().insertThumbnail(b, fileList);
-//
-//			if (result > 0) {
-//				response.sendRedirect(request.getContextPath() + "/selectList.tn");
-//			} else {
-//				for (int i = 0; i < saveFiles.size(); i++) {
-//					File failedFile = new File(savePath + saveFiles.get(i));
-//
-//					failedFile.delete();
-//				}
-//				request.setAttribute("msg", "게시판 등록 실패!");
-//				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-//			}
+			ArrayList<Attachment> fileList = new ArrayList<>();
+
+			for (int i = originFiles.size() - 1; i >= 0; i--) {
+				Attachment at = new Attachment();
+				at.setFilePath(savePath);
+				at.setOriginName(originFiles.get(i));
+				at.setChangeName(saveFiles.get(i));
+
+				fileList.add(at);
+			}
+
+			int banNo = Integer.parseInt(request.getParameter("className"));
+			
+			ArrayList<Ban> list = new MemberService().selectBan();
+			String ban = "";
+			for(int i = 0; i < list.size(); i++) {
+				if(list.get(i).getBanNo() == banNo) {
+					ban = list.get(i).getBanName();
+				}
+			}
+			Ban b = new Ban();
+			b.setBanNo(banNo);
+			b.setBanName(ban);
+			
+			String userId = multiRequest.getParameter("userId");
+			HashMap<String, Object> hmap = new HashMap<>();
+			hmap.put("Children", requestChildren);
+			hmap.put("scholList", scholList);
+			hmap.put("familyList", familyList);
+			hmap.put("fileList", fileList);
+			hmap.put("Ban", b);
+			
+			int result = new MemberService().insertChildren(hmap, userId);
+
+			if (result > 0) {
+				response.sendRedirect(request.getContextPath() + "/views/signUp/login.jsp");
+			} else {
+				for (int i = 0; i < saveFiles.size(); i++) {
+					File failedFile = new File(savePath + saveFiles.get(i));
+
+					failedFile.delete();
+				}
+				int delete = new MemberService().deleteParents(userId);
+				request.setAttribute("msg", "회원 등록 실패!");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
 		}
 	}
 

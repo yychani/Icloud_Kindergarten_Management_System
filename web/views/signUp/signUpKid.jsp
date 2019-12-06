@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<% String userId = (String) request.getParameter("userId"); %>
 <!DOCTYPE html>
 <html>
 
@@ -127,6 +128,27 @@
             });
 
         }
+        $(function() {
+    		$.ajax({
+    			url : "/main/selectBan.do",
+    			type : "post",
+    			success:function(data){
+    				$select = $("#className");
+    				$select.find("option").remove();
+    				
+    				for(var i = 0; i < data.length; i++){
+    					
+    					var className = decodeURIComponent(data[i].banName);
+    					var selected = (i == 0) ? "selected" : "";
+    					
+    					$select.append("<option value='" + data[i].banNo + "' " + selected + ">" + className + "</option>");
+    				}
+    			},
+    			error: function(data){
+    				console.log("실패!");
+    			}
+    		});
+    	});
     </script>
 </head>
 
@@ -141,6 +163,7 @@
                     <div class="kidFace" style="vertical-align: middle;"><img class="kidFace" id="kidFace" name="kidFace" src="<%=request.getContextPath() %>/images/noImages.png"
                             style="width: 119px; height: 157px; margin: 23px 40px;"></div>
                     <input type="hidden" id="addKids">
+                    <input type="hidden" value="<%=userId %>" name="userId">
                 </td>
             </tr>
             <tr>
@@ -167,6 +190,11 @@
                     <td align="center">
                     <label id="kidFaceBtn">아이사진 선택</label>
                     <input type="file" id="kidFile" name="kidFile" style="width: 200px; border: 0;"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="label"><label>해당 반 : </label></td>
+                <td colspan="2" class="input"><select style="width: 30%; font-size: 12pt;" id="className" name="className">
+                    </select></td>
             </tr>
             <script>
             $(function() {
