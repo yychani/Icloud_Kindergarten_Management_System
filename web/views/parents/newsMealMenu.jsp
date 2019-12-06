@@ -191,6 +191,27 @@
    			</tr>
    		</table>
    </div>
+   <script>
+   	
+	//메뉴바 고정
+	$(function() {
+	    $(".li1").addClass("on");
+	    $(".topMenuLi:nth-child(1)").addClass("on");
+
+	    $(".topMenuLi").mouseover(function() {
+	       $(".li1").removeClass("on");
+	       $(".topMenuLi:nth-child(1)").removeClass("on");
+	    });
+	    $(".topMenuLi").mouseleave(function() {
+	       $(".li1").addClass("on");
+	       $(".topMenuLi:nth-child(1)").addClass("on");
+	    });
+
+	 }); 
+   
+   
+   
+   </script>
     <%@ include file="/views/common/footer.jsp"%>
     <%@ include file="/views/common/chat.jsp"%>
 </body>

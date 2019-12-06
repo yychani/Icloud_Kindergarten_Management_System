@@ -59,7 +59,7 @@ table {
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
 						<ul class="submenu">
-							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardParentsBoard.jsp" class="submenuLink">아이들 사진 게시판</a></li>
+							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardThumbnailMain.jsp" class="submenuLink">아이들 사진 게시판</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardParentsBoard.jsp" class="submenuLink">학부모 게시판</a></li>
 							<li>|</li>

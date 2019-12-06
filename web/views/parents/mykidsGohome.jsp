@@ -282,6 +282,29 @@ img {
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
             integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
             crossorigin="anonymous"></script>
+            
+            <script>
+        	//메뉴바 고정
+        	$(function() {
+        	    $(".li1").addClass("on");
+        	    $(".topMenuLi:nth-child(4)").addClass("on");
+
+        	    $(".topMenuLi").mouseover(function() {
+        	       $(".li1").removeClass("on");
+        	       $(".topMenuLi:nth-child(4)").removeClass("on");
+        	    });
+        	    $(".topMenuLi").mouseleave(function() {
+        	       $(".li1").addClass("on");
+        	       $(".topMenuLi:nth-child(4)").addClass("on");
+        	    });
+
+        	 });
+            
+            
+            
+            
+            
+            </script>
 
          
 </body>
