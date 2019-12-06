@@ -194,6 +194,6 @@ h1 {
    </div>
    
 
-
+<%@ include file="/views/common/chat.jsp"%>
 </body>
 </html>

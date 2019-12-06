@@ -71,13 +71,12 @@ input[type='button'] {
 	cursor: pointer;
 }
 
+
    .boardTable>tbody>tr:hover{
       opacity:0.8;
       cursor: pointer;
      background: rgba(245, 245, 245, 0.802);
-   
-   
-   }
+
 </style>
 </head>
 <body style="overflow-x: hidden">
@@ -93,7 +92,7 @@ input[type='button'] {
 					<th id="date">작성일</th>
 				</tr>
 			</thead>
-			<tbody> 
+			<tbody id="tbodyArea"> 
 				<tr>
 					<td id="no">3</td>
 					<td id="title">24</td>
@@ -177,6 +176,17 @@ input[type='button'] {
               
         </div> 
 	</div>
+	<script>
+	<%-- 	$(function(){
+			$(".boardTable>tbody>tr").click(function(){
+				
+				location.href="<%=request.getContextPath()%>/views/parents/boardThumbnailDe.jsp"
+			})		
+			
+		})
+		  --%>
+
+	</script>
 
 </body>
 </html>

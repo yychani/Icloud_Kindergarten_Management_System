@@ -25,16 +25,6 @@
             vertical-align: center;
         }
 
-        button {
-            width: 80px;
-            height: 40px;
-            border-radius: 10px;
-            background: rgb(63, 63, 63);
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
 
         #teacher {
             border-radius: 10px;
