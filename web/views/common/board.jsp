@@ -18,7 +18,7 @@
 }
 
 #no {
-	width: 20px;
+	width: 60px;
 	text-align: center;
 }
 
@@ -70,12 +70,20 @@ input[type='button'] {
 	border: none;
 	cursor: pointer;
 }
+
+   .boardTable>tbody>tr:hover{
+      opacity:0.8;
+      cursor: pointer;
+     background: rgba(245, 245, 245, 0.802);
+   
+   
+   }
 </style>
 </head>
 <body style="overflow-x: hidden">
 	
 	<div id="outBox">
-		<table class="ui celled table" id="tableArea">
+		<table class="ui celled table boardTable" id="tableArea">
 			<thead>
 				<tr>
 					<th id="no">번호</th>

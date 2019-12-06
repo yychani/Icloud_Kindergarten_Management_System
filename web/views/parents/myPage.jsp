@@ -29,19 +29,22 @@
 .ui.top.attached.header {
 	font-size: large;
 }
-
-#infoChangeBtn, #psssChangeBtn {
-	float: right; 
+#kidInfoBtn{
+	float:left;
 }
-.ui.pointing.label{
-   color: rgb(209, 57, 57);
+#leaveBtn{
+	float: right;
+}
+
+.ui.pointing.label {
+	color: rgb(209, 57, 57);
 }
 </style>
 </head>
 
-<body style="overflow-x:hidden">
+<body style="overflow-x: hidden">
 
-	   <%@ include file="/views/common/parentsMenu.jsp"%>
+	<%@ include file="/views/common/parentsMenu.jsp"%>
 
 	<!-- <h1 align="center" style="margin-top: 50px;">내 정보</h1> -->
 	<div id="outBox">
@@ -98,14 +101,16 @@
 							</div></td>
 					</tr>
 				</table>
-				<div class="btns">
-					<button type="button" class="ui yellow basic button" align="left" onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageModKid.jsp'">아이정보</button>
+				<div class="btns" align="center">
+					<button type="button" id="kidInfoBtn" class="ui yellow basic button"
+						onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageModKid.jsp'">아이정보</button>
 					<button type="button" id="psssChangeBtn"
 						class="ui positive basic button" onclick="passChangeModal();">비밀번호
 						변경</button>
 					<button type="button" id="infoChangeBtn"
 						class="ui positive basic button" onclick="InfoChangeModal();">회원정보
 						수정</button>
+						<button type="button" class="ui grey basic button" id="leaveBtn" onclick="leaveModal();">탈퇴하기</button>
 				</div>
 			</form>
 		</div>
@@ -121,26 +126,22 @@
 				<div class="ui input">
 					<input type="text" placeholder="변경할 이름">
 				</div>
-				<br>
-				<br> <label>주소 </label>
+				<br> <br> <label>주소 </label>
 				<div class="ui input">
 					<input type="text" placeholder="변경할 주소">
 				</div>
-				<br>
-				<br> <label>이메일 </label>
+				<br> <br> <label>이메일 </label>
 				<div class="ui input">
 					<input type="email" placeholder="변경할 이메일">@<input
 						type="email" placeholder="변경할 이메일">
 				</div>
-				<br>
-				<br> <label>휴대폰 </label>
+				<br> <br> <label>휴대폰 </label>
 				<div class="ui input">
 					<input type="tel" placeholder="">-<input type="tel"
 						placeholder="">-<input type="tel" placeholder="">
 				</div>
 			</form>
-			<br>
-			<br>
+			<br> <br>
 		</div>
 		<div class="actions">
 			<div class="ui black deny button">취소</div>
@@ -164,14 +165,12 @@
 				</div>
 				<br>
 				<div class="changePass">
-				<div class="field" placeholder="Last Name">
-    <div class="ui pointing below label">
-      비밀번호는 특수문자 / 영문자 / 숫자 포함 형태의
-						8~15자리 이내로 입력하셔야 합니다.
-    </div>
-   
-  </div>
-				
+					<div class="field" placeholder="Last Name">
+						<div class="ui pointing below label">비밀번호는 특수문자 / 영문자 / 숫자
+							포함 형태의 8~15자리 이내로 입력하셔야 합니다.</div>
+
+					</div>
+
 					<label>변경할 비밀번호 변경</label><br> <br>
 					<div class="ui input">
 						<input type="password" placeholder="새 비밀번호"><br>
