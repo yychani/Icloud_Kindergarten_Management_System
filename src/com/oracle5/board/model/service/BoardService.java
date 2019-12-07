@@ -2,6 +2,7 @@ package com.oracle5.board.model.service;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.util.ArrayList;
 
 import com.oracle5.board.model.dao.BoardDao;
 import com.oracle5.board.model.vo.CommonNote;
@@ -30,6 +31,15 @@ public class BoardService {
 		}
 		close(con);
 		return result;
+	}
+
+	public ArrayList<CommonNote> selectAllPreNote() {
+		Connection con = getConnection();
+		
+		ArrayList<CommonNote> list = new BoardDao().selectAllPreNote(con);
+		
+		close(con);
+		return list;
 	}
 
 }

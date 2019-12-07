@@ -71,7 +71,7 @@
 							<li class="li1"><a href="<%=request.getContextPath()%>/views/president/preKNotice.jsp"
 									class="submenuLink">원 공지사항</a></li>
 							<li>|</li>
-							<li class="li2"><a href="<%=request.getContextPath()%>/views/president/preAnnouncement.jsp"
+							<li class="li2"><a href="<%=request.getContextPath()%>/selectAllPreNote.pre"
 									class="submenuLink">원장님 알림장</a></li>
 						</ul>
 					</li>
@@ -88,7 +88,7 @@
 							<li class="li6"><a href="<%=request.getContextPath()%>/views/president/preAs.jsp"
 									class="submenuLink">방과후 페이지</a></li>
 							<li>|</li>
-							<li class="li7"><a href="" class="submenuLink">식단표</a></li>
+							<li class="li7"><a href="<%=request.getContextPath()%>/views/president/preDietTable.jsp" class="submenuLink">식단표</a></li>
 							<li>|</li>
 							<li class="li8"><a href="<%=request.getContextPath()%>/views/president/preFTL.jsp"
 									class="submenuLink">현장체험학습</a></li>

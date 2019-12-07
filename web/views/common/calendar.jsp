@@ -243,10 +243,11 @@
 							if (iUseDate == intToday) {
 								backColor = "#c9c9c9";
 							}
-							out.println("<td valign='top' align='center' class='date' style='border-radius: 70px;'width='60px' height='60px' bgcolor='" + backColor + "' nowrap>");
+							out.println("<td valign='top' align='center' class='date' style='border-radius: 70px;'width='75px' height='75px' bgcolor='" + backColor + "' nowrap>");
 					%>
 					<font color='<%=color%>'> <%=index%>
 					</font>
+					<p style="margin:0; color: dodgerblue; font-weight: bold; "></p>
 					<%
 						out.println("<br>");
 							out.println("<input type='hidden' class='dailyDate' value='" + sUseDate + "'>");
