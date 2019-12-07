@@ -1,8 +1,14 @@
+<%@page import="java.sql.Date"%>
+<%@page import="com.oracle5.board.model.vo.CommonNote"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%
+		ArrayList<CommonNote> list = (ArrayList<CommonNote>) request.getAttribute("list");
+	
+	%>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
@@ -99,6 +105,19 @@
             background: rgba(30, 143, 255, 0.432);
         }
     </style>
+    <script>
+    	$(function(){
+    		<% for(int i = 0; i < list.size(); i++) {
+    			String date = list.get(i).getDate().toString();%>
+    			$(".dailyDate1").each(function(){
+    				if($(this).val() == "<%=date %>"){
+    					$(this).parent().children("p").text("작성");
+    				}
+    			});
+    		<% } %>
+    		
+    	});
+    </script>
 </head>
 
 <body style="overflow-x: hidden">
@@ -191,7 +210,11 @@
                 	},
                 	type:"post",
                 	success:function(data){
-                		console.log(data);
+                		$(".dailyDate1").each(function(){
+            				if($(this).val() == dateVal){
+            					$(this).parent().children("p").text("작성");
+            				}
+            			});
                 	}
                 });
             });

@@ -7,6 +7,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import com.oracle5.board.model.vo.CommonNote;
@@ -67,6 +69,39 @@ public class BoardDao {
 		}
 		
 		return result;
+	}
+	public ArrayList<CommonNote> selectAllPreNote(Connection con) {
+		ResultSet rset = null;
+		Statement stmt = null;
+		ArrayList<CommonNote> list = null;
+		
+		String query = prop.getProperty("selectAllPreNote");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset != null) {
+				list = new ArrayList<>();
+				while(rset.next()) {
+					CommonNote cn = new CommonNote();
+					
+					cn.setNote(rset.getString("NOTE"));
+					cn.setDate(rset.getDate("C_DATE"));
+					cn.setTNo(rset.getInt("T_NO"));
+					
+					list.add(cn);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return list;
 	}
 	
 }
