@@ -65,6 +65,23 @@
 		margin-left: 510px;
 		
 		}
+		#reretext{
+		border-radius: 10px;
+		width: 30%;
+		height: 30px;
+		}
+		#rereBtn{
+		width: 80px;
+		height: 40px;
+		border-radius: 10px;
+		background:skyblue;
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+		
+		
+		}
 		
 </style>
 </head>
@@ -78,7 +95,8 @@
 		<div align="center">
 			<table id="tableArea">
 			<tr id="trArea">
-				<td colspan="2"><img class="imgi"src="<%=request.getContextPath() %>/images/child.png"></td>
+				<td colspan="2"><img class="imgi"src="<%=request.getContextPath() %>/images/child.png"
+									onclick="location.href='<%=request.getContextPath()%>/download.bo?'"></td>
 			</tr>
 			<tr>
 				<td	colspan="2">&nbsp;</td>	
@@ -166,11 +184,7 @@
 			</table>
 			<table align="center" id="tableArea2">
 			<tr>
-				<td rowspan="4"><label>생명을 동산에는 있으며, 소담스러운 철환하였는가?
-				 피어나기 풍부하게 풀이 눈이 풍부하게 수 타오르고 이 봄바람이다. 살 충분히 품으며, 전인 기관과 산야에 것은 끓는 그리하였는가? 
-				 이상의 하여도 과실이 풀이 오직 같이, 든 약동하다. 이 이상이 두손을 평화스러운 봄바람이다. 그들은 인생에 보배를 할지라도 가슴이 것은 역사를 꽃이 황금시대다. 
-				 그들의 그것을 석가는 사막이다. 청춘의 황금시대의 있을 바이며, 말이다. 청춘의 뼈 풀이 보이는 온갖 봄바람이다. 돋고, 우리의 거선의 귀는 청춘의 피가 오아이스도 설레는 때문이다. 
-				 고동을 끓는 발휘하기 놀이 없는 이상의 봄바람이다.</label></td>
+				<td rowspan="4"><label></label></td>
 			</tr>
 
 			</table>
@@ -194,8 +208,12 @@
            조용히해!
       </div>
       <div class="actions" onclick="">
-        <a class="reply">댓글달기</a>
+        <a class="rereply">댓글달기</a>
       </div>
+      <div class="rereArea">
+      <input type="text" id="reretext">
+      <button id="rereBtn">댓글 달기</button>
+    	</div>
     </div>
   </div>
   <div class="comment">
@@ -208,7 +226,7 @@
         <p>역시 해바라기반은 조용한날이 없다니깐~</p>
       </div>
       <div class="actions">
-        <a class="reply">댓글달기</a>
+        <a class="rereply">댓글달기</a>
       </div>
     </div>
     <div class="comments">
@@ -222,7 +240,7 @@
             한솔지금 몇시야
           </div>
           <div class="actions">
-            <a class="reply">댓글달기</a>
+            <a class="rereply">댓글달기</a>
           </div>
         </div>
       </div>
@@ -238,13 +256,13 @@
            죄송합니다.
       </div>
       <div class="actions">
-        <a class="reply">댓글달기</a>
+        <a class="rereply">댓글달기</a>
       </div>
     </div>
   </div>
   <form class="ui reply form" action="">
     <div class="field">
-      <textarea></textarea>
+      <textarea id="textAreaRe"></textarea>
     </div>
     <div class="ui blue labeled submit icon button">
       <i class="icon edit"></i> 등록하기
@@ -278,6 +296,17 @@
     	$(".icon edit").click(function(){
     	
     	})
+    	
+    })
+    
+    $(function(){
+    	$(".rereArea").hide();
+    	
+    	$(".rereply").click(function(){
+    		$(".rereArea").toggle();
+    		
+    	})
+    	
     	
     })
 	</script>
