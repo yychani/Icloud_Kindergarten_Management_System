@@ -3,6 +3,8 @@ package com.oracle5.member.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.dao.MemberDao;
@@ -236,6 +238,16 @@ public class MemberService {
 		
 		close(con);
 		return hmap;
+	}
+
+	public List<Map<String, Object>> selectNotAppList() {
+		Connection con = getConnection();
+		
+		List<Map<String, Object>> list = new MemberDao().selectNotAppList(con);
+		
+		close(con);
+		
+		return list;
 	}
 
 }

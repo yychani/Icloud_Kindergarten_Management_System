@@ -1,5 +1,7 @@
 package com.oracle5.member.model.dao;
 
+import static com.oracle5.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import com.oracle5.common.model.vo.Attachment;
@@ -19,8 +24,6 @@ import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.Scholarly;
 import com.oracle5.member.model.vo.Teacher;
-
-import static com.oracle5.common.JDBCTemplate.*;
 
 public class MemberDao {
 	Properties prop = new Properties();
@@ -685,6 +688,52 @@ public class MemberDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return list;
+	}
+
+	public List<Map<String, Object>> selectNotAppList(Connection con) {
+		List<Map<String, Object>> list = null;
+		Map<String, Object> hmap = null;
+		Parents p = null;
+		Children c = null;
+		Member m = null;
+		Statement stmt = null;
+		ResultSet rset = null;
+		String query = prop.getProperty("selectNotAppList");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				p = new Parents();
+				c = new Children();
+				m = new Member();
+				hmap = new HashMap<>();
+				
+				p.setPApproval(rset.getString("APPROVAL"));
+				m.setMemberNo(rset.getInt("M_NO"));
+				m.setMemberName(rset.getString("NAME"));
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				
+				hmap.put("rownum", rset.getInt("ROWNUM"));
+				hmap.put("children", c);
+				hmap.put("member", m);
+				hmap.put("parents", p);
+			
+				list.add(hmap);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
 		return list;
 	}
 }
