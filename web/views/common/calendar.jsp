@@ -131,7 +131,7 @@
 			<tr>
 
 				<td height="60">
-
+ 
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 0;">
 						<tr>
 							<td align="right" style="width: 70px;"></td>
@@ -166,7 +166,7 @@
 			</tr>
 		</table>
 		<br>
-		<table border="0" cellspacing="1" cellpadding="1" bgcolor="#FFFFFF" style="margin-top: 0;">
+		<table id="calendarArea" border="0" cellspacing="1" cellpadding="1" bgcolor="#FFFFFF" style="margin-top: 0;">
 			<thead>
 				<tr style="background: rgba(255, 236, 151, 0.548); height: 30px;">
 					<td width='60px'>

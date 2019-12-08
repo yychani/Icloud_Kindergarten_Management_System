@@ -3,9 +3,11 @@ package com.oracle5.board.model.service;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.oracle5.board.model.dao.BoardDao;
 import com.oracle5.board.model.vo.CommonNote;
+import com.oracle5.board.model.vo.Schedule;
 
 import static com.oracle5.common.JDBCTemplate.*;
 public class BoardService {
@@ -40,6 +42,58 @@ public class BoardService {
 		
 		close(con);
 		return list;
+	}
+
+	public ArrayList<Schedule> selectAllSchedule() {
+		Connection con = getConnection();
+		
+		ArrayList<Schedule> list = new BoardDao().selectAllSchedule(con);
+		
+		close(con);
+		return list;
+	}
+
+	public String selectSchedule(Date date) {
+		Connection con = getConnection();
+		
+		String dateCont = new BoardDao().selectSchedule(con, date);
+		
+		close(con);
+		return dateCont;
+	}
+
+	public int insertSchedule(Schedule sch) {
+		Connection con = getConnection();
+
+		int result = new BoardDao().insertSchedule(con, sch);
+		System.out.println(result);
+		if(result > 0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		close(con);
+		return result;
+	}
+
+	public int getChildCount() {
+		Connection con = getConnection();
+		
+		int listCount= new BoardDao().getChildCount(con);
+		
+		close(con);
+		
+		return listCount;
+	}
+
+	public ArrayList<HashMap<String, Object>> selectChild(int currentPage, int limit) {
+		Connection con = getConnection();
+		
+		ArrayList<HashMap<String, Object>> hmapList = new BoardDao().selectChild(con, currentPage, limit);
+		
+		close(con); 
+		
+		return hmapList;
 	}
 
 }
