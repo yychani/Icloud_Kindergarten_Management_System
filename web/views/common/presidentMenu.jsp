@@ -83,7 +83,7 @@
 							<li class="li4"><a href="<%=request.getContextPath()%>/views/president/menuAble.jsp"
 									class="submenuLink">메뉴사용관리</a></li>
 							<li>|</li>
-							<li class="li5"><a href="" class="submenuLink">원 일정</a></li>
+							<li class="li5"><a href="<%=request.getContextPath()%>/selectAllSchedule.sch" class="submenuLink">원 일정</a></li>
 							<li>|</li>
 							<li class="li6"><a href="<%=request.getContextPath()%>/views/president/preAs.jsp"
 									class="submenuLink">방과후 페이지</a></li>
@@ -108,7 +108,7 @@
 							href="<%=request.getContextPath() %>/selectAllTeacher">선생님
 							관리</a></li>
 					<li class="topMenuLi"><a class="menuLink"
-							href="<%=request.getContextPath()%>/views/president/preKManagement.jsp">원아
+							href="<%=request.getContextPath()%>/selectChild.c">원아
 							관리</a></li>
 					<li class="topMenuLi"><a class="menuLink" href="">마이페이지</a>
 						<ul class="submenu">

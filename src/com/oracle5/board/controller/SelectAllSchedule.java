@@ -1,4 +1,4 @@
-package com.oracle5.member.controller;
+package com.oracle5.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,30 +9,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.oracle5.member.model.service.MemberService;
-import com.oracle5.member.model.vo.Member;
-import com.oracle5.member.model.vo.MemberAndTeacher;
-import com.oracle5.member.model.vo.Teacher;
+import com.oracle5.board.model.service.BoardService;
+import com.oracle5.board.model.vo.CommonNote;
+import com.oracle5.board.model.vo.Schedule;
 
-@WebServlet("/selectAllTeacher")
-public class TeacherSelectAllServlet extends HttpServlet {
+@WebServlet(name = "SelectAllScheduleServlet", urlPatterns = { "/selectAllSchedule.sch" })
+public class SelectAllSchedule extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public TeacherSelectAllServlet() {
+    public SelectAllSchedule() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<MemberAndTeacher> list = new MemberService().selectAllTeacher();
+		ArrayList<Schedule> list = new BoardService().selectAllSchedule();
 		
 		String page = "";
 		if(list != null) {
-			page = "views/president/preTManagement.jsp";
+			page = "views/president/schedule.jsp";
 			request.setAttribute("list", list);
 		}else {
 			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "선생 정보 전체 조회 실패!");
+			request.setAttribute("msg", "원 일정 조회 실패!");
 		}
+		
 		request.getRequestDispatcher(page).forward(request, response);
 	}
 

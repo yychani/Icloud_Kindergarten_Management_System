@@ -228,4 +228,13 @@ public class MemberService {
 		return list;
 	}
 
+	public HashMap<String, Object> childRecordBook(int cId) {
+		Connection con = getConnection();
+		
+		HashMap<String, Object> hmap = new HashMap<>();
+		
+		close(con);
+		return hmap;
+	}
+
 }

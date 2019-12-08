@@ -147,7 +147,6 @@ public class MemberDao {
 					mt.setPId(Integer.parseInt(rset.getString("PID")));
 					mt.setPName(rset.getString("PNAME"));
 					mt.setClassName(rset.getString("B_NAME"));
-
 					list.add(mt);
 				}
 			}
