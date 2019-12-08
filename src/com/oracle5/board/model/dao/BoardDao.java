@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+import com.oracle5.board.model.vo.Board;
 import com.oracle5.board.model.vo.CommonNote;
 import com.oracle5.board.model.vo.Schedule;
 import com.oracle5.member.model.vo.Ban;
@@ -271,4 +272,55 @@ public class BoardDao {
 		}
 		return hmapList;
 	}
+
+	public int getListCount(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		int listCount = 0;
+		
+		String query = prop.getProperty("listCount");
+		
+		try {
+			stmt = con.createStatement();
+			
+		rset = stmt.executeQuery(query);
+		
+		if(rset.next()) {
+			listCount = rset.getInt(1);
+			
+			
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+			close(rset);
+		}
+		
+	
+		return listCount;
+	}
+
+	public ArrayList<Board> selectBoardPageing(Connection con, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectBoardPageing");
+		
+		int startRow = (currentPage -1 ) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		try {
+			rset = pstmt.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return list;
+	}
+
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.oracle5.board.model.dao.BoardDao;
+import com.oracle5.board.model.vo.Board;
 import com.oracle5.board.model.vo.CommonNote;
 import com.oracle5.board.model.vo.Schedule;
 
@@ -95,5 +96,27 @@ public class BoardService {
 		
 		return hmapList;
 	}
+
+	public int getListCount() {
+		Connection con = getConnection();
+		
+		int listCount = new BoardDao().getListCount(con);
+		
+		close(con);
+		
+		return listCount;
+	}
+
+	public ArrayList<Board> selectBoardPageing(int currentPage, int limit) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectBoardPageing(con,currentPage,limit);
+		
+		
+		close(con);
+		return list;
+	}
+
+
 
 }
