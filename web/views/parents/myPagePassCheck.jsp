@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
+<%
+	Member loginUser = (Member) session.getAttribute("loginMember");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,13 +35,12 @@
 	<%@ include file="/views/common/parentsMenu.jsp"%>
 	
 	<div id="outBox" align="center">
-		<form
-			action="<%=request.getContextPath()%>/views/parents/myPage.jsp"
-			method="post"  onsubmit="return true">
+		<form action="<%=request.getContextPath()%>/passcheck.me" method="post" onsubmit="return true">
 			<label>비밀번호 확인이 필요합니다.</label><br><br>
 			<div class="ui left corner labeled input">
 				 <input type="password"
-					placeholder="PASSWORD">
+					placeholder="PASSWORD" name="userPwd">
+				<input type="hidden" value="<%= loginUser.getMemberId() %>" name="userId">
 				<div class="ui left corner label">
 					<i class="asterisk icon"></i>
 				</div>

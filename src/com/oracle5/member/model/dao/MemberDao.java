@@ -691,6 +691,68 @@ public class MemberDao {
 		return list;
 	}
 
+	
+	//학부모 비밀번호 확인 메소드
+	public Member parentsPassCheck(Connection con, Member requestMember) {
+		Member loginMember = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+
+		String query = prop.getProperty("selectParensPwd");
+		
+		try {
+			pstmt= con.prepareStatement(query);
+			pstmt.setString(1, requestMember.getMemberId());
+			pstmt.setString(2, requestMember.getMemberPwd());
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				loginMember = new Member();
+
+				loginMember.setMemberId(rset.getString("ID"));
+				loginMember.setMemberName(rset.getString("NAME"));
+				loginMember.setMemberPwd(rset.getString("PWD"));
+				loginMember.setMemberRno(rset.getString("RNO"));
+				loginMember.setMemberNo(rset.getInt("M_NO"));
+				loginMember.setUType(rset.getString("TYPE"));
+				loginMember.setEmail(rset.getString("EMAIL"));
+				loginMember.setPhone(rset.getString("PHONE"));
+				loginMember.setLeaveDate(rset.getDate("LEAVE_DATE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return loginMember;
+	}
+
+	//학부모 비밀번호 변경 메소드
+	public int updateParentsPass(Connection con, Member loginMember) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateParentsPwd");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, loginMember.getMemberPwd());
+			pstmt.setString(2, loginMember.getMemberId());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+  }
+
 	public List<Map<String, Object>> selectNotAppList(Connection con) {
 		List<Map<String, Object>> list = null;
 		Map<String, Object> hmap = null;
@@ -735,5 +797,6 @@ public class MemberDao {
 		}
 		
 		return list;
+
 	}
 }
