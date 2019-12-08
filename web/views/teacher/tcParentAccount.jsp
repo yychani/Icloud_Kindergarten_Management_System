@@ -23,6 +23,45 @@
             $(".li:nth-child(11)").addClass("on");
             $(".topMenuLi:nth-child(2)").addClass("on");
          });
+          
+          $.ajax({
+        	  url:"<%=request.getContextPath()%>/notApprovalList.do",
+        	  type:"get",
+        	  success:function(data) {
+        		  $tableBody = $(".pAccountList tbody tr:nth-of-type(1)");
+
+        		  $.each(data, function(index, value){
+        			var cid = value.children.cId;
+        			var mno = value.member.memberNo;
+        			 var $tr = $("<tr>");
+        			 var $noTd = $("<td>").text(value.rownum);
+        			 var $cnameTd = $("<td>").text(value.children.name);
+        			 var $pnameTd = $("<td>").text(value.member.memberName)
+        			 var $approval = $("<td>").html("<input type='checkbox' name='accept' class='accept'> <input type='hidden' name='cid' value=" + cid+ "><input type='hidden' name='mno' value=" + mno +">");
+        			 
+        			 
+        			 $tr.append($noTd);
+        			 $tr.append($cnameTd);
+        			 $tr.append($pnameTd);
+        			 $tr.append($approval);
+        			 
+        			 $tableBody.after($tr);
+        		  });
+        	  },
+        	  error:function(error, status) {
+        		  console.log(error);
+        		  console.log(status);
+        	  }
+          });
+          
+        $(document).on("click",".accept", function() {
+        	
+        });
+          
+          
+      	$(document).on("click",".pAccountList tr>td:nth-of-type(2)", function(){
+      		$("#myModal").show();
+      	}); 	
       }); 
 </script>
 <style>
@@ -89,42 +128,6 @@
 				<th>학부모 성함</th>
 				<th>승인</th>
 			</tr>
-			<tr>
-				<td>1</td>
-				<td>신짱구</td>
-				<td>봉미선</td>
-				<td><input type="checkbox" name="accept" id="accept-1"/></td>
-			</tr>
-			<tr>
-				<td>2</td>
-				<td>박건후</td>
-				<td>박주호</td>
-				<td><input type="checkbox" name="accept" id="accept-2"/></td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>권연주</td>
-				<td>이미숙</td>
-				<td><input type="checkbox" name="accept" id="accept-3"/></td>
-			</tr>
-			<tr>
-				<td>4</td>
-				<td>이유진</td>
-				<td>김민하</td>
-				<td><input type="checkbox" name="accept" id="accept-4"/></td>
-			</tr>
-			<tr>
-				<td>5</td>
-				<td>문하영</td>
-				<td>최이현</td>
-				<td><input type="checkbox" name="accept" id="accept-5"/></td>
-			</tr>
-			<tr>
-				<td>6</td>
-				<td>곽찬호</td>
-				<td>이하늘</td>
-				<td><input type="checkbox" name="accept" id="accept-6"/></td>
-			</tr>
 		</table>
 	</div>
 	<div style="margin: 0 20%; height:50px;">
@@ -160,15 +163,11 @@
 	     </div>
  
     </div>
-
-	<script>
-		$(".pAccountList tr>td:nth-of-type(2)").click(function() {
-			$("#myModal").show();
-		});
-		function close_pop() {
-			$("#myModal").hide();
-		}
-	</script>
+    <script>
+  		function close_pop(){
+      		$("#myModal").hide();
+      	};
+    </script>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
