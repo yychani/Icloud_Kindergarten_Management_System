@@ -3,6 +3,8 @@ package com.oracle5.member.model.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.dao.MemberDao;
@@ -203,6 +205,7 @@ public class MemberService {
 		c.setPno(mNo);
 		
 		int cNo = new MemberDao().searchChildNo(con, c);
+		System.out.println(cNo);
 		int bcno = new MemberDao().selectChildBcno(con, cNo);
 		System.out.println(bcno);
 		int result = new MemberDao().updateChildBcno(con, bcno, cNo);
@@ -237,6 +240,7 @@ public class MemberService {
 		return hmap;
 	}
 
+
 	//학부모 내정보 비밀번호 재확인
 	public Member parentsPassCheck(Member requestMember) {
 		Connection con = getConnection();
@@ -261,6 +265,16 @@ public class MemberService {
 		close(con);
 		
 		return result;
+  }
+	public List<Map<String, Object>> selectNotAppList() {
+		Connection con = getConnection();
+		
+		List<Map<String, Object>> list = new MemberDao().selectNotAppList(con);
+		
+		close(con);
+		
+		return list;
+
 	}
 
 }
