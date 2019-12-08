@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
+<%
+	Member loginUser = (Member) session.getAttribute("loginMember");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -55,50 +58,34 @@
 					<tr>
 						<td style="width: 50px;">아이디</td>
 						<td style="width: 20px">:</td>
-						<td><div class="ui input">
-								<input type="text" placeholder="userId" readonly>
-							</div></td>
+						<td><%= loginUser.getMemberId() %></td>
 					</tr>
 					<tr>
 						<td style="width: 50px;">이름</td>
 						<td style="width: 20px">:</td>
-						<td><div class="ui input">
-								<input type="text" id="userName" placeholder="userName" readonly>
-							</div></td>
+						<td><%= loginUser.getMemberName() %></td>
 					</tr>
 					<tr>
 						<td style="width: 50px;">주소</td>
 						<td style="width: 20px">:</td>
 						<td><div class="ui input">
-								<input type="text" id="address" placeholder="경기도 수원시 권선구"
-									readonly>
+								<input type="text" id="address" value="" readonly>
 							</div></td>
 					</tr>
 					<tr>
+					<% 
+					/* 이메일 & 전화번호 split */
+					String email[] = loginUser.getEmail().split("@");
+					String phone[] = loginUser.getPhone().split("-");
+					%>
 						<td style="width: 50px;">이메일</td>
 						<td style="width: 20px">:</td>
-						<td><div class="ui input">
-								<input type="email" placeholder="testEmail" readonly>@<input
-									type="email" placeholder="naver.com" readonly>
-							</div></td>
+						<td><%= email[0]%>@<%= email[1] %></td>
 					</tr>
 					<tr>
 						<td style="width: 50px;">핸드폰</td>
 						<td style="width: 20px">:</td>
-						<td><div class="ui input">
-								<div class="ui compact menu">
-									<div class="ui simple dropdown item">
-										010 <i class="dropdown icon"></i>
-										<div class="menu">
-											<div class="item">011</div>
-											<div class="item">016</div>
-											<div class="item">019</div>
-										</div>
-									</div>
-								</div>
-								-<input type="tel" placeholder="3327">-<input type="tel"
-									placeholder="5305">
-							</div></td>
+						<td><%= phone[0] %>-<%= phone[1] %>-<%= phone[2] %></td>
 					</tr>
 				</table>
 				<div class="btns" align="center">
@@ -156,37 +143,38 @@
 		<i class="close icon"></i>
 		<div class="header" align="center">비밀번호 변경</div>
 		<div class="passDiv" align="center">
-			<form action="" method="post">
+			<form id="passChangeForm" action="<%=request.getContextPath()%>/passChange.me" method="post" onsubmit="return true;">
+			<input type="hidden" value="<%= loginUser.getMemberId() %>" name="userId">
 				<div class="currentPass">
 					<br> <label>현재 비밀번호 입력</label><br> <br>
 					<div class="ui input">
-						<input type="password" placeholder="현재 비밀번호">
+						<input type="password" name="currentPass" placeholder="현재 비밀번호">
 					</div>
 				</div>
 				<br>
 				<div class="changePass">
 					<div class="field" placeholder="Last Name">
-						<div class="ui pointing below label">비밀번호는 특수문자 / 영문자 / 숫자
-							포함 형태의 8~15자리 이내로 입력하셔야 합니다.</div>
+						<div class="ui pointing below label"><label id="passREX">비밀번호는 특수문자 / 영문자 / 숫자
+							포함 형태의 8~15자리 이내로 입력하셔야 합니다.</label></div>
 
 					</div>
 
 					<label>변경할 비밀번호 변경</label><br> <br>
 					<div class="ui input">
-						<input type="password" placeholder="새 비밀번호"><br>
+						<input type="password" id="changePass1" name="changePass1" placeholder="새 비밀번호"><br>
 					</div>
 					<br> <br>
 					<div class="ui input">
-						<input type="password" placeholder="새 비밀번호 확인">
+						<input type="password" id="changePass2" name="changePass2" placeholder="새 비밀번호 확인">
 					</div>
 					<br>
-					<div class="ui pointing label">비밀번호는 특수문자 / 영문자 / 숫자 포함 형태의
-						8~15자리 이내로 입력하셔야 합니다.</div>
+					<div class="ui pointing label" id="passCheck"><label id="passCheck"></label></div>
 				</div>
 				<div class="actions">
 					<br> <br>
 					<div class="ui black deny button">취소</div>
-					<div class="ui positive right labeled icon button">
+					<button type="submit" onclick="passInvalidate();">변경하기</button>
+					<div class="ui positive right labeled icon button" onclick="passInvalidate();">
 						변경하기 <i class="checkmark icon"></i>
 					</div>
 					<br> <br>
@@ -207,6 +195,70 @@
 		function passChangeModal() {
 			$('.ui.modal.passChange').modal('show');
 		}
+		
+		// 비밀번호 정규식
+		var pattern1 = /[0-9]/; // 숫자 
+		var pattern2 = /[a-zA-Z]/; // 문자 
+		var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+		var tel1J = /^01([0|1|6|7|8|9]?)$/;
+		var tel2J = /^[0-9]{3,4}$/;
+		var tel3J = /^[0-9]{4}$/;
+		var rno1 = /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))$/;
+		var rno2 = /^[1-4][0-9]{6}$/;
+		
+		var inval_Arr = new Array(10).fill(false);
+		//비밀번호 정규식 확인
+		$("#changePass1").keydown(function(){
+			if (!pattern1.test($('#changePass1').val()) || !pattern2.test($('#changePass1').val()) || !pattern3.test($('#changePass1').val())) {
+				console.log("비밀번호 정규식 비일치");
+				$("#passREX").css({"color":"tomato"});
+				$("#passREX").html("비밀번호는 8자리 이상 문자, 숫자, <br>특수문자로 구성하여야 합니다.");	
+				inval_Arr[2] = false;
+			} else {
+				console.log("비밀번호 정규식 일치");
+				$("#passREX").css({"color":"green"});
+				$("#passREX").html("사용가능한 비밀번호 입니다.");	
+				inval_Arr[2] = true;
+			} 
+			console.log($(this).val());
+		});
+		
+		
+		//비밀번호 일치 확인
+		$("#changePass2").keyup(function(){
+			if ($('#changePass1').val() == $('#changePass2').val()) {
+				console.log("비빌번호 일치");
+				$("#passCheck").css({"color":"green"});
+				$("#passCheck").html("비밀번호가 일치합니다.");	
+				inval_Arr[3] = true;
+			} else if ($('#changePass1').val() != $('#changePass2').val()){
+				console.log("비밀번호 불일치");
+				$("#passCheck").css({"color":"tomato"});
+				$("#passCheck").html("비밀번호가 일치하지 않습니다.");	
+				inval_Arr[3] = false;
+			}
+		});
+		
+		//비밀번호 변경 버튼
+		function passInvalidate(){
+			console.log("변경하기 버튼 클릭");
+			if($('#changePass1').val() != $('#changePass2').val()){
+				alert("비밀번호가 일치하지 않습니다");
+				console.log("비밀번호 불일치");
+				$('#changePass1').val("");
+				$('#changePass2').val("");
+				$('#passCheck').val("");
+				return false;
+			}else if($('#changePass1').val() == $('#changePass2').val()){
+				if(pattern1.test($('#changePass1').val()) || pattern2.test($('#changePass1').val()) || pattern3.test($('#changePass1').val())){
+					$("#passChangeForm").submit;
+					console.log("비밀번호 일치& 정규식 통과");
+					return true;
+				}
+				
+			};	
+		}
+		
 	</script>
 
 

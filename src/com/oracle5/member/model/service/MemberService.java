@@ -237,4 +237,30 @@ public class MemberService {
 		return hmap;
 	}
 
+	//학부모 내정보 비밀번호 재확인
+	public Member parentsPassCheck(Member requestMember) {
+		Connection con = getConnection();
+		
+		Member loginMember = md.parentsPassCheck(con, requestMember);
+		close(con);
+		
+		return loginMember;
+	}
+
+	//학부모 내정보 비밀번호 변경
+	public int updateParentsPass(Member loginMember) {
+		Connection con = getConnection();
+		int result = new MemberDao().updateParentsPass(con, loginMember);
+		
+		if(result > 0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
 }
