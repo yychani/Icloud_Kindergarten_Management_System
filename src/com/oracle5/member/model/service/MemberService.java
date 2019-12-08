@@ -203,6 +203,7 @@ public class MemberService {
 		c.setPno(mNo);
 		
 		int cNo = new MemberDao().searchChildNo(con, c);
+		System.out.println(cNo);
 		int bcno = new MemberDao().selectChildBcno(con, cNo);
 		System.out.println(bcno);
 		int result = new MemberDao().updateChildBcno(con, bcno, cNo);
