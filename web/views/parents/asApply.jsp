@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
+<%
+	Member loginUser = (Member) session.getAttribute("loginMember");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,16 +82,17 @@
     <i class="hand point right outline icon"></i>
     다음 달 방과 후 신청을 하시겠습니까?
   </div>
-  <div class="actions">
+  <form action="<%=request.getContextPath()%>/asRequest.me" method="post">
+  <input type="hidden" value="<%=loginUser.getMemberNo()%>"
+					name="userNo">
+  <div class="actions" align="center">
     <div class="ui red basic cancel inverted button">
       <i class="remove icon"></i>
       취소
     </div>
-    <div class="ui green ok inverted button">
-      <i class="checkmark icon"></i>
-      신청
-    </div>
+      <button class="ui inverted green basic button"><i class="checkmark icon"></i>신청</button>
   </div>
+  </form>
 </div>
 
 <script>

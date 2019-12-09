@@ -41,7 +41,7 @@ public class ParentPassChangeServlet extends HttpServlet {
 		
 		//변경 전 비밀번호 확인
 		Member loginMember = new MemberService().parentsPassCheck(requestMember);
-		System.out.println("parentpasschange : " + loginMember);
+		System.out.println("parentpasschangeServlet(loginMember) : " + loginMember);
 		
 		String page = "";
 		
