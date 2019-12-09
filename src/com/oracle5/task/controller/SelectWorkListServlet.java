@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.oracle5.member.model.vo.Member;
 import com.oracle5.task.model.service.TaskService;
 import com.oracle5.task.model.vo.WorkDivision;
 
@@ -24,7 +25,7 @@ public class SelectWorkListServlet extends HttpServlet {
 		ArrayList<WorkDivision> list = new TaskService().selectWorkList();
 		ArrayList<WorkDivision> Ulist = new ArrayList<>();
 		ArrayList<WorkDivision> Dlist = new ArrayList<>();
-		
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
 		for(WorkDivision work : list) {
 			if(work.getType() == 1) {
 				Dlist.add(work);
@@ -36,7 +37,11 @@ public class SelectWorkListServlet extends HttpServlet {
 		
 		String page = "";
 		if(list != null) {
-			page = "views/president/preWorkD.jsp";
+			if(loginUser.getMemberId() != "admin") {
+				page = "views/teacher/tcWorkDivision.jsp";
+			}else{
+				page = "views/president/preWorkD.jsp";
+			}
 			request.setAttribute("Dlist", Dlist);
 			request.setAttribute("Ulist", Ulist);
 		}else {

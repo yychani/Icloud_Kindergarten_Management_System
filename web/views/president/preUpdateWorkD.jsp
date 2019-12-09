@@ -1,8 +1,9 @@
+<%@page import="com.oracle5.task.model.vo.WorkDivision"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
+<% WorkDivision work = (WorkDivision) request.getAttribute("work"); %>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -82,50 +83,7 @@ input[type='submit'] {
 			style="text-decoration: underline; text-underline-position: under;">선생님
 			업무분장</h1>
 	</div>
-	<script>
-		$(function() {
-			$.ajax({
-				url : "/main/selectTeacher.do",
-				type : "post",
-				success : function(data) {
-					$select = $("#chargeN");
-					$select.find("option").remove();
-					for (var i = 0; i < data.length; i++) {
-						var name = decodeURIComponent(data[i].name);
-						var selected = (i == 0) ? "selected" : "";
-
-						$select.append("<option value='" + data[i].tNo + "' " + selected + ">" + name + "선생님</option>");
-					}
-				},
-				error : function(data) {
-					console.log("실패!");
-				}
-			});
-			
-			$("#chargeN").on("change", function(){
-				var chargeN = $(this).val();
-				$.ajax({
-					url : "/main/checkUDuplicate.do",
-					data : {chargeN:chargeN},
-					type : "post",
-					success : function(data) {
-						if(data == "이미 업무가 배정되어있는 선생님입니다."){
-							$("#submit").prop("disabled", true);
-							$("#submit").css({"background":"lightgray"});
-							alert(data);
-						}else {
-							$("#submit").prop("disabled", false);
-							$("#submit").css({"background":"rgb(63, 63, 63)"});
-						}
-					},
-					error : function(data) {
-						console.log("실패!");
-					}
-				});
-			});
-		});
-	</script>
-	<form action="<%=request.getContextPath()%>/insertUBusiness.task" method="post">
+	<form action="<%=request.getContextPath()%>/updateWork.task" method="post">
 		<table id="workDivision" align="center">
 			<tr>
 				<th id="charge">담당</th>
@@ -134,19 +92,26 @@ input[type='submit'] {
 			</tr> 
 			<tr>
 				<td id="charge" style="padding-right: 0;"><select
-					name="chargeN" id="chargeN"
-					style="margin-left: 10px; width: 100px; height: 30px;">
-				</select></td>
+					 id="chargeN"
+					style="margin-left: 10px; width: 100px; height: 30px; background:lightgray;" disabled>
+					<%if(work.getPid() != 0) { %>
+					<option value="<%=work.getPid() %>" selected><%=work.getName() %></option>
+					<% } else { %>
+					<option value="<%=work.getTno() %>" selected><%=work.getName() %></option>
+					<% } %>
+				</select>
+				<input type="hidden" name="type" value="<%=work.getType() %>">
+				<input type="hidden" name="chargeN" value="<%=work.getPid() %>"></td>
 				<td id="task" style="padding-left: 20px; padding-right: 0;"><textarea
 						name="taskText" id="taskText" cols="61" rows="10"
-						placeholder="담당업무를 줄단위로 입력해 주세요"></textarea></td>
+						placeholder="담당업무를 줄단위로 입력해 주세요"><%=work.getContent() %></textarea></td>
 				<td id="cleaningArea" style="padding-left: 20px; padding-right: 0;"><textarea
 						name="cleaningText" id="cleaningText" cols="34" rows="10"
-						placeholder="청소구역을 줄단위로 입력해 주세요"></textarea></td>
+						placeholder="청소구역을 줄단위로 입력해 주세요"><%=work.getArea() %></textarea></td>
 			</tr>
 			<tr>
-				<td colspan="3"><div style="float: right; margin-top:10px;">
-						<input type="submit" value="확인" id="submit">&nbsp;&nbsp;
+				<td colspan="3"><div style="float: right;">
+						<input type="submit" value="확인">&nbsp;&nbsp;
 						<input type="button" value="취소"
 							onclick="location.href='<%=request.getContextPath()%>/selectWorkList.task'">
 					</div></td>

@@ -1,4 +1,4 @@
-package com.oracle5.task.controller;
+package com.oracle5.ajax.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,32 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.task.model.service.TaskService;
-import com.oracle5.task.model.vo.WorkDivision;
 
-@WebServlet("/insertDBusiness.task")
-public class InsertDBusinessServlet extends HttpServlet {
+@WebServlet("/checkUDuplicate.do")
+public class CheckUDuplicateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public InsertDBusinessServlet() {
+    public CheckUDuplicateServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int chargeN = Integer.parseInt(request.getParameter("chargeN"));
-		String taskText = request.getParameter("taskText");
-		String cleaningText = request.getParameter("cleaningText");
 		
-		WorkDivision work = new WorkDivision();
-		work.setPid(chargeN);
-		work.setContent(taskText);
-		work.setArea(cleaningText);
+		boolean isExist = new TaskService().checkUDuplicate(chargeN);
 		
-		int result = new TaskService().insertDBusiness(work);
-		if(result > 0) {
-			response.sendRedirect(request.getContextPath() + "/selectWorkList.task");
+		if(isExist == true) {
+			response.getWriter().print("이미 업무가 배정되어있는 선생님입니다.");
 		}else {
-			request.setAttribute("msg", "고유업무 작성 실패!");
-			request.getRequestDispatcher("views/common/errorPage.jsp");
+			response.getWriter().print("");
 		}
 	}
 	
