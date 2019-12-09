@@ -38,6 +38,15 @@
 		} else if(successCode == 7){
 			msg = "학부모회원 탈퇴가 완료 되었습니다.";
 			path = "<%=request.getContextPath()%>/index.jsp";
+		} else if(successCode == 8){
+			msg = "방과후 신청이 완료 되었습니다.";
+			path = "<%=request.getContextPath()%>/views/parents/asApply.jsp";
+		} else if(successCode == 9){
+			msg = "이미 신청하셨습니다.";
+			path = "<%=request.getContextPath()%>/views/parents/asApply.jsp";
+		} else if(successCode == 10){
+			msg = "투약의뢰서 신청이 완료 되었습니다.";
+			path = "<%=request.getContextPath()%>/views/parents/mykidsDoseList.jsp";
 		}
 
 		alert(msg);
