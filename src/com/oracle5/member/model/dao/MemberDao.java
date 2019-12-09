@@ -1089,9 +1089,13 @@ public class MemberDao {
 			pstmt.setString(6, ra.getGuidePhone());
 			
 			result = pstmt.executeUpdate();
-    }
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
     
-    		return update;
+    	return result;
 	
   }
 
@@ -1165,7 +1169,7 @@ public class MemberDao {
 			close(pstmt);
 		}
 
-		return result;
+		return update;
 	}
 	
 
