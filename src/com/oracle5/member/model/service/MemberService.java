@@ -277,6 +277,7 @@ public class MemberService {
 
 	}
 
+
 	//학부모 계정 탈퇴
 	public int deleteParent(String userId) {
 		Connection con = getConnection();
@@ -291,6 +292,27 @@ public class MemberService {
 		close(con);
 
 		return result;
+  }
+  
+	public Children selectOneChild(int cid) {
+		Connection con = getConnection();
+		
+		Children c = new MemberDao().selectOneChild(con, cid);
+		
+		close(con);
+		
+		return c;
+	}
+
+	public List<Map<String, Object>> selectAcceptAppList() {
+		Connection con = getConnection();
+		
+		List<Map<String, Object>> list = new MemberDao().selectAcceptAppList(con);
+		
+		close(con);
+		
+		return list;
+
 	}
 
 }
