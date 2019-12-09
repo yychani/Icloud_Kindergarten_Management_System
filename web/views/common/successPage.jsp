@@ -35,6 +35,9 @@
 		} else if(successCode == 6){
 			msg = "선생님 계정 삭제가 완료 되었습니다.";
 			path = "<%=request.getContextPath()%>/selectAllTeacher";	
+		} else if(successCode == 7){
+			msg = "학부모회원 탈퇴가 완료 되었습니다.";
+			path = "<%=request.getContextPath()%>/index.jsp";
 		}
 
 		alert(msg);

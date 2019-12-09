@@ -277,4 +277,20 @@ public class MemberService {
 
 	}
 
+	//학부모 계정 탈퇴
+	public int deleteParent(String userId) {
+		Connection con = getConnection();
+
+		int result = md.deleteParent(con, userId);
+		
+		if (result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		close(con);
+
+		return result;
+	}
+
 }
