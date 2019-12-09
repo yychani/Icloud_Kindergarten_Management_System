@@ -65,7 +65,7 @@
 						<ul class="submenu">
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcPreNotice.jsp" class="submenuLink">원 공지사항</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcClassNotice.jsp" class="submenuLink">반 공지사항</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllBanList" class="submenuLink">반 공지사항</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcFamilyLetter.jsp" class="submenuLink">가정통신문</a></li>
 							<li>|</li>

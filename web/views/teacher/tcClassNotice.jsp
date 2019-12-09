@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +49,16 @@
  	<h1 style="text-decoration: underline; text-underline-position: under;">반 공지사항</h1>
  	</div>
  	<%@ include file="/views/common/board.jsp" %>
+ 	
  	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
+    <script>
+    $(function(){
+    	$(".writing").click(function(){
+    		location.href="./views/teacher/tcWriteNotice.jsp";
+    	});
+    });
+    
+    </script>
 </body>
 </html>
