@@ -268,10 +268,10 @@ public class MemberService {
 		
 		return result;
   }
-	public List<Map<String, Object>> selectNotAppList() {
+	public List<Map<String, Object>> selectNotAppList(int currentPage, int limit) {
 		Connection con = getConnection();
 		
-		List<Map<String, Object>> list = new MemberDao().selectNotAppList(con);
+		List<Map<String, Object>> list = new MemberDao().selectNotAppList(con, currentPage, limit);
 		
 		close(con);
 		
@@ -306,16 +306,17 @@ public class MemberService {
 		return c;
 	}
 
-	public List<Map<String, Object>> selectAcceptAppList() {
+	public List<Map<String, Object>> selectAcceptAppList(int currentPage, int limit) {
 		Connection con = getConnection();
 		
-		List<Map<String, Object>> list = new MemberDao().selectAcceptAppList(con);
+		List<Map<String, Object>> list = new MemberDao().selectAcceptAppList(con, currentPage, limit);
 		
 		close(con);
 		
 		return list;
 
 	}
+
 
 	//학부모 방과후 신청
 	public int asRequest(int userMno) {
@@ -374,14 +375,57 @@ public class MemberService {
 		int result = md.insertDoseTime(con, requestDose, dosingTime);
 		
 		if(result > 0) {
-			commit(con);
+      		commit(con);
 		} else {
 			rollback(con);
 		}
+    		
 		close(con);
 		
-		return result;
+		return update;
+  }
+
+	public int getNotAppListCount() {
+		Connection con = getConnection();
+		
+		int listCount = new MemberDao().getNotAppListCount(con);
+		
+		close(con);
+		
+		return listCount;
 	}
+
+	public int getAcceptListCount() {
+		Connection con = getConnection();
+		
+		int listCount = new MemberDao().getAcceptListCount(con);
+		
+		close(con);
+		
+		return listCount;
+	}
+
+	public int updateParentApproval(String[] mno) {
+		Connection con = getConnection();
+		
+		int update = 0;
+		for(String key : mno) {
+			int userNo = Integer.parseInt(key);
+			update += new MemberDao().updateParentApproval(con, userNo);
+		}
+		
+		if(mno.length == update) {
+      	commit(con);
+		}else {
+			rollback(con);
+		}
+		close(con);
+    
+    return update;
+  }
+
+	
+
 
 	//귀가동의서 INSERT
 	public int returnApply(ReturnAgree ra) {
@@ -401,6 +445,7 @@ public class MemberService {
 		close(con);
 		
 		return result;
+
 	}
 
 }

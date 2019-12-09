@@ -323,4 +323,79 @@ public class BoardDao {
 		return list;
 	}
 
+	public int insertBanNotice(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertBanNotice");
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTno());
+			pstmt.setInt(4, b.getBdid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Board> selectAllBanNoticeList(Connection con) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list =null;
+		
+		String query = prop.getProperty("selectAllBanNoticeList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, 6);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset!=null) {
+				list = new ArrayList<>();
+				while(rset.next()) {
+					Board b = new Board();
+					b.setTid(rset.getInt("T_ID"));
+					b.setTtitle(rset.getString("T_TITLE"));
+					b.setTcont(rset.getString("T_CONT"));
+					b.setTwriter(rset.getInt("T_WRITER"));
+					b.setTcount(rset.getInt("T_COUNT"));
+					b.setTtime(rset.getDate("T_TIME"));
+					b.setTno(rset.getInt("T_NO"));
+					b.setPno(rset.getInt("P_NO"));
+					b.setBdid(rset.getInt("BD_ID"));
+					b.setTstmt(rset.getString("T_STMT"));
+					
+					list.add(b); 
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
