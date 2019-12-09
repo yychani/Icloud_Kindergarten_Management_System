@@ -277,4 +277,24 @@ public class MemberService {
 
 	}
 
+	public Children selectOneChild(int cid) {
+		Connection con = getConnection();
+		
+		Children c = new MemberDao().selectOneChild(con, cid);
+		
+		close(con);
+		
+		return c;
+	}
+
+	public List<Map<String, Object>> selectAcceptAppList() {
+		Connection con = getConnection();
+		
+		List<Map<String, Object>> list = new MemberDao().selectAcceptAppList(con);
+		
+		close(con);
+		
+		return list;
+	}
+
 }

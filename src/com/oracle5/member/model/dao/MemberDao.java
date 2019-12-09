@@ -799,4 +799,82 @@ public class MemberDao {
 		return list;
 
 	}
+
+	public Children selectOneChild(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Children c = null;
+		
+		String query = prop.getProperty("selectOneChild");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				c = new Children();
+				
+				c.setCId(cid);
+				c.setName(rset.getString("C_NAME"));
+				c.setRno(rset.getString("C_RNO"));
+				c.setImgSrc(rset.getString("IMGSRC"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return c;
+	}
+
+	public List<Map<String, Object>> selectAcceptAppList(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		List<Map<String, Object>> list = null;
+		Map<String, Object> hmap = null;
+		Member m = null;
+		Children c = null;
+		Parents p = null;
+		
+		String query = prop.getProperty("selectAcceptAppList");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				hmap = new HashMap<>();
+				p = new Parents();
+				c = new Children();
+				m = new Member();
+				
+				p.setPApproval(rset.getString("APPROVAL"));
+				m.setMemberNo(rset.getInt("M_NO"));
+				m.setMemberName(rset.getString("NAME"));
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				
+				hmap.put("rownum", rset.getInt("ROWNUM"));
+				hmap.put("children", c);
+				hmap.put("member", m);
+				hmap.put("parents", p);
+
+				list.add(hmap);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return list;
+	}
 }

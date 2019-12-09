@@ -61,7 +61,9 @@ public class ChildrenInsertServlet extends HttpServlet {
 			String name = multiRequest.getParameter("name");
 			//
 			String userNumber1 = multiRequest.getParameter("userNumber1");
-			String userNumber2 = getSha512(multiRequest.getParameter("userNumber2"));
+			String userNumber2 = multiRequest.getParameter("userNumber2");
+			String[] subuno2 = {userNumber2.substring(0,1), userNumber2.substring(1)};
+			userNumber2 = subuno2[0] + getSha512(subuno2[1]);
 			//
 			String userNumber = userNumber1 + "-" + userNumber2;
 			String address = multiRequest.getParameter("address1");
