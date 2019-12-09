@@ -5,12 +5,12 @@
     <%
     	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("list");
     	PageInfo pi = (PageInfo) request.getAttribute("pi");
-    	int currentPage = pi.getCurrentPage();
-    	int listCount = pi.getListCount();
-    	int limit = pi.getLimit(); 
-    	int maxPage = pi.getMaxPage(); 
-    	int startPage = pi.getStartPage(); 
-    	int endPage = pi.getEndPage();
+		int currentPage = pi.getCurrentPage();
+		int listCount = pi.getListCount();
+		int limit = pi.getLimit();
+		int maxPage = pi.getMaxPage();
+		int startPage = pi.getStartPage(); 
+		int endPage = pi.getEndPage();
     
     
     
@@ -132,19 +132,18 @@ input[type='button'] {
                     <th id="count">조회수</th>
 					<th id="date">작성일</th>
 				</tr>
+			</thead>
+			
 				<%for (Board b : list) {%>
 				<tr>
-				<td><%=b.getPno() %></td>
+				<td><%=b.getTid() %></td>
 				<td><%=b.getTtitle() %></td>
 				<td><%=b.getTwriter() %></td>
 				<td><%=b.getTcount() %></td>
-				<td><%=b.getTdate() %></td>
+				<td><%=b.getTtime() %></td>
 				</tr>
 				<%} %>
 				
-			</thead>
-			
-			<tbody id="tbodyArea"> 
 				<tr>
 					<td id="no">3</td>
 					<td id="title">24</td>
@@ -153,13 +152,13 @@ input[type='button'] {
 					<td id="date">2019-05-05</td>
 				</tr>
 
-			</tbody>
+		
 		</table>
-		<div class="pagingArea" align="center">
-			<button onclick="location.href='<%=request.getContextPath() %>/selectList.bo?currentPage=1'"><<</button>
+		<div align="center">
+			<button onclick="location.href='<%=request.getContextPath() %>/selectList.bo?currentPage=1'">처음</button>
 			
 			<% if(currentPage <= 1) { %>
-			<button disabled><</button>
+			<button disabled>이전</button>
 			<% }else { %>
 			<button onclick="location.href='<%=request.getContextPath() %>/selectList.bo?currentPage=<%=currentPage - 1 %>'"><</button>
 			<% } %>
@@ -174,23 +173,34 @@ input[type='button'] {
 			<% } %>
 			
 			<% if(currentPage >= maxPage) { %>
-			<button disabled>></button>
+			<button disabled>다음</button>
 			<% }else { %>
 			<button onclick="location.href='<%=request.getContextPath() %>/selectList.bo?currentPage=<%=currentPage + 1 %>'">></button>
 			<% } %>
 			
-			<button onclick="location.href='<%=request.getContextPath() %>/selectList.bo?currentPage=<%=maxPage %>'">>></button>
+			<button onclick="location.href='<%=request.getContextPath() %>/selectList.bo?currentPage=<%=maxPage %>'">마지막</button>
 		</div>
-		<br>
         <div id="searchArea">
                 <input type="text" placeholder="Search" style="width:150px; height:30px;">
               <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
                       color: rgba(0,0,0,.6); ">Search</button>
               
-              <button style="float:right; width:100px; height:30px;" class="writing">글쓰기</button>
+              <button style="float:right; width:100px; height:30px;" class="writing" onclick="location.href='<%=request.getContextPath()%>/views/parents/boardParentsBoardWriter.jsp'">글쓰기</button>
               
         </div> 
 	</div>
+	<script>
+		
+	$(function(){
+		$("#tableArea td").click(function(){
+			location.href="<%=request.getContextPath()%>/num=" +num;
+			
+		})
+	})
+
+	
+	
+	</script>
 	<%@ include file="/views/common/chat.jsp"%>
 	<%@include file="/views/common/footer.jsp" %>
 </body>
