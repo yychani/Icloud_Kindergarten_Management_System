@@ -90,7 +90,7 @@
       <i class="remove icon"></i>
       취소
     </div>
-      <button class="ui inverted green basic button"><i class="checkmark icon"></i>신청</button>
+      <button type="submit" class="ui inverted green basic button"><i class="checkmark icon"></i>신청</button>
   </div>
   </form>
 </div>

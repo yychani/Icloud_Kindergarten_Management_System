@@ -117,6 +117,7 @@ public class BoardService {
 		return list;
 	}
 
+
 	public int getListCountThumbnail() {
 		Connection con = getConnection();
 		
@@ -146,6 +147,37 @@ public class BoardService {
 		}
 		
 		return result;
+    
+  }
+
+	public int insertBanNotice(Board b) {
+		Connection con = getConnection();
+		
+		int result = new BoardDao().insertBanNotice(con, b);
+		
+		if(result > 0) {
+			commit(con);
+			
+		}else {
+			rollback(con);
+		}
+		return result;
+	}
+
+	public ArrayList<Board> selectAllBanNoticeList() {
+		Connection con = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectAllBanNoticeList(con);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public Board selectOneBoard(int num) {
+		// TODO Auto-generated method stub
+		return null;
+
 	}
 
 

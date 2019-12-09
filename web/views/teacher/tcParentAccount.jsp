@@ -10,77 +10,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
     <script>
       $(function() {
+    	currentPage = 1;
+    	  fpaging();
+    	  <%-- 선택한 select에 따라서 내용 수정 및 페이징 --%>
     	  $("#selectList").change(function() {
     		  if($("#selectList").val() === "승인요청내역") {
-       			  $.ajax({
-       	        	  url:"<%=request.getContextPath()%>/notApprovalList.do",
-       	        	  type:"get",	
-       	        	  success:function(data) {
-       	        		  $tableBody = $(".pAccountList tbody tr:nth-of-type(1)");
-       	        		  $(".pAccountList tbody tr:nth-of-type(n+2)").remove();
-       	        		  $("#remo").remove();
-       	        		  $.each(data, function(index, value){
-       	        			var cid = value.children.cId;
-       	        			var mno = value.member.memberNo;
-       	        			 var $tr = $("<tr>");
-       	        			 var $noTd = $("<td>").text(value.rownum);
-       	        			 var $cnameTd = $("<td>").text(value.children.name);
-       	        			 var $pnameTd = $("<td>").text(value.member.memberName)
-       	        			 var $approval = $("<td>").html("<input type='checkbox' name='accept' class='accept'> <input type='hidden' name='cid' value=" + cid+ "><input type='hidden' name='mno' value=" + mno +">");
-       	        			 
-       	        			 
-       	        			 $tr.append($noTd);
-       	        			 $tr.append($cnameTd);
-       	        			 $tr.append($pnameTd);
-       	        			 $tr.append($approval);
-       	        			 
-       	        			 $tableBody.after($tr);
-       	        		  });
-       	        		  page();
-       	        	  },
-       	        	  error:function(error, status) {
-       	        		  console.log(error);
-       	        		  console.log(status);
-       	        	  }
-       	          });
-       		  } else if($("#selectList").val() === "이전요청내역") { //여기부터
-       			  console.log($(this))
-       			 $.ajax({
-      	        	  url:"<%=request.getContextPath()%>/acceptApproval.do",
-      	        	  type:"get",	
-      	        	  success:function(data) {
-      	        		 $tableBody = $(".pAccountList tbody tr:nth-of-type(1)");
-    					  $(".pAccountList tbody tr:nth-of-type(n+2)").remove();
-    					  $("#remo").remove();
-      	        		  $.each(data, function(index, value){
-      	        			var cid = value.children.cId;
-      	        			var mno = value.member.memberNo;
-      	        			 var $tr = $("<tr>");
-      	        			 var $noTd = $("<td>").text(value.rownum);
-      	        			 var $cnameTd = $("<td>").text(value.children.name);
-      	        			 var $pnameTd = $("<td>").text(value.member.memberName);
-      	        			 var $approval = $("<td>").html("<input type='checkbox' name='accept' class='accept'> <input type='hidden' name='cid' value=" + cid+ "><input type='hidden' name='mno' value=" + mno +">");
-      	        			 
-      	        			 $tr.append($noTd);
-      	        			 $tr.append($cnameTd);
-      	        			 $tr.append($pnameTd);
-      	        			 $tr.append($approval);
-      	        			 
-      	        			 $tableBody.after($tr); 
-      	        		  }); 
-      	        		  page();
-      	        	  },
-      	        	  error:function(error, status) {
-      	        		  console.log(error);
-      	        		  console.log(status);
-      	        	  }
-       			 });
+    			  $("#subBtn").show();
+				  currentPage = 1;
+    			  fpaging();
+       		  } else if($("#selectList").val() === "이전요청내역") {
+       				$("#subBtn").hide();
+				 	currentPage = 1;
+       			  	fpaging2();
        		  }
     	  })
    		 
    		 
     	
-    	  
+    	  <%-- 메뉴 활성화 --%>
     	  $(".li:nth-child(11)").addClass("on");
     	  
           $(".topMenuLi:nth-child(2)").addClass("on");
@@ -95,13 +42,7 @@
             $(".topMenuLi:nth-child(2)").addClass("on");
          });
           
-         
-          
-        $(document).on("click",".accept", function() {
-        	
-        });
-          
-          
+          <%-- 아이 이름 부분 클릭 시 모달에 아이 정보 넣어서 보여줌 --%>
       	$(document).on("click",".pAccountList tr>td:nth-of-type(2)", function(){
       		var cid = $(this).parent().find($("[name=cid]")).val();
       		$.ajax({
@@ -135,40 +76,162 @@
       		
       		
       		$("#myModal").show();
-      	}); 
-      	
-      	 $.ajax({
-        	  url:"<%=request.getContextPath()%>/notApprovalList.do",
-        	  type:"get",	
-        	  success:function(data) {
-        		  $tableBody = $(".pAccountList tbody tr:nth-of-type(1)");
-
-        		  $.each(data, function(index, value){
-        			var cid = value.children.cId;
-        			var mno = value.member.memberNo;
-        			 var $tr = $("<tr>");
-        			 var $noTd = $("<td>").text(value.rownum);
-        			 var $cnameTd = $("<td>").text(value.children.name);
-        			 var $pnameTd = $("<td>").text(value.member.memberName)
-        			 var $approval = $("<td>").html("<input type='checkbox' name='accept' class='accept'> <input type='hidden' name='cid' value=" + cid+ "><input type='hidden' name='mno' value=" + mno +">");
-        			 
-        			 
-        			 $tr.append($noTd);
-        			 $tr.append($cnameTd);
-        			 $tr.append($pnameTd);
-        			 $tr.append($approval);
-        			 
-        			 $tableBody.after($tr);
-        		  });
-        		  page();
-        	  },
-        	  error:function(error, status) {
-        		  console.log(error);
-        		  console.log(status);
-        	  }
-          });
-      	 
+      	});      
       }); 
+
+    <%-- 미승인 리스트 페이징 --%>
+	  function fpaging() {
+         	 $.ajax({
+				url:"<%=request.getContextPath()%>/notApprovalList.do",
+				type:"get",	
+				data:{currentPage},
+				success:function(data) {
+           		$tableBody = $(".pAccountList tbody tr:nth-of-type(1)");
+   				paging = data.pi;
+				$(".pAccountList tbody tr:nth-of-type(n+2)").remove();
+           		$.each(data.list, function(index, value){
+           		  	var cid = value.children.cId;
+           		 	var mno = value.member.memberNo;
+           			var $tr = $("<tr>");
+           			var $noTd = $("<td>").text(value.rownum);
+           			var $cnameTd = $("<td>").text(value.children.name);
+           			var $pnameTd = $("<td>").text(value.member.memberName)
+           			var $approval = $("<td>").html("<input type='checkbox' name='accept' class='accept'> <input type='hidden' name='cid' value=" + cid+ "><input type='hidden' name='mno' value=" + mno +">");
+           			 
+           			 
+           			$tr.append($noTd);
+           			$tr.append($cnameTd);
+           			$tr.append($pnameTd);
+           			$tr.append($approval);
+           			 
+           			$tableBody.after($tr);
+           		  });
+           		  
+           		$(".pagination").empty();  //페이징에 필요한 객체내부를 비워준다.
+
+       	     	    if(paging.currentPage != 1){            // 페이지가 1페이지 가아니면
+       	        		$(".pagination").append("<li class=\"goFirstPage\"><a><<</a></li>");        //첫페이지로가는버튼 활성화
+       	       		}else{
+       	        		$(".pagination").append("<li class=\"disabled\"><a><<</a></li>");        //첫페이지로가는버튼 비활성화
+         	       	}
+         	        
+         	     	if((Number(paging.currentPage) % 10) != 1){            //첫번째 블럭이 아니면
+         	        	$(".pagination").append("<li class=\"goBackPage\"><a><</a></li>");        //뒤로가기버튼 활성화
+         	        } else {
+         	        	$(".pagination").append("<li class=\"disabled\"><a><</a></li>");        //뒤로가기버튼 비활성화
+         	        }
+           		  
+         	        for(var i = paging.startPage ; i <= paging.maxPage ; i++){        //시작페이지부터 종료페이지까지 반복문
+         	        	if(paging.currentPage == i){                            //현재페이지가 반복중인 페이지와 같다면
+       	                	$(".pagination").append("<li class=\"disabled active\"><a>"+i+"</a></li>");    //버튼 비활성화
+         	        	}else{
+         	        		$(".pagination").append("<li class=\"goPage\" data-page=\""+i+"\"><a>"+i+"</a></li>"); //버튼 활성화
+         	        	}
+         	        }
+
+         	      	if(paging.currentPage < paging.endPage){            //전체페이지블럭수가 현재블럭수보다 작을때
+       	        		$(".pagination").append("<li class=\"goNextPage\"><a>></a></li>");         //다음페이지버튼 활성화
+	       	        }else{
+       	        		$(".pagination").append("<li class=\"disabled\"><a>></a></li>");        //다음페이지버튼 비활성화
+       	       	 	}
+
+                   if(paging.currentPage < paging.maxPage){                //현재페이지가 전체페이지보다 작을때
+                 		$(".pagination").append("<li class=\"goLastPage\"><a>>></a></li>");    //마지막페이지로 가기 버튼 활성화
+                 	}else{
+                 		$(".pagination").append("<li class=\"disabled\"><a>>></a></li>");        //마지막페이지로 가기 버튼 비활성화
+                 	}
+           	  	}
+       
+             });
+      	}
+	  <%-- 승인리스트 페이징 --%>
+	  function fpaging2() {
+      	 $.ajax({
+				url:"<%=request.getContextPath()%>/acceptApproval.do",
+				type:"get",	
+				data:{currentPage},
+				success:function(data) {
+        		$tableBody = $(".pAccountList tbody tr:nth-of-type(1)");
+				paging = data.pi;
+				$(".pAccountList tbody tr:nth-of-type(n+2)").remove();
+        		$.each(data.list, function(index, value){
+        		  	var cid = value.children.cId;
+        		 	var mno = value.member.memberNo;
+        			var $tr = $("<tr>");
+        			var $noTd = $("<td>").text(value.rownum);
+        			var $cnameTd = $("<td>").text(value.children.name);
+        			var $pnameTd = $("<td>").text(value.member.memberName)
+        			var entdate = value.parents.pEntDate;
+        			entdate = entdate.substring(7) + "년 " + entdate.substring(0,2) + "월 " + entdate.substring(4,5) + "일";
+        			var $approval = $("<td>").html("<label>" + entdate + "</label> <input type='hidden' name='cid' value=" + cid+ "><input type='hidden' name='mno' value=" + mno +">");
+        			 
+        			 
+        			$tr.append($noTd);
+        			$tr.append($cnameTd);
+        			$tr.append($pnameTd);
+        			$tr.append($approval);
+        			 
+        			$tableBody.after($tr);
+        		  });
+        		  
+        		$(".pagination").empty();  //페이징에 필요한 객체내부를 비워준다.
+
+    	     	    if(paging.currentPage != 1){            // 페이지가 1페이지 가아니면
+    	        		$(".pagination").append("<li class=\"goFirstPage\"><a><<</a></li>");        //첫페이지로가는버튼 활성화
+    	       		}else{
+    	        		$(".pagination").append("<li class=\"disabled\"><a><<</a></li>");        //첫페이지로가는버튼 비활성화
+      	       	}
+      	        
+      	     	if((Number(paging.currentPage) % 10) != 1){            //첫번째 블럭이 아니면
+      	        	$(".pagination").append("<li class=\"goBackPage\"><a><</a></li>");        //뒤로가기버튼 활성화
+      	        } else {
+      	        	$(".pagination").append("<li class=\"disabled\"><a><</a></li>");        //뒤로가기버튼 비활성화
+      	        }
+        		  
+      	        for(var i = paging.startPage ; i <= paging.maxPage ; i++){        //시작페이지부터 종료페이지까지 반복문
+      	        	if(paging.currentPage == i){                            //현재페이지가 반복중인 페이지와 같다면
+    	                	$(".pagination").append("<li class=\"disabled active\"><a>"+i+"</a></li>");    //버튼 비활성화
+      	        	}else{
+      	        		$(".pagination").append("<li class=\"goPage\" data-page=\""+i+"\"><a>"+i+"</a></li>"); //버튼 활성화
+      	        	}
+      	        }
+
+      	      	if(paging.currentPage < paging.endPage){            //전체페이지블럭수가 현재블럭수보다 작을때
+    	        		$(".pagination").append("<li class=\"goNextPage\"><a>></a></li>");         //다음페이지버튼 활성화
+	       	        }else{
+    	        		$(".pagination").append("<li class=\"disabled\"><a>></a></li>");        //다음페이지버튼 비활성화
+    	       	 	}
+
+                if(paging.currentPage < paging.maxPage){                //현재페이지가 전체페이지보다 작을때
+              		$(".pagination").append("<li class=\"goLastPage\"><a>>></a></li>");    //마지막페이지로 가기 버튼 활성화
+              	}else{
+              		$(".pagination").append("<li class=\"disabled\"><a>>></a></li>");        //마지막페이지로 가기 버튼 비활성화
+              	}
+        	  	}
+    
+          });
+   	}
+	  $(function() {
+		  $("#subBtn").click(function(){
+				var accept = [];
+				var mno = [];
+				accept = $(".accept:checked");
+				accept.each(function(index, value) {
+					mno[index] = $(this).parent().children("[name=mno]").val();
+					console.log(mno[index]);
+				});
+				var data = {"mno" : mno};
+				$.ajax({
+					url:"<%= request.getContextPath() %>/parentAccept.me",
+					type:"get",
+					data:data,
+					success:function(data) {
+						location.reload();
+					}
+				});
+		  });
+	  });
+	  
 </script>
 <style>
 	.pAccountList {
@@ -220,8 +283,17 @@
 .hover {text-decoration: underline;}
 .odd{ background: #FFC;}
 .even{ background: #FF9;}
-.active{ width:10px; height:10px; background:#f60; color:white;}
-
+.active{ width:10px; height:20px; background:#f60; color:white;}
+ .pagination {
+	 text-align:center;
+ }
+ .pagination li {
+	 margin: 10px;
+	 display: inline-block;
+ }
+ .pagination li:hover{
+	 cursor:pointer;
+ }
 </style>
 
 </head>
@@ -230,12 +302,14 @@
     <div style="margin: 0 15%;">
 		<h1 align="center" style="text-decoration: underline; text-underline-position: under;">학부모 계정관리</h1>
 	</div>
+
 	<div style="margin: 0 20%;">
 		<select name="selectList" id="selectList">
 			<option value="승인요청내역" selected>승인요청내역</option>
 			<option value="이전요청내역">이전요청내역</option>
 		</select>
-		<table class="pAccountList tbl paginated" id="tbl">
+		
+		<table class="pAccountList">
 			<tr style="background:lightgray">
 				<th style="width:10%">번호</th>
 				<th style="width:30%">원아명</th>
@@ -243,10 +317,17 @@
 				<th style="width:10%">승인</th>
 			</tr>
 		</table>
+		
 	</div>
+	<ul class="pagination">
+
+	
+	</ul> 
+
 	<div style="margin: 0 20%; height:50px;">
-		<input type="submit" value="승인완료" style="float:right"/>
+		<input id="subBtn" type="button" value="승인완료" style="float:right"/>
 	</div>
+	
 
 	<!-- The Modal -->
     <div id="myModal" class="modal">
@@ -282,102 +363,61 @@
       		$("#myModal").hide();
       	};
       	
-      	function page(){ 
-      		var reSortColors = function($table) {
-      		  $('tbody tr:odd td', $table).removeClass('even').removeClass('listtd').addClass('odd');
-      		  $('tbody tr:even td', $table).removeClass('odd').removeClass('listtd').addClass('even');
-      		 };
-      	   $('table.paginated').each(function() {
-      	    var pagesu = 10;  //페이지 번호 갯수
-      	    var currentPage = 0;
-      	    var numPerPage = 10;  //목록의 수
-      	    var $table = $(this);    
-      	    
-      	    //length로 원래 리스트의 전체길이구함
-      	    var numRows = $table.find('tbody tr').length;
-      		  console.log($table)
-      	    //Math.ceil를 이용하여 반올림
-      	    var numPages = Math.ceil(numRows / numPerPage);
-      	    //리스트가 없으면 종료
-      	    if (numPages==0) return;
-      	    //pager라는 클래스의 div엘리먼트 작성
-      	    var $pager = $('<td align="center" id="remo" colspan="10"><div class="pager"></div></td>');
-      	    
-      	    var nowp = currentPage;
-      	    var endp = nowp+10;
-      	    
-      	    //페이지를 클릭하면 다시 셋팅
-      	    $table.not('tbody tr th').bind('repaginate', function() {
-      	    //기본적으로 모두 감춘다, 현재페이지+1 곱하기 현재페이지까지 보여준다
-      	    
-      	     $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
-      	     
-      	     $("#remo").html("");
-      	     
-      	     if (numPages > 1) {     // 한페이지 이상이면
-      	      if (currentPage < 5 && numPages - currentPage >= 5) {   // 현재 5p 이하이면
-      	       nowp = 0;     // 1부터 
-      	       endp = pagesu;    // 10까지
-      	      }else{
-      	       nowp = currentPage -5;  // 6넘어가면 2부터 찍고
-      	       endp = nowp+pagesu;   // 10까지
-      	       pi = 1;
-      	      }
-      	      
-      	      if (numPages < endp) {   // 10페이지가 안되면
-      	       endp = numPages;   // 마지막페이지를 갯수 만큼
-      	       nowp = numPages-pagesu;  // 시작페이지를   갯수 -10
-      	      }
-      	      if (nowp < 1) {     // 시작이 음수 or 0 이면
-      	       nowp = 0;     // 1페이지부터 시작
-      	      }
-      	     }else{       // 한페이지 이하이면
-      	      nowp = 0;      // 한번만 페이징 생성
-      	      endp = numPages;
-      	     }
-      	     // [처음]
-      	     $('<br /><span class="page-number" cursor: "pointer">[처음]</span>').bind('click', {newPage: page},function(event) {
-      	            currentPage = 0;   
-      	            $table.trigger('repaginate');  
-      	            $($(".page-number")[2]).addClass('active').siblings().removeClass('active');
-      	        }).appendTo($pager).addClass('clickable');
-      	      // [이전]
-      	        $('<span class="page-number" cursor: "pointer">&nbsp;&nbsp;&nbsp;[이전]&nbsp;</span>').bind('click', {newPage: page},function(event) {
-      	            if(currentPage == 0) return; 
-      	            currentPage = currentPage-1;
-      	      $table.trigger('repaginate'); 
-      	      $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
-      	     }).appendTo($pager).addClass('clickable');
-      	      // [1,2,3,4,5,6,7,8]
-      	     for (var page = nowp ; page < endp; page++) {
-      	      $('<span class="page-number" cursor: "pointer" style="margin-left: 8px;"></span>').text(page + 1).bind('click', {newPage: page}, function(event) {
-      	       currentPage = event.data['newPage'];
-      	       $table.trigger('repaginate');
-      	       $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
-      	       }).appendTo($pager).addClass('clickable');
-      	     } 
-      	      // [다음]
-      	        $('<span class="page-number" cursor: "pointer">&nbsp;&nbsp;&nbsp;[다음]&nbsp;</span>').bind('click', {newPage: page},function(event) {
-      	      if(currentPage == numPages-1) return;
-      	          currentPage = currentPage+1;
-      	      $table.trigger('repaginate'); 
-      	       $($(".page-number")[(currentPage-nowp)+2]).addClass('active').siblings().removeClass('active');
-      	     }).appendTo($pager).addClass('clickable');
-      	      // [끝]
-      	     $('<span class="page-number" cursor: "pointer">&nbsp;[끝]</span>').bind('click', {newPage: page},function(event) {
-      	             currentPage = numPages-1;
-      	             $table.trigger('repaginate');
-      	             $($(".page-number")[endp-nowp+1]).addClass('active').siblings().removeClass('active');
-      	     }).appendTo($pager).addClass('clickable');
-      	       
-      	       $($(".page-number")[2]).addClass('active');
-      	  reSortColors($table);
-      	    });
-      	     $pager.insertAfter($table).find('span.page-number:first').next().next().addClass('active');   
-      	     $pager.appendTo($table);
-      	     $table.trigger('repaginate');
-      	   });
-      	  }
+      	//클릭한 페이지 버튼 이벤트
+		$(document).on("click",".goPage", function() {
+     		currentPage = $(this).attr("data-page");
+	       	pageFlag = 1;
+			   if($("#selectList").val() === "승인요청내역"){
+	       			fpaging();
+			   } else if($("#selectList").val() === "이전요청내역"){
+				   fpaging2();
+			   }
+	       	pageFlag = 0;
+		});
+		//첫번째 페이지로 가기 버튼 이벤트
+		$(document).on("click", ".goFirstPage", function() {
+     		currentPage = 1;
+			pageFlag = 1;
+				if($("#selectList").val() === "승인요청내역"){
+					fpaging();
+				} else if($("#selectList").val() === "이전요청내역"){
+					fpaging2();
+				}
+			pageFlag = 0;
+		});
+        //뒷페이지로 가기 버튼 이벤트
+		$(document).on("click", ".goBackPage", function() {
+			currentPage = Number(currentPage) - 1;
+			pageFlag = 1;
+				if($("#selectList").val() === "승인요청내역"){
+					fpaging();
+				} else if($("#selectList").val() === "이전요청내역"){
+					fpaging2();
+				}
+			pageFlag = 0;
+		});
+		//다음페이지로 가기 클릭이벤트
+		$(document).on("click", ".goNextPage", function() {
+			currentPage = Number(currentPage) + 1;
+			pageFlag = 1;
+				if($("#selectList").val() === "승인요청내역"){
+					fpaging();
+				} else if($("#selectList").val() === "이전요청내역"){
+					fpaging2();
+				}
+			pageFlag = 0;
+		});
+		//마지막페이지로 가기 클릭이벤트
+		$(document).on("click", ".goLastPage", function() {
+			currentPage = paging.maxPage;
+			pageFlag = 1;
+				if($("#selectList").val() === "승인요청내역"){
+					fpaging();
+				} else if($("#selectList").val() === "이전요청내역"){
+					fpaging2();
+				}
+			pageFlag = 0;
+		});
     </script>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>

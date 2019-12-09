@@ -5,23 +5,30 @@ import static com.oracle5.common.JDBCTemplate.close;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.naming.PartialResultException;
+
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Children;
+import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.FamilyRelation;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Parents;
+import com.oracle5.member.model.vo.ReturnAgree;
 import com.oracle5.member.model.vo.Scholarly;
 import com.oracle5.member.model.vo.Teacher;
 
@@ -753,20 +760,25 @@ public class MemberDao {
 		return result;
   }
 
-	public List<Map<String, Object>> selectNotAppList(Connection con) {
+	public List<Map<String, Object>> selectNotAppList(Connection con, int currentPage, int limit) {
 		List<Map<String, Object>> list = null;
 		Map<String, Object> hmap = null;
 		Parents p = null;
 		Children c = null;
 		Member m = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String query = prop.getProperty("selectNotAppList");
 		
+		int startRow = (currentPage - 1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
 		try {
-			stmt = con.createStatement();
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
 			
-			rset = stmt.executeQuery(query);
+			rset = pstmt.executeQuery();
 			
 			list = new ArrayList<>();
 			
@@ -782,7 +794,7 @@ public class MemberDao {
 				c.setCId(rset.getInt("C_ID"));
 				c.setName(rset.getString("C_NAME"));
 				
-				hmap.put("rownum", rset.getInt("ROWNUM"));
+				hmap.put("rownum", rset.getInt("RNUM"));
 				hmap.put("children", c);
 				hmap.put("member", m);
 				hmap.put("parents", p);
@@ -793,7 +805,7 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 		
 		return list;
@@ -853,8 +865,8 @@ public class MemberDao {
 		return c;
 	}
 
-	public List<Map<String, Object>> selectAcceptAppList(Connection con) {
-		Statement stmt = null;
+	public List<Map<String, Object>> selectAcceptAppList(Connection con, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		List<Map<String, Object>> list = null;
 		Map<String, Object> hmap = null;
@@ -862,12 +874,17 @@ public class MemberDao {
 		Children c = null;
 		Parents p = null;
 		
+		int startRow = (currentPage - 1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
 		String query = prop.getProperty("selectAcceptAppList");
 		
 		try {
-			stmt = con.createStatement();
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
 			
-			rset = stmt.executeQuery(query);
+			rset = pstmt.executeQuery();
 			
 			list = new ArrayList<>();
 			
@@ -878,12 +895,13 @@ public class MemberDao {
 				m = new Member();
 				
 				p.setPApproval(rset.getString("APPROVAL"));
+				p.setPEntDate(rset.getDate("ENT_DATE"));
 				m.setMemberNo(rset.getInt("M_NO"));
 				m.setMemberName(rset.getString("NAME"));
 				c.setCId(rset.getInt("C_ID"));
 				c.setName(rset.getString("C_NAME"));
 				
-				hmap.put("rownum", rset.getInt("ROWNUM"));
+				hmap.put("rownum", rset.getInt("RNUM"));
 				hmap.put("children", c);
 				hmap.put("member", m);
 				hmap.put("parents", p);
@@ -894,10 +912,261 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 		
 		return list;
 
 	}
+
+
+	//원아 id 가져오기
+	public int searchCID(Connection con, int userMno) {
+		PreparedStatement pstmt = null;
+		int cId = 0;
+		ResultSet rset = null;
+		
+		//내 아이 원아번호 가져오기
+		String query = prop.getProperty("selectChildrenCID");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, userMno);
+		
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				cId = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return cId;
+	}
+
+	//학부모 방과후 신청
+	public int asRequest(Connection con, int userMno, int cId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		Date date = new Date(new java.util.Date().getTime());
+		String query = prop.getProperty("insertAsRequest");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			pstmt.setDate(2, date);
+			result = pstmt.executeUpdate();
+					
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//투약의뢰서 신청
+	public int doseRequest(Connection con, DoseRequest dr) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		System.out.println(dr);
+		
+		String query = prop.getProperty("insertDoseRequest");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, dr.getCNo());
+			pstmt.setString(2, dr.getSymptom());
+			pstmt.setString(3, dr.getKinds());
+			pstmt.setString(4, dr.getKeep());
+			pstmt.setDate(5, dr.getStartDate());
+			pstmt.setString(6, dr.getRemarks());
+			pstmt.setInt(7, dr.getPNo());
+			pstmt.setDate(8, dr.getEndDate());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+				
+		return result;
+	}
+
+	//투약의뢰서 가져오기
+	public DoseRequest selectDoseReq(Connection con, int pNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		DoseRequest dr = null;
+		
+		String query = prop.getProperty("selectDoseReq");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				dr = new DoseRequest();
+				dr.setCNo(rset.getInt("C_NO"));
+				dr.setSymptom(rset.getString("SYMPTOM"));
+				dr.setKinds(rset.getString("KINDS"));
+				dr.setKeep(rset.getString("KEEP"));
+				dr.setStartDate(rset.getDate("START_DATE"));
+				dr.setRemarks(rset.getString("REMARKS"));
+				dr.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+				dr.setPNo(rset.getInt("P_NO"));
+				dr.setEndDate(rset.getDate("END_DATE"));
+				dr.setStatus(rset.getString("STATUS"));
+				dr.setDNo(rset.getInt("D_NO"));
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return dr;
+	}
+
+	//투약 시간테이블 INSERT
+	public int insertDoseTime(Connection con, DoseRequest requestDose, String dosingTime) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		System.out.println("memberdao insertdosetime : " + dosingTime);
+		String[] doseTimes = dosingTime.split("/");
+		System.out.println("dao dosetime : " + doseTimes);
+		String query = prop.getProperty("insertDoseTime");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			for(int i = 0; i < doseTimes.length; i++) {
+				
+				pstmt.setString(1, doseTimes[i]);
+				pstmt.setInt(2, requestDose.getDNo());
+				
+				result = pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	//귀가동의서 테이블 INSERT
+	public int insertReturnApply(Connection con, ReturnAgree ra) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertReturnApply");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, ra.getCId());
+			pstmt.setInt(2, ra.getPNo());
+			pstmt.setDate(3, ra.getApplyDate());
+			pstmt.setString(4, ra.getApplyTime());
+			pstmt.setString(5, ra.getGuideName());
+			pstmt.setString(6, ra.getGuidePhone());
+			
+			result = pstmt.executeUpdate();
+    }
+    
+    		return update;
+	
+  }
+
+	public int getNotAppListCount(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		int listCount = 0;
+		
+		String sql = prop.getProperty("NotApplistCount");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return listCount;
+	}
+
+	public int getAcceptListCount(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		int listCount = 0;
+		
+		String sql = prop.getProperty("AcceptListCount");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return listCount;
+	}
+
+	public int updateParentApproval(Connection con, int userNo) {
+		PreparedStatement pstmt = null;
+		int update = 0;
+		
+		String sql = prop.getProperty("updateParentApproval");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			update = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+	
+
 }

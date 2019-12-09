@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.oracle5.board.model.vo.Board"%>
+    <% 
+    	ArrayList<Board> list = (ArrayList<Board>) request.getAttribute("list");
+    
+    %>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 시멘틱ui -->
@@ -93,77 +97,16 @@ input[type='button'] {
 				</tr>
 			</thead>
 			<tbody id="tbodyArea"> 
+			<%for(Board b : list) { %>
 				<tr>
-					<td id="no">3</td>
-					<td id="title">24</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-					<td id="date">2019-05-05</td>
+					<td id="no"><%=b.getTid() %></td>
+					<td id="title"><%=b.getTtitle() %></td>
+                    <td id="writer"><%=b.getTno() %></td>
+                    <td id="count"><%=b.getTcount() %></td>
+					<td id="date"><%=b.getTtime() %></td>
 				</tr>
-				<tr>
-					<td id="no">2</td>
-					<td id="title">26</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-					<td id="date">2019-03-29</td>
-				</tr>
-				<tr>
-					<td id="no">1</td>
-					<td id="title">24</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-					<td id="date">2019-01-02</td>
-                </tr>
-                <tr>
-                    <td id="no">1</td>
-                    <td id="title">24</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-                    <td id="date">2019-01-02</td>
-                </tr>
-
-                <tr>
-                    <td id="no">1</td>
-                    <td id="title">24</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-                    <td id="date">2019-01-02</td>
-                </tr>
-                <tr>
-                    <td id="no">1</td>
-                    <td id="title">24</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-                    <td id="date">2019-01-02</td>
-                </tr>
-                <tr>
-                    <td id="no">1</td>
-                    <td id="title">24</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-                    <td id="date">2019-01-02</td>
-                </tr>
-                <tr>
-                    <td id="no">1</td>
-                    <td id="title">24</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-                    <td id="date">2019-01-02</td>
-                </tr>
-                <tr>
-                    <td id="no">1</td>
-                    <td id="title">24</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-                    <td id="date">2019-01-02</td>
-                </tr>
-                <tr>
-                    <td id="no">1</td>
-                    <td id="title">24</td>
-                    <td id="writer">박주호</td>
-                    <td id="count">1</td>
-                    <td id="date">2019-01-02</td>
-                </tr>
+				<%} %>
+				
 			</tbody>
 		</table>
 		<br>
@@ -172,7 +115,7 @@ input[type='button'] {
               <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
                       color: rgba(0,0,0,.6); ">Search</button>
               
-              <button style="float:right; width:100px; height:30px;" class="writing">글쓰기</button>
+              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
               
         </div> 
 	</div>
