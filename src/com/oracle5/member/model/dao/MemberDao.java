@@ -753,20 +753,25 @@ public class MemberDao {
 		return result;
   }
 
-	public List<Map<String, Object>> selectNotAppList(Connection con) {
+	public List<Map<String, Object>> selectNotAppList(Connection con, int currentPage, int limit) {
 		List<Map<String, Object>> list = null;
 		Map<String, Object> hmap = null;
 		Parents p = null;
 		Children c = null;
 		Member m = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String query = prop.getProperty("selectNotAppList");
 		
+		int startRow = (currentPage - 1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
 		try {
-			stmt = con.createStatement();
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
 			
-			rset = stmt.executeQuery(query);
+			rset = pstmt.executeQuery();
 			
 			list = new ArrayList<>();
 			
@@ -782,7 +787,7 @@ public class MemberDao {
 				c.setCId(rset.getInt("C_ID"));
 				c.setName(rset.getString("C_NAME"));
 				
-				hmap.put("rownum", rset.getInt("ROWNUM"));
+				hmap.put("rownum", rset.getInt("RNUM"));
 				hmap.put("children", c);
 				hmap.put("member", m);
 				hmap.put("parents", p);
@@ -793,7 +798,7 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 		
 		return list;
@@ -853,8 +858,8 @@ public class MemberDao {
 		return c;
 	}
 
-	public List<Map<String, Object>> selectAcceptAppList(Connection con) {
-		Statement stmt = null;
+	public List<Map<String, Object>> selectAcceptAppList(Connection con, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		List<Map<String, Object>> list = null;
 		Map<String, Object> hmap = null;
@@ -862,12 +867,17 @@ public class MemberDao {
 		Children c = null;
 		Parents p = null;
 		
+		int startRow = (currentPage - 1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
 		String query = prop.getProperty("selectAcceptAppList");
 		
 		try {
-			stmt = con.createStatement();
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
 			
-			rset = stmt.executeQuery(query);
+			rset = pstmt.executeQuery();
 			
 			list = new ArrayList<>();
 			
@@ -878,12 +888,13 @@ public class MemberDao {
 				m = new Member();
 				
 				p.setPApproval(rset.getString("APPROVAL"));
+				p.setPEntDate(rset.getDate("ENT_DATE"));
 				m.setMemberNo(rset.getInt("M_NO"));
 				m.setMemberName(rset.getString("NAME"));
 				c.setCId(rset.getInt("C_ID"));
 				c.setName(rset.getString("C_NAME"));
 				
-				hmap.put("rownum", rset.getInt("ROWNUM"));
+				hmap.put("rownum", rset.getInt("RNUM"));
 				hmap.put("children", c);
 				hmap.put("member", m);
 				hmap.put("parents", p);
@@ -894,10 +905,82 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 		
 		return list;
 
+	}
+
+	public int getNotAppListCount(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		int listCount = 0;
+		
+		String sql = prop.getProperty("NotApplistCount");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return listCount;
+	}
+
+	public int getAcceptListCount(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		int listCount = 0;
+		
+		String sql = prop.getProperty("AcceptListCount");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return listCount;
+	}
+
+	public int updateParentApproval(Connection con, int userNo) {
+		PreparedStatement pstmt = null;
+		int update = 0;
+		
+		String sql = prop.getProperty("updateParentApproval");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			update = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return update;
 	}
 }
