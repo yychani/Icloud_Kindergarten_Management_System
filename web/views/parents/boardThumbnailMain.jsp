@@ -1,5 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@page import="java.util.ArrayList" %>
+ <%@page import="com.oracle5.board.model.vo.Board" %>
+ <%@page import="com.oracle5.common.model.vo.PageInfo" %>
+    <%
+    	ArrayList<Board> list = (ArrayList<Board>)request.getAttribute("list");
+    	PageInfo pi = (PageInfo) request.getAttribute("pi");
+    	System.out.print(pi);
+		int currentPage = pi.getCurrentPage();
+		int listCount = pi.getListCount();
+		int limit = pi.getLimit();
+		int maxPage = pi.getMaxPage();
+		int startPage = pi.getStartPage(); 
+		int endPage = pi.getEndPage();
+    
+    
+    
+    
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -114,7 +132,17 @@ input[type='button'] {
                     <th id="count">조회수</th>
 					<th id="date">작성일</th>
 				</tr>
-			</thead>
+				</thead>
+				<%for (Board b : list) {%>
+				<tr>
+				<td><%=b.getTid() %></td>
+				<td><%=b.getTtitle() %></td>
+				<td><%=b.getTwriter() %></td>
+				<td><%=b.getTcount() %></td>
+				<td><%=b.getTtime() %></td>
+				</tr>
+				<%} %>
+			
 			<tbody id="tbodyArea"> 
 				<tr>
 					<td id="no">3</td>
@@ -126,6 +154,32 @@ input[type='button'] {
 
 			</tbody>
 		</table>
+				<div align="center">
+			<button onclick="location.href='<%=request.getContextPath() %>/thumbnailList.bo?currentPage=1'">처음</button>
+			
+			<% if(currentPage <= 1) { %>
+			<button disabled>이전</button>
+			<% }else { %>
+			<button onclick="location.href='<%=request.getContextPath() %>/thumbnailList.bo?currentPage=<%=currentPage - 1 %>'"><</button>
+			<% } %>
+			
+			<% for(int p = startPage; p <= endPage; p++) {
+				if(p == currentPage) {
+			%>
+				<button disabled><%=p %></button>
+				<% } else { %>
+				<button onclick="location.href='<%=request.getContextPath() %>/thumbnailList.bo?currentPage=<%=p %>'"><%=p %></button>
+				<% } %>
+			<% } %>
+			
+			<% if(currentPage >= maxPage) { %>
+			<button disabled>다음</button>
+			<% }else { %>
+			<button onclick="location.href='<%=request.getContextPath() %>/thumbnailList.bo?currentPage=<%=currentPage + 1 %>'">></button>
+			<% } %>
+			
+			<button onclick="location.href='<%=request.getContextPath() %>/thumbnailList.bo?currentPage=<%=maxPage %>'">마지막</button>
+		</div>
 		<br>
         <div id="searchArea">
                 <input type="text" placeholder="Search" style="width:150px; height:30px;">

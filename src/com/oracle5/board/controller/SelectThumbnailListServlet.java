@@ -1,7 +1,6 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -14,19 +13,17 @@ import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.PageInfo;
 
-
-
 /**
- * Servlet implementation class SelectBoardListServlet
+ * Servlet implementation class SelectThumbnailListServlet
  */
-@WebServlet("/selectList.bo")
-public class SelectBoardListServlet extends HttpServlet {
+@WebServlet("/thumbnailList.bo")
+public class SelectThumbnailListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectBoardListServlet() {
+    public SelectThumbnailListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,7 +45,7 @@ public class SelectBoardListServlet extends HttpServlet {
 		}
 		limit = 10;
 		
-		int listCount = new BoardService().getListCount();
+		int listCount = new BoardService().getListCountThumbnail();
 		
 		maxPage = (int)((double)listCount/ limit + 0.9);
 		
@@ -62,7 +59,7 @@ public class SelectBoardListServlet extends HttpServlet {
 		
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-		ArrayList<Board> list = new BoardService().selectBoardPageing(currentPage,limit);
+		ArrayList<Board> list = new BoardService().selectBoardPageingThumbnail(currentPage,limit);
 		
 		String page = "";
 		if(list != null) {

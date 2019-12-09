@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+ <%@page import="com.oracle5.member.model.vo.Member" %>
+ <%
+ 	Member loginUser = (Member) session.getAttribute("loginMember");
+ 
+ %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/menu.css" />
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
 
 <style>
 table {
@@ -59,9 +65,9 @@ table {
                </li>
                <li class="topMenuLi"><a class="menuLink" href="">게시판</a>
                   <ul class="submenu">
-                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardThumbnailMain.jsp" class="submenuLink">아이들 사진 게시판</a></li>
+                     <li class="li"><a href="<%=request.getContextPath() %>/thumbnailList.bo" class="submenuLink">아이들 사진 게시판</a></li>
                      <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardParentsBoard.jsp" class="submenuLink">학부모 게시판</a></li>
+                     <li class="li"><a href="<%=request.getContextPath() %>/selectList.bo" class="submenuLink">학부모 게시판</a></li>
                      <li>|</li>
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardCommittee.jsp" class="submenuLink longLink">유치원 운영위원회
                            게시판</a></li>

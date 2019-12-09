@@ -117,6 +117,39 @@ public class BoardService {
 		return list;
 	}
 
+
+	public int getListCountThumbnail() {
+		Connection con = getConnection();
+		
+		int listCount = new BoardDao().getListCountThumbnail(con);
+		
+		close(con);
+		return listCount;
+	}
+
+	public ArrayList<Board> selectBoardPageingThumbnail(int currentPage, int limit) {
+		Connection con = getConnection();
+		ArrayList<Board> list = new BoardDao().selectBoardPageingThumbnail(con,currentPage,limit);
+		
+		close(con);
+		return list;
+	}
+
+	public int inserParentsBoard(Board b) {
+		Connection con = getConnection();
+		
+		int result = new BoardDao().insertParentsBoard(con,b);
+		
+		if(result>0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		return result;
+    
+  }
+
 	public int insertBanNotice(Board b) {
 		Connection con = getConnection();
 		
@@ -144,6 +177,7 @@ public class BoardService {
 	public Board selectOneBoard(int num) {
 		// TODO Auto-generated method stub
 		return null;
+
 	}
 
 
