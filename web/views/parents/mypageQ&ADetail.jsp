@@ -50,53 +50,9 @@
 	
 <div class="ui comments">
   <h3 class="ui dividing header">댓글</h3>
-  <div class="comment">
+  
+ 
     
-    <div class="content">
-      <a class="author">채성아</a>
-      <div class="metadata">
-        <span class="date">Today at 5:42PM</span>
-      </div>
-      <div class="text">
-        	조용히해!
-      </div>
-      <div class="actions">
-        <a class="reply">댓글달기</a>
-      </div>
-    </div>
-  </div>
-  <div class="comment">
-    
-    <div class="content">
-      <a class="author">나미리</a>
-      <div class="metadata">
-        <span class="date">Yesterday at 12:30AM</span>
-      </div>
-      <div class="text">
-        <p>역시 해바라기반은 조용한날이 없다니깐~</p>
-      </div>
-      <div class="actions">
-        <a class="reply">댓글달기</a>
-      </div>
-    </div>
-    <div class="comments">
-      <div class="comment">
-       
-        <div class="content">
-          <a class="author">권연주</a>
-          <div class="metadata">
-            <span class="date">Just now</span>
-          </div>
-          <div class="text">
-				한솔지금 몇시야
-          </div>
-          <div class="actions">
-            <a class="reply">댓글달기</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="comment">
    
     <div class="content">
