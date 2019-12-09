@@ -10,10 +10,12 @@ import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.dao.MemberDao;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Children;
+import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.FamilyRelation;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Parents;
+import com.oracle5.member.model.vo.ReturnAgree;
 import com.oracle5.member.model.vo.Scholarly;
 import com.oracle5.member.model.vo.Teacher;
 
@@ -315,6 +317,74 @@ public class MemberService {
 
 	}
 
+
+	//학부모 방과후 신청
+	public int asRequest(int userMno) {
+		Connection con = getConnection();
+		
+		int cId = md.searchCID(con, userMno);
+		
+		int result = md.asRequest(con, userMno, cId);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		close(con);
+		
+		return result;
+	}
+
+	//투약의뢰서 신청
+	public int doseRequest(DoseRequest dr) {
+		Connection con = getConnection();
+		
+		//투약의뢰서에 원아 아이디 넣어주기
+		int cId = md.searchCID(con, dr.getPNo());
+		dr.setCNo(cId);
+		
+		//DOESREQ 테이블 INSERT
+		int result = md.doseRequest(con, dr);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		close(con);
+		
+		return result;
+	}
+
+	//투약의뢰서 가져오기
+	public DoseRequest selectDoseReq(int pNo) {
+		Connection con = getConnection();
+		
+		DoseRequest dr = md.selectDoseReq(con, pNo);
+		
+		close(con);
+		
+		return dr;
+	}
+
+	//투약시간테이블 INSERT
+	public int doseTimeInsert(DoseRequest requestDose, String dosingTime) {
+		Connection con = getConnection();
+		
+		int result = md.insertDoseTime(con, requestDose, dosingTime);
+		
+		if(result > 0) {
+      		commit(con);
+		} else {
+			rollback(con);
+		}
+    		
+		close(con);
+		
+		return update;
+  }
+
 	public int getNotAppListCount() {
 		Connection con = getConnection();
 		
@@ -345,14 +415,37 @@ public class MemberService {
 		}
 		
 		if(mno.length == update) {
-			commit(con);
-		} else {
+      	commit(con);
+		}else {
 			rollback(con);
 		}
+		close(con);
+    
+    return update;
+  }
+
+	
+
+
+	//귀가동의서 INSERT
+	public int returnApply(ReturnAgree ra) {
+		Connection con = getConnection();
 		
+		//귀가동의서에 원아 아이디 넣어주기
+		int cId = md.searchCID(con, ra.getPNo());
+		ra.setCId(cId);
+				
+		int result = md.insertReturnApply(con, ra);
+		
+		if(result > 0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
 		close(con);
 		
-		return update;
+		return result;
+
 	}
 
 }

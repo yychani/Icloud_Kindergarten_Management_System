@@ -17,4 +17,5 @@ public class DoseRequest implements java.io.Serializable{
 	private Date endDate;
 	private String status;
 	private int dNo;
+	private String dosingTime;
 }

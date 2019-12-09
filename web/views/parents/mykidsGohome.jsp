@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
+<%
+	Member loginUser = (Member) session.getAttribute("loginMember");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -103,30 +106,23 @@ img {
          <Br>
                <h1 align="center">귀가동의서 작성</h1>   
                
-               <form  id="goHomeRequest" action="<%=request.getContextPath()%>/views/parents/mykidsGoHomeList.jsp"  method="post" onsubmit="return true">
+               <form  id="goHomeRequest" action="<%=request.getContextPath()%>/returnAgree.me"  method="post" onsubmit="return true">
                   <table  align="center" class="goHomeTable">
+                  
                         <tr>
                               <td id="labelText"><label>유아명 : </label></td>
                               <td>
                                  <div class="ui mini icon input">
                                     <input type="text" placeholder="유아명 입력" name="kidsName">
+                                    <input type="hidden" name="pNo" value="<%= loginUser.getMemberNo() %>">
                                  </div>
                               </td>
-                           </tr>
-                           <tr>
-                              <td id="labelText"><label>보호자 명 : </label></td>
-                              <td>
-                                 <div class="ui mini icon input">
-                                    <input type="text" placeholder="보호자 성명 입력" name="parentsName">
-                                 </div>
-                              </td>
-      
                            </tr>
                            <tr>
                               <td id="labelText"><label>인솔자 명 : </label></td>
                               <td>
                                  <div class="ui mini icon input">
-                                    <input type="text" placeholder="인솔자 성명 입력" name="parentsName">
+                                    <input type="text" placeholder="인솔자 성명 입력" name="guideName">
                                  </div>
                               </td>
       
@@ -135,7 +131,7 @@ img {
                               <td id="labelText"><label>인솔자 연락처 : </label></td>
                               <td>
                                  <div class="ui mini icon input">
-                                    <input type="tel" placeholder="인솔자 연락처 입력" name="phone"
+                                    <input type="tel" placeholder="인솔자 연락처 입력" name="guidePhone"
                                        id="phone">
                                  </div>
                               </td>
@@ -144,7 +140,7 @@ img {
                               <td id="labelText"><label>일자: </label></td>
                               <td>
                                  <div class="ui mini icon input">
-                                    <input type="date" id="dosingPeriodStart">
+                                    <input type="date" id="applyDate">
                                  </div>
                               </td>
                            </tr>
@@ -153,7 +149,7 @@ img {
                               <td>
                                  <div class="ui mini icon input">
                                     <input class="timepicker" id='timepicker' type='text'
-                                       name='timepicker'>
+                                       name='applyTime'>
                                  </div>
                               </td>
                            </tr>
