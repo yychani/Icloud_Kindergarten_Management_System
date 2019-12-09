@@ -77,7 +77,7 @@
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">업무</a>
 						<ul class="submenu">
-							<li class="li3"><a href="<%=request.getContextPath()%>/views/president/preWorkD.jsp"
+							<li class="li3"><a href="<%=request.getContextPath()%>/selectWorkList.task"
 									class="submenuLink">선생님 업무분장</a></li>
 							<li>|</li>
 							<li class="li4"><a href="<%=request.getContextPath()%>/views/president/menuAble.jsp"
