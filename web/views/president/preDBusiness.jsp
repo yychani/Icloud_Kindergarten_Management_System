@@ -1,35 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-<style>
-th {
-	text-align: left;
-}
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+    <style>
+        th {
+            text-align: left;
+        }
 
-input[type=text] {
-	border-radius: 10px;
-	width: 300px;
-	height: 30px;
-}
+        input[type=text] {
+            border-radius: 10px;
+            width: 300px;
+            height: 30px;
+        }
 
-input[type=checkbox] {
-	width: 15px;
-	height: 15px;
-	vertical-align: center;
-}
-
-#charge {
+        input[type=checkbox] {
+            width: 15px;
+            height: 15px;
+            vertical-align: center;
+        }
+        #charge {
 	width: 120px;
 	border: 1px solid black;
 	vertical-align: middle;
@@ -72,33 +68,31 @@ input[type='submit'] {
     border: none;
     cursor: pointer;
 }
-</style>
+    </style>
 </head>
 
-<body style="overflow-x: hidden">
-	<%@ include file="/views/common/presidentMenu.jsp"%>
-	<div style="margin: 0 15%;">
-		<h1
-			style="text-decoration: underline; text-underline-position: under;">선생님
-			업무분장</h1>
-	</div>
+<body style="overflow-x:hidden">
+    <%@ include file="/views/common/presidentMenu.jsp" %>
+    <div style="margin: 0 15%;">
+		<h1 style="text-decoration: underline; text-underline-position: under;">선생님 업무분장</h1>
+    </div>
 	<script>
 		$(function() {
 			$
 					.ajax({
-						url : "/main/selectTeacher.do",
+						url : "/main/selectPosition.do",
 						type : "post",
 						success : function(data) {
 							console.log(data);
 							$select = $("#chargeN");
 							$select.find("option").remove();
 							for (var i = 0; i < data.length; i++) {
-								var name = decodeURIComponent(data[i].name);
+								var pname = decodeURIComponent(data[i].pname);
 								var selected = (i == 0) ? "selected" : "";
 
 								$select
-										.append("<option value='" + data[i].tNo + "' " + selected + ">"
-												+ name + "선생님</option>");
+										.append("<option value='" + data[i].pid + "' " + selected + ">"
+												+ pname + "</option>");
 							}
 						},
 						error : function(data) {
@@ -107,7 +101,7 @@ input[type='submit'] {
 					});
 		});
 	</script>
-	<form action="<%=request.getContextPath()%>/insertUBusiness.task" method="post">
+	<form action="<%=request.getContextPath()%>/insertDBusiness.task" method="post">
 		<table id="workDivision" align="center">
 			<tr>
 				<th id="charge">담당</th>
@@ -135,23 +129,23 @@ input[type='submit'] {
 			</tr>
 		</table>
 	</form>
-	<script>
-		$(function() {
-			$(".li3").addClass("on");
-			$(".topMenuLi:nth-child(2)").addClass("on");
-			$(".topMenuLi").mouseover(function() {
-				$(".li3").removeClass("on");
-				$(".topMenuLi:nth-child(2)").removeClass("on");
-			});
-			$(".topMenuLi").mouseleave(function() {
-				$(".li3").addClass("on");
-				$(".topMenuLi:nth-child(2)").addClass("on");
-			});
-		});
-	</script>
+    <script>
+        $(function () {
+            $(".li3").addClass("on");
+            $(".topMenuLi:nth-child(2)").addClass("on");
+            $(".topMenuLi").mouseover(function () {
+                $(".li3").removeClass("on");
+                $(".topMenuLi:nth-child(2)").removeClass("on");
+            });
+            $(".topMenuLi").mouseleave(function () {
+                $(".li3").addClass("on");
+                $(".topMenuLi:nth-child(2)").addClass("on");
+            });
+        });
+    </script>
 
-	<%@ include file="/views/common/footer.jsp"%>
-	<%@ include file="/views/common/chat.jsp"%>
+    <%@ include file="/views/common/footer.jsp" %>
+    <%@ include file="/views/common/chat.jsp" %>
 </body>
 
 </html>
