@@ -14,7 +14,7 @@
 	#errorArea {
 		margin: 210px auto; 
 		background: white;
-		width: 450px;
+		width: 500px;
 		height: 200px;
 		border-radius: 10px;
 		padding-top: 100px;
