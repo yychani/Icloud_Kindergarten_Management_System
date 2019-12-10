@@ -1166,4 +1166,89 @@ public class MemberDao {
 		return update;
 	}
 
+	//귀가동의서 신청기록 불러오기
+	public ArrayList<ReturnAgree> selectRaList(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<ReturnAgree> raList = null;
+		
+		String query = prop.getProperty("selectRalist");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
+			
+			rset = pstmt.executeQuery();
+		
+			if(rset != null) {
+				raList = new ArrayList<ReturnAgree>();
+				while(rset.next()) {
+					ReturnAgree ra = new ReturnAgree();
+					ra.setCId(rset.getInt("C_ID"));
+					ra.setCName(rset.getString("C_NAME"));
+					ra.setPNo(rset.getInt("P_NO"));
+					ra.setApplyDate(rset.getDate("APPLY_DATE"));
+					ra.setApplyTime(rset.getString("APPLY_TIME"));
+					ra.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+					ra.setStatus(rset.getString("STATUS"));
+					ra.setGuideName(rset.getString("GUIDENAME"));
+					ra.setGuidePhone(rset.getString("GUIDEPHONE"));
+					
+					raList.add(ra);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return raList;
+	}
+
+	//원아명으로 cid가져오기
+	public int selectCId(Connection con, String kidsName) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int cId = 0;
+		
+		String query = prop.getProperty("selectCId");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, kidsName);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				cId = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return cId;
+	}
+
+	//투약의뢰서 의리 리스트 불러오기
+	public ArrayList<DoseRequest> selectDoList(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<DoseRequest> list = null;
+		
+		String query = prop.getProperty("selectDolist");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class DoseRequest implements java.io.Serializable{
 	private int cNo;
+	private String cName;
 	private String symptom;
 	private String kinds;
 	private String keep;

@@ -35,7 +35,11 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 		int pNo = Integer.parseInt(request.getParameter("pNo"));
 		String guideName = request.getParameter("guideName");
 		String guidePhone = request.getParameter("guidePhone");
-
+		
+		//아이 이름으로 cid 가져오기 
+		String kidsName = request.getParameter("kidsName");
+		int cId = new MemberService().selectCId(kidsName);
+		System.out.println(cId);
 		String sapplyDate = request.getParameter("applyDate");
 		Date applyDate;
 		if(sapplyDate != "") {
@@ -52,11 +56,12 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 		ra.setApplyTime(applyTime);
 		ra.setGuideName(guideName);
 		ra.setGuidePhone(guidePhone);
-
+		ra.setCId(cId);
+		
 		int result = new MemberService().returnApply(ra);
 		
 		if(result > 0) {
-			response.sendRedirect("views/common/successPage.jsp?successCode=11");
+			response.sendRedirect("views/common/successPage.jsp?successCode=12");
 		} else {
 			request.setAttribute("msg", "귀가동의서 신청 실패");
 			
