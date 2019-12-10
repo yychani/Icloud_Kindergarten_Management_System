@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
-<%
-	Member loginUser = (Member) session.getAttribute("loginMember");
-%>
+
 <!DOCTYPE html>
 <html>
 
@@ -107,39 +105,44 @@
 		</div>
 
 	</div>
+	
 	<!-- 회원정보 변경 모달 -->
 	<div class="ui modal infoChange">
 		<i class="close icon"></i>
 		<div class="header" align="center">회원정보 변경</div>
 		<div class="infoChangeDiv" align="center">
-			<form action="" method="post">
-				<br> <label>이름 </label>
+			<form id="infoChangeForm" action="<%=request.getContextPath()%>/pinfoChange.me" method="post">
+				<br><br> <label>이름 </label>
 				<div class="ui input">
-					<input type="text" placeholder="변경할 이름">
+					<input type="text" id="changeName" name="changeName" placeholder="변경할 이름">
 				</div>
 				<br> <br> <label>주소 </label>
 				<div class="ui input">
-					<input type="text" placeholder="변경할 주소">
+					<input type="text" id="changeAddress" name="changeAddress" placeholder="변경할 주소" >
+					<input type="hidden" id="changeAddress1" name="changeAddress1">
 				</div>
 				<br> <br> <label>이메일 </label>
 				<div class="ui input">
-					<input type="email" placeholder="변경할 이메일">@<input
-						type="email" placeholder="변경할 이메일">
+					<input type="text" name="changeEmail1" placeholder="변경할 이메일">@<input
+						type="text" name="changeEmail2"  placeholder="변경할 이메일">
 				</div>
 				<br> <br> <label>휴대폰 </label>
 				<div class="ui input">
-					<input type="tel" placeholder="">-<input type="tel"
-						placeholder="">-<input type="tel" placeholder="">
+					<input type="tel" name="tel1" placeholder="">-<input type="tel" id="tel2" name="tel2"
+						placeholder="">-<input type="tel" id="tel3" name="tel3" placeholder="">
+					<input type="hidden" id="tel21" name="tel21">
+					<input type="hidden" id="tel31" name="tel31">
 				</div>
-			</form>
-			<br> <br>
-		</div>
-		<div class="actions">
+				<br> <br><br>
+				<div class="actions">
 			<div class="ui black deny button">취소</div>
-			<div class="ui positive right labeled icon button">
-				변경하기 <i class="checkmark icon"></i>
-			</div>
+			<!-- <input type="button" class="ui green button" onclick="encryption()" value="test">변경하기 -->
+			<button type="submit" onclick="encryption()">test2</button>
 		</div>
+			</form>
+			<br><br><br>
+		</div>
+		
 	</div>
 
 	<!-- 비밀번호 변경 모달 -->
@@ -149,7 +152,7 @@
 		<div class="passDiv" align="center">
 			<form id="passChangeForm"
 				action="<%=request.getContextPath()%>/passChange.me" method="post"
-				onsubmit="return true;">
+				onsubmit="return true;"><br>
 				<input type="hidden" value="<%=loginUser.getMemberId()%>"
 					name="userId">
 				<div class="currentPass">
@@ -186,11 +189,11 @@
 				<div class="actions">
 					<br> <br>
 					<div class="ui black deny button">취소</div>
-					<button type="submit" class="ui green button"
+					<button type="button" class="ui green button"
 						onclick="passInvalidate();">변경하기</button>
 					<!-- <button type="submit" onclick="passInvalidate();">변경하기</button> -->
 
-					<br> <br>
+					<br> <br><br>
 				</div>
 			</form>
 		</div>
@@ -221,7 +224,9 @@
 	</div>
 
 
-
+<!-- 암호화 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
 
 	<script>
 		//회원정보 수정 모달
@@ -314,6 +319,27 @@
 		//탈퇴하기 버튼 모달
 		function leave() {
 			$('.ui.basic.modal.leave').modal('show');
+		}
+		
+		//주소 & 핸드폰 번호 암호화
+		//주소
+		function encryption(){
+			var address = $("#changeAddress").val();
+			var passphrase = "1234";
+			var encrypt1 = CryptoJS.AES.encrypt(address, passphrase);
+			$("#changeAddress1").val(encrypt1);
+			
+			//핸드폰
+			var tel2 = $("#tel2").val();
+			var encrypt2 = CryptoJS.AES.encrypt(tel2, passphrase);
+			$("#tel21").val(encrypt2);
+			
+			var tel3 = $("#tel3").val();
+			var encrypt3 = CryptoJS.AES.encrypt(tel3, passphrase);
+			$("#tel31").val(encrypt3);
+			
+		
+			$("#infoChangeForm").submit;
 		}
 	</script>
 
