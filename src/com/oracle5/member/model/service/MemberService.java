@@ -447,6 +447,29 @@ public class MemberService {
 		return result;
 
 	}
+	
+	//교사의 담당반 원아 리스트 불러오기
+	public ArrayList<Children> selectBanChilren(int memberNo) {
+		Connection con = getConnection();
+		
+		int bno = new MemberDao().selectBanNo(con, memberNo);
+		
+		ArrayList<Children> list = new MemberDao().selectBanChildren(con, bno);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public Map<String, Object> selectChildDetail(int cid) {
+		Connection con = getConnection();
+		
+		Map<String, Object> hmap = new MemberDao().selectChildDetail(con, cid);
+		
+		close(con);
+		
+		return hmap;
+	}
 
 
 }
