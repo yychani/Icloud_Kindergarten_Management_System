@@ -1310,12 +1310,34 @@ public class MemberDao {
 		
 		try {
 			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
 			
+			rset = pstmt.executeQuery();
+			
+			if(rset != null) {
+				list = new ArrayList<DoseRequest>();
+				while(rset.next()) {
+					DoseRequest dr = new DoseRequest();
+					dr.setCNo(rset.getInt("C_NO"));
+					dr.setCName(rset.getString("C_NAME"));
+					dr.setSymptom(rset.getString("SYMPTOM"));
+					dr.setKinds(rset.getString("KINDS"));
+					dr.setKeep(rset.getString("KEEP"));
+					dr.setStartDate(rset.getDate("START_DATE"));
+					dr.setRemarks(rset.getString("REMARKS"));
+					dr.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+					dr.setPNo(rset.getInt("P_NO"));
+					dr.setEndDate(rset.getDate("END_DATE"));
+					dr.setStatus(rset.getString("STATUS"));
+					dr.setDosingTime(rset.getString("D_TIME"));
+					
+					list.add(dr);
+				}
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-
 			close(pstmt);
 			close(rset);
 		}

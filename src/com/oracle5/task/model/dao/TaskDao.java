@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.oracle5.task.model.vo.FieldTripLearning;
 import com.oracle5.task.model.vo.Position;
 import com.oracle5.task.model.vo.WorkDivision;
 
@@ -290,6 +291,121 @@ public class TaskDao {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);		
+		}
+		
+		return result;
+	}
+
+	public int ftlMenuVisible(Connection con) {
+		Statement stmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("ftlMenuVisible");
+		
+		try {
+			stmt = con.createStatement();
+			
+			result = stmt.executeUpdate(query);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
+		}
+		
+		return result;
+	}
+
+	public int insertFtl(Connection con, FieldTripLearning ftl) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertFtl");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setDate(1, ftl.getFtlDate());
+			pstmt.setString(2, ftl.getField());
+			pstmt.setInt(3, ftl.getFtlPay());
+			pstmt.setString(4, ftl.getMaterials());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);		
+		}
+		
+		return result;
+	}
+
+	public FieldTripLearning selectFieldTrip(Connection con) {
+		ResultSet rset = null;
+		Statement stmt = null;
+		FieldTripLearning ftl = null;
+		String query = prop.getProperty("selectFieldTrip");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				ftl = new FieldTripLearning();
+				
+				ftl.setFtlId(rset.getInt("FTL_ID"));
+				ftl.setField(rset.getString("FIELD"));
+				ftl.setFtlDate(rset.getDate("FTL_DATE"));
+				ftl.setFtlPay(rset.getInt("FTL_PAY"));
+				ftl.setMaterials(rset.getString("METERIALS"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		return ftl;
+	}
+
+	public boolean checkMenuable(Connection con) {
+		ResultSet rset = null;
+		Statement stmt = null;
+		boolean isPayment = false;
+		String query = prop.getProperty("checkMenuable");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				isPayment = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(stmt);
+		}
+		return isPayment;
+	}
+
+	public int fieldTripEnd(Connection con) {
+		Statement stmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("ftlMenuInvisible");
+		
+		try {
+			stmt = con.createStatement();
+			
+			result = stmt.executeUpdate(query);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
 		}
 		
 		return result;

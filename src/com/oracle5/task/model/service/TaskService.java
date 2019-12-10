@@ -1,6 +1,7 @@
 package com.oracle5.task.model.service;
 
 import com.oracle5.task.model.dao.TaskDao;
+import com.oracle5.task.model.vo.FieldTripLearning;
 import com.oracle5.task.model.vo.Position;
 import com.oracle5.task.model.vo.WorkDivision;
 import static com.oracle5.common.JDBCTemplate.*;
@@ -105,6 +106,55 @@ public class TaskService {
 			rollback(con);
 		}
 		
+		close(con);
+		return result;
+	}
+
+	public int fieldTripStart(FieldTripLearning ftl) {
+		Connection con = getConnection();
+		
+		int result = 0;
+		
+		int result1 = new TaskDao().ftlMenuVisible(con);
+		
+		int result2 = new TaskDao().insertFtl(con, ftl);
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(con);
+			result = 1;
+		}else {
+			rollback(con);
+		}
+		return result;
+	}
+
+	public FieldTripLearning selectFieldTrip() {
+		Connection con =  getConnection();
+		
+		FieldTripLearning ftl = new TaskDao().selectFieldTrip(con);
+		
+		close(con);
+		return ftl;
+	}
+
+	public boolean checkMenuable() {
+		Connection con = getConnection();
+		
+		boolean isPayment = new TaskDao().checkMenuable(con);
+		
+		close(con);
+		return isPayment;
+	}
+
+	public int fieldTripEnd() {
+		Connection con = getConnection();
+		
+		int result = new TaskDao().fieldTripEnd(con);
+		if(result > 0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
 		close(con);
 		return result;
 	}

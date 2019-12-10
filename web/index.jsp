@@ -73,7 +73,7 @@ input[type=submit]:hover, input[type=button]:hover {
 										'<%=request.getContextPath()%>/views/teacher/tcMain.jsp'
 									<%}
 				} else if (loginUser.getUType().equals("학부모")) {%>
-										'<%=request.getContextPath()%>/views/parents/paMain.jsp'
+										'<%=request.getContextPath()%>/views/parents/parMain.jsp'
 							<%}%>">메인으로
 			이동하기</button>
 	</div>

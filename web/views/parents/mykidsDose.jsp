@@ -142,7 +142,7 @@ h1 {
 						onclick="doseSubmit()">제출하기</button>
 
 					<button type="button" class="ui teal basic button"
-						onclick="onclick='location.href='<%=request.getContextPath()%>/doseList.me'">투약의뢰 리스트보기</button>
+						onclick="location.href='<%=request.getContextPath()%>//doseList.me'">신청이력</button>
 				</div>
 			</form>
 
