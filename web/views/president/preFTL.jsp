@@ -6,9 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad1a47dac0c888645210b4f65cbdb5ca&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad1a47dac0c888645210b4f65cbdb5ca"></script>
+   	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
     <style>
         table {
             margin: 50px auto;
@@ -74,6 +78,7 @@
             padding-right: 0;
         }
     </style>
+    
 </head>
 
 <body style="overflow-x: hidden">
@@ -82,10 +87,116 @@
         <h1 style="text-decoration: underline; text-underline-position: under;">현장 학습 체험</h1>
     </div>
     <select name="as" id="as" style="margin: 20px 20%;">
-        <option value="신청자 리스트" selected>신청자 리스트</option>
+    	<option value="현장체험학습 작성" selected>현장체험학습 작성</option>
+        <option value="신청자 리스트">신청자 리스트</option>
         <option value="이전 신청 이력">이전 신청 이력</option>
     </select>
-    <table id="table1">
+    <div id="table0">
+    	<form action="<%=request.getContextPath() %>/insertFieldTrip.ftl" method="post">
+    	 	<table>
+    	 		<tr>
+    				<th style="background: white;">날짜</th>
+    				<td>
+    					<div class="ui mini icon input">
+							<input type="date" id="dosingPeriodStart" name="startDate"><span style="line-height: 3;">&nbsp;~&nbsp;</span>
+							<input type="date" id="dosingPeriodEnd" name="endDate">
+						</div>
+					</td>
+  				</tr>
+  				<tr>
+    				<th style="background: white;">장소</th>
+    				
+    				<td><input type="button" value="주소 검색" id="findAddress" style="width:80px; height: 30px; margin: 5px 2px; float: left" ></td>
+  				</tr>
+  				<tr>	
+  					<td></td>
+    				<td colspan="3">
+    					<div id="map" style="width:500px;height:400px;"></div>
+    				</td>
+  				</tr>
+  				<tr>
+    				<th style="background: white;">준비물</th>
+    				<td></td>
+  				</tr>
+  				<tr>
+    				<th style="background: white;">현장학습 체험비</th>
+    				<td></td>
+  				</tr>
+    	 	</table>
+    	</form>
+    	
+		<script>
+			address = "서울특별시 강남구 강남구 테헤란로14길 6";
+			$("#findAddress").click(function(){
+				new daum.Postcode({
+	       		 	oncomplete: function(data) {
+	            		address = data.address;
+	            		console.log(address);
+	            		var geocoder = new daum.maps.services.Geocoder();
+	            		geocoder.addressSearch(address, function(result, status) {
+
+	            		    // 정상적으로 검색이 완료됐으면 
+	            		     if (status === kakao.maps.services.Status.OK) {
+
+	            		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+	            		        // 결과값으로 받은 위치를 마커로 표시합니다
+	            		        var marker = new kakao.maps.Marker({
+	            		            map: map,
+	            		            position: coords
+	            		        });
+
+	            		        // 인포윈도우로 장소에 대한 설명을 표시합니다
+	            		        var infowindow = new kakao.maps.InfoWindow({
+	            		            content: '<div style="width:300px;text-align:center;padding:6px 0;">' + address + '</div>'
+	            		        });
+	            		        infowindow.open(map, marker);
+
+	            		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	            		        map.setCenter(coords);
+	            		    }
+	            		});    
+	        		}
+	    		}).open();
+			})
+		</script>
+    	<script>
+    		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+        		mapOption = { 
+            		center: new kakao.maps.LatLng(37.499002, 127.032911), // 지도의 중심좌표
+            		level: 3 // 지도의 확대 레벨
+        		};
+
+   		 	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    		// 지도를 클릭한 위치에 표출할 마커입니다
+    		var marker = new kakao.maps.Marker({ 
+        		// 지도 중심좌표에 마커를 생성합니다 
+        		position: map.getCenter() 
+    		}); 
+    		// 지도에 마커를 표시합니다
+   		 	marker.setMap(map);
+
+    		// 지도에 클릭 이벤트를 등록합니다
+    		// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+    		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+        
+        		// 클릭한 위도, 경도 정보를 가져옵니다 
+        		var latlng = mouseEvent.latLng; 
+        
+        		// 마커 위치를 클릭한 위치로 옮깁니다
+        		marker.setPosition(latlng);
+        
+        		var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+        		message += '경도는 ' + latlng.getLng() + ' 입니다';
+        
+        		var resultDiv = document.getElementById('clickLatlng'); 
+        		resultDiv.innerHTML = message;
+    		});
+    		
+		</script>
+    </div>
+    <table id="table1" hidden>
         <tr id="applyTr">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
@@ -94,7 +205,7 @@
         <tr id="applyTr">
             <td id="no"></td>
             <td id="applicant"></td>
-            <td id="apply" align="center"><input id="check" type="checkbox"></td>
+            <td id="apply" align="center"><input class="check" type="checkbox"></td>
         </tr>
         <tr id="applyTr">
             <th style="height: 30px;"></th>
@@ -105,7 +216,7 @@
         <tr>
             <td></td>
             <td></td>
-            <td colspan="3" style="float: right; padding-right: 0;"><input type="button" value="승인"
+            <td colspan="3" style="float: right; padding-right: 0; padding-top: 5px;"><input type="button" value="승인"
                     style="width: 70px; height:30px"></td>
 
         </tr>
@@ -113,23 +224,24 @@
     <table id="table2" hidden>
         <tr id="applyTr">
             <th id="no">No</th>
+            <th id="place">장소</th>
             <th id="applicant">신청자</th>
-            <th id="apply">승일 날짜</th>
+            <th id="apply">승인 날짜</th>
         </tr>
         <tr id="applyTr">
             <td id="no"></td>
+            <td id="place"></td>
             <td id="applicant"></td>
             <td id="apply" align="center"></td>
         </tr>
         <tr id="applyTr">
-            <th style="height: 20px;"></th>
+            <th style="height: 20px;" colspan="2"></th>
             <th align="right"></th>
             <th></th>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td colspan="3" style="float: right; padding-right: 0;"><input type="button" value="승인"
+            <td colspan="3"></td>
+            <td colspan="3" style="float: right; padding-right: 0; padding-top: 5px;"><input type="button" value="승인"
                     style="width: 70px; height:30px"></td>
 
         </tr>
@@ -149,17 +261,23 @@
             });
             $("#allCheck").click(function () {
                 if ($("#allCheck").prop("checked")) {
-                    $("#check").prop("checked", true);
+                    $(".check").prop("checked", true);
                 } else {
-                    $("#check").prop("checked", false);
+                    $(".check").prop("checked", false);
                 }
             });
 
             $("#as").change(function () {
-                if ($(this).val() == "신청자 리스트") {
+            	if($(this).val() == "현장체험학습 작성"){
+            		$("#table0").attr("hidden", false);
+                    $("#table1").attr("hidden", true);
+                    $("#table2").attr("hidden", true);
+            	}else if ($(this).val() == "신청자 리스트") {
+            		$("#table0").attr("hidden", true);
                     $("#table1").attr("hidden", false);
                     $("#table2").attr("hidden", true);
                 } else if ($(this).val() == "이전 신청 이력") {
+                	$("#table0").attr("hidden", true);
                     $("#table2").attr("hidden", false);
                     $("#table1").attr("hidden", true);
                 }

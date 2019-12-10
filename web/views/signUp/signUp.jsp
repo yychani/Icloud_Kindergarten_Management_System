@@ -93,10 +93,11 @@ input {
 					type : 'post',
 					data : {email:email},
 					success : function(data) {
+						alert(email + "로 인증번호를 전송하였습니다.")
 						$("#emailCheckTextConfirm").val(data);
 					},
 					error : function(data) {
-						console.log("에러!");
+						alert("메일 전송에 실패하였습니다.")
 					}
 				});
 			});
