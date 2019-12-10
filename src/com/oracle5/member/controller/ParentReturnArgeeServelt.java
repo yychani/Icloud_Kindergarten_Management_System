@@ -35,7 +35,7 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 		int pNo = Integer.parseInt(request.getParameter("pNo"));
 		String guideName = request.getParameter("guideName");
 		String guidePhone = request.getParameter("guidePhone");
-		
+
 		String sapplyDate = request.getParameter("applyDate");
 		Date applyDate;
 		if(sapplyDate != "") {
@@ -52,13 +52,13 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 		ra.setApplyTime(applyTime);
 		ra.setGuideName(guideName);
 		ra.setGuidePhone(guidePhone);
-		
+
 		int result = new MemberService().returnApply(ra);
 		
 		if(result > 0) {
 			response.sendRedirect("views/common/successPage.jsp?successCode=11");
 		} else {
-request.setAttribute("msg", "귀가동의서 신청 실패");
+			request.setAttribute("msg", "귀가동의서 신청 실패");
 			
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}

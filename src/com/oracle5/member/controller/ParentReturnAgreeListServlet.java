@@ -1,29 +1,26 @@
 package com.oracle5.member.controller;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.Member;
 
 /**
- * Servlet implementation class ParentAsRequestServlet
+ * Servlet implementation class ParentReturnAgreeListServlet
  */
-@WebServlet("/asRequest.me")
-public class ParentAsRequestServlet extends HttpServlet {
+@WebServlet("/returnAgreeList.me")
+public class ParentReturnAgreeListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ParentAsRequestServlet() {
+    public ParentReturnAgreeListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,25 +29,12 @@ public class ParentAsRequestServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userMno = Integer.parseInt(request.getParameter("userNo"));
+		/*HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		System.out.println(loginUser);*/
 		
-		//해당 월 신청 이력 확인
-		Calendar calendar = new GregorianCalendar(Locale.KOREA);
-		int currentMonth;
-		currentMonth = calendar.get(Calendar.MONTH) + 1;
-
-
-
-		
-		int result = new MemberService().asRequest(userMno);
-		
-		if(result > 0) {
-			response.sendRedirect("views/common/successPage.jsp?successCode=8");
-		}else {
-			response.sendRedirect("views/common/successPage.jsp?successCode=9");
-			
-			//request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		int pNo = Integer.parseInt(request.getParameter("pNo"));
+		System.out.println(pNo);
 	}
 
 	/**
