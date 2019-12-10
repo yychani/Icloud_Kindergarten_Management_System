@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
-<%
-	Member loginUser = (Member) session.getAttribute("loginMember");
-%>
+	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member, com.oracle5.member.model.vo.ReturnAgree"%>
+<% %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -160,10 +158,8 @@ img {
                   <button type="submit" class="ui green basic button">제출하기</button>
 					 </form>
 					<!-- 신청이력 버튼 -->
-					<form id="goHomeRequest" action="<%=request.getContextPath()%>/returnAgreeList.me"  method="post" >
-					<input type="hidden" name="pNo" value="<%= loginUser.getMemberNo() %>">
-              	 <button type="submit" class="ui teal basic button">신청이력</button>
-                  </form>
+              	 <button type="button" class="ui teal basic button" onclick="location.href='<%=request.getContextPath()%>/returnAgreeList.me'">신청이력</button>
+                
                   </div>
                   <script>
                   

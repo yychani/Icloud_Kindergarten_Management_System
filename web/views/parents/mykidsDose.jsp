@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
-<%
-	Member loginUser = (Member) session.getAttribute("loginMember");
-%>
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
@@ -110,7 +107,7 @@ h1 {
 						<td id="labelText"><label>투약 의뢰 기간 : </label></td>
 						<td>
 							<div class="ui mini icon input">
-								<input type="date" id="dosingPeriodStart" name="startDate">~
+								<input type="date" id="dosingPeriodStart" name="startDate"><span style="line-height:3">&nbsp;~&nbsp;</span>
 								<input type="date" id="dosingPeriodEnd" name="endDate">
 							</div>
 						</td>
@@ -145,7 +142,7 @@ h1 {
 						onclick="doseSubmit()">제출하기</button>
 
 					<button type="button" class="ui teal basic button"
-						onclick="insertDosingRequest();">투약의뢰 리스트보기</button>
+						onclick="onclick='location.href='<%=request.getContextPath()%>/doseList.me'">투약의뢰 리스트보기</button>
 				</div>
 			</form>
 

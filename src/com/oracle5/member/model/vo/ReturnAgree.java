@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class ReturnAgree implements java.io.Serializable{
 	private int cId;
+	private String cName;
 	private int pNo;
 	private Date applyDate;
 	private String applyTime;
