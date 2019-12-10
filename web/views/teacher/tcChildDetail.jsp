@@ -127,14 +127,14 @@
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td>연락처 : <%= ((Member) hmap.get("m")).getPhone() %></td>
+				<td id="phone">연락처 : <%= ((Member) hmap.get("m")).getPhone() %></td>
 			</tr>
 		</table>
 	</div>
 	</div>
 	<hr width="60%"/>
 	<div style="margin:0 20%; height:40px">
-		<input type="button" class="childbutton" value="생활기록부" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildRecodeBook.jsp'"/>
+		<input type="button" class="childbutton" value="생활기록부" onclick="location.href='<%= request.getContextPath() %>/selectChildRcBook.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildObserve.jsp'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
@@ -142,5 +142,18 @@
 	</div>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
+    <script>
+		var phone = $("#phone").text();
+		var phoneArr = [];
+		phoneArr = phone.split("-");
+		var passphrase = "1234";
+	    var decrypted1 = CryptoJS.AES.decrypt(phoneArr[1], passphrase);
+	    var phone1 = decrypted1.toString(CryptoJS.enc.Utf8);
+	    var decrypted2 = CryptoJS.AES.decrypt(phoneArr[2], passphrase);
+	    var phone2 = decrypted2.toString(CryptoJS.enc.Utf8);
+	    $("#phone").text("연락처 : 010-" + phone1 + "-" + phone2);
+    </script>
 </body>
 </html>
