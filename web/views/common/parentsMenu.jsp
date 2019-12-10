@@ -29,6 +29,21 @@ table {
 
 
 </style>
+<script>
+	$(function(){
+		$.ajax({
+			url: "/main/checkMenuAble.menu",
+			type:"post",
+			success:function(data){
+				if(data == "true"){
+					$("#ftl").show();
+				}else {
+					$("#ftl").hide();
+				}
+			}
+		});
+	});
+</script>
 <table style="margin-top: 10px; width:100%;">
    <tr>
       <td rowspan="2" id="menu">
@@ -71,6 +86,9 @@ table {
                            게시판</a></li>
                   </ul>
                </li>
+               
+               <li class="topMenuLi" id="ftl"><a class="menuLink" id="ftlA" href="javascript: void(0);">현장체험학습</a></li>
+               
                <li class="topMenuLi"><a class="menuLink" href="">방과후 </a>
                   <ul class="submenu">
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/asListMain.jsp" class="submenuLink longLink">방과후 프로그램</a></li>
@@ -128,3 +146,19 @@ table {
       </td>
    </tr>
 </table>
+<script>
+	$("#ftlA").click(function(){
+		$.ajax({
+			url: "/main/checkMenuAble.menu",
+			type:"post",
+			success:function(data){
+				if(data == "true"){
+					location.href = "<%=request.getContextPath() %>";
+				}else {
+					alert("현재 현장체험학습은 납부가 종료되어있습니다.");
+					
+				}
+			}
+		});
+	});
+</script>
