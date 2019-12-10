@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+<%
+	HashMap<String, Object> hmap = (HashMap<String, Object>) request.getAttribute("hmap");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,55 +90,55 @@
  	<hr width="60%" />
  	<div class="outerDetail">  	
 		<div class="imgDetail" >
-		<img src="<%= request.getContextPath() %>/images/img.jpg" alt=""/>
+		<img src="<%= request.getContextPath() %>/<%= ((Children) hmap.get("c")).getImgSrc() %>" alt=""/>
 		</div>
 	
 	<div class="detail" >
 		<table style="text-align:left; margin:0 auto; margin-top:40px;">
 			<tr>
-				<td>이름 : 박건후</td>
+				<td>이름 : <%= ((Children) hmap.get("c")).getName() %></td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td>반 : 해바라기반</td>
+				<td>반 : <%= ((Ban) hmap.get("b")).getBanName() %></td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td>키 : 88.5cm</td>
+				<td>키 : <%= ((BodyInfo) hmap.get("bi")).getHeight() %></td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td>몸무게 : 15.2kg</td>
+				<td>몸무게 : <%= ((BodyInfo) hmap.get("bi")).getWeight() %></td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td>특이사항 : 다문화가정</td>
+				<td>특이사항 : <%= ((Children) hmap.get("c")).getDescription() %></td>
 			</tr>
 		</table>
 	</div>
 	<div class="detail">
 		<table style="text-align:left; margin:0 auto; margin-top:40px;">
 			<tr>
-				<td>부모님 이름 : 박주호</td>
+				<td>부모님 이름 : <%= ((Member) hmap.get("m")).getMemberName() %></td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td>관계 : 부</td>
+				<td>관계 : <%= ((Member) hmap.get("m")).getUType() %></td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td>연락처 : 010-1111-1111</td>
+				<td>연락처 : <%= ((Member) hmap.get("m")).getPhone() %></td>
 			</tr>
 		</table>
 	</div>
 	</div>
 	<hr width="60%"/>
 	<div style="margin:0 20%; height:40px">
-		<input type="button" class="childbutton" value="생활기록부" onclick="location.href='tcChildRecodeBook.jsp'"/>
+		<input type="button" class="childbutton" value="생활기록부" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildRecodeBook.jsp'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
-		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='tcChildObserve.jsp'"/>
+		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildObserve.jsp'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
-		<input type="button" class="childbutton" value="신체정보" onclick="location.href='tcChildBodyInfo.jsp'"/>
+		<input type="button" class="childbutton" value="신체정보" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildBodyInfo.jsp'"/>
 	</div>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
