@@ -47,7 +47,7 @@ public class UpdateBanBoardServlet extends HttpServlet {
 		
 		String page="";
 		if(result >0) {
-			response.sendRedirect("/main/selectOneBoard.bo?num="+b.getTid());
+			response.sendRedirect("/main/selectOneBanBoard.bo?num="+b.getTid() + "&isUpdate=true");
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "반 공지사항 업데이트 실패");

@@ -135,9 +135,10 @@ input[type='button'] {
 			<tbody id="tbodyArea"> 
 			<%for(Board b : list) { %>
 				<tr>
-					<td id="no"><%=b.getTid() %></td>
+					<td id="no"><%=b.getPno() %>
+					<input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
 					<td id="title"><%=b.getTtitle() %></td>
-                    <td id="writer"><%=b.getTno() %></td>
+                    <td id="writer"><%=loginUser.getMemberName()%></td>
                     <td id="count"><%=b.getTcount() %></td>
 					<td id="date"><%=b.getTtime() %></td>
 				</tr>
@@ -161,13 +162,13 @@ input[type='button'] {
     <script>
     $(function(){
     	$(".writing").click(function(){
-    		location.href="./views/teacher/tcWriteNotice.jsp";
+    		location.href="./views/teacher/tcWriteNotice.jsp?";
     	});
     });
     
     $(function(){
     	$("#tableArea td").click(function(){
-    		var num = $(this).parent().children().eq(0).text();
+    		var num = $("#tid").val();
     		
     		console.log(num);
     		location.href="<%=request.getContextPath()%>/selectOneBanBoard.bo?num="+num;

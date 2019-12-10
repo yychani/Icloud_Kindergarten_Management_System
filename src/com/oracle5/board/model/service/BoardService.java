@@ -1,5 +1,10 @@
 package com.oracle5.board.model.service;
 
+import static com.oracle5.common.JDBCTemplate.close;
+import static com.oracle5.common.JDBCTemplate.commit;
+import static com.oracle5.common.JDBCTemplate.getConnection;
+import static com.oracle5.common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -9,8 +14,7 @@ import com.oracle5.board.model.dao.BoardDao;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.board.model.vo.CommonNote;
 import com.oracle5.board.model.vo.Schedule;
-
-import static com.oracle5.common.JDBCTemplate.*;
+import com.oracle5.common.model.vo.Attachment;
 public class BoardService {
 	
 	public String selectPreNote(Date date) {
@@ -149,14 +153,29 @@ public class BoardService {
 		return result;
     
   }
-
-	public int insertBanNotice(Board b) {
+	//반 공지사항 등록용 메소드
+	public int insertBanNotice(HashMap<String, Object> hmap,Board b) {
 		Connection con = getConnection();
 		
-		int result = new BoardDao().insertBanNotice(con, b);
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
 		
-		if(result > 0) {
+		int tid = 0;
+		int result = 0;
+		//반 공지사항 insert
+		int result1 = new BoardDao().insertBanNotice(con, b);
+		//반 공지사항 이미지
+		if(result1 > 0) {
+			tid = new BoardDao().selectBanNoticeTid(con, b);
+		}
+		Attachment banBImg = fileList.get(0);
+		
+		int result2 = new BoardDao().insertBoardImg(con, banBImg ,tid);
+		
+		System.out.println("result2 : "+result2);
+		
+		if(result1 > 0 && result2 > 0 ) {
 			commit(con);
+			result =1;
 			
 		}else {
 			rollback(con);
@@ -166,7 +185,7 @@ public class BoardService {
 		
 		return result;
 	}
-
+	//반 공지사항 리스트 테이블 조회용 메소드 -한솔
 	public ArrayList<Board> selectAllBanNoticeList() {
 		Connection con = getConnection();
 		
@@ -176,27 +195,29 @@ public class BoardService {
 		
 		return list;
 	}
-
-	public Board selectOneBoard(int num) {
+	//반 공지사항 하나 조회용 메소드 - 한솔
+	public Board selectOneBoard(int num, String isUpdate) {
 		Connection con = getConnection();
 		
 		Board b = null;
-		
-		int result = new BoardDao().updateCount(con, num);
+		int result = 0;
+		if(isUpdate.equals("false")) {
+			result = new BoardDao().updateCount(con, num);
+		}
 		
 		if(result >0) {
 			commit(con);
-			b= new BoardDao().selectOneBoard(con, num);
 		}else {
 			
 			rollback(con);
 		}
+		b= new BoardDao().selectOneBoard(con, num);
 		
 		close(con);
 		return b;
 
 	}
-
+	//반 공지사항 수정용 메소드
 	public int updateBanBoard(Board b) {
 		Connection con = getConnection();
 		int result = new BoardDao().updateBanBoard(con, b);
@@ -210,10 +231,18 @@ public class BoardService {
 		close(con);
 		return result;
 	}
-
+	//반 공지사항 삭제용 메소드 - 한솔
 	public int deleteBanBoard(int num) {
 		Connection con = getConnection();
 		int result = new BoardDao().deleteBanBoard(con, num);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
 		
 		return result;
 	}

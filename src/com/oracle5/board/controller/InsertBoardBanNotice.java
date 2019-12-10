@@ -3,6 +3,7 @@ package com.oracle5.board.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,12 +16,13 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.Oracle5FileRenamePolicy;
+import com.oracle5.common.model.vo.Attachment;
 import com.oreilly.servlet.MultipartRequest;
 
 /**
  * Servlet implementation class InsertBoardBanNotice
  */
-@WebServlet("/insertNotice.ban")
+@WebServlet("/insertNotice.ban") //한솔
 public class InsertBoardBanNotice extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -72,7 +74,23 @@ public class InsertBoardBanNotice extends HttpServlet {
 			System.out.println("title : "+title);
 			System.out.println("content : "+write);
 			
-			int result = new BoardService().insertBanNotice(b);
+			ArrayList<Attachment> fileList = new ArrayList<>();
+			
+			for(int i=originFiles.size() -1; i>=0; i--) {
+				Attachment at = new Attachment();
+				at.setFilePath(savePath);
+				at.setOriginName(originFiles.get(i));
+				at.setChangeName(saveFiles.get(i));
+				
+				fileList.add(at);
+			}
+			
+			HashMap<String, Object> hmap = new HashMap<>();
+			hmap.put("fileList", fileList);
+			hmap.put("Board", b);
+			
+			int result = new BoardService().insertBanNotice(hmap,b);
+			//int result1 = new BoardService().inser
 			
 			String page="";
 			if(result > 0) {

@@ -15,6 +15,7 @@ import java.util.Properties;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.board.model.vo.CommonNote;
 import com.oracle5.board.model.vo.Schedule;
+import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.Parents;
@@ -435,7 +436,7 @@ public class BoardDao {
 		return result;
 	}
 
-
+	//반공지사항 등록 - 한솔
 	public int insertBanNotice(Connection con, Board b) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -458,7 +459,7 @@ public class BoardDao {
 		
 		return result;
 	}
-
+	//반 공지사항 테이블 조회용 리스트 - 한솔
 	public ArrayList<Board> selectAllBanNoticeList(Connection con) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -499,7 +500,7 @@ public class BoardDao {
 		return list;
 	}
 
-/*	public ArrayList<Board> selectAllParentsBoar(Connection con) {
+public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Board> list = null;
@@ -537,7 +538,9 @@ public class BoardDao {
 		}
 		
 		return list;
-	}*/
+
+	}
+	// 반 공지사항 조회수 업데이트용 메소드 -한솔
 
 	public int updateCount(Connection con, int num) {
 		PreparedStatement pstmt = null;
@@ -560,7 +563,7 @@ public class BoardDao {
 		
 		return result;
 	}
-
+	// 반 공지사항 글 중 하나 조회하는 메소드 - 한솔
 	public Board selectOneBoard(Connection con, int num) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -584,7 +587,7 @@ public class BoardDao {
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
 				b.setTno(rset.getInt("T_NO"));
-				b.setPno(rset.getInt("P_NO"));
+				b.setPno(rset.getInt("RNUM"));
 				b.setBdid(rset.getInt("BD_ID"));
 				b.setTstmt(rset.getString("T_STMT"));
 			}
@@ -599,7 +602,7 @@ public class BoardDao {
 		
 		return b;
 	}
-
+	//반 공지사항 수정용 메소드
 	public int updateBanBoard(Connection con, Board b) {
 		PreparedStatement pstmt = null;
 		int result =0;
@@ -623,10 +626,52 @@ public class BoardDao {
 		
 		return result;
 	}
-
+	// 반 공지사항 delete
 	public int deleteBanBoard(Connection con, int num) {
-		// TODO Auto-generated method stub
-		return 0;
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("deleteBanBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	public int insertBoardImg(Connection con, Attachment banBImg, int tid) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("insertBanBImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, banBImg.getOriginName());
+			pstmt.setString(2, banBImg.getChangeName());
+			pstmt.setString(3, banBImg.getFilePath());
+			pstmt.setInt(4, tid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 	public ArrayList<Board> selectAllParentsBoard(Connection con, int currentPage, int limit ) {

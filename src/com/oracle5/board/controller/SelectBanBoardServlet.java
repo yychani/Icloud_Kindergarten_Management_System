@@ -31,8 +31,11 @@ public class SelectBanBoardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int num = Integer.parseInt(request.getParameter("num"));
-		
-		Board b = new BoardService().selectOneBoard(num);
+		String isUpdate = "false";
+		if(request.getParameter("isUpdate") != null) {
+			isUpdate = request.getParameter("isUpdate");
+		}
+		Board b = new BoardService().selectOneBoard(num, isUpdate);
 		
 		String page ="";
 		
