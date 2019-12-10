@@ -848,10 +848,13 @@ public class MemberDao {
 			if (rset.next()) {
 				c = new Children();
 
-				c.setCId(cid);
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				c.setDescription(rset.getString("C_DESC"));
+				c.setImgSrc(rset.getString("IMGSRC"));
 				c.setName(rset.getString("C_NAME"));
 				c.setRno(rset.getString("C_RNO"));
-				c.setImgSrc(rset.getString("IMGSRC"));
+				c.setPno(rset.getInt("P_NO"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1369,6 +1372,176 @@ public class MemberDao {
 		}
 		
 		return hmap;
+	}
+
+	public Map<String, Object> selectRcBookFirst(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<String, Object> hmap = null;
+		int i = 0;
+		String[] yearArr = new String[3];
+		String[] banArr = new String[3];
+		String[] nameArr = new String[3];
+		
+		String sql = prop.getProperty("selectRcBookFirst");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			hmap = new HashMap<String, Object>();
+			
+			while(rset.next()) {
+				yearArr[i] = rset.getString("YEAR");
+				banArr[i] = rset.getString("B_NAME");
+				nameArr[i++] = rset.getString("NAME");
+			}
+			hmap.put("year", yearArr);
+			hmap.put("ban", banArr);
+			hmap.put("name", nameArr);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return hmap;
+	}
+
+	public String selectParentsAddress(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String address = "";
+		
+		String sql = prop.getProperty("selectParentsAddress");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				address = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return address;
+	}
+
+	public ArrayList<FamilyRelation> selectFamilyRelation(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<FamilyRelation> fr = null;
+		FamilyRelation f = null;
+		
+		String sql = prop.getProperty("selectFamilyRelation");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			fr = new ArrayList<>();
+			
+			while(rset.next()) {
+				f = new FamilyRelation();
+				
+				f.setRelation(rset.getString("RELATION"));
+				f.setName(rset.getString("NAME"));
+				f.setPhone(rset.getString("PHONE"));
+				f.setRelationId(rset.getInt("R_ID"));
+				
+				fr.add(f);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return fr;
+	}
+
+	public ArrayList<Scholarly> selectScholarly(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Scholarly s = null;
+		ArrayList<Scholarly> sc = null;
+		
+		String sql = prop.getProperty("selectScholarly");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			sc = new ArrayList<>();
+			
+			while(rset.next()) {
+				s = new Scholarly();
+				
+				s.setSDate(rset.getDate("S_DATE"));
+				s.setAgency(rset.getString("AGENCY"));
+				s.setUniqueness(rset.getString("UNIQUENESS"));
+				
+				sc.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return sc;
+	}
+
+	public ArrayList<BodyInfo> selectBodyInfo(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		BodyInfo b = null;
+		ArrayList<BodyInfo> bi = null;
+		
+		String sql = prop.getProperty("selectBodyInfo");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			bi = new ArrayList<>();
+			
+			while(rset.next()) {
+				b = new BodyInfo();
+				
+				b.setBiDate(rset.getDate("BI_DATE"));
+				b.setHeight(rset.getDouble("HEIGHT"));
+				b.setWeight(rset.getDouble("WEIGHT"));
+				
+				bi.add(b);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return bi;
 	}
 
 }
