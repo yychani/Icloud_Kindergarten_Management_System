@@ -11,20 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.Member;
-import com.oracle5.member.model.vo.ReturnAgree;
 
 /**
- * Servlet implementation class ParentReturnAgreeListServlet
+ * Servlet implementation class ParentDoseListServlet
  */
-@WebServlet("/returnAgreeList.me")
-public class ParentReturnAgreeListServlet extends HttpServlet {
+@WebServlet("/doseList.me")
+public class ParentDoseListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ParentReturnAgreeListServlet() {
+    public ParentDoseListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,20 +35,20 @@ public class ParentReturnAgreeListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Member loginUser = (Member) session.getAttribute("loginMember");
-		System.out.println(loginUser);
 		
-		ArrayList<ReturnAgree> raList = new MemberService().selectRaList(loginUser.getMemberNo());
-		System.out.println(raList);
+		ArrayList<DoseRequest> list = new MemberService().selectDoseList(loginUser.getMemberNo());
+		
 		
 		String page = "";
 		
-		if(raList != null) {
-			page = "/views/parents/mykidsGoHomeList.jsp";
-			request.setAttribute("raList", raList);
+		if(list != null) {
+			page = "/views/parents/mykidsDoseList.jsp";
+			request.setAttribute("list", list);
 		} else {
 			page = "/views/common/errorPage.jsp";
-			request.setAttribute("msg", "귀가동의서 리스트 불러오기 실패");
+			request.setAttribute("msg", "투약의뢰서 리스트 불러오기 실패");
 		}
+		
 		request.getRequestDispatcher(page).forward(request, response);
 	}
 

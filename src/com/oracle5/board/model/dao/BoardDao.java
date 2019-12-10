@@ -422,7 +422,8 @@ public class BoardDao {
 			
 			pstmt.setString(1, b.getTtitle());
 			pstmt.setString(2, b.getTcont());
-			
+			pstmt.setInt(3, b.getTno());
+			pstmt.setInt(4, b.getBdid());
 			
 			
 			
@@ -471,6 +472,45 @@ public class BoardDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, 4);
+			rset = pstmt.executeQuery();
+			
+			if(rset!=null) {
+				list = new ArrayList<>();
+				while(rset.next()) {
+					Board b = new Board();
+					b.setTid(rset.getInt("T_ID"));
+					b.setTtitle(rset.getString("T_TITLE"));
+					b.setTcont(rset.getString("T_CONT"));
+					b.setTwriter(rset.getInt("T_WRITER"));
+					b.setTcount(rset.getInt("T_COUNT"));
+					b.setTtime(rset.getDate("T_TIME"));
+					b.setTno(rset.getInt("T_NO"));
+					b.setPno(rset.getInt("P_NO"));
+					b.setBdid(rset.getInt("BD_ID"));
+					b.setTstmt(rset.getString("T_STMT"));
+					
+					list.add(b); 
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<Board> selectAllParentsBoar(Connection con) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectAllParentsBoard");
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, 6);
 			
 			rset = pstmt.executeQuery();
 			
@@ -493,8 +533,10 @@ public class BoardDao {
 				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
 		}
 		
 		return list;

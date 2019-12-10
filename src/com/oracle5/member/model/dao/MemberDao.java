@@ -22,6 +22,7 @@ import javax.naming.PartialResultException;
 
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.Ban;
+import com.oracle5.member.model.vo.BodyInfo;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.FamilyRelation;
@@ -1164,6 +1165,210 @@ public class MemberDao {
 		}
 
 		return update;
+	}
+
+
+	//귀가동의서 신청기록 불러오기
+	public ArrayList<ReturnAgree> selectRaList(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<ReturnAgree> raList = null;
+		
+		String query = prop.getProperty("selectRalist");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
+			
+			rset = pstmt.executeQuery();
+		
+			if(rset != null) {
+				raList = new ArrayList<ReturnAgree>();
+				while(rset.next()) {
+					ReturnAgree ra = new ReturnAgree();
+					ra.setCId(rset.getInt("C_ID"));
+					ra.setCName(rset.getString("C_NAME"));
+					ra.setPNo(rset.getInt("P_NO"));
+					ra.setApplyDate(rset.getDate("APPLY_DATE"));
+					ra.setApplyTime(rset.getString("APPLY_TIME"));
+					ra.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+					ra.setStatus(rset.getString("STATUS"));
+					ra.setGuideName(rset.getString("GUIDENAME"));
+					ra.setGuidePhone(rset.getString("GUIDEPHONE"));
+					
+					raList.add(ra);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return raList;
+	}
+
+	//원아명으로 cid가져오기
+	public int selectCId(Connection con, String kidsName) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int cId = 0;
+		
+		String query = prop.getProperty("selectCId");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, kidsName);
+      	rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+        cId = rset.getInt(1);
+        	}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+      close(pstmt);
+			close(rset);
+		}
+		
+		return cId;
+	}
+
+	public ArrayList<Children> selectBanChildren(Connection con, int bno) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Children> list = null;
+		Children c = null;
+		
+		String sql = prop.getProperty("selectBanChildren");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				c = new Children();
+				
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				c.setPno(rset.getInt("ROWNUM"));
+				
+				list.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public int selectBanNo(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("selectBanNo");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+
+	//투약의뢰서 의리 리스트 불러오기
+	public ArrayList<DoseRequest> selectDoList(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<DoseRequest> list = null;
+		
+		String query = prop.getProperty("selectDolist");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+  }
+
+	public Map<String, Object> selectChildDetail(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<String, Object> hmap = null;
+		
+		String sql = prop.getProperty("selectChildDetail");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			hmap = new HashMap<>();
+			
+			if(rset.next()) {
+				Children c = new Children();
+				c.setCId(cid);
+				c.setName(rset.getString("C_NAME"));
+				c.setDescription(rset.getString("C_DESC"));
+				c.setImgSrc(rset.getString("IMGSRC").substring(rset.getString("IMGSRC").lastIndexOf("\\") + 1));
+				hmap.put("c", c);
+				
+				Ban b = new Ban();
+				b.setBanName(rset.getString("B_NAME"));
+				
+				hmap.put("b", b);
+				
+				BodyInfo bi = new BodyInfo();
+				bi.setHeight(rset.getDouble("HEIGHT"));
+				bi.setWeight(rset.getDouble("WEIGHT"));
+				
+				hmap.put("bi", bi);
+				
+				Member m = new Member();
+				m.setMemberName(rset.getString("NAME"));
+				m.setPhone(rset.getString("PHONE"));
+				m.setUType(rset.getString("RELATION"));
+				
+				hmap.put("m", m);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return hmap;
 	}
 
 }

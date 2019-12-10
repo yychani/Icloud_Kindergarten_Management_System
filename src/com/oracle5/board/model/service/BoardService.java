@@ -218,6 +218,15 @@ public class BoardService {
 		return result;
 	}
 
+	public ArrayList<Board> selectAllParentsBoard() {
+		Connection con = getConnection();
+		ArrayList<Board> list = new BoardDao().selectAllParentsBoar(con);
+		
+		close(con);
+		
+		return list;
+	}
+
 
 
 }

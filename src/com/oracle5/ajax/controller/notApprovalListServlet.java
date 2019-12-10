@@ -37,8 +37,6 @@ public class notApprovalListServlet extends HttpServlet {
 		
 		int listCount = new MemberService().getNotAppListCount();
 		
-		System.out.println("listCount : " + listCount);
-		
 		maxPage = (int) ((double) listCount / limit + 0.9);
 
 		startPage = (((int) ((double) currentPage / limit + 0.9)) - 1 ) * 10 + 1;

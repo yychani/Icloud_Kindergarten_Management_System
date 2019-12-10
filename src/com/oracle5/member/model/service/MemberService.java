@@ -430,11 +430,7 @@ public class MemberService {
 	//귀가동의서 INSERT
 	public int returnApply(ReturnAgree ra) {
 		Connection con = getConnection();
-		
-		//귀가동의서에 원아 아이디 넣어주기
-		int cId = md.searchCID(con, ra.getPNo());
-		ra.setCId(cId);
-				
+						
 		int result = md.insertReturnApply(con, ra);
 		
 		if(result > 0) {
@@ -446,6 +442,62 @@ public class MemberService {
 		
 		return result;
 
+	}
+	
+	//교사의 담당반 원아 리스트 불러오기
+	public ArrayList<Children> selectBanChilren(int memberNo) {
+		Connection con = getConnection();
+		
+		int bno = new MemberDao().selectBanNo(con, memberNo);
+		
+		ArrayList<Children> list = new MemberDao().selectBanChildren(con, bno);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public Map<String, Object> selectChildDetail(int cid) {
+		Connection con = getConnection();
+		
+		Map<String, Object> hmap = new MemberDao().selectChildDetail(con, cid);
+		
+		close(con);
+		
+		return hmap;
+	}
+
+	//귀가동의서 신청기록 불러오기
+	public ArrayList<ReturnAgree> selectRaList(int memberNo) {
+		Connection con = getConnection();
+		
+		ArrayList<ReturnAgree> raList = new MemberDao().selectRaList(con, memberNo);
+		
+		close(con);
+		
+		return raList;
+	}
+
+	//유아명으로 cid가져오기
+	public int selectCId(String kidsName) {
+		Connection con = getConnection();
+		
+		int cId = md.selectCId(con, kidsName);
+		
+		close(con);
+		
+		return cId;
+	}
+
+	//투약의뢰서 외뢰기록 불러오기
+	public ArrayList<DoseRequest> selectDoseList(int memberNo) {
+		Connection con = getConnection();
+		
+		ArrayList<DoseRequest> list = new MemberDao().selectDoList(con, memberNo);
+		
+		close(con);
+		
+		return list;
 	}
 
 

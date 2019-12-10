@@ -65,7 +65,7 @@ table {
                   <ul class="submenu">
                      <li class="li"><a href="<%=request.getContextPath() %>/thumbnailList.bo" class="submenuLink">아이들 사진 게시판</a></li>
                      <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath() %>/selectList.bo" class="submenuLink">학부모 게시판</a></li>
+                     <li class="li"><a href="<%=request.getContextPath() %>/selectAll.pbo" class="submenuLink">학부모 게시판</a></li>
                      <li>|</li>
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardCommittee.jsp" class="submenuLink longLink">유치원 운영위원회
                            게시판</a></li>
