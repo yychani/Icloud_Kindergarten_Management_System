@@ -38,7 +38,7 @@ public class ParentDoseListServlet extends HttpServlet {
 		
 		ArrayList<DoseRequest> list = new MemberService().selectDoseList(loginUser.getMemberNo());
 		
-		
+		System.out.println("투약의뢰서 리스트 서블렛 : " + list);
 		String page = "";
 		
 		if(list != null) {

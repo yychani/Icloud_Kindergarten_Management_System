@@ -54,7 +54,7 @@
 </head>
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
-	<h1 align="center">귀가동의서 리스트</h1>
+	<h1 align="center">귀가동의서 신청이력</h1>
 
 
 	<div id="totalList" align="center">
@@ -91,6 +91,10 @@
 				<tr>
 					<td><label>신청 날짜 : </label></td>
 					<td><label><%=r.getSubmitDate()%></label></td>
+				</tr>
+				<tr>
+					<td><label>상태 : </label></td>
+					<td><label><%=r.getStatus()%></label></td>
 				</tr>
 			</table>
 		</div>
