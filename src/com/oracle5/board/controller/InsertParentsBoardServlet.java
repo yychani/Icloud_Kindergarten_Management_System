@@ -63,6 +63,8 @@ public class InsertParentsBoardServlet extends HttpServlet {
 			String filePath = savePath + saveFiles.get(0);
 			String title = multiRequest.getParameter("title");
 			String content = multiRequest.getParameter("content");
+			int write = Integer.parseInt(multiRequest.getParameter("userNo"));
+			int bdId = 6;
 			
 			System.out.println(title + " " + content);
 			
@@ -70,11 +72,13 @@ public class InsertParentsBoardServlet extends HttpServlet {
 			
 			b.setTtitle(title);
 			b.setTcont(content);
+			b.setBdid(bdId);
+			b.setTno(write);
 			
 			int result = new BoardService().inserParentsBoard(b);
 			
 			if(result>0) {
-				response.sendRedirect(request.getContextPath() + "/selectList.bo");
+				response.sendRedirect(request.getContextPath() + "/selectAll.pbo");
 			}else {
 				 request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 			}
