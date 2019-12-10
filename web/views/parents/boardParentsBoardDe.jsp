@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
+    <%Board b = (Board) request.getAttribute("b"); %>
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
-<title>학부모 게시판</title>
+<title>게시판 detail</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -14,7 +16,7 @@ input[type=text] {
 	width: 100%;
 	height: 30px;
 }
-input[type='submit'] {
+input[type='submit'], input[type='reset'] {
 		width: 100px;
 		height: 40px;
 		border-radius: 10px;
@@ -43,17 +45,41 @@ $(function() {
     });
 
  }); 
+           
 </script>
-
 </head>
 <body>
 	<%@ include file="/views/common/parentsMenu.jsp" %>
 	<div style="margin: 0 15%;">
- 	<h1 style="text-decoration: underline; text-underline-position: under;">학부모 게시판</h1>
+ 	<h1 style="text-decoration: underline; text-underline-position: under;"> </h1>
  	</div>
- 	<form action="<%= request.getContextPath() %>/" method="post" encType="multipart/form-data">
- 	<%@ include file="/views/common/boardDe.jsp" %>
- 	</form>
+ 	<div style="margin: 50px 25%; margin-bottom: 20px;">
+	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
+	<div class="ui fluid icon input">
+		<input type="text" id="title" name="title" value="<%=b.getTtitle()%>" readonly>
+	</div>
+	
+	<br />
+	
+	<input type="hidden" name="userNo" value="<%=loginUser.getMemberNo()%>">
+	
+	<div class="ui form">
+		<div class="field">
+			<h3 style="text-underline-position: under;">내용</h3>
+			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
+			  readonly><%=b.getTcont() %></textarea>
+		</div>
+		
+	</div>
+	<br>
+	 <%if(loginUser != null && loginUser.getUType().equals("학부모")) {%>
+	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/select?num=<%=b.getTid() %>'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
+	 <%} %>
+	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectAll.pbo'" style="float: right" />
+	 
+	 <br><br>
+</div>
  	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
+</html>

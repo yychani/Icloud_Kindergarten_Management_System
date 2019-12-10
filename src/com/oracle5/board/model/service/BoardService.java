@@ -247,14 +247,36 @@ public class BoardService {
 		return result;
 	}
 
-	public ArrayList<Board> selectAllParentsBoard() {
+	public ArrayList<Board> selectAllParentsBoard(int currentPage, int limit) {
 		Connection con = getConnection();
-		ArrayList<Board> list = new BoardDao().selectAllParentsBoar(con);
+		
+		ArrayList<Board> list = new BoardDao().selectAllParentsBoard(con, currentPage, limit);
 		
 		close(con);
 		
 		return list;
 	}
+
+	public Board selectOneParentsBoard(int num) {
+			Connection con = getConnection();
+			
+			Board b = null;
+			
+			int result = new BoardDao().updateParentsCount(con, num);
+			
+			if(result >0) {
+				commit(con);
+				b= new BoardDao().selectOneParentsBoard(con, num);
+			}else {
+				
+				rollback(con);
+			}
+			
+			close(con);
+			return b;
+
+	}
+
 
 
 

@@ -218,7 +218,6 @@
 				accept = $(".accept:checked");
 				accept.each(function(index, value) {
 					mno[index] = $(this).parent().children("[name=mno]").val();
-					console.log(mno[index]);
 				});
 				var data = {"mno" : mno};
 				$.ajax({

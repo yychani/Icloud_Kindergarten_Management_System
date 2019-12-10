@@ -9,6 +9,7 @@ import java.util.Map;
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.dao.MemberDao;
 import com.oracle5.member.model.vo.Ban;
+import com.oracle5.member.model.vo.BodyInfo;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.FamilyRelation;
@@ -498,6 +499,57 @@ public class MemberService {
 		close(con);
 		
 		return list;
+	}
+	//생활기록부 첫번째 값 불러오기
+	public Map<String, Object> selectRcBookFirst(int cid) {
+		Connection con = getConnection();
+		
+		Map<String, Object> hmap = new MemberDao().selectRcBookFirst(con, cid);
+		
+		close(con);
+		
+		return hmap;
+	}
+
+	//생활기록부 학부모 주소 불러오기
+	public String selectParentsAddress(int cid) {
+		Connection con = getConnection();
+		
+		String address = new MemberDao().selectParentsAddress(con, cid);
+		
+		close(con);
+		
+		return address;
+	}
+
+	public ArrayList<FamilyRelation> selectFamilyRelation(int cid) {
+		Connection con = getConnection();
+		
+		ArrayList<FamilyRelation> fr = new MemberDao().selectFamilyRelation(con, cid);
+		
+		close(con);
+		
+		return fr;
+	}
+
+	public ArrayList<Scholarly> selectScholarly(int cid) {
+		Connection con = getConnection();
+		
+		ArrayList<Scholarly> sc = new MemberDao().selectScholarly(con, cid);
+		
+		close(con);
+		
+		return sc;
+	}
+
+	public ArrayList<BodyInfo> selectBodyInfo(int cid) {
+		Connection con = getConnection();
+		
+		ArrayList<BodyInfo> bi = new MemberDao().selectBodyInfo(con, cid);
+		
+		close(con);
+		
+		return bi;
 	}
 
 
