@@ -76,7 +76,7 @@
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">업무</a>
 						<ul class="submenu">
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcWorkDivision.jsp" class="submenuLink">업무분장</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectWorkList.task" class="submenuLink">업무분장</a></li>
 							<li>|</li> 
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcCommonNote.jsp" class="submenuLink">반 공통 알림장</a></li>
 							<li>|</li>

@@ -47,11 +47,11 @@ input[type=submit]:hover, input[type=button]:hover {
 </head>
 
 <body>
-
+	<h1 align="center" style="margin-top: 50px;">메인화면</h1>
 	<%
 		if (loginUser == null) {
 	%>
-	<h1 align="center" style="margin-top: 50px;">로그인</h1>
+	
 	<div align="center">
 		<button
 			onclick="location.href='<%=request.getContextPath()%>/views/signUp/login.jsp'">로그인화면</button>

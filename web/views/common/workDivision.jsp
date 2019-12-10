@@ -74,8 +74,12 @@
         		</td>
         	<% } %>
         	<td id="charge"><%=w.getName() %></td>
-        	<td id="task"><textarea style="margin: 15px 30px; float: left;width:250px;height:115px;overflow-y:hidden; border:0; resize: none;" readonly><%=w.getContent() %></textarea></td>
-        	<td id="cleaningArea"><%=w.getArea() %></td></tr>
+        	<td id="task"><textarea style="margin: 15px 30px; float: left;width:400px;height:115px;overflow-y:hidden; border:0; resize: none;" readonly><%=w.getContent() %></textarea></td>
+        	<td id="cleaningArea"><%=w.getArea() %></td>
+        	<td><input type="hidden" class="editD" value="수정하기" style="width: 70px; height: 30px">
+        	<input type="hidden" class="deleteD" value="삭제하기" style="width: 70px; height: 30px">
+        	<input type="hidden" name="pid" class="pid" value="<%=w.getPid()%>"></td>
+        	</tr>
     	<% 		index++;
     		}
     	} %>
@@ -92,14 +96,19 @@
         	</td>
         	<% } %>
         	<td id="charge"><%=w.getName() %> 선생님</td>
-        	<td id="task"><textarea style="margin: 15px 30px; float: left;width:250px;height:115px;overflow-y:hidden; border:0; resize: none;" readonly><%=w.getContent() %></textarea></td>
-        	<td id="cleaningArea"><%=w.getArea() %></td></tr>
+        	<td id="task"><textarea class="task" style="margin: 15px 30px; float: left;width:400px;height:115px;overflow-y:hidden; border:0; resize: none;" readonly><%=w.getContent() %></textarea></td>
+        	<td id="cleaningArea"><%=w.getArea() %></td>
+        	<td><input type="hidden" class="editU" value="수정하기" style="width: 70px; height: 30px">
+        	<input type="hidden" class="deleteU" value="삭제하기" style="width: 70px; height: 30px">
+        	<input type="hidden" name="tno" class="tno" value="<%=w.getTno()%>"></td>
+        	</tr>
     	<% 		index1++;
     		
     		}
     	} %>
+    	<% if(loginUser.getMemberId().equals("admin")){ %>
     <tr>
-        <td colspan="4" style="padding-top: 10px;">
+        <td colspan="5" style="padding-top: 10px;">
             <div style="float: right;"><input type="button" id="edit" value="수정하기">
                 <div style="float: right;">
                 <input style="width: 100px; height: 40px;" type="hidden" class="add" value="고유업무 추가"
@@ -110,25 +119,53 @@
             </div></div>
         </td>
     </tr>
+    <% } %>
 </table>
+
 <script>
-    function xSize(e)
-    {
-        e.style.height = '1px';
-        e.style.height = (e.scrollHeight + 12) + 'px';
-    }
-</script>
-<script>
+	$(".editD").on("click", function() {
+		var pid = $(this).siblings(".pid").val();
+		
+		location.href = "<%=request.getContextPath() %>/taskUpdateDetail.task?pid=" + pid;
+	});
+	$(".editU").on("click", function() {
+		var tno = $(this).siblings(".tno").val();
+		location.href = "<%=request.getContextPath() %>/taskUpdateDetail.task?tno=" + tno;
+	});
+	$(".deleteD").on("click", function() {
+		var pid = $(this).siblings(".pid").val();
+		var check = window.confirm("정말 삭제 하시겠습니까?");
+		
+		if (check) {
+			location.href = "<%=request.getContextPath() %>/deleteWork.task?pid=" + pid;
+		}
+	});
+	$(".deleteU").on("click", function() {
+		var tno = $(this).siblings(".tno").val();
+		var check = window.confirm("정말 삭제 하시겠습니까?");
+		
+		if (check) {
+			location.replace("<%=request.getContextPath() %>/deleteWork.task?tno=" + tno);
+		}
+	});
     $("#edit").click(function() {
         $(".add").attr("type", "button");
         $(".add").attr("type", "button");
         $("#complete").attr("type", "button");
+        $(".editD").prop("type", "button");
+        $(".editU").prop("type", "button");
+        $(".deleteD").prop("type", "button");
+        $(".deleteU").prop("type", "button");
         $(this).attr("type", "hidden");
     });
     $("#complete").click(function() {
         $(".add").attr("type", "hidden");
         $(".add").attr("type", "hidden");
         $("#edit").attr("type", "button");
+        $(".editD").prop("type", "hidden");
+        $(".editU").prop("type", "hidden");
+        $(".deleteD").prop("type", "hidden");
+        $(".deleteU").prop("type", "hidden");
         $(this).attr("type", "hidden");
     });
 </script>

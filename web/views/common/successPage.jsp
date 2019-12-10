@@ -48,6 +48,9 @@
 			msg = "투약의뢰서 신청이 완료 되었습니다.";
 			path = "<%=request.getContextPath()%>/views/parents/mykidsDoseList.jsp";
 		} else if(successCode == 11){
+			msg = "해당 업무가 삭제 되었습니다.";
+			path = "<%=request.getContextPath()%>/selectWorkList.task";	
+    }else if(successCode == 12){
 			msg = "귀가동의서 신청이 완료 되었습니다.";
 			path = "<%=request.getContextPath()%>/views/parents/mykidsGoHomeList.jsp";
 		}

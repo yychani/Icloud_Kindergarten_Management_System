@@ -143,8 +143,156 @@ public class TaskDao {
 		
 		return result;
 	}
+
+	public WorkDivision selectWork(Connection con, WorkDivision work) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		WorkDivision resultWork = null;
+		String query = "";
+		if(work.getPid() != 0) {
+			query = prop.getProperty("selectWorkPid"); 
+		}else if(work.getTno() != 0){
+			query = prop.getProperty("selectWorkTno");
+		}
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			if(work.getPid() != 0) {
+				pstmt.setInt(1, work.getPid());
+			}else if(work.getTno() != 0){
+				pstmt.setInt(1, work.getTno());
+			}
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				resultWork = new WorkDivision();
+				resultWork.setType(rset.getInt("TYPE"));
+				if(rset.getInt("TYPE") == 1) {
+					resultWork.setPid(rset.getInt("PID"));
+					resultWork.setName(rset.getString("PNAME"));
+				}else {
+					resultWork.setTno(rset.getInt("M_NO"));
+					resultWork.setName(rset.getString("NAME"));
+				}
+				resultWork.setArea(rset.getString("AREA"));
+				resultWork.setContent(rset.getString("CONTENT"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return resultWork;
+	}
+
+	public int updateWork(Connection con, WorkDivision work) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "";
+		if(work.getPid() != 0) {
+			query = prop.getProperty("updateWorkPid"); 
+		}else if(work.getTno() != 0){
+			query = prop.getProperty("updateWorkTno");
+		}
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, work.getContent());
+			pstmt.setString(2, work.getArea());
+			if(work.getPid() != 0) {
+				pstmt.setInt(3, work.getPid());
+			}else if(work.getTno() != 0){
+				pstmt.setInt(3, work.getTno());
+			}
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);		
+		}
+		
+		return result;
+	}
+
+	public boolean checkDDuplicate(Connection con, int chargeN) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		boolean isExist = false;
+		
+		String query = prop.getProperty("checkDDuplicate");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, chargeN);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				isExist = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return isExist;
+	}
 	
-	
-	
+	public boolean checkUDuplicate(Connection con, int chargeN) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		boolean isExist = false;
+		
+		String query = prop.getProperty("checkUDuplicate");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, chargeN);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				isExist = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return isExist;
+	}
+
+	public int deleteWork(Connection con, WorkDivision work) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "";
+		if(work.getPid() != 0) {
+			query = prop.getProperty("deleteWorkPid"); 
+		}else if(work.getTno() != 0){
+			query = prop.getProperty("deleteWorkTno");
+		}
+		try {
+			pstmt = con.prepareStatement(query);
+			if(work.getPid() != 0) {
+				pstmt.setInt(1, work.getPid());
+			}else if(work.getTno() != 0){
+				pstmt.setInt(1, work.getTno());
+			}
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);		
+		}
+		
+		return result;
+	}
 	
 }

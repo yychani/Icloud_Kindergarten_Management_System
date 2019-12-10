@@ -78,27 +78,45 @@ input[type='submit'] {
     </div>
 	<script>
 		$(function() {
-			$
-					.ajax({
-						url : "/main/selectPosition.do",
-						type : "post",
-						success : function(data) {
-							console.log(data);
-							$select = $("#chargeN");
-							$select.find("option").remove();
-							for (var i = 0; i < data.length; i++) {
-								var pname = decodeURIComponent(data[i].pname);
-								var selected = (i == 0) ? "selected" : "";
+			$.ajax({
+				url : "/main/selectPosition.do",
+				type : "post",
+				success : function(data) {
+					console.log(data);
+					$select = $("#chargeN");
+					$select.find("option").remove();
+					for (var i = 0; i < data.length; i++) {
+						var pname = decodeURIComponent(data[i].pname);
+						var selected = (i == 0) ? "selected" : "";
 
-								$select
-										.append("<option value='" + data[i].pid + "' " + selected + ">"
-												+ pname + "</option>");
-							}
-						},
-						error : function(data) {
-							console.log("실패!");
+						$select.append("<option value='" + data[i].pid + "' " + selected + ">" + pname + "</option>");
+					}
+				},
+				error : function(data) {
+					console.log("실패!");
+				}
+			});
+			$("#chargeN").on("change", function(){
+				var chargeN = $(this).val();
+				$.ajax({
+					url : "/main/checkDDuplicate.do",
+					data : {chargeN : chargeN},
+					type : "post",
+					success : function(data) {
+						if(data == "이미 업무가 배정되어있는 직책입니다."){
+							$("#submit").prop("disabled", true);
+							$("#submit").css({"background":"lightgray"});
+							alert(data);
+						}else {
+							$("#submit").prop("disabled", false);
+							$("#submit").css({"background":"rgb(63, 63, 63)"});
 						}
-					});
+					},
+					error : function(data) {
+						console.log("실패!");
+					}
+				});
+			});
 		});
 	</script>
 	<form action="<%=request.getContextPath()%>/insertDBusiness.task" method="post">
@@ -121,8 +139,8 @@ input[type='submit'] {
 						placeholder="청소구역을 줄단위로 입력해 주세요"></textarea></td>
 			</tr>
 			<tr>
-				<td colspan="3"><div style="float: right;">
-						<input type="submit" value="확인">&nbsp;&nbsp;
+				<td colspan="3"><div style="float: right; margin-top:10px;">
+						<input type="submit" value="확인" id="submit">&nbsp;&nbsp;
 						<input type="button" value="취소"
 							onclick="location.href='<%=request.getContextPath()%>/selectWorkList.task'">
 					</div></td>

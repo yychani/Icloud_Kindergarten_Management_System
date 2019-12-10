@@ -10,33 +10,40 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.task.model.service.TaskService;
 import com.oracle5.task.model.vo.WorkDivision;
 
-@WebServlet("/insertDBusiness.task")
-public class InsertDBusinessServlet extends HttpServlet {
+@WebServlet("/taskUpdateDetail.task")
+public class TaskUpdateDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public InsertDBusinessServlet() {
+    public TaskUpdateDetailServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int chargeN = Integer.parseInt(request.getParameter("chargeN"));
-		String taskText = request.getParameter("taskText");
-		String cleaningText = request.getParameter("cleaningText");
+		int pid = 0;
+		int tno = 0;
+		
+		if(request.getParameter("pid") != null) {
+			pid = Integer.parseInt(request.getParameter("pid"));
+		}else if(request.getParameter("tno") != null) {
+			tno = Integer.parseInt(request.getParameter("tno"));
+		}
 		
 		WorkDivision work = new WorkDivision();
-		work.setPid(chargeN);
-		work.setContent(taskText);
-		work.setArea(cleaningText);
+		work.setPid(pid);
+		work.setTno(tno);
 		
-		int result = new TaskService().insertDBusiness(work);
-		if(result > 0) {
-			response.sendRedirect(request.getContextPath() + "/selectWorkList.task");
+		WorkDivision resultWork = new TaskService().selectWork(work);
+		String page = "";
+		if(resultWork != null){
+			page = "views/president/preUpdateWorkD.jsp";
+			request.setAttribute("work", resultWork);
 		}else {
-			request.setAttribute("msg", "고유업무 작성 실패!");
-			request.getRequestDispatcher("views/common/errorPage.jsp");
+			page = "views/common/errorPage.jsp";
+			request.setAttribute("msg", "업무 수정화면 오류");
 		}
+		request.getRequestDispatcher(page).forward(request, response);
 	}
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
