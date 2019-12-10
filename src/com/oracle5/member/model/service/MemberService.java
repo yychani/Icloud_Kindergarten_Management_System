@@ -382,7 +382,7 @@ public class MemberService {
     		
 		close(con);
 		
-		return update;
+		return result;
   }
 
 	public int getNotAppListCount() {
@@ -447,5 +447,6 @@ public class MemberService {
 		return result;
 
 	}
+
 
 }

@@ -140,7 +140,7 @@ img {
                               <td id="labelText"><label>일자: </label></td>
                               <td>
                                  <div class="ui mini icon input">
-                                    <input type="date" id="applyDate">
+                                    <input type="date" id="applyDate" name="applyDate">
                                  </div>
                               </td>
                            </tr>
@@ -158,9 +158,12 @@ img {
                   <label id="caution">*유아의 귀가 시 아래의 보호자에게 인도하여 주십시오.<br>아래의 보호자 이외의 다른 사람에게 인계할 경우 사전에 반드시 연락을 취하겠습니다.</label>
                   <br><br><br><br>
                   <button type="submit" class="ui green basic button">제출하기</button>
-
-               <button type="button" class="ui teal basic button"
-                  onclick="insertDosingRequest();">투약의뢰 리스트보기</button>
+					 </form>
+					<!-- 신청이력 버튼 -->
+					<form id="goHomeRequest" action="<%=request.getContextPath()%>/returnAgreeList.me"  method="post" >
+					<input type="hidden" name="pNo" value="<%= loginUser.getMemberNo() %>">
+              	 <button type="submit" class="ui teal basic button">신청이력</button>
+                  </form>
                   </div>
                   <script>
                   
@@ -175,9 +178,13 @@ img {
                         dropdown: true,
                         scrollbar: true
                      });
+                  
+                  function goReturnApplyList(){
+                	  location.href="<%=request.getContextPath()%>/returnAgreeList.me";
+                  }
                   </script>
 
-               </form>
+              
 
          </div>
    </div>
@@ -201,7 +208,7 @@ img {
                            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                            dayNamesMin: ['일','월','화','수','목','금','토'],
                            dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'],
-                           minDate: "-1M", // -1D:하루전, -1M:한달전, -1Y:일년전
+                           minDate: "0D", // -1D:하루전, -1M:한달전, -1Y:일년전
                            maxDate: "+1M", // +1D:하루후, -1M:한달후, -1Y:일년후
                             buttonImage:"<%=request.getContextPath()%>/images/calendar.png" , //버튼에 띄워줄 이미지 경로
                            buttonImageOnly: true, //디폴트 버튼 대신 이미지 띄워줌
