@@ -161,6 +161,9 @@ public class BoardService {
 		}else {
 			rollback(con);
 		}
+		
+		close(con);
+		
 		return result;
 	}
 
@@ -175,9 +178,44 @@ public class BoardService {
 	}
 
 	public Board selectOneBoard(int num) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = getConnection();
+		
+		Board b = null;
+		
+		int result = new BoardDao().updateCount(con, num);
+		
+		if(result >0) {
+			commit(con);
+			b= new BoardDao().selectOneBoard(con, num);
+		}else {
+			
+			rollback(con);
+		}
+		
+		close(con);
+		return b;
 
+	}
+
+	public int updateBanBoard(Board b) {
+		Connection con = getConnection();
+		int result = new BoardDao().updateBanBoard(con, b);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		return result;
+	}
+
+	public int deleteBanBoard(int num) {
+		Connection con = getConnection();
+		int result = new BoardDao().deleteBanBoard(con, num);
+		
+		return result;
 	}
 
 	public ArrayList<Board> selectAllParentsBoard() {

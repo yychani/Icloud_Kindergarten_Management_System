@@ -61,7 +61,7 @@ public class InsertBoardBanNotice extends HttpServlet {
 			String title = multiRequest.getParameter("title");
 			String content = multiRequest.getParameter("content");
 			int write = Integer.parseInt(multiRequest.getParameter("userNo"));
-			int bdId = 6;
+			int bdId = 4;
 			
 			Board b = new Board();
 			b.setTtitle(title);

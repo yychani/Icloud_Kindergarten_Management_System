@@ -14,14 +14,14 @@ import com.oracle5.board.model.vo.Board;
 /**
  * Servlet implementation class SelectBoardServlet
  */
-@WebServlet("/selectBoard.bo")
-public class SelectBoardServlet extends HttpServlet {
+@WebServlet("/selectOneBanBoard.bo")
+public class SelectOneBanBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectBoardServlet() {
+    public SelectOneBanBoardServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,7 +37,7 @@ public class SelectBoardServlet extends HttpServlet {
 		String page = "";
 		
 		if(b != null) {
-			page="views/teacher/banBoardUpdate.jsp";
+			page="views/teacher/tcClassNoticeDetail.jsp";
 			request.setAttribute("b", b);
 		}else {
 			page="views/common/errorPage.jsp";
