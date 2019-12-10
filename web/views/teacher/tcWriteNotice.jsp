@@ -54,6 +54,7 @@ textarea {
  	</div>
  	<form action="<%= request.getContextPath() %>/insertNotice.ban" method="post" encType="multipart/form-data">
  	<%@ include file="/views/common/boardWrite.jsp" %>
+
  	</form>
  	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>

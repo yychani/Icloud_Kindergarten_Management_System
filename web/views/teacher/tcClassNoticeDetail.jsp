@@ -69,11 +69,11 @@ textarea {
 			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
 			  readonly><%=b.getTcont() %></textarea>
 		</div>
-		
+		<div class="Imgscr"><img alt="" src=""></div>
 	</div>
 	<br>
 	 <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
-	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectBanBoard.bo?num=<%=b.getTid() %>'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
+	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectBanBoard.bo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
 	 <%} %>
 	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectAllBanList'" style="float: right" />
 	 

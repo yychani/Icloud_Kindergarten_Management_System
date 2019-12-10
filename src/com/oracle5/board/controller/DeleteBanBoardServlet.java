@@ -29,13 +29,14 @@ public class DeleteBanBoardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int num = Integer.parseInt(request.getParameter("tid"));
+		int num = Integer.parseInt(request.getParameter("tId"));
+		System.out.println("tId : "+num);
 		
 		int result = new BoardService().deleteBanBoard(num);
 		
 		String page="";
 		if(result >0) {
-			response.sendRedirect("/main/selectBoard.bo");
+			response.sendRedirect("/main/selectAllBanList");
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "반공지사항 삭제 실패");
