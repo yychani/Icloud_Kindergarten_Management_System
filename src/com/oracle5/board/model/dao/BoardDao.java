@@ -283,15 +283,12 @@ public class BoardDao {
 		try {
 			stmt = con.createStatement();
 			
-		rset = stmt.executeQuery(query);
+			rset = stmt.executeQuery(query);
 		
 		if(rset.next()) {
 			listCount = rset.getInt(1);
-			
-			
-		}
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(stmt);
@@ -502,7 +499,7 @@ public class BoardDao {
 		return list;
 	}
 
-	public ArrayList<Board> selectAllParentsBoar(Connection con) {
+/*	public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Board> list = null;
@@ -540,7 +537,7 @@ public class BoardDao {
 		}
 		
 		return list;
-	}
+	}*/
 
 	public int updateCount(Connection con, int num) {
 		PreparedStatement pstmt = null;
@@ -630,6 +627,107 @@ public class BoardDao {
 	public int deleteBanBoard(Connection con, int num) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public ArrayList<Board> selectAllParentsBoard(Connection con, int currentPage, int limit ) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectAllParentsBoard");
+		int startRow = (currentPage -1 ) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+				list = new ArrayList<Board>();
+				while(rset.next()) {
+					Board b = new Board();
+					b.setTid(rset.getInt("T_ID"));
+					b.setTtitle(rset.getString("T_TITLE"));
+					b.setTwriter(rset.getInt("T_WRITER"));
+					b.setTcount(rset.getInt("T_COUNT"));
+					b.setTtime(rset.getDate("T_TIME"));
+
+
+					
+					list.add(b); 
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
+	
+	//학부모 게시판 updatecount
+	public int updateParentsCount(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateParentsCount");
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//학부모 게시판 selectOneBoard
+	public Board selectOneParentsBoard(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board b = null;
+		
+		String query = prop.getProperty("selectOneParentsBoard");
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b= new Board();
+				
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setTcont(rset.getString("T_CONT"));
+				b.setTwriter(rset.getInt("T_WRITER"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setTno(rset.getInt("T_NO"));
+				b.setPno(rset.getInt("P_NO"));
+				b.setBdid(rset.getInt("BD_ID"));
+				b.setTstmt(rset.getString("T_STMT"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return b;
 	}
 
 
