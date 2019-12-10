@@ -77,8 +77,29 @@
         td[id="apply"] {
             padding-right: 0;
         }
+        #address:focus{
+        	outline: none;
+        }
     </style>
-    
+    <script>
+    	$(function(){
+    		$.ajax({
+				url:"/main/selectFieldTrip.ftl",
+				type:"post",
+				success:function(data){
+					console.log(data);
+					$("#paymentStart").val(data.date);
+    				$("#address").val(data.field);
+    				$("#materials").val(data.materials);
+    				$("#payment").val(data.ftlPay);
+    				if(data.ftlId != 0){
+    					$("#start").prop("type", "hidden");
+        				$("#end").prop("type", "button");
+    				}
+				}
+			});
+    	});
+    </script>
 </head>
 
 <body style="overflow-x: hidden">
@@ -92,21 +113,20 @@
         <option value="이전 신청 이력">이전 신청 이력</option>
     </select>
     <div id="table0">
-    	<form action="<%=request.getContextPath() %>/insertFieldTrip.ftl" method="post">
+    		<h1 align="center">현장체험학습 작성</h1>
     	 	<table>
     	 		<tr>
     				<th style="background: white;">날짜</th>
     				<td>
-    					<div class="ui mini icon input">
-							<input type="date" id="dosingPeriodStart" name="startDate"><span style="line-height: 3;">&nbsp;~&nbsp;</span>
-							<input type="date" id="dosingPeriodEnd" name="endDate">
+    					<div class="ui mini icon input" style="float:left;">
+							<input type="date" id="paymentStart" name="startDate">
 						</div>
 					</td>
   				</tr>
   				<tr>
     				<th style="background: white;">장소</th>
     				
-    				<td><input type="button" value="주소 검색" id="findAddress" style="width:80px; height: 30px; margin: 5px 2px; float: left" ></td>
+    				<td style="padding: 10px 0;"><input type="button" value="주소 검색" id="findAddress" style="width:80px; height: 30px; margin: 5px 2px; float: left" ><input style="margin: 5px 2px;border: 0;" type="text" name="address" id="address" value=""></td>
   				</tr>
   				<tr>	
   					<td></td>
@@ -116,22 +136,79 @@
   				</tr>
   				<tr>
     				<th style="background: white;">준비물</th>
-    				<td></td>
+    				<td><textarea name="materials" id="materials" style="width: 100%; margin: 5px 0; border: 1px solid rgba(0,0,0,.15); resize: none;"></textarea></td>
   				</tr>
   				<tr>
     				<th style="background: white;">현장학습 체험비</th>
-    				<td></td>
+    				<td><input type="text" name="payment" id="payment" placeholder="10000" style="float: left; width: 100px;margin: 5px 5px; border: 1px solid rgba(0,0,0,.15)"><span style="line-height: 3; float: left">원</span></td>
   				</tr>
     	 	</table>
-    	</form>
-    	
+    	 	<div id="btnArea" align="center">
+    	 		<input type="button" id="start" value="납부 실행" style="background: green; color: white">
+    	 		<input type="hidden" id="end" value="납부 종료" style="background: tomato; color:white">
+    	 	</div>
+    	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
+    	<script>
+    		$("#start").click(function(){
+    			var check = window.confirm("납부를 진행 하시겠습니까?");
+    			if(check){
+    				$(this).prop("type", "hidden");
+    				$("#end").prop("type", "button");
+    				
+    				var paymentStart = $("#paymentStart").val();
+    				var paymentEnd = $("#paymentEnd").val();
+    				var address = $("#address").val();
+    				var materials = $("#materials").val();
+    				var payment = $("#payment").val();
+    				
+    				$.ajax({
+    					url:"/main/fieldTripStart.ftl",
+    					data:{
+    						paymentStart:paymentStart,
+    						paymentEnd:paymentEnd,
+    						address:address,
+    						materials:materials,
+    						payment:payment
+    					},
+    					type:"post",
+    					success:function(data){
+    						$("#paymentStart").val(data.date);
+    	    				$("#address").val(data.field);
+    	    				$("#materials").val(data.materials);
+    	    				$("#payment").val(data.ftlPay);
+    	    				
+    					}
+    				});
+    			}
+    		});
+    		$("#end").click(function(){
+    			var check = window.confirm("납부를 종료 하시겠습니까?");
+    			if(check){
+    				$(this).prop("type", "hidden");
+    				$("#start").prop("type", "button");
+    				
+    				$.ajax({
+    					url:"/main/fieldTripEnd.ftl",
+    					type:"post",
+    					success:function(data){
+							alert(data);
+							$("#paymentStart").val("");
+    	    				$("#address").val("");
+    	    				$("#materials").val("");
+    	    				$("#payment").val(0);
+    					}
+    				});
+    			}
+    		});
+    	</script>
 		<script>
 			address = "서울특별시 강남구 강남구 테헤란로14길 6";
 			$("#findAddress").click(function(){
 				new daum.Postcode({
 	       		 	oncomplete: function(data) {
 	            		address = data.address;
-	            		console.log(address);
+	            		$("#address").val(address); 
 	            		var geocoder = new daum.maps.services.Geocoder();
 	            		geocoder.addressSearch(address, function(result, status) {
 

@@ -347,12 +347,12 @@ input {
 			var address = $("#address").val(); 
 		    var passphrase = "1234";
 		    var encrypt1 = CryptoJS.AES.encrypt(address, passphrase);
-		    var decrypted1 = CryptoJS.AES.decrypt(encrypt1, passphrase );
+		    var decrypted1 = CryptoJS.AES.decrypt(encrypt1, passphrase);
 		 
 		    // 암호화 이전의 문자열은 toString 함수를 사용하여 추출할 수 있다.
 		    var address1 = decrypted1.toString(CryptoJS.enc.Utf8);
 		    
-		    $("#address1").val(decrypted1);
+		    $("#address1").val(encrypt1);
 		    
 		    var tel2 = $("#tel2").val(); 
 		    var encrypt2 = CryptoJS.AES.encrypt(tel2, passphrase);
@@ -361,7 +361,7 @@ input {
 		    // 암호화 이전의 문자열은 toString 함수를 사용하여 추출할 수 있다.
 		    var tel21 = decrypted2.toString(CryptoJS.enc.Utf8);
 		    
-		   	$("#tel21").val(decrypted2);
+		   	$("#tel21").val(encrypt2);
 		    
 		    var tel3 = $("#tel3").val(); 
 		    var encrypt3 = CryptoJS.AES.encrypt(tel3, passphrase);
@@ -370,7 +370,7 @@ input {
 		    // 암호화 이전의 문자열은 toString 함수를 사용하여 추출할 수 있다.
 		    var tel31 = decrypted3.toString(CryptoJS.enc.Utf8);
 		    
-		    $("#tel31").val(decrypted3);
+		    $("#tel31").val(encrypt3);
 		    
 			if(validAll){ // 유효성 모두 통과
 				return true;
