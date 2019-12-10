@@ -26,6 +26,16 @@ input[type='submit'], input[type='reset'] {
 		border: none;
 		cursor: pointer;
 	}
+	button {
+	width: 80px;
+	height: 40px;
+	border-radius: 10px;
+	background: rgb(63, 63, 63);
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+}
 textarea {
 	border-radius: 10px;
 }
@@ -53,33 +63,50 @@ textarea {
 	<div style="margin: 0 15%;">
  	<h1 style="text-decoration: underline; text-underline-position: under;">반 공지사항 </h1>
  	</div>
+ 	<form id="updateForm" method="post">
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
-		<input type="text" id="title" name="title" value="<%=b.getTtitle()%>" readonly>
+		<input type="text" id="title" name="title" value="<%=b.getTtitle()%>">
 	</div>
 	
 	<br />
 	
 	<input type="hidden" name="userNo" value="<%=loginUser.getMemberNo()%>">
+	<input type="hidden" name="tId" value="<%=b.getTid()%>">
 	
 	<div class="ui form">
 		<div class="field">
 			<h3 style="text-underline-position: under;">내용</h3>
 			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
-			  readonly><%=b.getTcont() %></textarea>
+			  ><%=b.getTcont() %></textarea>
 		</div>
 		
 	</div>
 	<br>
-	 <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
-	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectBanBoard.bo?num=<%=b.getTid() %>'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
+	<div align="right">
+		<button onclick="complete()">작성완료</button>
+		<button onclick="deleteBanBoard()">삭제하기</button>
+	</div>
+	<script>
+		function complete(){
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/updateBanBoard.bo");
+		}
+		function deleteBanBoard(){
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/deleteBanBoard.bo")
+		}
+	</script>
+	
+	 <%-- <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
+	 <input type="submit" id="boardReWrite" value="수정완료하기" onclick="location.href='<%=request.getContextPath() %>/updateBoard.bo?num=<%=b.getTid() %>'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
 	 <%} %>
-	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectAllBanList'" style="float: right" />
+	 <input type="reset" id="return" value="취소하기" onclick="location.href='<%= request.getContextPath() %>/selectAllBanList'" style="float: right" /> --%>
 	 
 	 <br><br>
 </div>
+</form>
  	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
+    
 </body>
 </html>
