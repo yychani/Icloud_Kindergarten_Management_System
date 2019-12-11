@@ -16,7 +16,7 @@
 	} else if(c.getRno().substring(7, 8).equals("2")) {
 		gender = "여";
 	}
-%>
+%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,7 +97,7 @@
 </head>
 <body> 
 	<%@ include file="/views/common/teacherMenu.jsp" %>
-	<%-- <%@ include file="/views/common/recordBook.jsp" %> --%>
+	<%-- <%@ include file="/views/common/recordBook.jsp" %>  --%>
 	
 
 	<div style="margin: 0 15%;">
@@ -116,21 +116,33 @@
 			</tr>
 			<tr>
 				<td>수료·졸업대장번호</td>
-				<td><%= ((String[]) hmap1.get("year"))[0] %><%= c.getCId() %></td>
-				<td><%= ((String[]) hmap1.get("year"))[1] %><%= c.getCId() %></td>
-				<td><%= ((String[]) hmap1.get("year"))[2] %><%= c.getCId() %></td>
+			<% for(int i = 0; i < 3; i++) { 
+				if(((String[]) hmap1.get("year"))[i] != null) {%>
+				<td><%= ((String[]) hmap1.get("year"))[i] %><%= c.getCId() %></td>
+			<% } else { %>
+				<td>&nbsp;</td>
+			<% } 
+			} %>
 			</tr>
 			<tr>
 				<td>반</td>
-				<td><%= ((String[]) hmap1.get("ban"))[0] %></td>
-				<td><%= ((String[]) hmap1.get("ban"))[1] %></td>
-				<td><%= ((String[]) hmap1.get("ban"))[2] %></td>
+			<% for(int i = 0; i < 3; i++) { 
+				if(((String[]) hmap1.get("ban"))[i] != null) {%>
+				<td><%= ((String[]) hmap1.get("ban"))[i] %></td>
+			<% } else { %>
+				<td>&nbsp;</td>
+			<% } 
+			} %>
 			</tr>
 			<tr>
 				<td>담임 성명</td>
-				<td><%= ((String[]) hmap1.get("name"))[0] %></td>
-				<td><%= ((String[]) hmap1.get("name"))[1] %></td>
-				<td><%= ((String[]) hmap1.get("name"))[2] %></td>
+			<% for(int i = 0; i < 3; i++) { 
+				if(((String[]) hmap1.get("name"))[i] != null) {%>
+				<td><%= ((String[]) hmap1.get("name"))[i] %></td>
+			<% } else { %>
+				<td>&nbsp;</td>
+			<% } 
+			} %>
 			</tr>
 		</table>
 	</div>
@@ -155,13 +167,13 @@
 				<td rowspan="3">가족상황</td>
 				<td colspan="2" class="backslash" style="width:10%"><div>관계</div>구분</td>
 				<td colspan="2" style="width:10%"><%= fr.get(0).getRelation() %></td>
-				<td colspan="2" style="width:10%"><%= fr.get(1).getRelation() %></td>
+				<td colspan="2" style="width:10%"><% if(fr.size() >= 2) { %><%= fr.get(1).getRelation() %><% } else { %>&nbsp;<% } %></td>
 				<td colspan="3">특이사항</td>
 			</tr>
 			<tr>
 				<td colspan="2">성명</td>		
 				<td colspan="2"><%= fr.get(0).getName() %></td>
-				<td colspan="2"><%= fr.get(1).getName() %></td>
+				<td colspan="2"><% if(fr.size() >= 2) { %><%= fr.get(1).getName() %><% } else { %>&nbsp;<% } %></td>
 				<td colspan="3"></td>	
 			</tr>
 		</table>
@@ -189,6 +201,10 @@
 				String date = sdf.format(d);		
 				String[] dateArr = date.split("-");
 				int year = new GregorianCalendar(Locale.KOREA).get(Calendar.YEAR);
+				int age = year - Integer.parseInt(c.getRno().substring(0,2)) - 2000;
+				if(age < 0) {
+					age += 100;
+				}
 			%>
 			<tr>
 				<td colspan="8">
@@ -197,7 +213,7 @@
 					<span style="width:5%; text-align:right; float:left"><%= dateArr[2] %></span><span style="float:left">일</span>  
 					<span style="text-align:right; float:center"><%= sc.get(i).getAgency() %></span>  
 					<span style="float:right">&nbsp;세 입학</span> 
-					<span style="width:3%; text-align:right; float:right"><%= year - Integer.parseInt(c.getRno().substring(0,2)) - 1900 %></span> 
+					<span style="width:3%; text-align:right; float:right"><%= age %></span> 
 					<span style="float:right">만</span> 
 				</td>
 				<td colspan="2"><%= sc.get(i).getUniqueness() %></td>
@@ -263,38 +279,35 @@
 				<td>키</td>
 				<td>몸무게</td>
 			</tr>
-			<% if(bi.size() >= 2) { %>
+			<% int j = 0;
+			   for(int i = 0; i < 3; i++) { %>
 			<tr>
-				<td>만 3 세</td>
-				<td><%= bi.get(0).getBiDate() %></td>
-				<td><%= bi.get(0).getHeight() %></td>
-				<td><%= bi.get(0).getWeight() %></td>
-				<td><%= bi.get(1).getBiDate() %></td>
-				<td><%= bi.get(1).getHeight() %></td>
-				<td><%= bi.get(1).getWeight() %></td>
+				<td>만 <%= i+3 %> 세</td>
+				<% if(bi.size() != 0) { %>
+						<td><%= bi.get(j).getBiDate() %></td>
+						<td><%= bi.get(j).getHeight() %></td>
+						<td><%= bi.get(j).getWeight() %></td>
+						<% if(bi.get(j+1) != null) { %>
+							<td><%= bi.get(j+1).getBiDate() %></td>
+							<td><%= bi.get(j+1).getHeight() %></td>
+							<td><%= bi.get(j+1).getWeight() %></td>
+						<% } else { %>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						<% } %>
+				<% } else { %>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				<% } %>
 				<td></td>
 			</tr>
-			<% } %>
-			<tr>
-				<td>만 4 세</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>만 5 세</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
+			<% j+=2; 
+			} %>
 		</table>
 	</div>
 	<script>
@@ -305,7 +318,7 @@
         $("#address").text(address1);
 	</script>
 	
-	<%--                                      --%>
+	   <%-- --%>                                
 	<div style="margin: 0 15%; height:50px;">
 		<input type="button" value="뒤로가기" style="float:right; background:lightgray; color:black" onclick="location.href='tcChildDetail.jsp'" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>

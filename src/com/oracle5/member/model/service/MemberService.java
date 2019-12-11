@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.dao.MemberDao;
+import com.oracle5.member.model.vo.Attend;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.BodyInfo;
 import com.oracle5.member.model.vo.Children;
@@ -550,6 +551,16 @@ public class MemberService {
 		close(con);
 		
 		return bi;
+	}
+
+	public ArrayList<Attend> selectChildAttend(int cid) {
+		Connection con = getConnection();
+		
+		ArrayList<Attend> ar = new MemberDao().selectChildAttend(con, cid);
+		
+		close(con);
+		
+		return ar;
 	}
 
 
