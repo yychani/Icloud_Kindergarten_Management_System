@@ -1566,4 +1566,83 @@ public class MemberDao {
 		return bi;
 	}
 
+	//원아명 학무보pNo 일치 확인
+	public int cNamepNoCheck(Connection con, String kidName, int pNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int cId = 0;
+		
+		String query = prop.getProperty("selectCNamePno");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pNo);
+			pstmt.setString(2, kidName);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				cId = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return cId;
+	}
+
+	//현장체험학습 MAX값 가져오기
+	public int selectFtl(Connection con) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int ftlMax = 0;
+		
+		String query = prop.getProperty("selectFtlMax");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ftlMax = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return ftlMax;
+	}
+
+	//현장체험학습 신청 insert
+	public int insertFtlApply(Connection con, int cId, int ftlMax) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertFtlApply");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, ftlMax);
+			pstmt.setInt(2, cId);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 }
