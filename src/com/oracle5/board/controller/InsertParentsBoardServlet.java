@@ -3,6 +3,7 @@ package com.oracle5.board.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.Oracle5FileRenamePolicy;
+import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.Member;
 import com.oreilly.servlet.MultipartRequest;
 
@@ -73,13 +75,31 @@ public class InsertParentsBoardServlet extends HttpServlet {
 			b.setTtitle(title);
 			b.setTcont(content);
 			b.setBdid(bdId);
-			b.setTno(write);
+			b.setPno(write);
 			
-			int result = new BoardService().inserParentsBoard(b);
+			ArrayList<Attachment> fileList = new ArrayList<Attachment>();
+			
+			for(int i = originFiles.size() -1; i>=0; i-- ) {
+				Attachment att = new Attachment();
+				att.setFilePath(savePath);
+				att.setOriginName(originFiles.get(i));
+				att.setChangeName(saveFiles.get(i));
+				
+				fileList.add(att);
+			}
+			
+			HashMap<String, Object> hmap = new HashMap<>();
+			hmap.put("fileList", fileList);
+			hmap.put("Board", b);
+			
+			
+			
+			int result = new BoardService().inserParentsBoard(hmap,b);
 			
 			if(result>0) {
 				response.sendRedirect(request.getContextPath() + "/selectAll.pbo");
 			}else {
+				request.setAttribute("msg", "학부모 게시판 등록실패");
 				 request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 			}
 			

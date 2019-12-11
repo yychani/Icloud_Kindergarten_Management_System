@@ -420,7 +420,7 @@ public class BoardDao {
 			
 			pstmt.setString(1, b.getTtitle());
 			pstmt.setString(2, b.getTcont());
-			pstmt.setInt(3, b.getTno());
+			pstmt.setInt(3, b.getPno());
 			pstmt.setInt(4, b.getBdid());
 			
 			
@@ -699,8 +699,9 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 					b.setName(rset.getString("NAME"));
 					b.setTcount(rset.getInt("T_COUNT"));
 					b.setTtime(rset.getDate("T_TIME"));
-
-					System.out.println(b);
+					
+			
+			
 					
 					list.add(b); 
 				}
@@ -756,7 +757,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 				b.setTid(rset.getInt("T_ID"));
 				b.setTtitle(rset.getString("T_TITLE"));
 				b.setTcont(rset.getString("T_CONT"));
-				b.setTwriter(rset.getInt("T_WRITER"));
+				b.setName(rset.getString("NAME"));
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
 
@@ -818,10 +819,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return result;
 	}
 
-	public int selectBanNoticeTid(Connection con, Board b) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	public int selectBanNoticeTid(Connection con, Board b) {
 		PreparedStatement pstmt = null;
@@ -892,6 +890,61 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		return at;
 	}
+
+	public int selectParentBoardTid(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = prop.getProperty("selectParentBoardtid");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, b.getPno());
+			pstmt.setInt(2, b.getBdid());
+			
+			System.out.println("tno"+b.getPno());
+			System.out.println("bdid"+b.getBdid());
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertParentBoardImg(Connection con, Attachment parBImg, int tid) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("insertParentBoardImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, parBImg.getOriginName());
+			pstmt.setString(2, parBImg.getChangeName());
+			pstmt.setString(3, parBImg.getFilePath());
+			pstmt.setInt(4, tid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
 
 
 }

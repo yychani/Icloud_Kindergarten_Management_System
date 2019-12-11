@@ -32,7 +32,11 @@ public class SelectOneParentsBoardServlet extends HttpServlet {
 			int num = Integer.parseInt(request.getParameter("num"));
 			
 			System.out.println(num);
-			Board b = new BoardService().selectOneParentsBoard(num);
+			String isUpdate = "false";
+			if(request.getParameter("isUpdate") != null) {
+				isUpdate = request.getParameter("isUpdate");
+			}
+			Board b = new BoardService().selectOneParentsBoard(num, isUpdate);
 			
 			String page = "";
 			

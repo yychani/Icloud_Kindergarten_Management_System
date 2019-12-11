@@ -39,14 +39,11 @@ public class UpdateParentBoardServelt extends HttpServlet {
 		b.setTtitle(title);
 		b.setTcont(content);
 		
-		System.out.println(tid);
-		System.out.println(title);
-		System.out.println();
 		int result = new BoardService().updateParentBoard(b);
 		
 		String page="";
 		if(result >0) {
-			response.sendRedirect("/main/selectOne.pbo?num=" + b.getTid());
+			response.sendRedirect("/main/selectOne.pbo?num=" + b.getTid() + "&isUpdate=true");
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "반 공지사항 업데이트 실패");

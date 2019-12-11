@@ -30,8 +30,11 @@ public class SelectParentsBoardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int num =Integer.parseInt(request.getParameter("num"));
-		
-		Board b = new BoardService().selectOneParentsBoard(num);
+		String isUpdate ="false";
+		if(request.getParameter("isUpdate")!=null) {
+			isUpdate = request.getParameter("isUpdate");
+		}
+		Board b = new BoardService().selectOneParentsBoard(num, isUpdate);
 		
 		String page ="";
 		

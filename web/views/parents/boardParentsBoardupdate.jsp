@@ -72,7 +72,7 @@ $(function() {
 	<br />
 	
 	<input type="hidden" name="userNo" value="<%=loginUser.getMemberNo()%>">
-	<input type="hidden" name="tId" value="<%=b.getTid()%>">
+	<input type="hidden" name="tid" value="<%=b.getTid()%>">
 	
 	<div class="ui form">
 		<div class="field">
