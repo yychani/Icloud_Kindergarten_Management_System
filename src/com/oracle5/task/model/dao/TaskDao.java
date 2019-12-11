@@ -410,5 +410,70 @@ public class TaskDao {
 		
 		return result;
 	}
+
+	public int currentChildCount(Connection con) {
+		ResultSet rset = null;
+		Statement stmt = null;
+		int currentChildCount = 0;
+		
+		String query = prop.getProperty("currentChildCount");
+		
+		try {
+			stmt = con.createStatement();
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				currentChildCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return currentChildCount;
+	}
+
+	public int currentTeacherCount(Connection con) {
+		ResultSet rset = null;
+		Statement stmt = null;
+		int currentTeacherCount = 0;
+		
+		String query = prop.getProperty("currentTeacherCount");
+		
+		try {
+			stmt = con.createStatement();
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				currentTeacherCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return currentTeacherCount;
+	}
+
+	public int minusYear(Connection con, int currentYear) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		int minusYear = 0;
+		
+		String query = prop.getProperty("minusYear");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, currentYear);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				minusYear = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return minusYear;
+	}
 	
 }
