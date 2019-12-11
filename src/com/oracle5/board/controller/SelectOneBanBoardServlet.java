@@ -34,6 +34,7 @@ public class SelectOneBanBoardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int num = Integer.parseInt(request.getParameter("num"));
+		System.out.println("num : " + num);
 		String isUpdate = "false";
 		if(request.getParameter("isUpdate") != null) {
 			isUpdate = request.getParameter("isUpdate");
@@ -44,7 +45,7 @@ public class SelectOneBanBoardServlet extends HttpServlet {
 		Attachment a = new BoardService().selectOneImg(num);
 		String page = "";
 		
-		if(b != null &&  a!=null) {
+		if(b != null) {
 			page="views/teacher/tcClassNoticeDetail.jsp";
 			request.setAttribute("b", b);
 			request.setAttribute("a", a);

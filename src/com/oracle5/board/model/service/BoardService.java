@@ -193,10 +193,10 @@ public class BoardService {
 		return result;
 	}
 	//반 공지사항 리스트 테이블 조회용 메소드 -한솔
-	public ArrayList<Board> selectAllBanNoticeList() {
+	public ArrayList<Board> selectAllBanNoticeList(int currentPage, int limit) {
 		Connection con = getConnection();
 		
-		ArrayList<Board> list = new BoardDao().selectAllBanNoticeList(con);
+		ArrayList<Board> list = new BoardDao().selectAllBanNoticeList(con,currentPage, limit);
 		
 		close(con);
 		
@@ -301,13 +301,13 @@ public class BoardService {
 			rollback(con);
 		}
 		
-		close(con)
+		close(con);
       		return result;
 	}
   
   
 	//반 공지사항 이미지 조회
-	public Attachment selectOneImg( int num) {
+	public Attachment selectOneImg(int num) {
 		Connection con = getConnection();
 		Attachment attachment = new BoardDao().selectOneImg(con,num);
 		
@@ -338,7 +338,16 @@ public class BoardService {
 		
 		return result;
 	}
-
+	
+	//반공지사항 listCount
+	public int getListCountBan() {
+		Connection con = getConnection();
+		
+		int listCount = new BoardDao().getListCountBan(con);
+		
+		close(con);
+		return listCount;
+	}
 
 
 

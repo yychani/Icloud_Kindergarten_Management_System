@@ -459,37 +459,36 @@ public class BoardDao {
 		
 		return result;
 	}
-	//반 공지사항 테이블 조회용 리스트 - 한솔
-	public ArrayList<Board> selectAllBanNoticeList(Connection con) {
+	//반 공지사항 테이블 조회용 리스트 - 한솔selectAllBanNoticeList
+	public ArrayList<Board> selectAllBanNoticeList(Connection con, int currentPage, int limit) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		ArrayList<Board> list =null;
+		ArrayList<Board> list = null;
 		
 		String query = prop.getProperty("selectAllBanNoticeList");
+		int startRow = (currentPage -1 ) * limit +1;
+		int endRow = startRow + limit -1;
 		
 		try {
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, 4);
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
 			rset = pstmt.executeQuery();
 			
-			if(rset!=null) {
-				list = new ArrayList<>();
+				list = new ArrayList<Board>();
 				while(rset.next()) {
 					Board b = new Board();
 					b.setTid(rset.getInt("T_ID"));
 					b.setTtitle(rset.getString("T_TITLE"));
-					b.setTcont(rset.getString("T_CONT"));
-					b.setTwriter(rset.getInt("T_WRITER"));
+					b.setName(rset.getString("NAME"));
 					b.setTcount(rset.getInt("T_COUNT"));
 					b.setTtime(rset.getDate("T_TIME"));
-					b.setTno(rset.getInt("T_NO"));
-					b.setPno(rset.getInt("P_NO"));
-					b.setBdid(rset.getInt("BD_ID"));
-					b.setTstmt(rset.getString("T_STMT"));
+
+					System.out.println(b);
 					
 					list.add(b); 
 				}
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -499,7 +498,6 @@ public class BoardDao {
 		
 		return list;
 	}
-
 public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -818,10 +816,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return result;
 	}
 
-	public int selectBanNoticeTid(Connection con, Board b) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	public int selectBanNoticeTid(Connection con, Board b) {
 		PreparedStatement pstmt = null;
@@ -869,6 +864,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				at = new Attachment();
+				
 				at.setFid(rset.getInt("F_ID"));
 				at.setOriginName(rset.getString("ORIGIN_NAME"));
 				at.setChangeName(rset.getString("CHANGE_NAME"));
@@ -888,23 +884,33 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 			close(rset);
 			close(pstmt);
 		}
-		
-		
 		return at;
 	}
 
+	public int getListCountBan(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		int listCount = 0;
+		
+		String query = prop.getProperty("listCountBan");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+		
+		if(rset.next()) {
+			listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+			close(rset);
+		}
+		
+	
+		return listCount;
+	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
