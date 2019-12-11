@@ -27,9 +27,11 @@ import com.oracle5.member.model.vo.BodyInfo;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.FamilyRelation;
+import com.oracle5.member.model.vo.FieldLearning;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Parents;
+import com.oracle5.member.model.vo.Participation;
 import com.oracle5.member.model.vo.ReturnAgree;
 import com.oracle5.member.model.vo.Scholarly;
 import com.oracle5.member.model.vo.Teacher;
@@ -1720,6 +1722,116 @@ public class MemberDao {
 		}
 
 		return delete;
+    
+  }
+
+	//현장 체험학습 리스트 select
+	public Map<String, Object> selectFtlApplyList(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<String, Object> hmap = null;
+		
+		String query = prop.getProperty("selectFtlApplyList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			hmap = new HashMap<>();
+			
+			ArrayList<FieldLearning> flList = new ArrayList<FieldLearning>();
+			ArrayList<Participation> pList = new ArrayList<Participation>();
+			ArrayList<Children> cList = new ArrayList<Children>();
+			
+			while(rset.next()) {
+				FieldLearning fl = new FieldLearning();
+				fl.setFtlDate(rset.getDate("FTL_DATE"));
+				fl.setField(rset.getString("FIELD"));
+				fl.setFtlPay(rset.getInt("FTL_PAY"));
+				fl.setMaterials(rset.getString("METERIALS"));
+				
+				flList.add(fl);
+				
+				Participation p = new Participation();
+				p.setCId(cId);
+				p.setPayment(rset.getString("PAYMENT"));
+				p.setAttend(rset.getString("ATTEND"));
+				
+				pList.add(p);
+				
+				Children c = new Children();
+				c.setName(rset.getString("C_NAME"));
+				
+				cList.add(c);
+				
+			}
+			
+			hmap.put("flList", flList);
+			hmap.put("pList", pList);
+			hmap.put("cList", cList);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return hmap;
+	}
+
+	//현장 체험학습 신청했는지 확인
+	public int checkFtlApply(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		int check = 0;
+		
+		String query = prop.getProperty("checkFtlApply");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			check = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
+
+	//현장 체험학습 신청페이지 정보 불러오기
+	public FieldLearning selectFl(Connection con) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		FieldLearning fl= null;
+		
+		String query = prop.getProperty("selectFl");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				fl = new FieldLearning();
+				
+				fl.setFtlDate(rset.getDate("FTL_DATE"));
+				fl.setField(rset.getString("FIELD"));
+				fl.setFtlPay(rset.getInt("FTL_PAY"));
+				fl.setMaterials(rset.getString("METERIALS"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return fl;
+
 	}
 
 }

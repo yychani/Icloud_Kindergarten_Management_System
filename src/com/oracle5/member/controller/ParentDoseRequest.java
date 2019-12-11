@@ -83,7 +83,7 @@ public class ParentDoseRequest extends HttpServlet {
 		int result = new MemberService().doseTimeInsert(requestDose, dr.getDosingTime());
 		
 		if(result > 0) {
-			response.sendRedirect("views/common/successPage.jsp?successCode=10");
+			response.sendRedirect("views/common/successPage.jsp?successCode=13");
 		} else {
 			request.setAttribute("msg", "투약의뢰서 신청 실패");
 			

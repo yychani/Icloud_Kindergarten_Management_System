@@ -53,6 +53,9 @@
   	 	}else if(successCode == 12){
 			msg = "귀가동의서 신청이 완료 되었습니다.";
 			path = "<%=request.getContextPath()%>/returnAgreeList.me";
+		}else if(successCode == 13){
+			msg = "현장체험학습 신청이 완료 되었습니다.";
+			path = "<%=request.getContextPath()%>/ftlApplyList.me";
 		}
 
 		alert(msg);

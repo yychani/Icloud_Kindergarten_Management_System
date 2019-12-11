@@ -15,6 +15,7 @@ import com.oracle5.member.model.vo.BodyInfo;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.FamilyRelation;
+import com.oracle5.member.model.vo.FieldLearning;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Parents;
@@ -586,11 +587,12 @@ public class MemberService {
 	//현장체험학습 insert
 	public int insertFtlApply(int cId) {
 		Connection con = getConnection();
+		
 		//현장체험학습 MAX값 가져오기
 		int ftlMax = new MemberDao().selectFtl(con);
 		System.out.println(ftlMax);
 		
-		
+		//insert
 		int result = new MemberDao().insertFtlApply(con, cId, ftlMax);
 		
 		close(con);
@@ -599,6 +601,7 @@ public class MemberService {
 
 	}
 
+
 	public Date presidentEntDate() {
 		Connection con = getConnection();
 		
@@ -606,6 +609,49 @@ public class MemberService {
 		
 		close(con);
 		return presidentEntDate;
+}
+
+	//학부모 pno로 원아cid가져오기
+	public int selectCId(int pNo) {
+		Connection con = getConnection();
+		
+		int cId = md.searchCID(con, pNo);;
+		
+		return cId;
+	}
+
+	//현장 체험학습 리스트 select
+	public Map<String, Object> selectFtlApplyList(int cId) {
+		Connection con = getConnection();
+		
+		Map<String, Object> hmap = new MemberDao().selectFtlApplyList(con, cId);
+		
+		close(con);
+		
+		return hmap;
+	}
+
+	//현장 체험학습 신청했는지 확인
+	public int checkFtlApply(int cId) {
+		Connection con = getConnection();
+		
+		int check = md.checkFtlApply(con, cId);
+		
+		close(con);
+		
+		return check;
+	}
+
+	//현장 체험학습 신청페이지 정보 불러오기
+	public FieldLearning selectfl() {
+		Connection con = getConnection();
+		
+		FieldLearning fl = md.selectFl(con);
+		
+		close(con);
+		
+		return fl;
+
 	}
 
 

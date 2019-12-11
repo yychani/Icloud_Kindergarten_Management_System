@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
+	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.FieldLearning"%>
+<%
+	FieldLearning fl = (FieldLearning) request.getAttribute("fl");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,19 +67,19 @@ tr {
 							<table>
 								<tr>
 									<td>일시 :</td>
-									<td>2019-12-25</td>
+									<td><%= fl.getFtlDate() %></td>
 								</tr>
 								<tr>
 									<td>장소 :</td>
-									<td>용인 에버랜드</td>
+									<td><%= fl.getField() %></td>
 								</tr>
 								<tr>
 									<td>참가비 :</td>
-									<td>25000원</td>
+									<td><%= fl.getFtlPay() %> 원</td>
 								</tr>
 								<tr>
 									<td>준비물 :</td>
-									<td>우산</td>
+									<td><%= fl.getMaterials() %></td>
 								</tr>
 							</table>
 							<p id="caution">*자세한 사항은 공지사항을 참조해주세요.</p>
