@@ -696,11 +696,11 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 					Board b = new Board();
 					b.setTid(rset.getInt("T_ID"));
 					b.setTtitle(rset.getString("T_TITLE"));
-					b.setTwriter(rset.getInt("T_WRITER"));
+					b.setName(rset.getString("NAME"));
 					b.setTcount(rset.getInt("T_COUNT"));
 					b.setTtime(rset.getDate("T_TIME"));
 
-
+					System.out.println(b);
 					
 					list.add(b); 
 				}
@@ -759,12 +759,10 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 				b.setTwriter(rset.getInt("T_WRITER"));
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
-				b.setTno(rset.getInt("T_NO"));
-				b.setPno(rset.getInt("P_NO"));
-				b.setBdid(rset.getInt("BD_ID"));
-				b.setTstmt(rset.getString("T_STMT"));
+
 			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(rset);
@@ -773,6 +771,56 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		
 		return b;
+	}
+	//학부모 게시판 update
+	public int updateParentBoard(Connection con, Board b) {
+		
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateParentBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	public int deleteParentBoard(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("deleteParentBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);	
+			pstmt.setInt(1, num);	
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int selectBanNoticeTid(Connection con, Board b) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	public int selectBanNoticeTid(Connection con, Board b) {

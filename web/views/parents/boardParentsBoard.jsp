@@ -18,7 +18,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>반 공지사항</title>
+<title>학부모 게시판</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -155,9 +155,10 @@ $(function() {
 			<tbody id="tbodyArea"> 
 			<%for(Board b : list) { %>
 				<tr>
-					<td id="no"><%=b.getTid() %></td>
+					<td id="no"><%=b.getTid()%></td>
+					<input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
 					<td id="title"><%=b.getTtitle() %></td>
-                    <td id="writer"><%=b.getTno() %></td>
+                    <td id="writer"><%=b.getName() %></td>
                     <td id="count"><%=b.getTcount() %></td>
 					<td id="date"><%=b.getTtime() %></td>
 				</tr>
@@ -229,7 +230,7 @@ $(function() {
     });
     $(function(){
     	$("#tableArea td").click(function(){
-    		var num = $(this).parent().children().eq(0).text();
+    		var num = $("#tid").val();
     		
     		location.href="<%=request.getContextPath()%>/selectOne.pbo?num="+num;
     		
