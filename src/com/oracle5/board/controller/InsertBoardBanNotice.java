@@ -69,7 +69,7 @@ public class InsertBoardBanNotice extends HttpServlet {
 			b.setTtitle(title);
 			b.setTcont(content);
 			b.setBdid(bdId);
-			b.setTno(write);
+			b.setPno(write);
 			
 			System.out.println("title : "+title);
 			System.out.println("content : "+content);

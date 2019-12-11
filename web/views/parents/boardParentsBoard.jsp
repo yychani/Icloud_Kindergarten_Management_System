@@ -156,7 +156,7 @@ $(function() {
 			<%for(Board b : list) { %>
 				<tr>
 					<td id="no"><%=b.getTid()%></td>
-					<input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
+					<input type="hidden" name="tid" id="tid" value="<%=b.getTid()%>"></td>
 					<td id="title"><%=b.getTtitle() %></td>
                     <td id="writer"><%=b.getName() %></td>
                     <td id="count"><%=b.getTcount() %></td>
@@ -230,7 +230,7 @@ $(function() {
     });
     $(function(){
     	$("#tableArea td").click(function(){
-    		var num = $("#tid").val();
+    		var num = $(this).parent().children("input").val();
     		
     		location.href="<%=request.getContextPath()%>/selectOne.pbo?num="+num;
     		

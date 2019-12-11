@@ -138,14 +138,29 @@ public class BoardService {
 		close(con);
 		return list;
 	}
-
-	public int inserParentsBoard(Board b) {
+	//학부모 게시판 insert
+	public int inserParentsBoard(HashMap<String, Object> hmap,Board b) {
 		Connection con = getConnection();
 		
-		int result = new BoardDao().insertParentsBoard(con,b);
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
+		int pid = 0;
+		int result =0;
 		
-		if(result>0) {
+		
+		int result1 = new BoardDao().insertParentsBoard(con,b);
+		
+		if(result1 >0) {
+			pid = new BoardDao().selectParentBoardTid(con,b);
+			System.out.println("tid"+pid);
+		}
+		Attachment parBImg = fileList.get(0);
+		
+		int result2 = new BoardDao().insertParentBoardImg(con,parBImg,pid);
+		
+		
+		if(result1>0 && result2>0) {
 			commit(con);
+			result =1;
 		}else {
 			rollback(con);
 		}
@@ -174,10 +189,10 @@ public class BoardService {
 		
 		
 		
-		/*System.out.println("b.tno : "+ b.getTno());
-		System.out.println("b.bdid : "+ b.getBdid());*/
-		/*System.out.println("tid : "+ tid);*/
-		/*System.out.println("result1 : "+result1);*/
+		System.out.println("b.tno : "+ b.getTno());
+		System.out.println("b.bdid : "+ b.getBdid());
+		System.out.println("tid : "+ tid);
+		System.out.println("result1 : "+result1);
 		System.out.println("result2 : "+result2);
 		
 		if(result1 > 0 && result2 > 0 ) {
@@ -269,20 +284,26 @@ public class BoardService {
 	}
 	
 	//학부모 게시판 selectone
-	public Board selectOneParentsBoard(int num) {
+	public Board selectOneParentsBoard(int num ,String isUpdate) {
 			Connection con = getConnection();
 			
 			Board b = null;
+			int tid = 0;			
+			int result = 0;
 			
-			int result = new BoardDao().updateParentsCount(con, num);
-			
+			if(isUpdate.equals("false")) {
+				result = new BoardDao().updateParentsCount(con, num);
+			}
+			System.out.println("result   :"+result);
 			if(result >0) {
 				commit(con);
-				b= new BoardDao().selectOneParentsBoard(con, num);
+				
 			}else {
 				
 				rollback(con);
 			}
+			b= new BoardDao().selectOneParentsBoard(con, num);
+			System.out.println("b"+b);
 			
 			close(con);
 			return b;
@@ -301,7 +322,7 @@ public class BoardService {
 			rollback(con);
 		}
 		
-		close(con)
+		close(con);
       		return result;
 	}
   
