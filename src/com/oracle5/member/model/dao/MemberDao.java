@@ -574,6 +574,8 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, mNo);
+			
+			delete = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -592,6 +594,8 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, mNo);
+			
+			delete = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -1672,6 +1676,50 @@ public class MemberDao {
 		
 		return result;
 
+	}
+
+	public Date presidentEntDate(Connection con) {
+		ResultSet rset = null;
+		Statement stmt = null;
+		Date presidentEntDate = null;
+		
+		String query = prop.getProperty("presidentEntDate");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				presidentEntDate = rset.getDate(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+			close(rset);
+		}
+		return presidentEntDate;
+	}
+
+	public int deleteTerms(Connection con, int mNo) {
+		PreparedStatement pstmt = null;
+		int delete = 0;
+
+		String query = prop.getProperty("deleteTerms");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, mNo);
+			
+			delete = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return delete;
 	}
 
 }

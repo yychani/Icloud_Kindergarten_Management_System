@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
+	<script src="<%=request.getContextPath()%>/js/rolldate.min.js"></script>
     <title>Insert title here</title>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad1a47dac0c888645210b4f65cbdb5ca&libraries=services"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ad1a47dac0c888645210b4f65cbdb5ca"></script>
@@ -12,7 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
     <style>
         table {
             margin: 50px auto;
@@ -95,8 +96,9 @@
     				if(data.ftlId != 0){
     					$("#start").prop("type", "hidden");
         				$("#end").prop("type", "button");
+        				$("#paymentStart").prop("disabled", true);
     				}
-				}
+        		}
 			});
     	});
     </script>
@@ -119,7 +121,7 @@
     				<th style="background: white;">날짜</th>
     				<td>
     					<div class="ui mini icon input" style="float:left;">
-							<input type="date" id="paymentStart" name="startDate">
+							<input type="text" style="text-align: center; width: 200px; font-size: 12pt; padding: 0 !important;" id="paymentStart" name="startDate">
 						</div>
 					</td>
   				</tr>
@@ -150,11 +152,28 @@
     	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
     	<script>
+    		
+    		new Rolldate({
+            	el: '#paymentStart',
+            	format: 'YYYY-MM-DD',
+            	beginYear : 2019,
+            	endYear : 2020,
+            	lang: {
+               	title: '날짜를 선택하세요',
+               	cancel : '취소',
+               	confirm : '완료',
+             	year : '년',
+             	month : '월',
+             	day : '일'
+            }
+         });
+    	
     		$("#start").click(function(){
     			var check = window.confirm("납부를 진행 하시겠습니까?");
     			if(check){
     				$(this).prop("type", "hidden");
     				$("#end").prop("type", "button");
+    				$("#paymentStart").prop("disabled", true);
     				
     				var paymentStart = $("#paymentStart").val();
     				var paymentEnd = $("#paymentEnd").val();
@@ -187,6 +206,7 @@
     			if(check){
     				$(this).prop("type", "hidden");
     				$("#start").prop("type", "button");
+    				$("#paymentStart").prop("disabled", false);
     				
     				$.ajax({
     					url:"/main/fieldTripEnd.ftl",

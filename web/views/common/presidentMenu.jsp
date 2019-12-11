@@ -112,7 +112,7 @@
 							관리</a></li>
 					<li class="topMenuLi"><a class="menuLink" href="">마이페이지</a>
 						<ul class="submenu">
-							<li class="li11"><a href="<%=request.getContextPath()%>/views/president/preKInfo.jsp"
+							<li class="li11"><a href="<%=request.getContextPath()%>/selectKinderGarten.kinfo"
 									class="submenuLink">원 정보</a></li>
 							<li>|</li>
 							<li class="li12"><a href="" class="submenuLink">건의/문의 확인</a></li>

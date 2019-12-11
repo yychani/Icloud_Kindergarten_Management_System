@@ -163,7 +163,7 @@
                     <div class="kidFace" style="vertical-align: middle;"><img class="kidFace" id="kidFace" name="kidFace" src="<%=request.getContextPath() %>/images/noImages.png"
                             style="width: 119px; height: 157px; margin: 23px 40px;"></div>
                     <input type="hidden" id="addKids">
-                    <input type="hidden" value="<%=userId %>" name="userId">
+                    <input type="hidden" value="<%=userId %>" name="userId" id="userId">
                 </td>
             </tr>
             <tr>
@@ -279,10 +279,12 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
     <script>
     $(function(){
-    	$("#kidUnique").keyup(function(){
-    		console.log($(this).val());
-    	})
-    })
+    	$(".cancel").click(function(){
+    		var userId = $("#userId").val();
+    		var path = "<%=request.getContextPath() %>/signUpCancel.me?userId=" + userId;
+    		location.replace(path);
+    	});
+    });
     function validate() {
 		var msg = "입력한 정보들을 다시 한번 확인해주세요";
 		

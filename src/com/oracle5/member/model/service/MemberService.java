@@ -1,6 +1,7 @@
 package com.oracle5.member.model.service;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,7 +111,6 @@ public class MemberService {
 		if (result1 > 0) {
 			int pNo = md.searchMemberNo(con, m);
 			p.setPNo(pNo);
-			System.out.println(p.getPNo());
 		} 
 		int result2 = new MemberDao().insertParent(con, p);
 		int result3 = new MemberDao().insertTermsList(con, p);
@@ -142,13 +142,11 @@ public class MemberService {
 		Ban b = (Ban) hmap.get("Ban");
 		Member requestMember = new Member();
 		requestMember.setMemberId(userId);
-		System.out.println(userId);
 		int mNo = new MemberDao().searchMemberNo(con, requestMember);
 		c.setPno(mNo);
 		int result = 0;
 		// 원아 테이블 insert
 		int result1 = new MemberDao().insertChildren(con, c);
-		System.out.println(result1);
 		
 		// 원아 번호
 		int cNo = new MemberDao().searchChildNo(con, c);
@@ -184,16 +182,25 @@ public class MemberService {
 		Connection con = getConnection();
 		Member requestMember = new Member();
 		requestMember.setMemberId(userId);
+		int delete = 0;
+		int delete1 = 0;
 		int mNo = new MemberDao().searchMemberNo(con, requestMember);
-		
-		int delete = new MemberDao().deleteParents(con, mNo);
-		int delete1 = new MemberDao().deleteMember(con, mNo);
-		
-		if(delete > 0 && delete1 > 0) {
-			commit(con);
-		}else {
-			rollback(con);
+		int delete2 = new MemberDao().deleteTerms(con, mNo);
+		if(delete2 > 0) {
+			System.out.println("약관 삭제 성공");
+			delete = new MemberDao().deleteParents(con, mNo);
+			if(delete > 0) {
+				System.out.println("부모 삭제 성공");
+				delete1 = new MemberDao().deleteMember(con, mNo);
+				if(delete1 > 0) {
+					System.out.println("멤버 삭제 성공");
+					commit(con);
+				}else {
+					rollback(con);
+				}
+			}
 		}
+		
 		close(con);
 		return delete;
 	}
@@ -590,6 +597,15 @@ public class MemberService {
 		
 		return result;
 
+	}
+
+	public Date presidentEntDate() {
+		Connection con = getConnection();
+		
+		Date presidentEntDate = new MemberDao().presidentEntDate(con);
+		
+		close(con);
+		return presidentEntDate;
 	}
 
 
