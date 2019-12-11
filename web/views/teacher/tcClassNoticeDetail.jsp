@@ -4,7 +4,10 @@
     pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
     <%
     	Board b = (Board) request.getAttribute("b"); 
-    	Attachment a  = (Attachment) request.getAttribute("a");
+    	Attachment a = new Attachment();
+    	if((Attachment) request.getAttribute("a") != null){
+    		a  = (Attachment) request.getAttribute("a");
+    	}
      %>
 <!DOCTYPE html>
 
@@ -58,10 +61,11 @@ textarea {
 	<div style="margin: 0 15%;">
  	<h1 style="text-decoration: underline; text-underline-position: under;">반 공지사항 </h1>
  	</div>
+ 	<div id="hansol" align="right" style="margin-right:22%;">작성자  <%=b.getName() %> 조회수  <%=b.getTcount() %> 작성일 <%=b.getTtime() %></div>
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
-		<input type="text" id="title" name="title" value="<%=b.getTtitle()%>" readonly>
+		<input type="text" id="title" name="title" style="border:0;" value="<%=b.getTtitle()%>" readonly>
 	</div>
 	
 	<br />
@@ -71,10 +75,10 @@ textarea {
 	<div class="ui form">
 		<div class="field">
 			<h3 style="text-underline-position: under;">내용</h3>
-			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
+			<textarea style="resize: none; width: 100%; border:0;" rows="25" id="content" name="content"
 			  readonly><%=b.getTcont() %></textarea>
 		</div>
-		<div class="Imgscr"><img alt="" src="<%=a.getFilePath() %>"></div>
+		<div class="Imgscr"><img alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></div>
 	</div>
 	<br>
 	 <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>

@@ -1,8 +1,15 @@
+<%@page import="com.oracle5.common.model.vo.PageInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"  import="java.util.ArrayList, com.oracle5.board.model.vo.Board"%>
     
      <% 
     	ArrayList<Board> list = (ArrayList<Board>) request.getAttribute("list");
+     	PageInfo pi = (PageInfo) request.getAttribute("pi");
+     	int currentPage = pi.getCurrentPage();
+     	int listCount = pi.getListCount();
+     	int maxPage = pi.getMaxPage();
+     	int startPage = pi.getStartPage();
+     	int endPage = pi.getEndPage();
     
     %>
     
@@ -135,10 +142,9 @@ input[type='button'] {
 			<tbody id="tbodyArea"> 
 			<%for(Board b : list) { %>
 				<tr>
-					<td id="no"><%=b.getPno() %>
-					<input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
+					<td id="no"><%=b.getTid() %><input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
 					<td id="title"><%=b.getTtitle() %></td>
-                    <td id="writer"><%=loginUser.getMemberName()%></td>
+                    <td id="writer"><%=b.getName()%></td>
                     <td id="count"><%=b.getTcount() %></td>
 					<td id="date"><%=b.getTtime() %></td>
 				</tr>
@@ -146,6 +152,52 @@ input[type='button'] {
 				
 			</tbody>
 		</table>
+		
+		<div style="width:fit-content; margin: auto">
+		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=startPage%>">처음</button>
+		<%
+			if(currentPage <= 1){
+		%>
+		<button style="width:50px; height:30px;" disabled>이전</button>
+		<%
+			}else { 
+		%>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=currentPage -1%>'">이전</button>
+		<%
+			} 
+		%>
+		<%
+			for(int p = startPage; p<endPage; p++){
+				if(p == currentPage){
+			
+		%> 
+		<button disabled class="curent" style="width:30px; height:30px;"><%=p %></button>
+		<%
+			}else{
+		%>
+		<button class="other" style="width:30px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=p%>'"><%=p %></button>
+		<%
+			}
+		%>
+		<%
+			}
+		%>
+		
+		<%
+			if(currentPage >= maxPage) {
+		%>
+		<button style="width:50px; height:30px;" disabled>다음</button>
+		<%
+			} else { 
+		%>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=currentPage +1%>'">다음</button>
+		<%
+			} 
+		%>
+		<button style="width: 60px; height:30px;"
+				onclick="location.href='<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=maxPage%>'">마지막</button>
+		</div>
+		
 		<br>
         <div id="searchArea">
                 <input type="text" placeholder="Search" style="width:150px; height:30px;">
@@ -168,10 +220,11 @@ input[type='button'] {
     
     $(function(){
     	$("#tableArea td").click(function(){
-    		var num = $("#tid").val();
+    		var num = $(this).parent().children().eq(0).children().val();
     		
     		console.log(num);
     		location.href="<%=request.getContextPath()%>/selectOneBanBoard.bo?num="+num;
+    		
     		
     	});
     	

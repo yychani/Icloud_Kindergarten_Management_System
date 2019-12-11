@@ -1,4 +1,4 @@
-3package com.oracle5.board.controller;
+package com.oracle5.board.controller;
 
 import java.io.IOException;
 
