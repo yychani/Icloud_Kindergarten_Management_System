@@ -1,6 +1,11 @@
+
+<%@page import="com.oracle5.common.model.vo.Attachment"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
-    <%Board b = (Board) request.getAttribute("b"); %>
+    <%
+    	Board b = (Board) request.getAttribute("b"); 
+    	Attachment a  = (Attachment) request.getAttribute("a");
+     %>
 <!DOCTYPE html>
 
 <html>
@@ -69,7 +74,7 @@ textarea {
 			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
 			  readonly><%=b.getTcont() %></textarea>
 		</div>
-		<div class="Imgscr"><img alt="" src=""></div>
+		<div class="Imgscr"><img alt="" src="<%=a.getFilePath() %>"></div>
 	</div>
 	<br>
 	 <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>

@@ -1,5 +1,7 @@
 package com.oracle5.board.model.dao;
 
+import static com.oracle5.common.JDBCTemplate.close;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -19,8 +21,6 @@ import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.Parents;
-
-import static com.oracle5.common.JDBCTemplate.*;
 
 public class BoardDao {
 	Properties prop = new Properties();
@@ -587,7 +587,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
 				b.setTno(rset.getInt("T_NO"));
-				b.setPno(rset.getInt("RNUM"));
+				//b.setPno(rset.getInt("RNUM"));
 				b.setBdid(rset.getInt("BD_ID"));
 				b.setTstmt(rset.getString("T_STMT"));
 			}
@@ -773,6 +773,76 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		
 		return b;
+	}
+
+	public int selectBanNoticeTid(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = prop.getProperty("selectBanNoticeTid");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, b.getTno());
+			pstmt.setInt(2, b.getBdid());
+			
+			System.out.println("tno"+b.getTno());
+			System.out.println("bdid"+b.getBdid());
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public Attachment selectOneImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		Attachment at = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOneImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				at = new Attachment();
+				at.setFid(rset.getInt("F_ID"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+				at.setFilePath(rset.getString("FILE_PATH"));
+				at.setUploadDate(rset.getDate("UPLOAD_DATE"));
+				at.setFileLevel(rset.getInt("FILE_LEVEL"));
+				at.setStatus(rset.getString("STATUS"));
+				at.setType(rset.getInt("TYPE"));
+				at.setCId(rset.getInt("C_ID"));
+				at.setFeedNo(rset.getInt("FEEDNO"));
+				at.setTId(rset.getInt("T_ID"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return at;
 	}
 
 
