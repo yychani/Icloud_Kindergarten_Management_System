@@ -72,7 +72,7 @@ public class InsertBoardBanNotice extends HttpServlet {
 			b.setTno(write);
 			
 			System.out.println("title : "+title);
-			System.out.println("content : "+write);
+			System.out.println("content : "+content);
 			
 			ArrayList<Attachment> fileList = new ArrayList<>();
 			

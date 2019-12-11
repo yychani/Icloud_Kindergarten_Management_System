@@ -1,6 +1,8 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
+import com.oracle5.common.model.vo.Attachment;
 
 /**
  * Servlet implementation class SelectBoardServlet
@@ -35,18 +38,24 @@ public class SelectOneBanBoardServlet extends HttpServlet {
 		if(request.getParameter("isUpdate") != null) {
 			isUpdate = request.getParameter("isUpdate");
 		}
-		Board b = new BoardService().selectOneBoard(num, isUpdate);
 		
+		
+		Board b = new BoardService().selectOneBoard(num, isUpdate);
+		Attachment a = new BoardService().selectOneImg(num);
 		String page = "";
 		
-		if(b != null) {
+		if(b != null &&  a!=null) {
 			page="views/teacher/tcClassNoticeDetail.jsp";
 			request.setAttribute("b", b);
+			request.setAttribute("a", a);
+			
+			
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시글 수정용 상세보기 실패");
 		}
-		
+		System.out.println("b"+b);
+		System.out.println("a"+a);
 		request.getRequestDispatcher(page).forward(request, response);
 	}
 

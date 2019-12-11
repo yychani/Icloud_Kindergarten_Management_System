@@ -166,11 +166,18 @@ public class BoardService {
 		//반 공지사항 이미지
 		if(result1 > 0) {
 			tid = new BoardDao().selectBanNoticeTid(con, b);
+			System.out.println("tid : "+tid);
 		}
 		Attachment banBImg = fileList.get(0);
 		
 		int result2 = new BoardDao().insertBoardImg(con, banBImg ,tid);
 		
+		
+		
+		/*System.out.println("b.tno : "+ b.getTno());
+		System.out.println("b.bdid : "+ b.getBdid());*/
+		/*System.out.println("tid : "+ tid);*/
+		/*System.out.println("result1 : "+result1);*/
 		System.out.println("result2 : "+result2);
 		
 		if(result1 > 0 && result2 > 0 ) {
@@ -199,7 +206,8 @@ public class BoardService {
 	public Board selectOneBoard(int num, String isUpdate) {
 		Connection con = getConnection();
 		
-		Board b = null;
+		Board b1 = null;
+		int tid = 0;
 		int result = 0;
 		if(isUpdate.equals("false")) {
 			result = new BoardDao().updateCount(con, num);
@@ -211,10 +219,12 @@ public class BoardService {
 			
 			rollback(con);
 		}
-		b= new BoardDao().selectOneBoard(con, num);
+		
+		b1= new BoardDao().selectOneBoard(con, num);
+		
 		
 		close(con);
-		return b;
+		return b1;
 
 	}
 	//반 공지사항 수정용 메소드
@@ -275,6 +285,21 @@ public class BoardService {
 			close(con);
 			return b;
 
+	}
+	//반 공지사항 이미지 조회
+	public Attachment selectOneImg( int num) {
+		Connection con = getConnection();
+		Attachment attachment = new BoardDao().selectOneImg(con,num);
+		
+		if(attachment != null) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return attachment;
 	}
 
 
