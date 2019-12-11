@@ -6,10 +6,8 @@ import java.sql.Date;
 import lombok.Data;
 
 @Data
-public class BodyInfo implements Serializable{
-	private int biNo;
+public class Attend implements Serializable {
+	private Date amDate;
 	private int cId;
-	private double height;
-	private double weight;
-	private Date biDate;
+	private String aType;
 }

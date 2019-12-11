@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.Attend;
 import com.oracle5.member.model.vo.BodyInfo;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.FamilyRelation;
@@ -76,6 +77,8 @@ public class SelectChildRecodeBookServlet extends HttpServlet {
 			request.setAttribute("msg", "신체정보 에러");
 			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
 		}
+		
+		ArrayList<Attend> at = new MemberService().selectChildAttend(cid);
 		
 		request.getRequestDispatcher("/views/teacher/tcChildRecodeBook.jsp").forward(request, response);
 	}

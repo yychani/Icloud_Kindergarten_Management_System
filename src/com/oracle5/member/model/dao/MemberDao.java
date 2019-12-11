@@ -21,6 +21,7 @@ import java.util.Properties;
 import javax.naming.PartialResultException;
 
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.vo.Attend;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.BodyInfo;
 import com.oracle5.member.model.vo.Children;
@@ -1351,16 +1352,16 @@ public class MemberDao {
 		Map<String, Object> hmap = null;
 		
 		String sql = prop.getProperty("selectChildDetail");
-		
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, cid);
 			
 			rset = pstmt.executeQuery();
 			
+			System.out.println("1");
 			hmap = new HashMap<>();
-			
 			if(rset.next()) {
+				System.out.println("2");
 				Children c = new Children();
 				c.setCId(cid);
 				c.setName(rset.getString("C_NAME"));
@@ -1378,7 +1379,6 @@ public class MemberDao {
 				bi.setWeight(rset.getDouble("WEIGHT"));
 				
 				hmap.put("bi", bi);
-				
 				Member m = new Member();
 				m.setMemberName(rset.getString("NAME"));
 				m.setPhone(rset.getString("PHONE"));
@@ -1566,6 +1566,34 @@ public class MemberDao {
 		return bi;
 	}
 
+
+	public ArrayList<Attend> selectChildAttend(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Attend a = null;
+		ArrayList<Attend> ar = null;
+		
+		String sql = prop.getProperty("selectChildAttend");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				a = new Attend();
+				
+				a.setAmDate(rset.getDate("AM_DATE"));
+				//a.setCId(cId);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return ar;
+}
+
 	//원아명 학무보pNo 일치 확인
 	public int cNamepNoCheck(Connection con, String kidName, int pNo) {
 		PreparedStatement pstmt = null;
@@ -1643,6 +1671,7 @@ public class MemberDao {
 		}
 		
 		return result;
+
 	}
 
 }

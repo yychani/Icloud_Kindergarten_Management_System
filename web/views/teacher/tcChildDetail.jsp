@@ -85,7 +85,7 @@
 <body> 
 	<%@ include file="/views/common/teacherMenu.jsp" %>
 	<div style="margin: 0 15%;">
- 	<h1  align="center" style="text-decoration: underline; text-underline-position: under;">박건후 상세정보</h1>
+ 	<h1  align="center" style="text-decoration: underline; text-underline-position: under;"><%= ((Children) hmap.get("c")).getName() %> 상세정보</h1>
  	</div>
  	<hr width="60%" />
  	<div class="outerDetail">  	
