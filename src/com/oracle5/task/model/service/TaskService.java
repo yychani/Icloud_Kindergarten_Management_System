@@ -159,4 +159,32 @@ public class TaskService {
 		return result;
 	}
 
+	public int currentChildCount() {
+		Connection con = getConnection();
+		
+		int currentChildCount = new TaskDao().currentChildCount(con);
+		
+		close(con);
+		return currentChildCount;
+	}
+
+	public int currentTeacherCount() {
+		Connection con = getConnection();
+		
+		int currentTeacherCount = new TaskDao().currentTeacherCount(con);
+		
+		close(con);
+		return currentTeacherCount;
+	}
+
+	public int minusYear(int currentYear) {
+		Connection con = getConnection();
+		
+		int minusZeroYear = new TaskDao().minusYear(con, currentYear);
+		
+		close(con);
+		return minusZeroYear;
+	}
+
+
 }

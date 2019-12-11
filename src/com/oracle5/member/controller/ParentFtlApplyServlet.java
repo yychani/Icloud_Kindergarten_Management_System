@@ -1,30 +1,27 @@
-package com.oracle5.board.controller;
+package com.oracle5.member.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.oracle5.board.model.service.BoardService;
-import com.oracle5.board.model.vo.Board;
-import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.Member;
 
 /**
- * Servlet implementation class SelectBoardServlet
+ * Servlet implementation class ParentFtlApplyServlet
  */
-@WebServlet("/selectOneBanBoard.bo")
-public class SelectOneBanBoardServlet extends HttpServlet {
+@WebServlet("/ftlApply.me")
+public class ParentFtlApplyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectOneBanBoardServlet() {
+    public ParentFtlApplyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,29 +30,26 @@ public class SelectOneBanBoardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int num = Integer.parseInt(request.getParameter("num"));
-		String isUpdate = "false";
-		if(request.getParameter("isUpdate") != null) {
-			isUpdate = request.getParameter("isUpdate");
-		}
+		String kidName = request.getParameter("kidName");
 		
+		HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginMember");
+		int pNo = loginUser.getMemberNo();
 		
-		Board b = new BoardService().selectOneBoard(num, isUpdate);
-		Attachment a = new BoardService().selectOneImg(num);
+		//원아명과 부모 번호 일치 확인 후 cid가져오기
+		int cId = new MemberService().cNamepNoCheck(kidName, pNo);
+		System.out.println(cId);	
+		
 		String page = "";
 		
-		if(b != null &&  a!=null) {
-			page="views/teacher/tcClassNoticeDetail.jsp";
-			request.setAttribute("b", b);
-			request.setAttribute("a", a);
+		if(cId != 0) {
+			//현장학습신청서 insert
+			int result = new MemberService().insertFtlApply(cId);
 			
-			
-		}else {
-			page="views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시글 수정용 상세보기 실패");
+		} else {
+			page = "views/common/errorPage.jsp";
+			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
 		}
-		System.out.println("b"+b);
-		System.out.println("a"+a);
 		request.getRequestDispatcher(page).forward(request, response);
 	}
 

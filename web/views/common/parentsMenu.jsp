@@ -36,9 +36,9 @@ table {
 			type:"post",
 			success:function(data){
 				if(data == "true"){
-					$("#ftl").show();
+					$(".ftl").show();
 				}else {
-					$("#ftl").hide();
+					$(".ftl").hide();
 				}
 			}
 		});
@@ -87,7 +87,13 @@ table {
                   </ul>
                </li>
                
-               <li class="topMenuLi" id="ftl"><a class="menuLink" id="ftlA" href="javascript: void(0);">현장체험학습</a></li>
+               <li class="topMenuLi"><a class="menuLink" href="">현장체험학습</a>
+               <ul class="submenu">
+                     <li class="li ftl"><a href="javascript: void(0);"  id="ftlA" class="submenuLink longLink">체험학습 신청</a></li>
+                     <li class="ftl">|</li>
+                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/ftlApplyList.jsp" class="submenuLink">신청 이력</a></li>
+                  </ul>
+               </li>
                
                <li class="topMenuLi"><a class="menuLink" href="">방과후 </a>
                   <ul class="submenu">
@@ -153,7 +159,7 @@ table {
 			type:"post",
 			success:function(data){
 				if(data == "true"){
-					location.href = "<%=request.getContextPath() %>";
+					location.href = "<%=request.getContextPath() %>/views/parents/ftlApply.jsp";
 				}else {
 					alert("현재 현장체험학습은 납부가 종료되어있습니다.");
 					
