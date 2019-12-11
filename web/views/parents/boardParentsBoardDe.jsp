@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
-    <%Board b = (Board) request.getAttribute("b"); %>
+    pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board, com.oracle5.common.model.vo.Attachment"%>
+    <%Board b = (Board) request.getAttribute("b");
+    Attachment a = (Attachment) request.getAttribute("a");
+    
+    
+    %>
 <!DOCTYPE html>
 
 <html>
@@ -69,11 +73,11 @@ $(function() {
 			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
 			  readonly><%=b.getTcont() %></textarea>
 		</div>
-		
+		<div class="Img"><img src="<%=a.getFilePath()%>"></div>
 	</div>
 	<br>
 	 <%if(loginUser != null && loginUser.getUType().equals("학부모")) {%>
-	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectParent.pbo?num=<%=b.getTid()%>'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
+	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectParent.pbo?num=<%=b.getTid()%>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
 	 <%} %>
 	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectAll.pbo'" style="float: right" />
 	 

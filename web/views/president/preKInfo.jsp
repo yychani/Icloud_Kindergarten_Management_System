@@ -1,5 +1,29 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	int[] kInfo = (int[]) request.getAttribute("kInfo");
+	int currentChildCount = kInfo[0];
+	int currentTeacherCount = kInfo[1];
+	int minusZeroYear = kInfo[2];
+	int minusOneYear = kInfo[3];
+	int minusTwoYear = kInfo[4];
+	int minusThreeYear = kInfo[5];
+	int fiveYearsOld = kInfo[6];
+	int fourYearsOld = kInfo[7];
+	int threeYearsOld = kInfo[8];
+	int currentYear = kInfo[9];
+	
+	String year = (String) request.getAttribute("year");
+	String lastDate = (String) request.getAttribute("lastDate");
+	
+	ArrayList<int[]> list = (ArrayList<int[]>)request.getAttribute("list");
+	
+	int[] fiveYearsOldGender = list.get(0);
+	int[] fourYearsOldGender = list.get(1);
+	int[] threeYearsOldGender = list.get(2);
+
+%>
 <!DOCTYPE html>
 <html>
 
@@ -79,7 +103,7 @@
     </div>
     <div style="width: 70%; margin: 20px auto">
         <hr>
-        <div class="ui four statistics" align="center" style="width: fit-content; margin: 0 auto;">
+        <div class="ui four statistics" align="center" style="width: fit-content; margin: 50px auto;">
             <div class="statistic">
                 <div class="text value">
                     떡잎<br>
@@ -91,8 +115,8 @@
             </div>
             <div class="statistic">
                 <div class="text value">
-                    2016<br>
-                    02-27
+                    <%=year %><br>
+                    <%=lastDate %>
                 </div>
                 <div class="label">
                     원 설립일
@@ -101,7 +125,7 @@
             <div class="statistic">
                 <div class="value">
                     <img src="<%=request.getContextPath() %>/images/teacher.png" class="ui circular inline image">
-                    4
+                    <%=currentTeacherCount %>
                 </div>
                 <div class="label">
                     총 교사 수
@@ -110,7 +134,7 @@
             <div class="statistic">
                 <div class="value">
                     <img src="<%=request.getContextPath() %>/images/child.png" class="ui circular inline image">
-                    42
+                    <%=currentChildCount %>
                 </div>
                 <div class="label">
                     총 원아 수
@@ -119,17 +143,23 @@
         </div>
         <table id="KInfo" style="width: 80%; margin: 0 auto">
             <tr>
-                <td style="width: 100%; text-align: center; padding-right: 0;"><label id="title">년도별 원아 수</label></td>
+                <td style="width: 100%; text-align: center; padding-right: 0;"><label id="title">학급별 성비 수</label></td>
                 <td style="width: 100%; text-align: center; padding-right: 0;"><label id="title">학급별 원아 수</label></td>
             </tr>
-            <tr>
+            <tr style="height: 300px;">
+                <td><canvas id="logChart3" width="500px" height="200px">
+                        <p>Hello Fallback World</p>
+                    </canvas></td>
                 <td>
-                    <canvas id="logChart" width="500px" height="200px">
+                    <canvas id="logChart2" width="500px" height="200px">
                         <p>Hello Fallback World</p>
                     </canvas>
                 </td>
-                <td>
-                    <canvas id="logChart2" width="500px" height="200px">
+            </tr>
+            <tr ><td colspan="2" style="width: 100%; text-align: center; padding-right: 0;"><label id="title">년도별 가입 원아 수</label></td></tr>
+            <tr style="height: 400px;">
+            	<td colspan="2">
+                    <canvas id="logChart" width="500px" height="0">
                         <p>Hello Fallback World</p>
                     </canvas>
                 </td>
@@ -137,14 +167,61 @@
         </table>
 
         <script>
+        var densityCanvas = document.getElementById("logChart3");
+
+        Chart.defaults.global.defaultFontFamily = "Lato";
+        Chart.defaults.global.defaultFontSize = 18;
+
+        var densityData = {
+          label: '남(명)',
+          data:  [<%=fiveYearsOldGender[0]%>, <%=fourYearsOldGender[0]%>, <%=threeYearsOldGender[0]%>],
+          backgroundColor: 'rgba(99, 180, 255, 0.7)',
+          borderWidth: 0,
+          yAxisID: "y-axis-gravity"
+        };
+
+        
+        var gravityData = {
+          label: '여(명)',
+          data: [<%=fiveYearsOldGender[1]%>, <%=fourYearsOldGender[1]%>, <%=threeYearsOldGender[1]%>],
+          backgroundColor: 'rgba(255, 99, 99, 0.7)',
+          borderWidth: 0,
+          yAxisID: "y-axis-gravity"
+        };
+
+        var planetData = {
+          labels: ["만 3세", "만 4세", "만 5세"],
+          datasets: [densityData, gravityData]
+        };
+
+        var chartOptions = {
+          scales: {
+            xAxes: [{
+              barPercentage: 1,
+              categoryPercentage: 0.6
+            }],
+            yAxes: [{
+              id: "y-axis-gravity"
+            }, {
+              id: "y-axis-gravity"
+            }]
+          }
+        };
+
+        var barChart = new Chart(densityCanvas, {
+          type: 'bar',
+          data: planetData,
+          options: chartOptions
+        });
+        
             var ctx = document.getElementById("logChart").getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ["2016년", "2017년", "2018년", "2019년"],
+                    labels: [<%=currentYear-3 %> + "년", <%=currentYear-2 %> + "년", <%=currentYear-1 %> + "년", <%=currentYear %> + "년"],
                     datasets: [{
                         label: "원아 수",
-                        data: ['89', '96', '87', '100'], //컨트롤러에서 모델로 받아온다.
+                        data: ['<%=minusThreeYear %>', '<%=minusTwoYear %>', '<%=minusOneYear %>', '<%=minusZeroYear %>'], //컨트롤러에서 모델로 받아온다.
                         backgroundColor: [
                             'rgba(255, 213, 99, 0.2)',
                             'rgba(255, 213, 99, 0.2)',
@@ -182,7 +259,7 @@
                     labels: ["만 3세", "만 4세", "만 5세"],
                     datasets: [{
                         label: "만 x세",
-                        data: ['30', '37', '33'], //컨트롤러에서 모델로 받아온다.
+                        data: ['<%=threeYearsOld %>', '<%=fourYearsOld %>', '<%=fiveYearsOld %>'], //컨트롤러에서 모델로 받아온다.
                         backgroundColor: [
                             'rgba(255, 99, 99, 0.2)',
                             'rgba(102, 226, 90, 0.2)',

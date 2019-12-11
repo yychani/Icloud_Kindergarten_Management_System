@@ -28,7 +28,7 @@ public class DeleteParentsBoardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int num = Integer.parseInt(request.getParameter("num"));
+		int num = Integer.parseInt(request.getParameter("tid"));
 		
 		int result = new BoardService().deleteParentBoard(num);
 		

@@ -475,5 +475,57 @@ public class TaskDao {
 		
 		return minusYear;
 	}
+
+	public int YearsOld(Connection con, int i) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		int YearsOld = 0;
+		
+		String query = prop.getProperty("YearsOld");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, i);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				YearsOld = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return YearsOld;
+	}
+
+	public int[] YearsOldGender(Connection con, int i) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		int[] YearsOldGender = null;
+		
+		String query = prop.getProperty("YearsOldGender");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, i);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset != null) {
+				YearsOldGender = new int[2];
+				int index = 0;
+				while(rset.next()) {
+					YearsOldGender[index] = rset.getInt(1);
+					index++;
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return YearsOldGender;
+	}
 	
 }

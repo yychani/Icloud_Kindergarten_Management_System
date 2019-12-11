@@ -1,26 +1,29 @@
-package com.oracle5.board.controller;
+package com.oracle5.member.controller;
 
 import java.io.IOException;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.oracle5.board.model.service.BoardService;
-import com.oracle5.board.model.vo.Board;
+import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.Member;
 
 /**
- * Servlet implementation class SelectParentsBoardServlet
+ * Servlet implementation class ParentFtlApplyListServlet
  */
-@WebServlet("/selectParent.pbo")
-public class SelectParentsBoardServlet extends HttpServlet {
+@WebServlet("/ftlApplyList.me")
+public class ParentFtlApplyListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectParentsBoardServlet() {
+    public ParentFtlApplyListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,23 +32,22 @@ public class SelectParentsBoardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int num =Integer.parseInt(request.getParameter("num"));
-		String isUpdate ="false";
-		if(request.getParameter("isUpdate")!=null) {
-			isUpdate = request.getParameter("isUpdate");
-		}
-		Board b = new BoardService().selectOneParentsBoard(num, isUpdate);
+		//cid가져오기
+		HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginMember");
+		int pNo = loginUser.getMemberNo();
 		
-		String page ="";
+		int cId = new MemberService().selectCId(pNo);
 		
-		if(b != null) {
-			page = "views/parents/boardParentsBoardupdate.jsp";
-			request.setAttribute("b",b);
-		}else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시 수정 상세 실패");
+		//현장체험학습 리스트 가져오기
+		Map<String, Object> hmap = new MemberService().selectFtlApplyList(cId);
+		System.out.println(hmap);
+		if(hmap != null) {
+			request.setAttribute("hmap", hmap);
+			request.getRequestDispatcher("/views/parents/ftlApplyList.jsp").forward(request, response);
 		}
-		request.getRequestDispatcher(page).forward(request, response);
+		
+		
 	}
 
 	/**

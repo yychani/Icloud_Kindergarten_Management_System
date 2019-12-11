@@ -55,7 +55,7 @@ public class ParentInsertServlet extends HttpServlet {
 		HashMap<String, Object> hmap = new HashMap<>();
 		hmap.put("Member", requestMember);
 		hmap.put("Parent", requestParent);
-		System.out.println(hmap);
+		
 		int result = new MemberService().insertParent(hmap);
 		
 		if(result > 0) {

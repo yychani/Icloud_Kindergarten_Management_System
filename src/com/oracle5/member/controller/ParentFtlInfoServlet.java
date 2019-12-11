@@ -1,4 +1,4 @@
-package com.oracle5.board.controller;
+package com.oracle5.member.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,20 +7,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.oracle5.board.model.service.BoardService;
-import com.oracle5.board.model.vo.Board;
+import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.FieldLearning;
 
 /**
- * Servlet implementation class SelectParentsBoardServlet
+ * Servlet implementation class ParentFtlInfoServlet
  */
-@WebServlet("/selectParent.pbo")
-public class SelectParentsBoardServlet extends HttpServlet {
+@WebServlet("/ftlInfo.me")
+public class ParentFtlInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectParentsBoardServlet() {
+    public ParentFtlInfoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,23 +29,16 @@ public class SelectParentsBoardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int num =Integer.parseInt(request.getParameter("num"));
-		String isUpdate ="false";
-		if(request.getParameter("isUpdate")!=null) {
-			isUpdate = request.getParameter("isUpdate");
-		}
-		Board b = new BoardService().selectOneParentsBoard(num, isUpdate);
+		FieldLearning fl = new MemberService().selectfl();
 		
-		String page ="";
-		
-		if(b != null) {
-			page = "views/parents/boardParentsBoardupdate.jsp";
-			request.setAttribute("b",b);
-		}else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시 수정 상세 실패");
+		if(fl != null) {
+			request.setAttribute("fl", fl);
+			request.getRequestDispatcher("/views/parents/ftlApply.jsp").forward(request, response);
+		} else {
+			request.setAttribute("msg", "현장체험학습 정보 불러오기 실패");
+			
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-		request.getRequestDispatcher(page).forward(request, response);
 	}
 
 	/**

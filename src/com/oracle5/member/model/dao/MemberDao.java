@@ -27,9 +27,11 @@ import com.oracle5.member.model.vo.BodyInfo;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.FamilyRelation;
+import com.oracle5.member.model.vo.FieldLearning;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Parents;
+import com.oracle5.member.model.vo.Participation;
 import com.oracle5.member.model.vo.ReturnAgree;
 import com.oracle5.member.model.vo.Scholarly;
 import com.oracle5.member.model.vo.Teacher;
@@ -574,6 +576,8 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, mNo);
+			
+			delete = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -592,6 +596,8 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, mNo);
+			
+			delete = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -1567,32 +1573,61 @@ public class MemberDao {
 	}
 
 
-	public ArrayList<Attend> selectChildAttend(Connection con, int cid) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		Attend a = null;
-		ArrayList<Attend> ar = null;
-		
-		String sql = prop.getProperty("selectChildAttend");
-		
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, cid);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				a = new Attend();
-				
-				a.setAmDate(rset.getDate("AM_DATE"));
-				//a.setCId(cId);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return ar;
-}
+	public Map<String, Object> selectChildAttend(Connection con, int cid) {
+	      PreparedStatement pstmt = null;
+	      ResultSet rset = null;
+	      Attend a = null;
+	      ArrayList<Attend> ar = null;
+	      Map<String, Object> hmap = null;
+	      String year = "";
+	      String chkyear = "";
+	      int i = 3;
+	      
+	      String sql = prop.getProperty("selectChildAttend");
+	      
+	      try {
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, cid);
+	         
+	         rset = pstmt.executeQuery();
+	         
+	         hmap = new HashMap<String, Object>();
+	         
+	         while(rset.next()) {
+	            a = new Attend();
+	            
+	            a.setAmDate(rset.getDate("AM_DATE"));
+	            a.setCId(rset.getInt("C_ID"));
+	            a.setAType(rset.getString("A_TYPE"));
+	            
+	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+	            Date d = a.getAmDate();
+	            year = sdf.format(d);
+	            
+	            if(chkyear.equals("")) {
+	               ar = new ArrayList<>();
+	               chkyear = year;
+	            }
+	            
+	            if(year.equals(chkyear)) {
+	               ar.add(a);
+	            } else {
+	               hmap.put(String.valueOf(i++), ar);
+	               ar = new ArrayList<>();
+	               ar.add(a);
+	            }
+	            chkyear = year;
+	         }
+	         hmap.put(String.valueOf(i++), ar);
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return hmap;
+	}
 
 	//원아명 학무보pNo 일치 확인
 	public int cNamepNoCheck(Connection con, String kidName, int pNo) {
@@ -1673,5 +1708,273 @@ public class MemberDao {
 		return result;
 
 	}
+
+	public Date presidentEntDate(Connection con) {
+		ResultSet rset = null;
+		Statement stmt = null;
+		Date presidentEntDate = null;
+		
+		String query = prop.getProperty("presidentEntDate");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				presidentEntDate = rset.getDate(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+			close(rset);
+		}
+		return presidentEntDate;
+	}
+
+	public int deleteTerms(Connection con, int mNo) {
+		PreparedStatement pstmt = null;
+		int delete = 0;
+
+		String query = prop.getProperty("deleteTerms");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, mNo);
+			
+			delete = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return delete;
+    
+  }
+
+	//현장 체험학습 리스트 select
+	public Map<String, Object> selectFtlApplyList(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<String, Object> hmap = null;
+		
+		String query = prop.getProperty("selectFtlApplyList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			hmap = new HashMap<>();
+			
+			ArrayList<FieldLearning> flList = new ArrayList<FieldLearning>();
+			ArrayList<Participation> pList = new ArrayList<Participation>();
+			ArrayList<Children> cList = new ArrayList<Children>();
+			
+			while(rset.next()) {
+				FieldLearning fl = new FieldLearning();
+				fl.setFtlDate(rset.getDate("FTL_DATE"));
+				fl.setField(rset.getString("FIELD"));
+				fl.setFtlPay(rset.getInt("FTL_PAY"));
+				fl.setMaterials(rset.getString("METERIALS"));
+				
+				flList.add(fl);
+				
+				Participation p = new Participation();
+				p.setCId(cId);
+				p.setPayment(rset.getString("PAYMENT"));
+				p.setAttend(rset.getString("ATTEND"));
+				
+				pList.add(p);
+				
+				Children c = new Children();
+				c.setName(rset.getString("C_NAME"));
+				
+				cList.add(c);
+				
+			}
+			
+			hmap.put("flList", flList);
+			hmap.put("pList", pList);
+			hmap.put("cList", cList);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return hmap;
+	}
+
+	//현장 체험학습 신청했는지 확인
+	public int checkFtlApply(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		int check = 0;
+		
+		String query = prop.getProperty("checkFtlApply");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			check = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
+
+	//현장 체험학습 신청페이지 정보 불러오기
+	public FieldLearning selectFl(Connection con) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		FieldLearning fl= null;
+		
+		String query = prop.getProperty("selectFl");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				fl = new FieldLearning();
+				
+				fl.setFtlDate(rset.getDate("FTL_DATE"));
+				fl.setField(rset.getString("FIELD"));
+				fl.setFtlPay(rset.getInt("FTL_PAY"));
+				fl.setMaterials(rset.getString("METERIALS"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return fl;
+
+	}
+	
+	public int checkBodyInfo(Connection con, int cid) {
+	      PreparedStatement pstmt = null;
+	      ResultSet rset = null;
+	      int check = 0;
+	      
+	      String sql = prop.getProperty("checkBodyInfo");
+	      
+	      try {
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, cid);
+	         
+	         rset = pstmt.executeQuery();
+	         
+	         if(rset.next()) {
+	            check = rset.getInt(1);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return check;
+	   }
+
+	   public Map<String, Object> selectChildDetail2(Connection con, int cid) {
+	      PreparedStatement pstmt = null;
+	      ResultSet rset = null;
+	      Map<String, Object> hmap = null;
+	      
+	      String sql = prop.getProperty("selectChildDetail2");
+	      
+	      try {
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, cid);
+	         
+	         rset = pstmt.executeQuery();
+	         
+	         hmap = new HashMap<>();
+	         if(rset.next()) {
+	            Children c = new Children();
+	            c.setCId(cid);
+	            c.setName(rset.getString("C_NAME"));
+	            c.setDescription(rset.getString("C_DESC"));
+	            c.setImgSrc(rset.getString("IMGSRC").substring(rset.getString("IMGSRC").lastIndexOf("\\") + 1));
+	            
+	            hmap.put("c", c);
+	            
+	            Ban b = new Ban();
+	            b.setBanName(rset.getString("B_NAME"));
+	            
+	            hmap.put("b", b);
+	            
+	            BodyInfo bi = new BodyInfo();
+	            bi.setHeight(0.0);
+	            bi.setWeight(0.0);
+	            
+	            hmap.put("bi", bi);
+	            
+	            Member m = new Member();
+	            m.setMemberName(rset.getString("NAME"));
+	            m.setPhone(rset.getString("PHONE"));
+	            m.setUType(rset.getString("RELATION"));
+	            
+	            hmap.put("m", m);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return hmap;
+	   }
+
+	   public ArrayList<BodyInfo> selectChildBodyInfo(Connection con, int cid) {
+	      PreparedStatement pstmt = null;
+	      ResultSet rset = null;
+	      BodyInfo b = null;
+	      ArrayList<BodyInfo> list = null;
+	      
+	      String sql = prop.getProperty("selectChildBodyInfo");
+	      
+	      try {
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, cid);
+	         
+	         rset = pstmt.executeQuery();
+	         
+	         list = new ArrayList<>();
+	         
+	         while(rset.next()) {
+	            b = new BodyInfo();
+	            
+	            b.setBiNo(rset.getInt("BI_NO"));
+	            b.setHeight(rset.getDouble("HEIGHT"));
+	            b.setWeight(rset.getDouble("WEIGHT"));
+	            b.setBiDate(rset.getDate("BI_DATE"));
+	            b.setCId(rset.getInt("C_ID"));
+	            
+	            list.add(b);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return list;
+	   }
 
 }
