@@ -186,5 +186,23 @@ public class TaskService {
 		return minusZeroYear;
 	}
 
+	public int YearsOld(int i) {
+		Connection con = getConnection();
+		
+		int YearsOld = new TaskDao().YearsOld(con, i);
+		
+		close(con);
+		return YearsOld;
+	}
+
+	public int[] YearsOldGender(int i) {
+		Connection con = getConnection();
+		
+		int[] YearsOldGender = new TaskDao().YearsOldGender(con, i);
+		
+		close(con);
+		return YearsOldGender;
+	}
+
 
 }
