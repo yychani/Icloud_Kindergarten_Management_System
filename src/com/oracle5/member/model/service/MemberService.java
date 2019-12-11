@@ -552,5 +552,31 @@ public class MemberService {
 		return bi;
 	}
 
+	//원아명 학무보pNo 일치 확인
+	public int cNamepNoCheck(String kidName, int pNo) {
+		Connection con = getConnection();
+		
+		int cId = new MemberDao().cNamepNoCheck(con, kidName, pNo);
+		
+		close(con);
+		
+		return cId;
+	}
+
+	//현장체험학습 insert
+	public int insertFtlApply(int cId) {
+		Connection con = getConnection();
+		//현장체험학습 MAX값 가져오기
+		int ftlMax = new MemberDao().selectFtl(con);
+		System.out.println(ftlMax);
+		
+		
+		int result = new MemberDao().insertFtlApply(con, cId, ftlMax);
+		
+		close(con);
+		
+		return result;
+	}
+
 
 }
