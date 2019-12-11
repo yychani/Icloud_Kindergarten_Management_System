@@ -17,46 +17,67 @@ import com.oracle5.member.model.vo.Member;
 @WebServlet("/ftlApply.me")
 public class ParentFtlApplyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ParentFtlApplyServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String kidName = request.getParameter("kidName");
-		
-		HttpSession session = request.getSession();
-		Member loginUser = (Member) session.getAttribute("loginMember");
-		int pNo = loginUser.getMemberNo();
-		
-		//원아명과 부모 번호 일치 확인 후 cid가져오기
-		int cId = new MemberService().cNamepNoCheck(kidName, pNo);
-		System.out.println(cId);	
-		
-		String page = "";
-		
-		if(cId != 0) {
-			//현장학습신청서 insert
-			int result = new MemberService().insertFtlApply(cId);
-			
-		} else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
-		}
-		request.getRequestDispatcher(page).forward(request, response);
+	public ParentFtlApplyServlet() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String kidName = request.getParameter("kidName");
+
+		HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginMember");
+		int pNo = loginUser.getMemberNo();
+
+		// 원아명과 부모 번호 일치 확인 후 cid가져오기
+		int cId = new MemberService().cNamepNoCheck(kidName, pNo);
+		System.out.println(cId);
+
+		String page = "";
+
+		if (cId != 0) {
+			// 이미 신청했는지 확인
+			int check = new MemberService().checkFtlApply(cId);
+			System.out.println(check);
+			if (check == 0) {
+				// 현장학습신청서 insert
+				int result = new MemberService().insertFtlApply(cId);
+
+				if (result > 0) {
+					response.sendRedirect("views/common/successPage.jsp?successCode=13");
+				} else {
+					page = "views/common/errorPage.jsp";
+					request.setAttribute("msg", "현장학습 신청 에러");
+					request.getRequestDispatcher(page).forward(request, response);
+				}
+			} else {
+				page = "views/common/errorPage.jsp";
+				request.setAttribute("msg", "이미 신청하셨습니다.");
+				request.getRequestDispatcher(page).forward(request, response);
+			}
+		} else {
+			page = "views/common/errorPage.jsp";
+			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
+			request.getRequestDispatcher(page).forward(request, response);
+		}
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
