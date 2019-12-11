@@ -246,7 +246,8 @@ public class BoardService {
 		
 		return result;
 	}
-
+	
+	//학부모 게시판 전체 리스트
 	public ArrayList<Board> selectAllParentsBoard(int currentPage, int limit) {
 		Connection con = getConnection();
 		
@@ -256,7 +257,8 @@ public class BoardService {
 		
 		return list;
 	}
-
+	
+	//학부모 게시판 selectone
 	public Board selectOneParentsBoard(int num) {
 			Connection con = getConnection();
 			
@@ -276,6 +278,38 @@ public class BoardService {
 			return b;
 
 	}
+	//학부모 게시판 update
+	public int updateParentBoard(Board b) {
+		Connection con = getConnection();
+		int result = new BoardDao().updateParentBoard(con, b);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+	
+	//학부모 게시판 삭제 
+	public int deleteParentBoard(int num) {
+		Connection con = getConnection();
+		int  result = new BoardDao().deleteParentBoard(con,num);
+		
+		if(result>0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+	
 
 
 
