@@ -1573,32 +1573,61 @@ public class MemberDao {
 	}
 
 
-	public ArrayList<Attend> selectChildAttend(Connection con, int cid) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		Attend a = null;
-		ArrayList<Attend> ar = null;
-		
-		String sql = prop.getProperty("selectChildAttend");
-		
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, cid);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				a = new Attend();
-				
-				a.setAmDate(rset.getDate("AM_DATE"));
-				//a.setCId(cId);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return ar;
-}
+	public Map<String, Object> selectChildAttend(Connection con, int cid) {
+	      PreparedStatement pstmt = null;
+	      ResultSet rset = null;
+	      Attend a = null;
+	      ArrayList<Attend> ar = null;
+	      Map<String, Object> hmap = null;
+	      String year = "";
+	      String chkyear = "";
+	      int i = 3;
+	      
+	      String sql = prop.getProperty("selectChildAttend");
+	      
+	      try {
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, cid);
+	         
+	         rset = pstmt.executeQuery();
+	         
+	         hmap = new HashMap<String, Object>();
+	         
+	         while(rset.next()) {
+	            a = new Attend();
+	            
+	            a.setAmDate(rset.getDate("AM_DATE"));
+	            a.setCId(rset.getInt("C_ID"));
+	            a.setAType(rset.getString("A_TYPE"));
+	            
+	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+	            Date d = a.getAmDate();
+	            year = sdf.format(d);
+	            
+	            if(chkyear.equals("")) {
+	               ar = new ArrayList<>();
+	               chkyear = year;
+	            }
+	            
+	            if(year.equals(chkyear)) {
+	               ar.add(a);
+	            } else {
+	               hmap.put(String.valueOf(i++), ar);
+	               ar = new ArrayList<>();
+	               ar.add(a);
+	            }
+	            chkyear = year;
+	         }
+	         hmap.put(String.valueOf(i++), ar);
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return hmap;
+	}
 
 	//원아명 학무보pNo 일치 확인
 	public int cNamepNoCheck(Connection con, String kidName, int pNo) {
@@ -1833,5 +1862,119 @@ public class MemberDao {
 		return fl;
 
 	}
+	
+	public int checkBodyInfo(Connection con, int cid) {
+	      PreparedStatement pstmt = null;
+	      ResultSet rset = null;
+	      int check = 0;
+	      
+	      String sql = prop.getProperty("checkBodyInfo");
+	      
+	      try {
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, cid);
+	         
+	         rset = pstmt.executeQuery();
+	         
+	         if(rset.next()) {
+	            check = rset.getInt(1);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return check;
+	   }
+
+	   public Map<String, Object> selectChildDetail2(Connection con, int cid) {
+	      PreparedStatement pstmt = null;
+	      ResultSet rset = null;
+	      Map<String, Object> hmap = null;
+	      
+	      String sql = prop.getProperty("selectChildDetail2");
+	      
+	      try {
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, cid);
+	         
+	         rset = pstmt.executeQuery();
+	         
+	         hmap = new HashMap<>();
+	         if(rset.next()) {
+	            Children c = new Children();
+	            c.setCId(cid);
+	            c.setName(rset.getString("C_NAME"));
+	            c.setDescription(rset.getString("C_DESC"));
+	            c.setImgSrc(rset.getString("IMGSRC").substring(rset.getString("IMGSRC").lastIndexOf("\\") + 1));
+	            
+	            hmap.put("c", c);
+	            
+	            Ban b = new Ban();
+	            b.setBanName(rset.getString("B_NAME"));
+	            
+	            hmap.put("b", b);
+	            
+	            BodyInfo bi = new BodyInfo();
+	            bi.setHeight(0.0);
+	            bi.setWeight(0.0);
+	            
+	            hmap.put("bi", bi);
+	            
+	            Member m = new Member();
+	            m.setMemberName(rset.getString("NAME"));
+	            m.setPhone(rset.getString("PHONE"));
+	            m.setUType(rset.getString("RELATION"));
+	            
+	            hmap.put("m", m);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return hmap;
+	   }
+
+	   public ArrayList<BodyInfo> selectChildBodyInfo(Connection con, int cid) {
+	      PreparedStatement pstmt = null;
+	      ResultSet rset = null;
+	      BodyInfo b = null;
+	      ArrayList<BodyInfo> list = null;
+	      
+	      String sql = prop.getProperty("selectChildBodyInfo");
+	      
+	      try {
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, cid);
+	         
+	         rset = pstmt.executeQuery();
+	         
+	         list = new ArrayList<>();
+	         
+	         while(rset.next()) {
+	            b = new BodyInfo();
+	            
+	            b.setBiNo(rset.getInt("BI_NO"));
+	            b.setHeight(rset.getDouble("HEIGHT"));
+	            b.setWeight(rset.getDouble("WEIGHT"));
+	            b.setBiDate(rset.getDate("BI_DATE"));
+	            b.setCId(rset.getInt("C_ID"));
+	            
+	            list.add(b);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return list;
+	   }
 
 }
