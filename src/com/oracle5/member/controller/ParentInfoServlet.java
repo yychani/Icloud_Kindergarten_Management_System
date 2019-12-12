@@ -1,26 +1,29 @@
 package com.oracle5.member.controller;
 
 import java.io.IOException;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oracle5.member.model.service.MemberService;
 import com.oracle5.member.model.vo.Member;
 
 /**
- * Servlet implementation class ParentsPassCheckServlet
+ * Servlet implementation class ParentInfoServlet
  */
-@WebServlet("/passcheck.me")
-public class ParentsPassCheckServlet extends HttpServlet {
+@WebServlet("/pInfo.me")
+public class ParentInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ParentsPassCheckServlet() {
+    public ParentInfoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,26 +32,17 @@ public class ParentsPassCheckServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userPwd = request.getParameter("userPwd");
-		String userId = request.getParameter("userId");
+		HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginMember");
+		int pNo = loginUser.getMemberNo();
 		
-		Member requestMember = new Member();
-		requestMember.setMemberId(userId); 
-		requestMember.setMemberPwd(userPwd);
-		  
-		Member loginMember = new MemberService().parentsPassCheck(requestMember);
+		//주소, 개인정보 가져오기
+		Map<String, Object> hmap = new MemberService().selectPInfo(pNo);
 		
-		if(loginMember != null) {
-			request.getSession().setAttribute("loginMember", loginMember);
-			
-			if(loginMember.getUType().equals("학부모")){
-				response.sendRedirect(request.getContextPath() + "/pInfo.me");
-			}
-		} else {
-			request.setAttribute("msg", "비밀번호 불일치");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		if(hmap != null) {
+			request.setAttribute("hmap", hmap);
+			request.getRequestDispatcher("/views/parents/myPage.jsp").forward(request, response);
 		}
-		
 	}
 
 	/**

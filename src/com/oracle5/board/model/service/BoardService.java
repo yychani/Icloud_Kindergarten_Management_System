@@ -411,6 +411,60 @@ public class BoardService {
 		
 		return list;
 	}
+	//원 공지사항 listCount
+	public int getListCountPreNotice() {
+		Connection con = getConnection();
+		
+		int result = new BoardDao().listCountPreNotice(con);
+		
+		close(con);
+		return result;
+	}
+	//원 공지사항 전체조회
+	public ArrayList<Board> selectAllpreNoticeList(int currentPage, int limit) {
+		Connection con =getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectAllpreNoticeList(con, currentPage, limit);
+		
+		close(con);
+		
+		return list;
+	}
+	//원 공지사항 insert
+	public int insertPreKNotice(HashMap<String, Object> hmap, Board b) {
+		Connection con = getConnection();
+		
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
+		int tid = 0;
+		int result =0;
+		//원 공지사항 insert
+		int result1 = new BoardDao().insertPreKNotice(con,b);
+		//반 공지사항 이미지
+		if(result1 > 0) {
+			tid = new BoardDao().selectPreKNoticeTid(con,b);
+			
+		}
+		
+		Attachment preKImg = fileList.get(0);
+		int result2 = 0;
+		if(preKImg.getOriginName() != null) {
+			result2= new BoardDao().insertPreKImg(con, preKImg, tid);
+		}else {
+			result2 =1;
+		}
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(con);
+			result =1;
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+				
+		return result;
+	}
 
 
 
