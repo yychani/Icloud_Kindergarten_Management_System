@@ -51,7 +51,7 @@ input[type=checkbox] {
 	<div style="margin: 0 15%;">
 		<h1 style="text-decoration: underline; text-underline-position: under;">원 일정</h1>
     </div>
-    <%@ include file="/views/common/calendar.jsp"%>
+    <%@ include file="/views/common/schedule.jsp"%>
 	<script>
     $(function() {
         $(".li1").addClass("on");
