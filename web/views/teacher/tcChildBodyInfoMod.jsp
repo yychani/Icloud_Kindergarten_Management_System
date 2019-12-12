@@ -1,8 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*, com.oracle5.common.model.vo.*"%>
 <% 
 	ArrayList<BodyInfo> list = (ArrayList<BodyInfo>) request.getAttribute("list"); 
 	int cid = Integer.parseInt(request.getParameter("cid"));
+	PageInfo pi = (PageInfo) request.getAttribute("pi");
+	
+	int currentPage = pi.getCurrentPage();
+	int listCount = pi.getListCount();
+	int limit = pi.getLimit(); 
+	int maxPage = pi.getMaxPage(); 
+	int startPage = pi.getStartPage(); 
+	int endPage = pi.getEndPage();
 %>
 <!DOCTYPE html>
 <html>
@@ -81,6 +89,9 @@
 	#BiTable td {
 		text-align: center;
 	}
+	#BiTable tr:last-of-type {
+		border: none;
+	}
 	.childbutton {
 		float:right;
 	}
@@ -99,12 +110,6 @@
  		<h1  align="center" style="text-decoration: underline; text-underline-position: under;"><%= list.get(0).getCName() %> 신체정보</h1>
  	</div>
  	<div class="outer">
- 		<select name="" id="" style="float:right">
- 			<option value="박건후">박건후</option>
- 			<option value="권연주">권연주</option>
- 			<option value="윤재영">윤재영</option>
- 			<option value="이원경">이원경</option>
- 		</select>
  		<br />
  		<form action="<%= request.getContextPath() %>/insertBodyInfo.me" id="bisubmit">
 	 		<table class="ui red table" id="BiTable" border="1">
@@ -113,11 +118,13 @@
 	 				<th>키</th>
 	 				<th>몸무게</th>
 	 			</tr>
+	 			<% if(currentPage == 1) { %>
 	 			<tr>
 	 				<td><input type="text" id="date" name="date" class="input" /><input type="hidden" name="cid" value="<%= cid %>" /></td>
 	 				<td><input type="text" id="height" name="height" class="input"/></td>
 	 				<td><input type="text" id="weight" name="weight" class="input"/></td>
 	 			</tr>
+	 			<% } %>
 	 			<% if(list.get(0).getHeight() != 0) {
 	 			for(int i = 0; i < list.size(); i ++) { %>
 	 			<tr>
@@ -130,15 +137,82 @@
 	 			</tr>
 	 			<% }
 	 			} %>
+	 			<tr>
+ 			<td colspan="3" style="padding-top: 10px;">
+       		<div style="width: fit-content; margin: auto">
+			<input type="button" style="width: 50px; height: 30px;" onclick="<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&mod=1&currentPage=<%=startPage%>" value="처음">
+			<%
+				if (currentPage <= 1) {
+			%>
+			<input type="button" style="width: 50px; height: 30px;" disabled value="이전">
+			<%
+				} else {
+			%>
+			<input type="button" style="width: 50px; height: 30px;" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&mod=1&currentPage=<%=currentPage - 1%>'" value="이전">
+			<%
+				}
+			%>
+			<%
+				for (int p = startPage; p <= endPage; p++) {
+					if (p == currentPage) {
+			%>
+			<input type="button" disabled class="current" style="width: 30px; height: 30px;" value="<%= p %>">
+			<%
+				} else {
+			%>
+			<input type="button" class="other" style="width: 30px; height: 30px;" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&mod=1&currentPage=<%=p%>'" value="<%= p %>">
+			<%
+				}
+			%>
+			<%
+				}
+			%>
+
+			<%
+				if (currentPage >= maxPage) {
+			%>
+			<input type="button" style="width: 50px; height: 30px;" disabled value="다음">
+			<%
+				} else {
+			%>
+			<input type="button" style="width: 50px; height: 30px;" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&mod=1&currentPage=<%=currentPage + 1%>'" value="다음">
+			<%
+				}
+			%>
+			<input type="button" style="width: 60px; height: 30px;"
+				onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&mod=1&currentPage=<%=maxPage%>'" value="마지막">
+		</div>
+        	</td>
+        </tr>
 	 		</table>
  		</form>
  	</div>
  	<div style="margin:10px 15%; height:40px;">
-		<input type="button" class="childbutton" value="수정완료" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid='+<%= cid %>"/>
+		<input type="button" class="childbutton" value="수정완료" onclick="insSubmit();"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectBanChildren.me'"/>
 	</div>
-	
+	<script>
+		function insSubmit() {
+			var d = 1;
+			var h = 1;
+			var w = 1;
+			if($("#date").val() === "") {
+				alert("날짜를 선택해주세요.")
+				d = 0;
+			} else if($("#height").val() == 0) {
+				alert("키를 입력해주세요.");
+				h = 0;
+			} else if($("#weight").val() == 0) {
+				alert("체중을 입력해주세요.")
+				w = 0;
+			} 
+			
+			if(d + h + w == 3) {
+			   $("#bisubmit").submit();
+			}
+		}
+	</script>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>

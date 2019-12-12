@@ -57,8 +57,11 @@
 			msg = "현장체험학습 신청이 완료 되었습니다.";
 			path = "<%=request.getContextPath()%>/ftlApplyList.me";
 		}else if(successCode == 14){
-			msg = "개인정보 변경 완료 되었습니다.";
-			path = "<%=request.getContextPath()%>/views/parents/myPage.jsp";
+			msg = "개인정보 변경이 완료 되었습니다.";
+			path = "<%=request.getContextPath()%>/pInfo.me";
+		}else if(successCode == 15){
+			msg = "비밀번호 변경이 완료 되었습니다.";
+			path = "<%=request.getContextPath()%>/views/parents/myPagePassCheck.jsp";
 		}
 		
 		alert(msg);

@@ -38,13 +38,7 @@ public class ParentInfoChangeServlet extends HttpServlet {
 		String tel1 = request.getParameter("tel1");
 		String tel2 = request.getParameter("tel21");
 		String tel3 = request.getParameter("tel31");
-		String phone = tel1 + "-" + tel2 + tel2;
-		System.out.println("이룸" + userName);
-		System.out.println("주소 : " + address);
-		System.out.println("이메일" + email);
-		System.out.println("tel1" + tel1);
-		System.out.println("tel2" + tel2);
-		System.out.println("tel3" + tel3);
+		String phone = tel1 + "-" + tel2 + "-" + tel3;
 		
 		HttpSession session = request.getSession();
 		Member loginUser = (Member) session.getAttribute("loginMember");

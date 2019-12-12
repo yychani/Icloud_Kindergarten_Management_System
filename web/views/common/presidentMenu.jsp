@@ -68,7 +68,7 @@
 				<ul>
 					<li class="topMenuLi"><a class="menuLink" href="">소식</a>
 						<ul class="submenu">
-							<li class="li1"><a href="<%=request.getContextPath()%>/views/president/preKNotice.jsp"
+							<li class="li1"><a href="<%=request.getContextPath()%>/selectAllPreNotice.bo"
 									class="submenuLink">원 공지사항</a></li>
 							<li>|</li>
 							<li class="li2"><a href="<%=request.getContextPath()%>/selectAllPreNote.pre"
