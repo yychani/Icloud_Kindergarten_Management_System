@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board, com.oracle5.common.model.vo.Attachment"%>
     <%Board b = (Board) request.getAttribute("b");
-    Attachment a = (Attachment) request.getAttribute("a");
-    
+    Attachment a = new Attachment();
+    if((Attachment)request.getAttribute("a") !=null){
+    	a = (Attachment) request.getAttribute("a");
+    }
     
     %>
 <!DOCTYPE html>
@@ -55,7 +57,7 @@ $(function() {
 <body>
 	<%@ include file="/views/common/parentsMenu.jsp" %>
 	<div style="margin: 0 15%;">
- 	<h1 style="text-decoration: underline; text-underline-position: under;"> </h1>
+ 	<h1 style="text-decoration: underline; text-underline-position: under;">학부모 게시판</h1>
  	</div>
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
@@ -72,9 +74,9 @@ $(function() {
 			<h3 style="text-underline-position: under;">내용</h3>
 			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
 			  readonly><%=b.getTcont() %></textarea>
-		</div>
-		<div class="Img"><img src="<%=a.getFilePath()%>"></div>
+		</div>		
 	</div>
+	<div class="Img"><img src="<%=a.getFilePath()%>/uploadFiles/<%=a.getChangeName() %>"></div>
 	<br>
 	 <%if(loginUser != null && loginUser.getUType().equals("학부모")) {%>
 	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectParent.pbo?num=<%=b.getTid()%>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 

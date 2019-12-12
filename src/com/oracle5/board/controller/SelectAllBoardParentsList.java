@@ -61,8 +61,6 @@ public class SelectAllBoardParentsList extends HttpServlet {
 		
 		ArrayList<Board> list = new BoardService().selectAllParentsBoard(currentPage,limit);
 		
-		
-		
 		String page="";
 		if(list != null) {
 			page="views/parents/boardParentsBoard.jsp";

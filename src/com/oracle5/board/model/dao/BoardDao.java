@@ -964,5 +964,111 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return result;
 	}
 	
+	//학부모 게시판 이미지 보기
+	public Attachment selectOneParentBoardImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		Attachment at = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOneParentBoardImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				at = new Attachment();
+				
+				at.setFid(rset.getInt("F_ID"));
+				at.setOriginName(rset.getString("ORIGIN_NAME"));
+				at.setChangeName(rset.getString("CHANGE_NAME"));
+				at.setFilePath(rset.getString("FILE_PATH"));
+				at.setUploadDate(rset.getDate("UPLOAD_DATE"));
+				at.setFileLevel(rset.getInt("FILE_LEVEL"));
+				at.setStatus(rset.getString("STATUS"));
+				at.setType(rset.getInt("TYPE"));
+				at.setCId(rset.getInt("C_ID"));
+				at.setFeedNo(rset.getInt("FEEDNO"));
+				at.setTId(rset.getInt("T_ID"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return at;
+	}
+	
+	//앨범 게시판 리스트 카운트
+	public int getChildImgListCount(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		int listCount = 0;
+		
+		String query = prop.getProperty("getChildImgListCount");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+		
+		if(rset.next()) {
+			listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+			close(rset);
+		}
+		
+	
+		return listCount;
+	}
+	
+	//앨범 리스트 보여 주기
+	public ArrayList<Board> selectAllTcChildImgList(Connection con, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectAllTcChildImgList");
+		int startRow = (currentPage -1 ) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+				list = new ArrayList<Board>();
+				while(rset.next()) {
+					Board b = new Board();
+					b.setTid(rset.getInt("T_ID"));
+					b.setTtitle(rset.getString("T_TITLE"));
+					b.setName(rset.getString("NAME"));
+					b.setTcount(rset.getInt("T_COUNT"));
+					b.setTtime(rset.getDate("T_TIME"));
+					
+			
+			
+					
+					list.add(b); 
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
+	
 
 }

@@ -103,7 +103,7 @@
 
 						</ul>
 					</li>
-					<li class="topMenuLi"><a class="menuLink" href="<%= request.getContextPath() %>/views/teacher/tcChildImgMain.jsp">아이들 사진</a></li>
+					<li class="topMenuLi"><a class="menuLink" href="<%= request.getContextPath() %>/selectListChImg.tbo">아이들 사진</a></li>
 					<li class="topMenuLi"><a class="menuLink" href="">마이페이지</a>
 						<ul class="submenu">
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcMyInfo.jsp" class="submenuLink">내 정보</a></li>
