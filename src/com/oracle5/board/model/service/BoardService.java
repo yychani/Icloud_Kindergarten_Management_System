@@ -411,6 +411,82 @@ public class BoardService {
 		
 		return list;
 	}
+	
+	//앨범 게시판 insert
+	public int insertChildImg(HashMap<String, Object> hmap, Board b) {
+	Connection con = getConnection();
+		
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
+		int tid = 0;
+		int result =0;
+		
+		
+		int result1 = new BoardDao().insertTcChildImgBoard(con,b);
+		
+		if(result1 >0) {
+			tid = new BoardDao().selectTcChildImgBoardTid(con,b);
+			
+		}
+		Attachment tcChildImg = fileList.get(0);
+		int result2 = 0;
+		if(tcChildImg.getOriginName() != null) {
+			result2 = new BoardDao().insertTcChildBoardImg(con, tcChildImg ,tid);
+			
+		}else {
+			result2 = 1;
+		}
+		
+		
+		if(result1 > 0 && result2 > 0 ) {
+			commit(con);
+			result = 1;
+			
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+	
+	//앨범게시판 selectOne
+	public Board selectOneTcChildImgBoard(int num, String isUpdate) {
+		Connection con = getConnection();
+		Board b = null;
+		int result =0;
+		if(isUpdate.equals("false")) {
+			result = new BoardDao().updateCountChildImgBoard(con, num);
+		}
+		if(result>0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		b = new BoardDao().selectOneChildImg(con,num);
+		
+		close(con);
+		
+		
+		return b;
+	}
+	
+	//앨범게시판 이미지 보여주기
+	public Attachment selectOneChildImg(int num) {
+		Connection con = getConnection();
+		Attachment attachment = new BoardDao().selectTcChildImg(con,num);
+		
+		if(attachment != null) {
+			commit(con);
+    }else {
+			rollback(con);
+		}
+		close(con);
+    return attachment;
+
+  }
+
 	//원 공지사항 listCount
 	public int getListCountPreNotice() {
 		Connection con = getConnection();
@@ -420,6 +496,7 @@ public class BoardService {
 		close(con);
 		return result;
 	}
+  
 	//원 공지사항 전체조회
 	public ArrayList<Board> selectAllpreNoticeList(int currentPage, int limit) {
 		Connection con =getConnection();
@@ -430,6 +507,7 @@ public class BoardService {
 		
 		return list;
 	}
+  
 	//원 공지사항 insert
 	public int insertPreKNotice(HashMap<String, Object> hmap, Board b) {
 		Connection con = getConnection();
@@ -442,7 +520,6 @@ public class BoardService {
 		//반 공지사항 이미지
 		if(result1 > 0) {
 			tid = new BoardDao().selectPreKNoticeTid(con,b);
-			
 		}
 		
 		Attachment preKImg = fileList.get(0);
@@ -456,17 +533,13 @@ public class BoardService {
 		if(result1 > 0 && result2 > 0) {
 			commit(con);
 			result =1;
-		}else {
+    }else {
 			rollback(con);
 		}
 		
 		close(con);
-		
-				
-		return result;
+    
+    		return result;
 	}
-
-
-
 
 }
