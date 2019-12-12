@@ -18,6 +18,7 @@ import com.oracle5.member.model.vo.FamilyRelation;
 import com.oracle5.member.model.vo.FieldLearning;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
+import com.oracle5.member.model.vo.Observation;
 import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.ReturnAgree;
 import com.oracle5.member.model.vo.Scholarly;
@@ -780,6 +781,16 @@ public class MemberService {
 		
 		return hmap;
 
+	}
+
+	public ArrayList<Map<String, Object>> selectChildObservation(int cid) {
+		Connection con = getConnection();
+		
+		ArrayList<Map<String, Object>> list = new MemberDao().selectChildObservation(con, cid);
+		
+		close(con);
+		
+		return list;
 	}
 
 }
