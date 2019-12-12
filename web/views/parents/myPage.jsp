@@ -58,12 +58,12 @@
 					<tr>
 						<td style="width: 50px;">아이디</td>
 						<td style="width: 20px">:</td>
-						<td><%=loginUser.getMemberId()%></td>
+						<%-- <td><%=loginUser.getMemberId()%></td> --%>
 					</tr>
 					<tr>
 						<td style="width: 50px;">이름</td>
 						<td style="width: 20px">:</td>
-						<td><%=loginUser.getMemberName()%></td>
+						<%-- <td><%=loginUser.getMemberName()%></td> --%>
 					</tr>
 					<tr>
 						<td style="width: 50px;">주소</td>
@@ -80,12 +80,12 @@
 						%>
 						<td style="width: 50px;">이메일</td>
 						<td style="width: 20px">:</td>
-						<td><%=email[0]%>@<%=email[1]%></td>
+						<%-- <td><%=email[0]%>@<%=email[1]%></td> --%>
 					</tr>
 					<tr>
 						<td style="width: 50px;">핸드폰</td>
 						<td style="width: 20px">:</td>
-						<td><%=phone[0]%>-<%=phone[1]%>-<%=phone[2]%></td>
+						<%-- <td><%=phone[0]%>-<%=phone[1]%>-<%=phone[2]%></td> --%>
 					</tr>
 				</table>
 				<div class="btns" align="center">
@@ -136,8 +136,7 @@
 				<br> <br><br>
 				<div class="actions">
 			<div class="ui black deny button">취소</div>
-			<!-- <input type="button" class="ui green button" onclick="encryption()" value="test">변경하기 -->
-			<button type="submit" onclick="encryption()">test2</button>
+			<button type="submit" class="ui green button" onclick="encryption();">변경하기</button>
 		</div>
 			</form>
 			<br><br><br>
