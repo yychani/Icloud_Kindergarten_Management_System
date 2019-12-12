@@ -80,15 +80,9 @@
 							<li class="li3"><a href="<%=request.getContextPath()%>/selectWorkList.task"
 									class="submenuLink">선생님 업무분장</a></li>
 							<li>|</li>
-							<li class="li4"><a href="<%=request.getContextPath()%>/views/president/menuAble.jsp"
-									class="submenuLink">메뉴사용관리</a></li>
-							<li>|</li>
 							<li class="li5"><a href="<%=request.getContextPath()%>/selectAllSchedule.sch" class="submenuLink">원 일정</a></li>
 							<li>|</li>
-							<li class="li6"><a href="<%=request.getContextPath()%>/views/president/preAs.jsp"
-									class="submenuLink">방과후 페이지</a></li>
-							<li>|</li>
-							<li class="li7"><a href="<%=request.getContextPath()%>/views/president/preDietTable.jsp" class="submenuLink">식단표</a></li>
+							<li class="li7"><a href="<%=request.getContextPath()%>/selectAllDietTable.diet" class="submenuLink">식단표</a></li>
 							<li>|</li>
 							<li class="li8"><a href="<%=request.getContextPath()%>/views/president/preFTL.jsp"
 									class="submenuLink">현장체험학습</a></li>
