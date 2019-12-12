@@ -41,7 +41,12 @@ public class SelectAllDietTableServlet extends HttpServlet {
 		if(request.getParameter("date") != null) {
 			date = Integer.parseInt(request.getParameter("date"));
 		}
+		Calendar cal2 = Calendar.getInstance();
+		cal2.set(year, month - 1, date);
+		int prevLastDate = cal2.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+		cal2.set(year, month - 1, prevLastDate);
 		cal.set(year, month, date);
+	
 		int startday = cal.getMinimum(java.util.Calendar.DATE);
 		int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 		int start = cal.get(java.util.Calendar.DAY_OF_WEEK); // 시작요일
@@ -67,12 +72,12 @@ public class SelectAllDietTableServlet extends HttpServlet {
  		cal.set(year, month, endDay);
  		
  		int lastWeek = cal.get(Calendar.WEEK_OF_MONTH);
- 		
+ 		int prevlastWeek = cal2.get(Calendar.WEEK_OF_MONTH);
  		cal.set(year, month, endDay);
  		
  		int endDayOfWeek =  cal.get(Calendar.DAY_OF_WEEK);
  		
-		int[] valueOfDate = {year, month, weekOfMonth, date, startday, endDay, start, lastWeek, endDayOfWeek};
+		int[] valueOfDate = {year, month, weekOfMonth, date, startday, endDay, start, lastWeek, endDayOfWeek, prevLastDate, prevlastWeek};
 		Member loginUser = (Member)request.getSession().getAttribute("loginMember");
 		String page = "";
 			if((loginUser).getMemberId().equals("admin")) {
