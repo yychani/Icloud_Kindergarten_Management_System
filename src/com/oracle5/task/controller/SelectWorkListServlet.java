@@ -37,7 +37,7 @@ public class SelectWorkListServlet extends HttpServlet {
 		
 		String page = "";
 		if(list != null) {
-			if(loginUser.getMemberId() != "admin") {
+			if(!loginUser.getMemberId().equals("admin")) {
 				page = "views/teacher/tcWorkDivision.jsp";
 			}else{
 				page = "views/president/preWorkD.jsp";

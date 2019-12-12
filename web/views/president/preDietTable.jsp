@@ -117,6 +117,9 @@
         <h1 style="text-decoration: underline; text-underline-position: under;">식단표</h1>
     </div>
    	<%@ include file="/views/common/dietTable.jsp" %>
+   	<script>
+   		
+   	</script>
     <%@ include file="/views/common/footer.jsp"%>
     <%@ include file="/views/common/chat.jsp"%>
 </body>
