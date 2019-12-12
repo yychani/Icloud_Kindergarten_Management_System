@@ -3,7 +3,6 @@
 <% 
 	ArrayList<BodyInfo> list = (ArrayList<BodyInfo>) request.getAttribute("list"); 
 	int cid = Integer.parseInt(request.getParameter("cid"));
-	//int mod = Integer.parseInt(request.getParameter("mod"));
 %>
 <!DOCTYPE html>
 <html>
@@ -45,7 +44,25 @@
 				day : '일'
         	}
         });
-    }); 
+        
+       	$(document).on("click", "#deletebtn", function() {
+       		var bino = $(this).parent().parent().find("#bino").val();
+       		
+       		$.ajax({
+       			url: "<%= request.getContextPath() %>/deleteBodyInfo.do",
+       			type: "get",
+       			data : {bino},
+       			success : function(data) {
+       				if(data === "성공") {
+       					location.reload();
+       				}
+       			},
+       			error : function() {
+       				console.log("실패");
+       			}
+       		});
+       	});
+    });
 </script>
 <style>
 	.outer {
@@ -70,13 +87,16 @@
 	.input {
 		text-align:center;
 	}
+	.listTd {
+		width:33.3%;
+	}
 </style>
 </head>
 <body>
 
     <%@ include file="/views/common/teacherMenu.jsp" %>
 	<div style="margin: 0 15%;">
- 		<h1  align="center" style="text-decoration: underline; text-underline-position: under;">박건후 신체정보</h1>
+ 		<h1  align="center" style="text-decoration: underline; text-underline-position: under;"><%= list.get(0).getCName() %> 신체정보</h1>
  	</div>
  	<div class="outer">
  		<select name="" id="" style="float:right">
@@ -98,26 +118,27 @@
 	 				<td><input type="text" id="height" name="height" class="input"/></td>
 	 				<td><input type="text" id="weight" name="weight" class="input"/></td>
 	 			</tr>
-	 			<% for(int i = 0; i < list.size(); i ++) { %>
+	 			<% if(list.get(0).getHeight() != 0) {
+	 			for(int i = 0; i < list.size(); i ++) { %>
 	 			<tr>
-	 				<td><%= list.get(i).getBiDate() %></td>
-	 				<td><%= list.get(i).getHeight() %>cm</td>
-	 				<td><%= list.get(i).getWeight() %>kg</td>
+	 				<td class="listTd"><input type="hidden" id="bino" name="bino" value="<%= list.get(i).getBiNo() %>" /><%= list.get(i).getBiDate() %></td>
+	 				<td class="listTd"><%= list.get(i).getHeight() %>cm</td>
+	 				<td class="listTd">
+	 					<label style="line-height:3; margin-left:27%;"><%= list.get(i).getWeight() %>kg</label>
+	 					<input type="button" id="deletebtn" value="삭제하기" style="float:right" />
+	 				</td>
 	 			</tr>
-	 			<% } %>
+	 			<% }
+	 			} %>
 	 		</table>
  		</form>
  	</div>
  	<div style="margin:10px 15%; height:40px;">
-		<input type="button" class="childbutton" value="수정완료" onclick="bodyinfosubmit()"/>
+		<input type="button" class="childbutton" value="수정완료" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid='+<%= cid %>"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
-		<input type="button" class="childbutton" value="목록으로" onclick="location.href='tcChildMgmt.jsp'"/>
+		<input type="button" class="childbutton" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectBanChildren.me'"/>
 	</div>
-	<script>
-		function bodyinfosubmit() {
-			$("#bisubmit").submit();
-		}
-	</script>
+	
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>

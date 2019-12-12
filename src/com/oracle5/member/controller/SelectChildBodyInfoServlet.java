@@ -26,7 +26,7 @@ public class SelectChildBodyInfoServlet extends HttpServlet {
 		}
 		
 		ArrayList<BodyInfo> list = new MemberService().selectChildBodyInfo(cid);
-
+		
 		if(list != null && mod == 0) {
 			request.setAttribute("list", list);
 			request.getRequestDispatcher("/views/teacher/tcChildBodyInfo.jsp").forward(request, response);
