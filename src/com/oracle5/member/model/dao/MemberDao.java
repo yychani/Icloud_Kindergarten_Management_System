@@ -2098,4 +2098,45 @@ public class MemberDao {
 		return result;
 	}
 
+	//학부모 주소, 개인정보 가져오기
+	public Map<String, Object> selectPInfo(Connection con, int pNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<String, Object> hmap = null;
+		
+		String query = prop.getProperty("selectPInfo");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pNo);
+			
+			rset = pstmt.executeQuery();
+			
+			hmap = new HashMap<>();
+			Member m = new Member();
+			Parents p = new Parents();
+			if(rset.next()) {
+				
+				m.setMemberId(rset.getString("ID"));
+				m.setMemberName(rset.getString("NAME"));
+				m.setEmail(rset.getString("EMAIL"));
+				m.setPhone(rset.getString("PHONE"));
+
+				p.setPAddress(rset.getString("ADDRESS"));
+				
+			}
+			
+			hmap.put("p", p);
+			hmap.put("m", m);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return hmap;
+	}
+
 }
