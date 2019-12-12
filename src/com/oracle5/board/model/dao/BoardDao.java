@@ -883,7 +883,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return at;
 	}
 
-
+	//반 리스트 공지사항 보기
 	public int getListCountBan(Connection con) {
 		Statement stmt = null;
 		ResultSet rset = null;
@@ -939,7 +939,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		return result;
 	}
-
+	//반 공지사항 이미지 삽입 한솔
 	public int insertParentBoardImg(Connection con, Attachment parBImg, int tid) {
 		PreparedStatement pstmt = null;
 		int result =0;
@@ -1069,6 +1069,109 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		return list;
 	}
+	//원 공지사항 listCount 한솔
+	public int listCountPreNotice(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		int listCount = 0;
+		
+		String query = prop.getProperty("listCountPreNotice");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+			close(rset);
+		}
+		
+		
+		
+		return listCount;
+	}
+	//원 공지사항 전체 조회
+	public ArrayList<Board> selectAllpreNoticeList(Connection con, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectAllParentsBoard");
+		int startRow = (currentPage -1) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<Board>();
+			while(rset.next()) {
+				Board b = new  Board();
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setPno(rset.getInt("RNUM"));
+				
+				list.add(b);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
+	//원 공지사항 글 isnert
+	public int insertPreKNotice(Connection con, Board b) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	//원 공지사항 tid 찾기
+	public int selectPreKNoticeTid(Connection con, Board b) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	//원 공지사항 이미지 삽입
+	public int insertPreKImg(Connection con, Attachment preKImg, int tid) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
