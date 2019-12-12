@@ -138,7 +138,7 @@
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildObserve.jsp'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
-		<input type="button" class="childbutton" value="신체정보" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildBodyInfo.jsp'"/>
+		<input type="button" class="childbutton" value="신체정보" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>
 	</div>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>

@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+<% 
+	ArrayList<BodyInfo> list = (ArrayList<BodyInfo>) request.getAttribute("list"); 
+	int cid = Integer.parseInt(request.getParameter("cid"));
+	//int mod = Integer.parseInt(request.getParameter("mod"));
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +13,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+<script src="<%= request.getContextPath() %>/js/rolldate.min.js"></script>
+
 <script>
     $(function() {
   	  $(".li:nth-child(9)").addClass("on");
@@ -23,6 +30,21 @@
           $(".li:nth-child(9)").addClass("on");
           $(".topMenuLi:nth-child(2)").addClass("on");
        });
+        
+        new Rolldate({
+        	el: '#date',
+        	format: 'YYYY-MM-DD',
+        	beginYear : 2019,
+        	endYear : 2019,
+        	lang: {
+        		title: '날짜를 선택하세요',
+        		cancel : '취소',
+        		confirm : '완료',
+				year : '년',
+				month : '월',
+				day : '일'
+        	}
+        });
     }); 
 </script>
 <style>
@@ -45,7 +67,7 @@
 	.childbutton {
 		float:right;
 	}
-	input[type=text] {
+	.input {
 		text-align:center;
 	}
 </style>
@@ -64,28 +86,38 @@
  			<option value="이원경">이원경</option>
  		</select>
  		<br />
- 		<table class="ui red table" id="BiTable" border="1">
- 			<tr>
- 				<th>측정일</th>
- 				<th>키</th>
- 				<th>몸무게</th>
- 			</tr>
- 			<tr >
- 				<td><input type="text" id="checkDate" value="2018/09/16" /></td>
- 				<td><input type="text" id="childHeight" value="88.5cm" /></td>
- 				<td><input type="text" id="childWeight" value="15.2kg" /></td>
- 			</tr>
- 		</table>
- 		<div style="height:40px; margin-top:7px;">
- 		<input type="button" id="addInfo" class="childbutton" value="추가하기" />
- 		</div>
+ 		<form action="<%= request.getContextPath() %>/insertBodyInfo.me" id="bisubmit">
+	 		<table class="ui red table" id="BiTable" border="1">
+	 			<tr>
+	 				<th>측정일</th>
+	 				<th>키</th>
+	 				<th>몸무게</th>
+	 			</tr>
+	 			<tr>
+	 				<td><input type="text" id="date" name="date" class="input" /><input type="hidden" name="cid" value="<%= cid %>" /></td>
+	 				<td><input type="text" id="height" name="height" class="input"/></td>
+	 				<td><input type="text" id="weight" name="weight" class="input"/></td>
+	 			</tr>
+	 			<% for(int i = 0; i < list.size(); i ++) { %>
+	 			<tr>
+	 				<td><%= list.get(i).getBiDate() %></td>
+	 				<td><%= list.get(i).getHeight() %>cm</td>
+	 				<td><%= list.get(i).getWeight() %>kg</td>
+	 			</tr>
+	 			<% } %>
+	 		</table>
+ 		</form>
  	</div>
- 	<hr />
  	<div style="margin:10px 15%; height:40px;">
-		<input type="button" class="childbutton" value="수정완료" onclick="location.href='tcChildBodyInfo.jsp'"/>
+		<input type="button" class="childbutton" value="수정완료" onclick="bodyinfosubmit()"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="목록으로" onclick="location.href='tcChildMgmt.jsp'"/>
 	</div>
+	<script>
+		function bodyinfosubmit() {
+			$("#bisubmit").submit();
+		}
+	</script>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>

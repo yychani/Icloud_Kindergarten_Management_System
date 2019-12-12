@@ -1,7 +1,7 @@
 package com.oracle5.member.controller;
 
 import java.io.IOException;
-import java.util.Map;
+import java.sql.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,26 +10,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.BodyInfo;
 
-@WebServlet("/selectChildDetail.me")
-public class SelectChildDetailServlet extends HttpServlet {
+@WebServlet("/insertBodyInfo.me")
+public class InsertChildBodyInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String spdate = request.getParameter("date");
+		double height = Double.parseDouble(request.getParameter("height"));
+		double weight = Double.parseDouble(request.getParameter("weight"));
 		int cid = Integer.parseInt(request.getParameter("cid"));
-		Map<String, Object> hmap = null;
-		int check = new MemberService().checkBodyInfo(cid);;
 		
-		if(check != 0) {
-			hmap = new MemberService().selectChildDetail(cid);
-		} else {
-			hmap = new MemberService().selectChildDetail2(cid);
-		}
+		Date d = Date.valueOf(spdate);
 		
-		if(hmap != null) {
-			request.setAttribute("hmap", hmap);
-			request.getRequestDispatcher("/views/teacher/tcChildDetail.jsp").forward(request, response);
-		}
+		BodyInfo bi = new BodyInfo();
+		bi.setBiDate(d);
+		bi.setHeight(height);
+		bi.setWeight(weight);
+		
+		int result = new MemberService().insertBodyInfo(cid, bi);
+		
+		System.out.println(bi);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

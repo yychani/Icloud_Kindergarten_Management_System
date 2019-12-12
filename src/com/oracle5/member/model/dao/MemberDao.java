@@ -1363,11 +1363,9 @@ public class MemberDao {
 			pstmt.setInt(1, cid);
 			
 			rset = pstmt.executeQuery();
-			
-			System.out.println("1");
+
 			hmap = new HashMap<>();
 			if(rset.next()) {
-				System.out.println("2");
 				Children c = new Children();
 				c.setCId(cid);
 				c.setName(rset.getString("C_NAME"));
@@ -1543,7 +1541,7 @@ public class MemberDao {
 		BodyInfo b = null;
 		ArrayList<BodyInfo> bi = null;
 		
-		String sql = prop.getProperty("selectBodyInfo");
+		String sql = prop.getProperty("checkBodyInfo");
 		
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -1976,5 +1974,24 @@ public class MemberDao {
 	      
 	      return list;
 	   }
+
+	public int insertBodyInfo(Connection con, int cid, BodyInfo bi) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("insertBodyInfo");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			pstmt.setDouble(2, bi.getHeight());
+			pstmt.setDouble(3, bi.getWeight());
+			pstmt.setDate(4, bi.getBiDate());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 
 }
