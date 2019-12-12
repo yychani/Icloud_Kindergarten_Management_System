@@ -700,5 +700,41 @@ public class MemberService {
 		return result;
 	}
 
+	//학부모 정보 수정(member테이블 - 이름, 폰, 이메일 변경)
+	public int pInfoChange(Member changeM, int pNo) {
+		Connection con = getConnection();
+		
+		int result = md.pInfoChange(con, changeM, pNo);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+			
+		return result;
+	}
+
+	//학부모 정보 수정(parent 테이블 - 주소 update)
+	public int pInfochange(String address, int pNo) {
+		Connection con = getConnection();
+		
+		int result = md.pInfoChange(con, address, pNo);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	
+
 
 }

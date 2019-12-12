@@ -56,8 +56,11 @@
 		}else if(successCode == 13){
 			msg = "현장체험학습 신청이 완료 되었습니다.";
 			path = "<%=request.getContextPath()%>/ftlApplyList.me";
+		}else if(successCode == 14){
+			msg = "개인정보 변경 완료 되었습니다.";
+			path = "<%=request.getContextPath()%>/views/parents/myPage.jsp";
 		}
-
+		
 		alert(msg);
 		location.href = path;
 	</script>

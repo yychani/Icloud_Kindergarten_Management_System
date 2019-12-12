@@ -1994,4 +1994,51 @@ public class MemberDao {
 		return result;
 	}
 
+	//학부모 정보 수정(member테이블 - 이름, 폰, 이메일 변경)
+	public int pInfoChange(Connection con, Member changeM, int pNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updatePMemberInfo");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, changeM.getMemberName());
+			pstmt.setString(2, changeM.getEmail());
+			pstmt.setString(3, changeM.getPhone());
+			pstmt.setInt(4, pNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+
+	}
+
+	//학부모 정보 수정(parent 테이블 - 주소 update)
+	public int pInfoChange(Connection con, String address, int pNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateParentAddress");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, address);
+			pstmt.setInt(2, pNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
 }
