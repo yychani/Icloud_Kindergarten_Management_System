@@ -31,7 +31,12 @@ public class InsertChildBodyInfoServlet extends HttpServlet {
 		
 		int result = new MemberService().insertBodyInfo(cid, bi);
 		
-		System.out.println(bi);
+		if(result > 0) {
+			response.sendRedirect(request.getContextPath() + "/selectChildBodyInfo.me?cid=" + cid);
+		} else {
+			request.setAttribute("msg", "아이 신체정보 입력 실패");
+			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
