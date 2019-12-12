@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+<% 
+	ArrayList<BodyInfo> list = (ArrayList<BodyInfo>) request.getAttribute("list"); 
+	int cid = Integer.parseInt(request.getParameter("cid"));
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,7 +55,7 @@
 
     <%@ include file="/views/common/teacherMenu.jsp" %>
 	<div style="margin: 0 15%;">
- 		<h1  align="center" style="text-decoration: underline; text-underline-position: under;">박건후 신체정보</h1>
+ 		<h1  align="center" style="text-decoration: underline; text-underline-position: under;"><%= list.get(0).getCName() %> 신체정보</h1>
  	</div>
  	<div class="outer">
  		<select name="" id="" style="float:right">
@@ -67,17 +71,21 @@
  				<th>키</th>
  				<th>몸무게</th>
  			</tr>
+ 			<% if(list.get(0).getHeight() != 0) {
+ 			for(int i = 0; i < list.size(); i ++) { %>
  			<tr>
- 				<td>2018/09/16</td>
- 				<td>88.5cm</td>
- 				<td>15.2kg</td>
+ 				<td><%= list.get(i).getBiDate() %></td>
+ 				<td><%= list.get(i).getHeight() %>cm</td>
+ 				<td><%= list.get(i).getWeight() %>kg</td>
  			</tr>
+ 			<% }
+ 			} %>
  		</table>
  	</div>
  	<div style="margin:10px 15%; height:40px;">
-		<input type="button" class="childbutton" value="수정하기" onclick="location.href='tcChildBodyInfoMod.jsp'"/>
+		<input type="button" class="childbutton" value="수정하기" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>'+'&mod=1'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
-		<input type="button" class="childbutton" value="목록으로" onclick="location.href='tcChildMgmt.jsp'"/>
+		<input type="button" class="childbutton" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectBanChildren.me'"/>
 	</div>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>

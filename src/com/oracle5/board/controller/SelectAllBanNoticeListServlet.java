@@ -48,10 +48,12 @@ public class SelectAllBanNoticeListServlet extends HttpServlet {
 		int listCount = new BoardService().getListCountBan();
 		
 		maxPage = (int)((double)listCount/limit+0.9);
+		System.out.println(maxPage);
 		
 		startPage = (((int)((double)currentPage/limit+0.9))-1)*10 +1;
 		
 		endPage = startPage + 10-1;
+		System.out.println(endPage);
 		
 		if(maxPage<endPage) {
 			endPage = maxPage;
@@ -60,6 +62,7 @@ public class SelectAllBanNoticeListServlet extends HttpServlet {
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
 		ArrayList<Board> list = new BoardService().selectAllBanNoticeList(currentPage,limit);
+		
 		
 		//System.out.println("list : "+list);
 		String page="";

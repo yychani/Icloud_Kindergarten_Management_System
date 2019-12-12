@@ -36,6 +36,26 @@ import com.oracle5.member.model.vo.ReturnAgree;
 import com.oracle5.member.model.vo.Scholarly;
 import com.oracle5.member.model.vo.Teacher;
 
+/**
+ * @author wonky
+ *
+ */
+/**
+ * @author wonky
+ *
+ */
+/**
+ * @author wonky
+ *
+ */
+/**
+ * @author wonky
+ *
+ */
+/**
+ * @author wonky
+ *
+ */
 public class MemberDao {
 	Properties prop = new Properties();
 
@@ -1352,6 +1372,7 @@ public class MemberDao {
 		return list;
   }
 
+	//아이 상세보기 페이지 정보 가져오기
 	public Map<String, Object> selectChildDetail(Connection con, int cid) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1363,11 +1384,9 @@ public class MemberDao {
 			pstmt.setInt(1, cid);
 			
 			rset = pstmt.executeQuery();
-			
-			System.out.println("1");
+
 			hmap = new HashMap<>();
 			if(rset.next()) {
-				System.out.println("2");
 				Children c = new Children();
 				c.setCId(cid);
 				c.setName(rset.getString("C_NAME"));
@@ -1402,6 +1421,7 @@ public class MemberDao {
 		return hmap;
 	}
 
+	//생활기록부 첫칸 내용 가져오기
 	public Map<String, Object> selectRcBookFirst(Connection con, int cid) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1440,6 +1460,7 @@ public class MemberDao {
 		return hmap;
 	}
 
+	//학부모 주소 가져오기
 	public String selectParentsAddress(Connection con, int cid) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1466,6 +1487,7 @@ public class MemberDao {
 		return address;
 	}
 
+	//아이 가족관계 가져오기
 	public ArrayList<FamilyRelation> selectFamilyRelation(Connection con, int cid) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1502,6 +1524,7 @@ public class MemberDao {
 		return fr;
 	}
 
+	//아이 학적사항 가져오기
 	public ArrayList<Scholarly> selectScholarly(Connection con, int cid) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1537,13 +1560,14 @@ public class MemberDao {
 		return sc;
 	}
 
+	//아이 신체정보 있을때 불러오기
 	public ArrayList<BodyInfo> selectBodyInfo(Connection con, int cid) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		BodyInfo b = null;
 		ArrayList<BodyInfo> bi = null;
 		
-		String sql = prop.getProperty("selectBodyInfo");
+		String sql = prop.getProperty("checkBodyInfo");
 		
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -1572,7 +1596,7 @@ public class MemberDao {
 		return bi;
 	}
 
-
+	//아이 출석정보 가져오기
 	public Map<String, Object> selectChildAttend(Connection con, int cid) {
 	      PreparedStatement pstmt = null;
 	      ResultSet rset = null;
@@ -1863,6 +1887,7 @@ public class MemberDao {
 
 	}
 	
+	//아이 신체정보 유무 확인하는 check
 	public int checkBodyInfo(Connection con, int cid) {
 	      PreparedStatement pstmt = null;
 	      ResultSet rset = null;
@@ -1889,6 +1914,7 @@ public class MemberDao {
 	      return check;
 	   }
 
+	//아이 신체정보 없을경우 가져오는 select
 	   public Map<String, Object> selectChildDetail2(Connection con, int cid) {
 	      PreparedStatement pstmt = null;
 	      ResultSet rset = null;
@@ -1940,6 +1966,7 @@ public class MemberDao {
 	      return hmap;
 	   }
 
+	   //아이 신체정보 리스트 가져오기
 	   public ArrayList<BodyInfo> selectChildBodyInfo(Connection con, int cid) {
 	      PreparedStatement pstmt = null;
 	      ResultSet rset = null;
@@ -1951,6 +1978,7 @@ public class MemberDao {
 	      try {
 	         pstmt = con.prepareStatement(sql);
 	         pstmt.setInt(1, cid);
+	         pstmt.setInt(2, cid);
 	         
 	         rset = pstmt.executeQuery();
 	         
@@ -1964,6 +1992,7 @@ public class MemberDao {
 	            b.setWeight(rset.getDouble("WEIGHT"));
 	            b.setBiDate(rset.getDate("BI_DATE"));
 	            b.setCId(rset.getInt("C_ID"));
+	            b.setCName(rset.getString("C_NAME"));
 	            
 	            list.add(b);
 	         }
@@ -1976,5 +2005,97 @@ public class MemberDao {
 	      
 	      return list;
 	   }
+
+	   //아이 신체정보 입력하기
+	public int insertBodyInfo(Connection con, int cid, BodyInfo bi) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("insertBodyInfo");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			pstmt.setDouble(2, bi.getHeight());
+			pstmt.setDouble(3, bi.getWeight());
+			pstmt.setDate(4, bi.getBiDate());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//아이 신체정보 삭제하기
+	public int deleteBodyInfo(Connection con, int bino) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("deleteBodyInfo");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, bino);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//학부모 정보 수정(member테이블 - 이름, 폰, 이메일 변경)
+	public int pInfoChange(Connection con, Member changeM, int pNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updatePMemberInfo");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, changeM.getMemberName());
+			pstmt.setString(2, changeM.getEmail());
+			pstmt.setString(3, changeM.getPhone());
+			pstmt.setInt(4, pNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+
+	}
+
+	//학부모 정보 수정(parent 테이블 - 주소 update)
+	public int pInfoChange(Connection con, String address, int pNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateParentAddress");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, address);
+			pstmt.setInt(2, pNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 
 }

@@ -25,6 +25,14 @@ import com.oracle5.member.model.vo.Teacher;
 
 import static com.oracle5.common.JDBCTemplate.*;
 
+/**
+ * @author wonky
+ *
+ */
+/**
+ * @author wonky
+ *
+ */
 public class MemberService {
 	MemberDao md = new MemberDao();
 
@@ -562,10 +570,10 @@ public class MemberService {
 	}
 
 
-	public ArrayList<Attend> selectChildAttend(int cid) {
+	public Map<String, Object> selectChildAttend(int cid) {
 		Connection con = getConnection();
 		
-		ArrayList<Attend> ar = new MemberDao().selectChildAttend(con, cid);
+		Map<String, Object> ar = new MemberDao().selectChildAttend(con, cid);
 		
 		close(con);
 		
@@ -654,5 +662,101 @@ public class MemberService {
 
 	}
 
+	public int checkBodyInfo(int cid) {
+		Connection con = getConnection();
+		
+		int check = new MemberDao().checkBodyInfo(con, cid);
+		
+		close(con);
+		
+		return check;
+	}
+
+	public Map<String, Object> selectChildDetail2(int cid) {
+		Connection con = getConnection();
+		
+		Map<String, Object> hmap = new MemberDao().selectChildDetail2(con, cid);
+		
+		close(con);
+		
+		return hmap;
+	}
+
+	public ArrayList<BodyInfo> selectChildBodyInfo(int cid) {
+		Connection con = getConnection();
+		
+		ArrayList<BodyInfo> list = new MemberDao().selectChildBodyInfo(con, cid);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public int insertBodyInfo(int cid, BodyInfo bi) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().insertBodyInfo(con, cid, bi);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	//학부모 정보 수정(member테이블 - 이름, 폰, 이메일 변경)
+	public int pInfoChange(Member changeM, int pNo) {
+		Connection con = getConnection();
+		
+		int result = md.pInfoChange(con, changeM, pNo);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+			
+		return result;
+	}
+
+	//학부모 정보 수정(parent 테이블 - 주소 update)
+	public int pInfochange(String address, int pNo) {
+		Connection con = getConnection();
+		
+		int result = md.pInfoChange(con, address, pNo);
+    
+    if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	
+	public int deleteBodyInfo(int bino) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().deleteBodyInfo(con, bino);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
 
 }

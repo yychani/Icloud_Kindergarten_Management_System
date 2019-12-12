@@ -31,7 +31,9 @@
         <label>내용</label><br>
         <textarea name="dateCont" id="dateCont" cols="30" rows="15" readonly></textarea>
         <input type="hidden" name="dateVal" id="dateVal"><br>
+        <% if(loginUser.getMemberId().equals("admin")) {%>
         <input type="button" name="edit" id="edit" value="수정하기"><input type="hidden" name="editComplete" id="editComplete" value="수정완료"> 
+        <% } %>
     </div>
     <script>
         $(function () {

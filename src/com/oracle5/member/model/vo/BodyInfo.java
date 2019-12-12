@@ -12,4 +12,5 @@ public class BodyInfo implements Serializable{
 	private double height;
 	private double weight;
 	private Date biDate;
+	private String cName;
 }

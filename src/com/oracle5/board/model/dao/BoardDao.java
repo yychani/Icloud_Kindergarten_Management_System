@@ -484,7 +484,7 @@ public class BoardDao {
 					b.setName(rset.getString("NAME"));
 					b.setTcount(rset.getInt("T_COUNT"));
 					b.setTtime(rset.getDate("T_TIME"));
-
+					b.setPno(rset.getInt("RNUM"));
 					System.out.println(b);
 					
 					list.add(b); 
@@ -581,13 +581,10 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 				b.setTid(rset.getInt("T_ID"));
 				b.setTtitle(rset.getString("T_TITLE"));
 				b.setTcont(rset.getString("T_CONT"));
-				b.setTwriter(rset.getInt("T_WRITER"));
+				b.setName(rset.getString("NAME"));
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
-				b.setTno(rset.getInt("T_NO"));
-				//b.setPno(rset.getInt("RNUM"));
-				b.setBdid(rset.getInt("BD_ID"));
-				b.setTstmt(rset.getString("T_STMT"));
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

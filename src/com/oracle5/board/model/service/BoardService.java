@@ -184,9 +184,13 @@ public class BoardService {
 			System.out.println("tid : "+tid);
 		}
 		Attachment banBImg = fileList.get(0);
-		
-		int result2 = new BoardDao().insertBoardImg(con, banBImg ,tid);
-		
+		int result2 = 0;
+		if(banBImg.getOriginName() != null) {
+			result2 = new BoardDao().insertBoardImg(con, banBImg ,tid);
+			
+		}else {
+			result2 = 1;
+		}
 		
 		
 		System.out.println("b.tno : "+ b.getTno());
@@ -197,7 +201,7 @@ public class BoardService {
 		
 		if(result1 > 0 && result2 > 0 ) {
 			commit(con);
-			result =1;
+			result = 1;
 			
 		}else {
 			rollback(con);

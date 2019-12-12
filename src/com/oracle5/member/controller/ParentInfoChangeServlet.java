@@ -6,8 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class ParentInfoChangeServlet
@@ -34,20 +36,43 @@ public class ParentInfoChangeServlet extends HttpServlet {
 		String email2 = request.getParameter("changeEmail2");
 		String email = email1 + "@" + email2;
 		String tel1 = request.getParameter("tel1");
-		String tel21 = request.getParameter("tel2");
-				String tel31 = request.getParameter("tel3");
 		String tel2 = request.getParameter("tel21");
 		String tel3 = request.getParameter("tel31");
+		String phone = tel1 + "-" + tel2 + tel2;
 		System.out.println("이룸" + userName);
 		System.out.println("주소 : " + address);
 		System.out.println("이메일" + email);
 		System.out.println("tel1" + tel1);
 		System.out.println("tel2" + tel2);
-		System.out.println("tel21" + tel21);
-		System.out.println("tel31" + tel31);
 		System.out.println("tel3" + tel3);
 		
-		//Member changeMember = new MemberService().pInfochange();
+		HttpSession session = request.getSession();
+		Member loginUser = (Member) session.getAttribute("loginMember");
+		int pNo = loginUser.getMemberNo();
+		
+		Member changeM = new Member();
+		changeM.setMemberName(userName);
+		changeM.setPhone(phone);
+		changeM.setEmail(email);
+		
+		//학부모 정보 수정(member테이블 - 이름, 폰, 이메일 변경)
+		int result1 = new MemberService().pInfoChange(changeM, pNo);
+		//학부모 정보 수정(parent 테이블 - 주소 update)
+		int result2 = new MemberService().pInfochange(address, pNo);
+		
+		if(result1 > 0) {
+			if(result2 > 0) {
+				response.sendRedirect("views/common/successPage.jsp?successCode=14");
+			}else {
+				request.setAttribute("msg", "주소 변경 에러");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
+		} else {
+			request.setAttribute("msg", "개인정보 변경 에러");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
+		
+		
 	}
 
 	/**
