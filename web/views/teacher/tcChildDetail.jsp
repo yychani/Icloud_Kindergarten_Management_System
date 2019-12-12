@@ -104,11 +104,11 @@
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td>키 : <%= ((BodyInfo) hmap.get("bi")).getHeight() %></td>
+				<td>키 : <%= ((BodyInfo) hmap.get("bi")).getHeight() %>cm</td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
-				<td>몸무게 : <%= ((BodyInfo) hmap.get("bi")).getWeight() %></td>
+				<td>몸무게 : <%= ((BodyInfo) hmap.get("bi")).getWeight() %>kg</td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr>
@@ -136,7 +136,7 @@
 	<div style="margin:0 20%; height:40px">
 		<input type="button" class="childbutton" value="생활기록부" onclick="location.href='<%= request.getContextPath() %>/selectChildRcBook.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
-		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildObserve.jsp'"/>
+		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='<%= request.getContextPath() %>/selectChildOb.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="신체정보" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>
 	</div>

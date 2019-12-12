@@ -30,6 +30,7 @@ import com.oracle5.member.model.vo.FamilyRelation;
 import com.oracle5.member.model.vo.FieldLearning;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
+import com.oracle5.member.model.vo.Observation;
 import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.Participation;
 import com.oracle5.member.model.vo.ReturnAgree;
@@ -2117,7 +2118,8 @@ public class MemberDao {
 	            b.setCName(rset.getString("C_NAME"));
 	            
 	            list.add(b);
-			}	catch (SQLException e) {
+			}
+		}catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
@@ -2166,6 +2168,60 @@ public class MemberDao {
 
 		return hmap;
 
+	}
+
+	public ArrayList<Map<String, Object>> selectChildObservation(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Map<String, Object> hmap = null;
+		ArrayList<Map<String, Object>> list = null;
+		Observation ob = null;
+		Member m = null;
+		Children c = null;
+		
+		String sql = prop.getProperty("selectChildObservation");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			if(rset.next()) {
+				hmap = new HashMap<>();
+				c = new Children();
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				
+				hmap.put("c", c);
+				
+				ob = new Observation();
+				ob.setRound(rset.getInt("ROUND"));
+				ob.setAge(rset.getInt("AGE"));
+				ob.setEval(rset.getString("EVALUATION"));
+				ob.setObId(rset.getInt("OB_ID"));
+				ob.setEscore(rset.getString("E_SCORE"));
+				ob.setEDate(rset.getDate("EDATE"));
+				
+				hmap.put("ob", ob);
+				
+				m = new Member();
+				m.setMemberName(rset.getString("NAME"));
+				
+				hmap.put("m", m);
+				
+				list.add(hmap);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 
 }
