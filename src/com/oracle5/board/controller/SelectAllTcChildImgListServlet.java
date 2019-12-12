@@ -14,16 +14,16 @@ import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.PageInfo;
 
 /**
- * Servlet implementation class SelectAllBoardParentsList
+ * Servlet implementation class SelectAllTcChildImgListServlet
  */
-@WebServlet("/selectAll.pbo")
-public class SelectAllBoardParentsList extends HttpServlet {
+@WebServlet("/selectListChImg.tbo")
+public class SelectAllTcChildImgListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectAllBoardParentsList() {
+    public SelectAllTcChildImgListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,12 +42,14 @@ public class SelectAllBoardParentsList extends HttpServlet {
 		
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			
 		}
+		
 		limit = 10;
 		
-		int listCount = new BoardService().getListCount();
+		int listCount = new BoardService().getChildImgListCount();
 		
-		maxPage = (int)((double)listCount/ limit + 0.9);
+		maxPage =(int)((double) listCount/ limit + 0.9);
 		
 		startPage = (((int)((double)currentPage/limit+0.9))-1) *10 +1;
 		
@@ -56,21 +58,26 @@ public class SelectAllBoardParentsList extends HttpServlet {
 		if(maxPage<endPage) {
 			endPage = maxPage;
 		}
-		
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-		ArrayList<Board> list = new BoardService().selectAllParentsBoard(currentPage,limit);
+		ArrayList<Board> list = new BoardService().selectAllTcChildImgList(currentPage, limit);
+	
+		String page = "";
 		
-		String page="";
 		if(list != null) {
-			page="views/parents/boardParentsBoard.jsp";
+			page="views/teacher/tcChildImgMain.jsp";
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
 		}else {
-			request.setAttribute("msg", "");
-			page="views/common/errorPage.jsp";
+			request.setAttribute("msg", "앨범 리스트 실패");
+			page ="views/common/errorPage.jsp";
 		}
 		request.getRequestDispatcher(page).forward(request, response);
+	
+	
+	
+	
+	
 	}
 
 	/**

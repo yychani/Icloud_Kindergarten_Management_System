@@ -369,6 +369,44 @@ public class BoardService {
 		close(con);
 		return listCount;
 	}
+	
+	//학부모 게시판 이미지 select
+	public Attachment selectOneParentBoardImg(int num) {
+		Connection con = getConnection();
+		Attachment att = new BoardDao().selectOneParentBoardImg(con,num);
+		
+		if(att != null) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+  
+  		return att;
+	}
+	
+	//앨범 게시판 listCount
+	public int getChildImgListCount() {
+		Connection con = getConnection();
+		
+		int listCount = new BoardDao().getChildImgListCount(con);
+		
+		close(con);
+		
+		return listCount;
+	}
+	
+	//앨범 게시판 전체 리스트
+	public ArrayList<Board> selectAllTcChildImgList(int currentPage, int limit) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectAllTcChildImgList(con, currentPage, limit);
+		
+		close(con);
+		
+		return list;
+	}
 
 
 

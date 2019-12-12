@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
+import com.oracle5.common.model.vo.Attachment;
 
 /**
  * Servlet implementation class SelectOneParentsBoard
@@ -37,12 +38,13 @@ public class SelectOneParentsBoardServlet extends HttpServlet {
 				isUpdate = request.getParameter("isUpdate");
 			}
 			Board b = new BoardService().selectOneParentsBoard(num, isUpdate);
-			
+			Attachment a = new BoardService().selectOneParentBoardImg(num);
 			String page = "";
 			
 			if(b != null) {
 				page="views/parents/boardParentsBoardDe.jsp";
 				request.setAttribute("b", b);
+				request.setAttribute("a", a);
 			}else {
 				page="views/common/errorPage.jsp";
 				request.setAttribute("msg", "게시글 상세보기 실패");
