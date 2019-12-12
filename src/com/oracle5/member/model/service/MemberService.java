@@ -25,6 +25,14 @@ import com.oracle5.member.model.vo.Teacher;
 
 import static com.oracle5.common.JDBCTemplate.*;
 
+/**
+ * @author wonky
+ *
+ */
+/**
+ * @author wonky
+ *
+ */
 public class MemberService {
 	MemberDao md = new MemberDao();
 
@@ -688,6 +696,23 @@ public class MemberService {
 		Connection con = getConnection();
 		
 		int result = new MemberDao().insertBodyInfo(con, cid, bi);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	
+	public int deleteBodyInfo(int bino) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().deleteBodyInfo(con, bino);
 		
 		if(result > 0) {
 			commit(con);
