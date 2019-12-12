@@ -38,9 +38,8 @@ textarea {
 	<div style="margin: 0 15%;">
  	<h1 style="text-decoration: underline; text-underline-position: under;">아이들 사진 게시판 작성</h1>
  	</div>
- 	<form action="<%= request.getContextPath() %>/" method="post" encType="multipart/form-data">
+ 	<form action="<%= request.getContextPath() %>/insertChildImg.tbo" method="post" encType="multipart/form-data">
  	<%@ include file="/views/common/boardWrite.jsp" %>
-
  	</form>
  	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>

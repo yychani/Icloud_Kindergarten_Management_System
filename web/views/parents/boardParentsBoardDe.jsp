@@ -59,11 +59,16 @@ $(function() {
 	<div style="margin: 0 15%;">
  	<h1 style="text-decoration: underline; text-underline-position: under;">학부모 게시판</h1>
  	</div>
+ 	<div style=" margin-left:1000px;">
+		<span>작성자 : <%=b.getName() %> 조회수  : <%=b.getTcount() %> 작성일 :<%=b.getTtime() %></span>
+	
+	</div>
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
 		<input type="text" id="title" name="title" value="<%=b.getTtitle()%>" readonly>
 	</div>
+	
 	
 	<br />
 	

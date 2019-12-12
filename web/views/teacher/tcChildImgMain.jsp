@@ -39,9 +39,6 @@ $(function() {
 			$(".topMenuLi:nth-child(4)").addClass("on");
 		});
 
-		$(".writing > button").click("click", function() {
-			location.href = "tcChildImgUpdate.jsp";
-		});
 	});
 </script>
 <style>
@@ -144,7 +141,7 @@ input[type='button'] {
 			<tbody id="tbodyArea"> 
 			<%for(Board b : list) { %>
 				<tr>
-					<td id="no"><%=b.getTid() %><input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
+					<td id="no"><%=b.getPno() %><input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
 					<td id="title"><%=b.getTtitle() %></td>
                     <td id="writer"><%=b.getName()%></td>
                     <td id="count"><%=b.getTcount() %></td>
@@ -220,7 +217,7 @@ input[type='button'] {
     	$("#tableArea td").click(function(){
     		var num = $(this).parent().children().eq(0).children().val();
     		
-    		
+    		location.href="<%=request.getContextPath()%>/selectOneTcChildImg.pbo?num=" + num;
     		
     	});
     	
