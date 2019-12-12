@@ -59,7 +59,9 @@ public class SelectAllBoardParentsList extends HttpServlet {
 		
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-		ArrayList<Board> list = new BoardService().sectAllParentsBoard(currentPage,limit);
+		ArrayList<Board> list = new BoardService().selectAllParentsBoard(currentPage,limit);
+		
+		
 		
 		String page="";
 		if(list != null) {
