@@ -541,5 +541,32 @@ public class BoardService {
     
     		return result;
 	}
+	
+	//원공지사항 게시글 보기
+	public Board selectOnePreKNotice(int num, String isUpdate) {
+		Connection con = getConnection();
+		
+		Board b1 = null;
+		int tid = 0;
+		int result =0;
+		if(isUpdate.equals("false")) {
+			result = new BoardDao().updatePreKNoticeCount(con, num);
+		}
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		b1 = new BoardDao().selectOnePreKNotice(con,num);
+		
+		return b1;
+	}
+	//원공지사항 게시물 이미지 보기
+	public Attachment selectOnePreKNoticeImg(int num) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

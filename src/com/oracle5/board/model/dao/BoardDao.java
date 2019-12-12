@@ -1143,18 +1143,78 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 	}
 	//원 공지사항 글 isnert
 	public int insertPreKNotice(Connection con, Board b) {
-		// TODO Auto-generated method stub
-		return 0;
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertPreKNotice");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTno());
+			pstmt.setInt(4, b.getBdid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
 	}
 	//원 공지사항 tid 찾기
 	public int selectPreKNoticeTid(Connection con, Board b) {
-		// TODO Auto-generated method stub
-		return 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result =0;
+		
+		String query = prop.getProperty("selectPreKNoticeTid");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, b.getTno());
+			pstmt.setInt(2, b.getBdid());
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 	//원 공지사항 이미지 삽입
 	public int insertPreKImg(Connection con, Attachment preKImg, int tid) {
-		// TODO Auto-generated method stub
-		return 0;
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("insertPreKImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, preKImg.getOriginName());
+			pstmt.setString(2, preKImg.getChangeName());
+			pstmt.setString(3, preKImg.getFilePath());
+			pstmt.setInt(4, tid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 	
 	//앨범 insert
@@ -1262,6 +1322,49 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 	public Attachment selectTcChildImg(Connection con, int num) {
 		
 		return null;
+	}
+
+	//원 공지사항 조회수용 메소드-한솔
+	public int updatePreKNoticeCount(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		//String 
+		
+		return result;
+	}
+
+	//원 공지사항 하나 조회용 메소드 -한솔
+	public Board selectOnePreKNotice(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board b = null;
+		String query = prop.getProperty("selectOnePreKNotice");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Board();
+				
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TItle"));
+				b.setTcont(rset.getString("T_CONT"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return b;
 	}
 	
 
