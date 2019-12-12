@@ -1244,9 +1244,15 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		try {
 			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, num);
+			
+			result=pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			close(pstmt);
 		}
 		
 		return result;
@@ -1254,14 +1260,82 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 	
 	//앨범 selectone 
 	public Board selectOneChildImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board b = null;
 		
-		return null;
+		String query = prop.getProperty("selectOneChildImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Board();
+				
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setTcont(rset.getString("T_CONT"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+			
+		}
+		
+		
+		return b;
 	}
 	
 	//앨범 img 보기
 	public Attachment selectTcChildImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		Attachment att = null;
+		ResultSet rset = null;
 		
-		return null;
+		String query = prop.getProperty("selectTcChildImg");
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			System.out.println(num);
+			rset= pstmt.executeQuery();
+			
+			if(rset.next()) {
+				att = new Attachment();
+				
+				att.setFid(rset.getInt("F_ID"));
+				att.setOriginName(rset.getString("ORIGIN_NAME"));
+				att.setChangeName(rset.getString("CHANGE_NAME"));
+				att.setFilePath(rset.getString("FILE_PATH"));
+				att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+				att.setFileLevel(rset.getInt("FILE_LEVEL"));
+				att.setStatus(rset.getString("STATUS"));
+				att.setType(rset.getInt("TYPE"));
+				att.setCId(rset.getInt("C_ID"));
+				att.setFeedNo(rset.getInt("FEEDNO"));
+				att.setTId(rset.getInt("T_ID"));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return att;
 	}
 	
 
