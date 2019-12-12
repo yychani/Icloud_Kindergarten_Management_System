@@ -7,6 +7,7 @@
      	PageInfo pi = (PageInfo) request.getAttribute("pi");
      	int currentPage = pi.getCurrentPage();
      	int listCount = pi.getListCount();
+     	int limit = pi.getLimit();
      	int maxPage = pi.getMaxPage();
      	int startPage = pi.getStartPage();
      	int endPage = pi.getEndPage();
@@ -142,7 +143,7 @@ input[type='button'] {
 			<tbody id="tbodyArea"> 
 			<%for(Board b : list) { %>
 				<tr>
-					<td id="no"><%=b.getTid() %><input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
+					<td id="no"><%=b.getPno() %><input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
 					<td id="title"><%=b.getTtitle() %></td>
                     <td id="writer"><%=b.getName()%></td>
                     <td id="count"><%=b.getTcount() %></td>
@@ -167,7 +168,7 @@ input[type='button'] {
 			} 
 		%>
 		<%
-			for(int p = startPage; p<endPage; p++){
+			for(int p = startPage; p <= endPage; p++){
 				if(p == currentPage){
 			
 		%> 
