@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.CommonNote;
 import com.oracle5.board.model.vo.Schedule;
+import com.oracle5.member.model.vo.Member;
 
 @WebServlet(name = "SelectAllScheduleServlet", urlPatterns = { "/selectAllSchedule.sch" })
 public class SelectAllSchedule extends HttpServlet {
@@ -24,9 +25,16 @@ public class SelectAllSchedule extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Schedule> list = new BoardService().selectAllSchedule();
 		
+		Member loginUser = (Member)request.getSession().getAttribute("loginMember");
 		String page = "";
 		if(list != null) {
-			page = "views/president/schedule.jsp";
+			if((loginUser).getMemberId().equals("admin")) {
+				page = "views/president/schedule.jsp";
+			}else if((loginUser).getUType().equals("교사")) {
+				page = "views/teacher/tcSchedule.jsp";
+			}else {
+				page = "views/parents/newsCalendar.jsp";
+			}
 			request.setAttribute("list", list);
 		}else {
 			page = "views/common/errorPage.jsp";
