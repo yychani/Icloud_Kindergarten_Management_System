@@ -215,7 +215,7 @@ input[type='button'] {
     <script>
     $(function(){
     	$(".writing").click(function(){
-    		location.href="./views/teacher/tcWriteNotice.jsp?";
+    		location.href="./views/teacher/tcWriteNotice.jsp";
     	});
     });
     
