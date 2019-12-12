@@ -232,7 +232,7 @@ input[type='button'] {
 		
 		$(function(){
 			$(".writing").click(function(){
-				location.href="./views/teacher/preKNoticeWrite.jsp";
+				location.href="./views/president/preKNoticeWrite.jsp";
 			});
 		});
 		
@@ -241,7 +241,7 @@ input[type='button'] {
 				var num = $(this).parent().children().eq(0).children().val();
 				
 				console.log(num);
-				location.href="<%=request.getContextPath()%>";
+				location.href="<%=request.getContextPath()%>/selectOnePreKNotice.bo?num="+num;
 			});
 		});
 	</script>
