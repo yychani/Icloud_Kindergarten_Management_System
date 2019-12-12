@@ -44,11 +44,14 @@ public class SelectOneChildImgServlet extends HttpServlet {
 		String page = "";
 		
 		if(b != null) {
-			
+			page = "views/teacher/tcChildImgDetail.jsp";
+			request.setAttribute("b", b);
+			request.setAttribute("att", att);
 		}else {
-			
+			page = "views/common/errorPage.jsp";
+			request.setAttribute("msg", "앨범 상세 보기 실패");
 		}
-		
+		request.getRequestDispatcher(page).forward(request, response);
 	}
 
 	/**

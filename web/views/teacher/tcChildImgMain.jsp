@@ -216,7 +216,7 @@ input[type='button'] {
     $(function(){
     	$("#tableArea td").click(function(){
     		var num = $(this).parent().children().eq(0).children().val();
-    		
+    		console.log(num)
     		location.href="<%=request.getContextPath()%>/selectOneTcChildImg.pbo?num=" + num;
     		
     	});
