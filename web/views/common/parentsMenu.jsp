@@ -71,7 +71,7 @@ table {
                      <li>|</li>
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsFamilyL.jsp" class="submenuLink">가정통신문</a></li>
                      <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsCalendar.jsp" class="submenuLink">원 일정</a></li>
+                     <li class="li"><a href="<%=request.getContextPath() %>/selectAllSchedule.sch" class="submenuLink">원 일정</a></li>
                      <li>|</li>
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsMealMenu.jsp" class="submenuLink">식단표</a></li>
                   </ul>
