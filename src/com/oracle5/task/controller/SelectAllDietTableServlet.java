@@ -1,8 +1,10 @@
 package com.oracle5.task.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,6 +38,9 @@ public class SelectAllDietTableServlet extends HttpServlet {
 			weekOfMonth = Integer.parseInt(request.getParameter("weekOfMonth"));
 		}
 		int date = cal.get(Calendar.DATE);
+		if(request.getParameter("date") != null) {
+			date = Integer.parseInt(request.getParameter("date"));
+		}
 		cal.set(year, month, date);
 		int startday = cal.getMinimum(java.util.Calendar.DATE);
 		int endDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
@@ -52,8 +57,22 @@ public class SelectAllDietTableServlet extends HttpServlet {
  		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
  		String monday = formatter.format(cal.getTime());
-
-		int[] valueOfDate = {year, month, weekOfMonth, date, startday, endDay, start};
+ 		
+ 		String[] mondayArr = monday.split("-");
+ 		
+ 		String mondayYear = mondayArr[0];
+ 		String mondayMonth = mondayArr[1];
+ 		String mondayDate = mondayArr[2];
+ 		
+ 		cal.set(year, month, endDay);
+ 		
+ 		int lastWeek = cal.get(Calendar.WEEK_OF_MONTH);
+ 		
+ 		cal.set(year, month, endDay);
+ 		
+ 		int endDayOfWeek =  cal.get(Calendar.DAY_OF_WEEK);
+ 		
+		int[] valueOfDate = {year, month, weekOfMonth, date, startday, endDay, start, lastWeek, endDayOfWeek};
 		Member loginUser = (Member)request.getSession().getAttribute("loginMember");
 		String page = "";
 			if((loginUser).getMemberId().equals("admin")) {
@@ -63,7 +82,9 @@ public class SelectAllDietTableServlet extends HttpServlet {
 			}else {
 				page = "views/parents/newsCalendar.jsp";
 			}
-		request.setAttribute("monday", monday);
+		request.setAttribute("mondayYear", mondayYear);
+		request.setAttribute("mondayMonth", mondayMonth);
+		request.setAttribute("mondayDate", mondayDate);
 		request.setAttribute("valueOfDate", valueOfDate);
 		request.getRequestDispatcher(page).forward(request, response);
 	}
