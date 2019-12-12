@@ -759,4 +759,15 @@ public class MemberService {
 		return result;
 	}
 
+	//학부모 주소, 개인정보 가져오기
+	public Map<String, Object> selectPInfo(int pNo) {
+		Connection con = getConnection();
+		
+		Map<String, Object> hmap = md.selectPInfo(con, pNo);
+		
+		close(con);
+		
+		return hmap;
+	}
+
 }

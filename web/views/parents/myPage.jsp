@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.Member"%>
-
+	pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.Member, com.oracle5.member.model.vo.Parents"%>
+<%
+	HashMap<String, Object> hmap = (HashMap<String, Object>) request.getAttribute("hmap");
+%>
 <!DOCTYPE html>
 <html>
 
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원정보</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 시멘틱ui -->
@@ -58,19 +60,17 @@
 					<tr>
 						<td style="width: 50px;">아이디</td>
 						<td style="width: 20px">:</td>
-						<%-- <td><%=loginUser.getMemberId()%></td> --%>
+						<td><%= ((Member)hmap.get("m")).getMemberId() %></td>
 					</tr>
 					<tr>
 						<td style="width: 50px;">이름</td>
 						<td style="width: 20px">:</td>
-						<%-- <td><%=loginUser.getMemberName()%></td> --%>
+						<td><%= ((Member)hmap.get("m")).getMemberName() %></td> 
 					</tr>
 					<tr>
 						<td style="width: 50px;">주소</td>
 						<td style="width: 20px">:</td>
-						<td><div class="ui input">
-								<input type="text" id="address" value="" readonly>
-							</div></td>
+						<td><label id="decodeAddress"><%= ((Parents)hmap.get("p")).getPAddress() %></label></td>
 					</tr>
 					<tr>
 						<%
@@ -80,12 +80,12 @@
 						%>
 						<td style="width: 50px;">이메일</td>
 						<td style="width: 20px">:</td>
-						<%-- <td><%=email[0]%>@<%=email[1]%></td> --%>
+						<td><%= ((Member)hmap.get("m")).getEmail() %></td>
 					</tr>
 					<tr>
 						<td style="width: 50px;">핸드폰</td>
 						<td style="width: 20px">:</td>
-						<%-- <td><%=phone[0]%>-<%=phone[1]%>-<%=phone[2]%></td> --%>
+						<td><label id="decodePhone"><%= ((Member)hmap.get("m")).getPhone() %></label></td> 
 					</tr>
 				</table>
 				<div class="btns" align="center">
@@ -111,7 +111,7 @@
 		<i class="close icon"></i>
 		<div class="header" align="center">회원정보 변경</div>
 		<div class="infoChangeDiv" align="center">
-			<form id="infoChangeForm" action="<%=request.getContextPath()%>/pinfoChange.me" method="post">
+			<form id="infoChangeForm" action="<%=request.getContextPath()%>/pinfoChange.me" method="post" onsubmit="return encryption()">
 				<br><br> <label>이름 </label>
 				<div class="ui input">
 					<input type="text" id="changeName" name="changeName" placeholder="변경할 이름">
@@ -136,7 +136,7 @@
 				<br> <br><br>
 				<div class="actions">
 			<div class="ui black deny button">취소</div>
-			<button type="submit" class="ui green button" onclick="encryption();">변경하기</button>
+			<button type="submit" class="ui green button">변경하기</button>
 		</div>
 			</form>
 			<br><br><br>
@@ -150,14 +150,13 @@
 		<div class="header" align="center">비밀번호 변경</div>
 		<div class="passDiv" align="center">
 			<form id="passChangeForm"
-				action="<%=request.getContextPath()%>/passChange.me" method="post"
-				onsubmit="return true;"><br>
+				action="<%=request.getContextPath()%>/passChange.me" method="post" onsubmit="return passInvalidate();"><br>
 				<input type="hidden" value="<%=loginUser.getMemberId()%>"
 					name="userId">
 				<div class="currentPass">
 					<br> <label>현재 비밀번호 입력</label><br> <br>
 					<div class="ui input">
-						<input type="password" name="currentPass" placeholder="현재 비밀번호">
+						<input type="password" id="currentPass" name="currentPass" placeholder="현재 비밀번호">
 					</div>
 				</div>
 				<br>
@@ -188,8 +187,7 @@
 				<div class="actions">
 					<br> <br>
 					<div class="ui black deny button">취소</div>
-					<button type="button" class="ui green button"
-						onclick="passInvalidate();">변경하기</button>
+					<button type="submit" class="ui green button">변경하기</button>
 					<!-- <button type="submit" onclick="passInvalidate();">변경하기</button> -->
 
 					<br> <br><br>
@@ -218,9 +216,12 @@
 				<input type="hidden" value="<%=loginUser.getMemberId()%>"
 					name="userId">
 				<button type="submit" class="ui inverted red button">탈퇴하기</button>
+					<br><br>
 			</form>
+		
 		</div>
 	</div>
+	<br><br>
 
 
 <!-- 암호화 -->
@@ -294,25 +295,34 @@
 
 		//비밀번호 변경 버튼
 		function passInvalidate() {
-			console.log("변경하기 버튼 클릭");
-			if ($('#changePass1').val() != $('#changePass2').val()) {
-				alert("비밀번호가 일치하지 않습니다");
-				console.log("비밀번호 불일치");
-				$('#changePass1').val("");
-				$('#changePass2').val("");
-				$('#passCheck').val("");
+			if($("#currentPass").val()=="" || $("#changePass1").val()=="" || $("#changePass2").val()==""){
+				alert("빈칸을 입력해주세요.")
 				return false;
-			} else if ($('#changePass1').val() == $('#changePass2').val()) {
-				if (pattern1.test($('#changePass1').val())
-						|| pattern2.test($('#changePass1').val())
-						|| pattern3.test($('#changePass1').val())) {
-					$("#passChangeForm").submit;
-					console.log("비밀번호 일치& 정규식 통과");
-					return true;
-				}
+			}else {
+				if ($('#changePass1').val() != $('#changePass2').val()) {
+					alert("비밀번호가 일치하지 않습니다");
+					$('#changePass1').val("");
+					$('#changePass2').val("");
+					$('#passCheck').val("");
+					return false;
+				} else if ($('#changePass1').val() == $('#changePass2').val()) {
+					if (pattern1.test($('#changePass1').val())
+							|| pattern2.test($('#changePass1').val())
+							|| pattern3.test($('#changePass1').val())) {
+						$("#passChangeForm").submit;
+						console.log("비밀번호 일치& 정규식 통과");
+						return true;
+					} else {
+						alert("유효하지 않은 비밀번호 입니다.");
+						return false;
+					}
 
+				}
 			}
-			;
+			
+			
+
+		
 		}
 
 		//탈퇴하기 버튼 모달
@@ -320,26 +330,56 @@
 			$('.ui.basic.modal.leave').modal('show');
 		}
 		
+		
+		//회원정보 변경 버튼 클릭시 
 		//주소 & 핸드폰 번호 암호화
 		//주소
 		function encryption(){
-			var address = $("#changeAddress").val();
-			var passphrase = "1234";
-			var encrypt1 = CryptoJS.AES.encrypt(address, passphrase);
-			$("#changeAddress1").val(encrypt1);
-			
-			//핸드폰
-			var tel2 = $("#tel2").val();
-			var encrypt2 = CryptoJS.AES.encrypt(tel2, passphrase);
-			$("#tel21").val(encrypt2);
-			
-			var tel3 = $("#tel3").val();
-			var encrypt3 = CryptoJS.AES.encrypt(tel3, passphrase);
-			$("#tel31").val(encrypt3);
-			
+			if($("#changeName").val()=="" || $("#changeAddress").val()=="" || $("#changeEmail1").val()=="" || $("#changeEmail2").val()==""
+		|| $("#tel1").val()=="" || $("#tel2").val()=="" || $("#tel3").val()=="" ){
+				alert("빈칸을 입력해주세요.");
+				return false;
+			}else{
+				var address = $("#changeAddress").val();
+				var passphrase = "1234";
+				var encrypt1 = CryptoJS.AES.encrypt(address, passphrase);
+				$("#changeAddress1").val(encrypt1);
+				
+				//핸드폰
+				var tel2 = $("#tel2").val();
+				var encrypt2 = CryptoJS.AES.encrypt(tel2, passphrase);
+				$("#tel21").val(encrypt2);
+				
+				var tel3 = $("#tel3").val();
+				var encrypt3 = CryptoJS.AES.encrypt(tel3, passphrase);
+				$("#tel31").val(encrypt3);
+				
+				return true;
+				
+			};
+
+		};
 		
-			$("#infoChangeForm").submit;
-		}
+		//복호화
+		$(function(){
+			var address = $("#decodeAddress").text();
+			var passphrase = "1234";
+			var decrypted1 = CryptoJS.AES.decrypt(address, passphrase);
+			var address1 = decrypted1.toString(CryptoJS.enc.Utf8);
+			$("#decodeAddress").text(address1);
+			
+			var decodephone = $("#decodePhone").text();
+			var sPhone = [];
+			sPhone = decodephone.split('-');
+			
+			var decrypted2 = CryptoJS.AES.decrypt(sPhone[1], passphrase);
+			var phone1 = decrypted2.toString(CryptoJS.enc.Utf8);
+			
+			var decrypted3 = CryptoJS.AES.decrypt(sPhone[2], passphrase);
+			var phone2 = decrypted3.toString(CryptoJS.enc.Utf8);
+			$("#decodePhone").text(sPhone[0] + "-" + phone1 +  "-" + phone2); 
+		});
+		
 	</script>
 
 

@@ -51,16 +51,15 @@ public class ParentPassChangeServlet extends HttpServlet {
 			loginMember.setMemberPwd(changePass);
 			int result = new MemberService().updateParentsPass(loginMember);
 			if(result > 0) {
-				request.getSession().setAttribute("loginMember", loginMember);
-				response.sendRedirect("views/parents/myPage.jsp");
+				response.sendRedirect("views/common/successPage.jsp?successCode=15");
 			} else {
 				page = "views/common/errorPage.jsp";
-				request.setAttribute("msg", "비밀번호 변경 실패!");
+				request.setAttribute("msg", "비밀번호 변경 에러");
 				request.getRequestDispatcher(page).forward(request, response);
 			}
 			
 		} else {
-			request.setAttribute("msg", "비밀번호 불일치");
+			request.setAttribute("msg", "현재 비밀번호를 잘 못 입력하셨습니다.");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 		
