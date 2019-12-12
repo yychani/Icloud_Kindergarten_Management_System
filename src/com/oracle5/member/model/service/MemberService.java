@@ -562,10 +562,10 @@ public class MemberService {
 	}
 
 
-	public ArrayList<Attend> selectChildAttend(int cid) {
+	public Map<String, Object> selectChildAttend(int cid) {
 		Connection con = getConnection();
 		
-		ArrayList<Attend> ar = new MemberDao().selectChildAttend(con, cid);
+		Map<String, Object> ar = new MemberDao().selectChildAttend(con, cid);
 		
 		close(con);
 		
@@ -652,6 +652,52 @@ public class MemberService {
 		
 		return fl;
 
+	}
+
+	public int checkBodyInfo(int cid) {
+		Connection con = getConnection();
+		
+		int check = new MemberDao().checkBodyInfo(con, cid);
+		
+		close(con);
+		
+		return check;
+	}
+
+	public Map<String, Object> selectChildDetail2(int cid) {
+		Connection con = getConnection();
+		
+		Map<String, Object> hmap = new MemberDao().selectChildDetail2(con, cid);
+		
+		close(con);
+		
+		return hmap;
+	}
+
+	public ArrayList<BodyInfo> selectChildBodyInfo(int cid) {
+		Connection con = getConnection();
+		
+		ArrayList<BodyInfo> list = new MemberDao().selectChildBodyInfo(con, cid);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public int insertBodyInfo(int cid, BodyInfo bi) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().insertBodyInfo(con, cid, bi);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
 	}
 
 

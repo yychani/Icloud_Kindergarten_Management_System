@@ -15,6 +15,7 @@ import com.oracle5.member.model.vo.Attend;
 import com.oracle5.member.model.vo.BodyInfo;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.FamilyRelation;
+import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.Scholarly;
 
 @WebServlet("/selectChildRcBook.me")
@@ -78,9 +79,20 @@ public class SelectChildRecodeBookServlet extends HttpServlet {
 			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
 		}
 		
-		ArrayList<Attend> at = new MemberService().selectChildAttend(cid);
+		Map<String, Object> at = new MemberService().selectChildAttend(cid);
 		
-		request.getRequestDispatcher("/views/teacher/tcChildRecodeBook.jsp").forward(request, response);
+		if(at != null) {
+			request.setAttribute("at", at);
+		} else {
+			request.setAttribute("msg", "출석정보 에러");
+			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
+		}
+		
+		if(((Member) request.getSession().getAttribute("loginMember")).getMemberNo() == 1) {
+			request.getRequestDispatcher("/views/president/preChildRecord.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/views/teacher/tcChildRecodeBook.jsp").forward(request, response);
+		}
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

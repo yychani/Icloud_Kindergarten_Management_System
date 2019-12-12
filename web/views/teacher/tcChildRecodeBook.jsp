@@ -8,6 +8,7 @@
 	ArrayList<FamilyRelation> fr = (ArrayList<FamilyRelation>) request.getAttribute("fr");
 	ArrayList<Scholarly> sc = (ArrayList<Scholarly>) request.getAttribute("sc");
 	ArrayList<BodyInfo> bi = (ArrayList<BodyInfo>) request.getAttribute("bi");
+	HashMap<String, Object> at = (HashMap<String, Object>) request.getAttribute("at");
 %>
 <%
 	String gender = "";
@@ -231,33 +232,49 @@
 	<div>
 		<table style="width:70%">
 			<tr style="background:lightgray">
-				<td class="backslash" style="width:20%;"></td>
-				<td style="width:20%;">수업일수</td>
-				<td style="width:20%;">출석일수</td>
-				<td style="width:20%;">결석일수</td>
-				<td style="width:20%;">특기사항</td>
+				<td class="backslash" style="width:16.6%;"></td>
+				<td style="width:16.6%;">수업일수</td>
+				<td style="width:16.6%;">출석일수</td>
+				<td style="width:16.6%;">결석일수</td>
+				<td style="width:16.6%;">지각/조퇴</td>
+				<td style="width:16.6%;">특이사항</td>
 			</tr>
+			<% int attend = 0; int tardy = 0; int leave = 0; int absent = 0; int savet = 0; int savel = 0;
+			for(int i = 0; i < 3; i++) { %>
 			<tr>
-				<td>만 3세</td>
+				<td>만 <%= i+3 %>세</td>
+				<% if(((ArrayList<Attend>) at.get(String.valueOf(i+3))) != null) { %>
+				<td><%= ((ArrayList<Attend>) at.get(String.valueOf(i+3))).size() %></td>
+				<% for(int j = 0; j < ((ArrayList<Attend>) at.get(String.valueOf(i+3))).size(); j++) {
+					switch(((ArrayList<Attend>) at.get(String.valueOf(i+3))).get(j).getAType()) {
+					case "출석" : attend++; break;
+					case "지각" : tardy++; savet++; break;
+					case "조퇴" : leave++; savel++; break;
+					case "결석" : absent++; break;
+					}
+					
+					if(tardy + leave == 3) {
+						tardy = 0;
+						leave = 0;
+						absent++;
+					}
+				}
+				%>
+				<td><%= attend %></td>
+				<td><%= absent %></td>
+				<td><%= savet %>/<%= savel %></td>
 				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<% } else { %>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				<% } %>
 			</tr>
-			<tr>
-				<td>만 4세</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>만 5세</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
+			<% 
+				attend = 0; tardy = 0; leave = 0; absent = 0; savet = 0; savel = 0;
+			} %>
 		</table>
 	</div>
 	<div style="margin: 0 15%;">
