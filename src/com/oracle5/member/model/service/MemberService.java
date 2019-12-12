@@ -682,16 +682,6 @@ public class MemberService {
 		return hmap;
 	}
 
-	public ArrayList<BodyInfo> selectChildBodyInfo(int cid) {
-		Connection con = getConnection();
-		
-		ArrayList<BodyInfo> list = new MemberDao().selectChildBodyInfo(con, cid);
-		
-		close(con);
-		
-		return list;
-	}
-
 	public int insertBodyInfo(int cid, BodyInfo bi) {
 		Connection con = getConnection();
 		
@@ -757,6 +747,26 @@ public class MemberService {
 		close(con);
 		
 		return result;
+	}
+
+	public int childBodyInfoCount(int cid) {
+		Connection con = getConnection();
+		
+		int count = new MemberDao().childBodyInfoCount(con, cid);
+		
+		close(con);
+		
+		return count;
+	}
+
+	public ArrayList<BodyInfo> selectChildBodyInfoPaging(int cid, int currentPage, int limit) {
+		Connection con = getConnection();
+		
+		ArrayList<BodyInfo> list = new MemberDao().selectChildBodyInfoPaging(con, cid, currentPage, limit);
+		
+		close(con);
+		
+		return list;
 	}
 
 }

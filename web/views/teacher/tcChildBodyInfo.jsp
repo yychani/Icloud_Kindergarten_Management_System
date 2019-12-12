@@ -1,8 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*, com.oracle5.common.model.vo.*"%>
 <% 
 	ArrayList<BodyInfo> list = (ArrayList<BodyInfo>) request.getAttribute("list"); 
 	int cid = Integer.parseInt(request.getParameter("cid"));
+	PageInfo pi = (PageInfo) request.getAttribute("pi");
+	
+	int currentPage = pi.getCurrentPage();
+	int listCount = pi.getListCount();
+	int limit = pi.getLimit(); 
+	int maxPage = pi.getMaxPage(); 
+	int startPage = pi.getStartPage(); 
+	int endPage = pi.getEndPage();
 %>
 <!DOCTYPE html>
 <html>
@@ -27,6 +35,34 @@
           $(".li:nth-child(9)").addClass("on");
           $(".topMenuLi:nth-child(2)").addClass("on");
        });
+        
+        
+        $.ajax({
+        	url:"<%= request.getContextPath() %>/selectBanChildList.do",
+        	type:"get",
+        	data:{tno: $("#tno").val()},
+        	success:function(data) {
+        		$select = $("#childList");
+        		$select.find("option").remove();
+        		
+        		for(var i = 0; i < data.length; i++) {
+        			var name = data[i].name;
+					var childname = $("h1").text();
+					childname = childname.substring(0, childname.lastIndexOf(" "));
+					var selected = (name == childname) ? "selected" : "";
+					
+        			$select.append("<option value='" + data[i].cId + "' " + selected + ">" + name + "</option>");
+        		}
+        	},
+        	error:function() {
+        		console.log("실패")
+        	}
+        });
+        
+        $("#childList").change(function() {
+        	var cid = $(this).val();
+        	location.href = '<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=' + cid;
+        });
     }); 
 </script>
 <style>
@@ -52,17 +88,14 @@
 </style>
 </head>
 <body>
-
     <%@ include file="/views/common/teacherMenu.jsp" %>
+    <input type="hidden" id="tno" value="<%= loginUser.getMemberNo() %>" />
 	<div style="margin: 0 15%;">
  		<h1  align="center" style="text-decoration: underline; text-underline-position: under;"><%= list.get(0).getCName() %> 신체정보</h1>
  	</div>
  	<div class="outer">
- 		<select name="" id="" style="float:right">
- 			<option value="박건후">박건후</option>
- 			<option value="권연주">권연주</option>
- 			<option value="윤재영">윤재영</option>
- 			<option value="이원경">이원경</option>
+ 		<select name="childList" id="childList" style="float:right">
+ 			
  		</select>
  		<br />
  		<table class="ui red table" id="BiTable" border="1">
@@ -74,12 +107,59 @@
  			<% if(list.get(0).getHeight() != 0) {
  			for(int i = 0; i < list.size(); i ++) { %>
  			<tr>
- 				<td><%= list.get(i).getBiDate() %></td>
+ 				<td style="line-height:3;"><%= list.get(i).getBiDate() %></td>
  				<td><%= list.get(i).getHeight() %>cm</td>
  				<td><%= list.get(i).getWeight() %>kg</td>
  			</tr>
  			<% }
  			} %>
+ 			<tr>
+        	<td colspan="3" style="padding-top: 10px;">
+        		<div style="width: fit-content; margin: auto">
+			<button style="width: 50px; height: 30px;" onclick="<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&currentPage=<%=startPage%>">처음</button>
+			<%
+				if (currentPage <= 1) {
+			%>
+			<button style="width: 50px; height: 30px;" disabled>이전</button>
+			<%
+				} else {
+			%>
+			<button style="width: 50px; height: 30px;" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&currentPage=<%=currentPage - 1%>'">이전</button>
+			<%
+				}
+			%>
+			<%
+				for (int p = startPage; p <= endPage; p++) {
+					if (p == currentPage) {
+			%>
+			<button disabled class="current" style="width: 30px; height: 30px;"><%=p%></button>
+			<%
+				} else {
+			%>
+			<button class="other" style="width: 30px; height: 30px;" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&currentPage=<%=p%>'"><%=p%></button>
+			<%
+				}
+			%>
+			<%
+				}
+			%>
+
+			<%
+				if (currentPage >= maxPage) {
+			%>
+			<button style="width: 50px; height: 30px;" disabled>다음</button>
+			<%
+				} else {
+			%>
+			<button style="width: 50px; height: 30px;" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&currentPage=<%=currentPage + 1%>'">다음</button>
+			<%
+				}
+			%>
+			<button style="width: 60px; height: 30px;"
+				onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= cid %>&currentPage=<%=maxPage%>'">마지막</button>
+		</div>
+        	</td>
+        </tr>
  		</table>
  	</div>
  	<div style="margin:10px 15%; height:40px;">

@@ -1966,46 +1966,6 @@ public class MemberDao {
 	      return hmap;
 	   }
 
-	   //아이 신체정보 리스트 가져오기
-	   public ArrayList<BodyInfo> selectChildBodyInfo(Connection con, int cid) {
-	      PreparedStatement pstmt = null;
-	      ResultSet rset = null;
-	      BodyInfo b = null;
-	      ArrayList<BodyInfo> list = null;
-	      
-	      String sql = prop.getProperty("selectChildBodyInfo");
-	      
-	      try {
-	         pstmt = con.prepareStatement(sql);
-	         pstmt.setInt(1, cid);
-	         pstmt.setInt(2, cid);
-	         
-	         rset = pstmt.executeQuery();
-	         
-	         list = new ArrayList<>();
-	         
-	         while(rset.next()) {
-	            b = new BodyInfo();
-	            
-	            b.setBiNo(rset.getInt("BI_NO"));
-	            b.setHeight(rset.getDouble("HEIGHT"));
-	            b.setWeight(rset.getDouble("WEIGHT"));
-	            b.setBiDate(rset.getDate("BI_DATE"));
-	            b.setCId(rset.getInt("C_ID"));
-	            b.setCName(rset.getString("C_NAME"));
-	            
-	            list.add(b);
-	         }
-	      } catch (SQLException e) {
-	         e.printStackTrace();
-	      } finally {
-	         close(rset);
-	         close(pstmt);
-	      }
-	      
-	      return list;
-	   }
-
 	   //아이 신체정보 입력하기
 	public int insertBodyInfo(Connection con, int cid, BodyInfo bi) {
 		PreparedStatement pstmt = null;
@@ -2096,6 +2056,76 @@ public class MemberDao {
 		}
 		
 		return result;
+	}
+
+	public int childBodyInfoCount(Connection con, int cid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int count = 0;
+		
+		String sql = prop.getProperty("childBodyInfoCount");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				count = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return count;
+	}
+
+	public ArrayList<BodyInfo> selectChildBodyInfoPaging(Connection con, int cid, int currentPage, int limit) {
+		ArrayList<BodyInfo> list = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		BodyInfo b = null;
+		
+		int startRow = (currentPage - 1) * limit + 1;
+		int endRow = startRow + limit - 1;
+		
+		String sql = prop.getProperty("selectChildBodyInfoPaging");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, cid);
+			pstmt.setInt(2, cid);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				b = new BodyInfo();
+		            
+	            b.setBiNo(rset.getInt("BI_NO"));
+	            b.setHeight(rset.getDouble("HEIGHT"));
+	            b.setWeight(rset.getDouble("WEIGHT"));
+	            b.setBiDate(rset.getDate("BI_DATE"));
+	            b.setCId(rset.getInt("C_ID"));
+	            b.setCName(rset.getString("C_NAME"));
+	            
+	            list.add(b);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 
 }
