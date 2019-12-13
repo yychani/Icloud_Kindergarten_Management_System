@@ -2224,6 +2224,33 @@ public class MemberDao {
 		return list;
 	}
 
+
+	public int insertChildOb(Connection con, Observation ob) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("insertOb");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, ob.getRound());
+			pstmt.setInt(2, ob.getAge());
+			pstmt.setInt(3, ob.getCid());
+			pstmt.setString(4, ob.getEval());
+			pstmt.setInt(5, ob.getTno());
+			pstmt.setString(6, ob.getEscore());
+			pstmt.setDate(7, ob.getEDate());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+}
+
 	//학부모 원아정보 가져오기
 	public ArrayList<HashMap<String, Object>> selectCInfo(Connection con, int pNo) {
 		PreparedStatement pstmt = null;
@@ -2350,6 +2377,7 @@ public class MemberDao {
 		}
 		
 		return list;
+
 	}
 
 }

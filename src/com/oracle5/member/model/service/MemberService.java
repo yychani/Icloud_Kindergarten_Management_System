@@ -787,12 +787,38 @@ public class MemberService {
 	public ArrayList<Map<String, Object>> selectChildObservation(int cid, int age) {
 		Connection con = getConnection();
 		
+		Children c = new MemberDao().selectOneChild(con, cid);
+		
 		ArrayList<Map<String, Object>> list = new MemberDao().selectChildObservation(con, cid, age);
+		
+		if(list.size() == 0) {
+			list = new ArrayList<>();
+			Map<String, Object> hmap = new HashMap<String, Object>();
+			
+			hmap.put("c", c);
+			list.add(hmap);
+		}
 		
 		close(con);
 		
 		return list;
 	}
+
+	public int insertChildOb(Observation ob) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().insertChildOb(con, ob);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+}
 
 	//학부모 원아정보 가져오기
 	public ArrayList<HashMap<String, Object>> selectCInfo(int pNo) {
@@ -802,6 +828,7 @@ public class MemberService {
 		close(con);
 		
 		return list;
+
 	}
 
 }
