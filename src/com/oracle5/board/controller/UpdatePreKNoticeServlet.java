@@ -10,19 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
-import com.oracle5.common.model.vo.Attachment;
 
 /**
- * Servlet implementation class SelectOnePreKNotice
+ * Servlet implementation class UpdatePreKNoticeServlet
  */
-@WebServlet("/selectOnePreKNotice.bo")
-public class SelectOnePreKNotice extends HttpServlet {
+@WebServlet("/updatePreKNotice.bo")
+public class UpdatePreKNoticeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectOnePreKNotice() {
+    public UpdatePreKNoticeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,27 +30,31 @@ public class SelectOnePreKNotice extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int num = Integer.parseInt(request.getParameter("num"));
-		System.out.println("num"+num);
-		String isUpdate = "false";
-		if(request.getParameter("isUpdate") != null) {
-			isUpdate = request.getParameter("isUpdate");
-		}
+		int tid = Integer.parseInt(request.getParameter("tid"));
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
 		
-		Board b = new BoardService().selectOnePreKNotice(num, isUpdate);
-		Attachment a = new BoardService().selectOnePreKNoticeImg(num);
+		/*System.out.println("tid : "+tid);
+		System.out.println("title" + title);
+		System.out.println("content : "+content);*/
 		
-		String page ="";
+		Board b = new Board();
+		b.setTid(tid);
+		b.setTtitle(title);
+		b.setTcont(content);
 		
-		if(b != null) {
-			page="views/president/preKNoticeDetail.jsp";
-			request.setAttribute("b", b);
-			request.setAttribute("a", a);
+		int result = new BoardService().updatePreKNotice(b);
+		
+		String page = "";
+		if(result > 0) {
+			response.sendRedirect("/main/selectOnePreKNotice.bo?num="+b.getTid()+"&isUpdate=true");
 		}else {
-			page="views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시글 자세히 보기 실패");
+			page = "views/common/errorPage.jsp";
+			request.setAttribute("msg", "원 공지사항 업데이트에 실패 하였습니다.");
+			request.getRequestDispatcher(page).forward(request, response);
+			
 		}
-		request.getRequestDispatcher(page).forward(request, response);
+				
 	}
 
 	/**
@@ -63,3 +66,22 @@ public class SelectOnePreKNotice extends HttpServlet {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
