@@ -1,3 +1,4 @@
+<%@page import="com.oracle5.common.model.vo.Attachment"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="com.oracle5.member.model.vo.*"%>
 
@@ -46,6 +47,6 @@ textarea {
 		</div>
 		
 	</div>
-	<br> <input type="file" name="img" /> <input type="submit" id="boardWrite"
+	<br><input type="file" name="img" /> <input type="submit" id="boardWrite"
 		value="완료" style="float: right" />
 </div>

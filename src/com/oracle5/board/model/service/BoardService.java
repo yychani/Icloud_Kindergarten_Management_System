@@ -425,7 +425,7 @@ public class BoardService {
 		
 		if(result1 >0) {
 			tid = new BoardDao().selectTcChildImgBoardTid(con,b);
-			
+			System.out.println(tid);
 		}
 		Attachment tcChildImg = fileList.get(0);
 		int result2 = 0;
@@ -606,6 +606,15 @@ public class BoardService {
 		}
 		
 		return result;
+	}
+	
+	//앨범 사진 다운로드 
+	public Attachment selectOneDownImg(int num) {
+		Connection con = getConnection();
+		Attachment file = new BoardDao().selectOneDownImg(con,num);
+		
+		close(con);
+		return file;
 	}
 
 }

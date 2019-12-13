@@ -62,18 +62,18 @@ public class InsertChildImgServlet extends HttpServlet {
 			String filePath = savePath + saveFiles.get(0);
 			String title = multiRequest.getParameter("title");
 			String content = multiRequest.getParameter("content");
-			int Write = Integer.parseInt(multiRequest.getParameter("userNo"));
+			int writer = Integer.parseInt(multiRequest.getParameter("userNo"));
 			int bdId = 7;
 			
 			Board b = new Board();
 			b.setTtitle(title);
 			b.setTcont(content);
 			b.setBdid(bdId);
-			b.setTno(Write);
+			b.setTno(writer);
 			
 			System.out.println(title);
 			System.out.println(content);
-			
+			System.out.println(writer);
 			ArrayList<Attachment> fileList = new ArrayList<>();
 			
 			for(int i = originFiles.size() -1; i>=0; i--) {

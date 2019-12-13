@@ -4,10 +4,11 @@
     <%
     	Board b = (Board) request.getAttribute("b"); 
     	Attachment a = new Attachment();
-    	if((Attachment) request.getAttribute("a") != null){
-    		a  = (Attachment) request.getAttribute("a");
+    	if((Attachment) request.getAttribute("att") != null){
+    		a  = (Attachment) request.getAttribute("att");
     	}
-     %><!DOCTYPE html>
+     %>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -103,7 +104,7 @@
 			<table id="tableArea">
 			<tr id="trArea">
 				<td colspan="2"><img class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"
-									onclick="location.href='<%=request.getContextPath()%>/download.bo?'"></td>
+									onclick="location.href='<%=request.getContextPath()%>/imgdownload.tbo?num=<%= a.getFid()%>'"></td>
 			</tr>
 			<tr>
 				<td	colspan="2">&nbsp;</td>	
@@ -112,7 +113,7 @@
 				<td	colspan="2">&nbsp;</td>
 			</tr>
 			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
 			</tr>
 			<tr>
 				<td	colspan="4">&nbsp;</td>
@@ -122,7 +123,7 @@
 			</tr>
 
 			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
 			</tr>
 			<tr>
 				<td	colspan="4">&nbsp;</td>
@@ -131,7 +132,7 @@
 				<td	colspan="4">&nbsp;</td>
 			</tr>
 			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
 			</tr>
 			<tr>
 				<td	colspan="4">&nbsp;</td>
@@ -191,7 +192,7 @@
 			</table>
 			<table align="center" id="tableArea2">
 			<tr>
-				<td rowspan="4"><label></label></td>
+				<td rowspan="4"><label><%=b.getTcont() %></label></td>
 			</tr>
 
 			</table>
