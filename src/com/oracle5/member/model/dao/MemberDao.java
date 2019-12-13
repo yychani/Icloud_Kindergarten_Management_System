@@ -2170,7 +2170,7 @@ public class MemberDao {
 
 	}
 
-	public ArrayList<Map<String, Object>> selectChildObservation(Connection con, int cid) {
+	public ArrayList<Map<String, Object>> selectChildObservation(Connection con, int cid, int age) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		Map<String, Object> hmap = null;
@@ -2184,12 +2184,12 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, cid);
+			pstmt.setInt(2, age);
 			
 			rset = pstmt.executeQuery();
 			
 			list = new ArrayList<>();
-			
-			if(rset.next()) {
+			while(rset.next()) {
 				hmap = new HashMap<>();
 				c = new Children();
 				c.setCId(rset.getInt("C_ID"));

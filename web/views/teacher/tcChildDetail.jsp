@@ -136,7 +136,7 @@
 	<div style="margin:0 20%; height:40px">
 		<input type="button" class="childbutton" value="생활기록부" onclick="location.href='<%= request.getContextPath() %>/selectChildRcBook.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
-		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='<%= request.getContextPath() %>/selectChildOb.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>
+		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildObserve.jsp?cid=<%= ((Children) hmap.get("c")).getCId() %>&age=3'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="신체정보" onclick="location.href='<%= request.getContextPath() %>/selectChildBodyInfo.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>
 	</div>
