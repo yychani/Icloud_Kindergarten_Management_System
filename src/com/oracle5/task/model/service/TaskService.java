@@ -2,12 +2,26 @@ package com.oracle5.task.model.service;
 
 import com.oracle5.task.model.dao.TaskDao;
 import com.oracle5.task.model.vo.FieldTripLearning;
+import com.oracle5.task.model.vo.Meal;
 import com.oracle5.task.model.vo.Position;
+import com.oracle5.task.model.vo.Snack;
 import com.oracle5.task.model.vo.WorkDivision;
 import static com.oracle5.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+/**
+ * @author Ungken
+ *
+ */
+/**
+ * @author Ungken
+ *
+ */
+/**
+ * @author Ungken
+ *
+ */
 public class TaskService {
 
 	public int insertUBusiness(WorkDivision work) {
@@ -202,6 +216,51 @@ public class TaskService {
 		
 		close(con);
 		return YearsOldGender;
+	}
+
+	
+	/**
+	 * @param year 년도
+	 * @param month 월
+	 * @param i 식사, 간식 구분
+	 * @param string 식사중에 무엇인지 구분 
+	 * @param weekOfMonth 주차
+	 * @return
+	 */
+	public ArrayList<Meal> mealList(int year, int month, int i, String string, int weekOfMonth) {
+		Connection con = getConnection();
+		
+		ArrayList<Meal> mealList = new TaskDao().mealList(con, year, month, i, string, weekOfMonth);
+		
+		close(con);
+		return mealList;
+	}
+
+	public ArrayList<Snack> snackList(int year, int month, int i, String string, int weekOfMonth) {
+		Connection con = getConnection();
+		
+		ArrayList<Snack> snackList = new TaskDao().snackList(con, year, month, i, string, weekOfMonth);
+		
+		close(con);
+		return snackList;
+	}
+
+	public Meal selectOneMeal(int dietNo) {
+		Connection con = getConnection();
+		
+		Meal meal = new TaskDao().selectOneMeal(con, dietNo);
+		
+		close(con);
+		return meal;
+	}
+
+	public Snack selectOneSnack(int dietNo) {
+		Connection con = getConnection();
+		
+		Snack snack = new TaskDao().selectOneSnack(con, dietNo);
+		
+		close(con);
+		return snack;
 	}
 
 
