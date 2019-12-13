@@ -1401,7 +1401,20 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		PreparedStatement pstmt = null;
 		int result =0;
 		
-		//String 
+		String query = prop.getProperty("updatePreKNoticeCount");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
 		
 		return result;
 	}
