@@ -90,6 +90,16 @@
 		
 		
 		}
+		input[type='submit'], input[type='reset'] {
+		width: 100px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgb(63, 63, 63);
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+	}
 		
 </style>
 </head>
@@ -103,7 +113,7 @@
 		<div align="center">
 			<table id="tableArea">
 			<tr id="trArea">
-				<td colspan="2"><img class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"
+				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"
 									onclick="location.href='<%=request.getContextPath()%>/imgdownload.tbo?num=<%= a.getFid()%>'"></td>
 			</tr>
 			<tr>
@@ -277,8 +287,12 @@
     </div>
   </form>
 </div>
-	<button class="TBtn" onclick="location.href='./selectListChImg.tbo'">뒤로가기</button>
-	
+	<%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
+	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectChildImg2.tbo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
+	 <%} %>
+	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectListChImg.tbo'" style="float: right" />
+	 
+	 <br><br>
 	
 	
 	

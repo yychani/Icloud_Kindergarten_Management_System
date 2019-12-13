@@ -1,17 +1,251 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
+<%@ page import="com.oracle5.common.model.vo.Attachment"%>
+    <%
+    	Board b = (Board) request.getAttribute("b"); 
+    	Attachment a = new Attachment();
+    	if((Attachment) request.getAttribute("att") != null){
+    		a  = (Attachment) request.getAttribute("att");
+    	}
+     %>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-<script>
-  $(function() {
+<title>아이들 사진 </title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 시멘틱ui -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 
-	$(".li:nth-child(1)").addClass("on");
+<style>
+	#textArea{
+		margin-left: 1000px;
+	}	
+	#tableArea{
+ 	   	width:300px;
+      	height:250px;
+      	margin-left:auto;
+     	margin-right:auto;
+ 		text-align: center;	
+	}
+	
+
+		
+		.imgi:hover{
+		padding: 10px 10px;
+		cursor:pointer;
+		
+		}
+
+		.ui.dividing.header{
+			width: 1000px;
+			margin: 0 auto;
+		}
+		.TBtn{
+			width: 80px;
+			height:40px;
+			margin-left:1200px;
+			border-radius: 250px;
+			background: skyblue;
+			color: white;
+			font-weight: bold;
+			border: none;
+			cursor: pointer;
+		
+		}
+		#tableArea2{
+			width: 1000px;
+			margin: 0 auto;
+			font: bold;
+		
+		}
+		.ui.comments{
+		margin-left: 265px;
+		
+		}
+		.ui.blue.labeled.submit.icon.button{
+		margin-left: 510px;
+		
+		}
+		#reretext{
+		border-radius: 10px;
+		width: 30%;
+		height: 30px;
+		}
+		#rereBtn{
+		width: 80px;
+		height: 40px;
+		border-radius: 10px;
+		background:skyblue;
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+		
+		
+		}
+		input[type='submit'], input[type='reset'] {
+		width: 100px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgb(63, 63, 63);
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+	}
+	   button {
+	width: 80px;
+	height: 40px;
+	border-radius: 10px;
+	background: rgb(63, 63, 63);
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+}
+	
+
+		
+</style>
+</head>
+<body style="overflow-x: hidden">
+
+	<%@ include file="/views/common/teacherMenu.jsp"%>
+	<h1 style="margin: 0 15%; text-decoration: underline; text-underline-position: under;" >아이들 사진 갤러리 수정</h1>
+	
+	<div align="center"><input type="text" <%=b.getTtitle() %>></div>
+	<div class="ui dividing header" align="center"></div>
+	<label id="textArea"><%=b.getTtime()%></label>
+	<form id="updateForm" method="post">
+	<div align="center">
+			<table id="tableArea">
+			<tr id="trArea">
+				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>">									
+				<input type="file" name="imges" /></td>
+			<tr>
+				<td	colspan="2">&nbsp;</td>	
+			</tr>
+			<tr>
+				<td	colspan="2">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="4"><img class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"
+									onclick="location.href='<%=request.getContextPath()%>/?num=<%= a.getFid()%>'"></td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+
+			<tr>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+				
+			<tr>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			
+			<tr>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td	colspan="4">&nbsp;</td>
+			</tr>
+	
+			
+			</table>
+			<table align="center" id="tableArea2">
+			<tr>
+				<td rowspan="4" id="content"><textarea style="resize: none; width: 100%;" rows="15" id="content" name="content"
+			placeholder="내용을 수정하세요"><%=b.getTcont() %></textarea></td>
+			</tr>
+
+			</table>
+			<br>
+					<div  class="ui dividing header"></div>
+		</div>
+		<br><br>
+		<input type="hidden" name="userNo" value="<%=loginUser.getMemberNo()%>">
+		<input type="hidden" name="tid" value="<%=b.getTid()%>">
+		
+		
+
+	 <br><br>
+	 <div align="right">
+		<button onclick="complete()">작성완료</button>
+		<button onclick="deleteimg()">삭제하기</button>
+	</div>
+	</form>
+	<script>
+		function complete(){
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/");
+		}
+		function deleteimg(){
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/deletechildImgBoard.tbo")
+		}
+		
+    $(function() {
+    	$(".li:nth-child(1)").addClass("on");
 
 		$(".topMenuLi:nth-child(4)").addClass("on");
 
@@ -25,16 +259,9 @@
 			$(".topMenuLi:nth-child(4)").addClass("on");
 		});
 
-		$("#boardWrite").click("click", function() {
-			location.href = "tcChildImgMain.jsp";
-		});
 	});
-</script>
-</head>
-<body>
-	<%@include file="/views/common/teacherMenu.jsp"  %>
-	<%@ include file="/views/common/boardWrite.jsp" %>
-	<%@ include file="/views/common/chat.jsp" %>
-	<%@include file= "/views/common/footer.jsp" %>
+	</script>
+	<%@ include file="/views/common/footer.jsp"%>
+	<%@ include file="/views/common/chat.jsp"%>
 </body>
 </html>
