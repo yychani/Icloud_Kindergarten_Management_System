@@ -85,13 +85,13 @@ $(function() {
 	<br>
 	<div align="right">
 		<button onclick="complete()">작성완료</button>
-		<button onclick="deleteBanBoard()">삭제하기</button>
+		<button onclick="deleteParentsBoard()">삭제하기</button>
 	</div>
 	<script>
 		function complete(){
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/updateServlet.pbo");
 		}
-		function deleteBanBoard(){
+		function deleteParentsBoard(){
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/deleteP.pbo")
 		}
 	</script>

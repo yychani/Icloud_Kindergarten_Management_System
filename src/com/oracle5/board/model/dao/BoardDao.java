@@ -1439,7 +1439,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return b;
 	}
 
-
+	//앨범 다운로드
 	public Attachment selectOneDownImg(Connection con, int num) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1564,6 +1564,139 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		return result;
 
+	}
+	//앨범 카운트 FALSE
+	public int updateChildImgCountF(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateChildImgCountF");
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//앨범 SELECTONE UPDATEPAGE
+	public Board selectOneUpdateChilImge(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board b = null;
+		
+		String query = prop.getProperty("selectOneUpdateChilImge");
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b= new Board();
+				
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setTcont(rset.getString("T_CONT"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return b;
+	}
+	
+	//앨범 게시판 게시판 삭제
+	public int deleteChildImgBoard(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("deleteChildImgBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	//앨범 수정 tid값 가져오기
+	public int selectTcChildImgBoardTid2(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = prop.getProperty("selectTcChildImgBoardTid2");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, b.getTno());
+			pstmt.setInt(2, b.getBdid());
+
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//앨범 수정 이미지 insert
+	public int updateChildImg(Connection con, Attachment tcChildImg, int tid) {
+		PreparedStatement pstmt = null; 
+		int result =0;
+		
+		String query = prop.getProperty("updateChildImg");
+									
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, tcChildImg.getOriginName());
+			pstmt.setString(2, tcChildImg.getChangeName());
+			pstmt.setString(3, tcChildImg.getFilePath());
+			pstmt.setInt(4, tid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 	
 

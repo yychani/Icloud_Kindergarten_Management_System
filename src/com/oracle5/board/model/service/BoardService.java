@@ -616,6 +616,78 @@ public class BoardService {
 		close(con);
 		return file;
 	}
+	
+	//앨범 수정 상세 보기 
+	public Board selectOneUpdateChilImge(int num, String isUpdate) {
+		Connection con = getConnection();
+		Board b = null;
+		int tid = 0;
+		int result = 0;
+		if(isUpdate.equals("false")) {
+			result = new BoardDao().updateChildImgCountF(con,num);
+		}
+		
+		if(result > 0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		b = new BoardDao().selectOneUpdateChilImge(con,num);
+		
+		close(con);
+		
+		
+		return b;
+	}
+
+	public int deleteChildImgBoard(int num) {
+		Connection con = getConnection();
+		int result = new BoardDao().deleteChildImgBoard(con, num);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	public int updateChildImg(HashMap<String, Object> hmap, Board b) {
+		Connection con = getConnection();
+		
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
+		int tid = 0;
+		int result =0;
+		
+		tid = new BoardDao().selectTcChildImgBoardTid2(con,b);
+		Attachment tcChildImg = fileList.get(0);
+		int result2 = 0;
+		if(tcChildImg.getOriginName() != null) {
+			result2 = new BoardDao().updateChildImg(con, tcChildImg ,tid);	
+		}else {
+			result2 = 1;
+		}
+		
+		
+		if(result2 > 0 ) {
+			commit(con);
+			result = 1;
+			
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+	
+	
+	
 
 }
 
