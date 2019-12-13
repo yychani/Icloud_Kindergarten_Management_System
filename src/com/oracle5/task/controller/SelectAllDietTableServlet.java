@@ -3,8 +3,10 @@ package com.oracle5.task.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.member.model.vo.Member;
+import com.oracle5.task.model.service.TaskService;
+import com.oracle5.task.model.vo.Meal;
+import com.oracle5.task.model.vo.Snack;
 
 @WebServlet("/selectAllDietTable.diet")
 public class SelectAllDietTableServlet extends HttpServlet {
@@ -78,6 +83,22 @@ public class SelectAllDietTableServlet extends HttpServlet {
  		int endDayOfWeek =  cal.get(Calendar.DAY_OF_WEEK);
  		
 		int[] valueOfDate = {year, month, weekOfMonth, date, startday, endDay, start, lastWeek, endDayOfWeek, prevLastDate, prevlastWeek};
+		
+		
+		ArrayList<Meal> morningList = new TaskService().mealList(year, month + 1, 1/*타입*/, "아침", weekOfMonth);
+		ArrayList<Meal> lunchList = new TaskService().mealList(year, month + 1, 1/*타입*/, "점심", weekOfMonth);
+		ArrayList<Meal> dinnerList = new TaskService().mealList(year, month + 1, 1/*타입*/, "저녁", weekOfMonth);
+		ArrayList<Snack> beforeSunList = new TaskService().snackList(year, month + 1, 2/*타입*/, "오전", weekOfMonth);
+		ArrayList<Snack> afterSunList = new TaskService().snackList(year, month + 1, 2/*타입*/, "오후", weekOfMonth);
+		
+		HashMap<String, Object> dietMap = new HashMap<>();
+		
+		dietMap.put("morningList", morningList);
+		dietMap.put("lunchList", lunchList);
+		dietMap.put("dinnerList", dinnerList);
+		dietMap.put("beforeSunList", beforeSunList);
+		dietMap.put("afterSunList", afterSunList);
+		
 		Member loginUser = (Member)request.getSession().getAttribute("loginMember");
 		String page = "";
 			if((loginUser).getMemberId().equals("admin")) {
@@ -87,6 +108,7 @@ public class SelectAllDietTableServlet extends HttpServlet {
 			}else {
 				page = "views/parents/newsCalendar.jsp";
 			}
+		request.setAttribute("dietMap", dietMap);
 		request.setAttribute("mondayYear", mondayYear);
 		request.setAttribute("mondayMonth", mondayMonth);
 		request.setAttribute("mondayDate", mondayDate);

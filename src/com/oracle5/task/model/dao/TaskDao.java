@@ -11,17 +11,19 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.oracle5.task.model.vo.FieldTripLearning;
+import com.oracle5.task.model.vo.Meal;
 import com.oracle5.task.model.vo.Position;
+import com.oracle5.task.model.vo.Snack;
 import com.oracle5.task.model.vo.WorkDivision;
 
 import static com.oracle5.common.JDBCTemplate.*;
 
 public class TaskDao {
 	Properties prop = new Properties();
-	
+
 	public TaskDao() {
 		String fileName = TaskDao.class.getResource("/sql/task/task-query.properties").getPath();
-		
+
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (IOException e) {
@@ -29,25 +31,25 @@ public class TaskDao {
 		}
 	}
 
-	public int insertUBusiness(Connection con, WorkDivision work ) {
+	public int insertUBusiness(Connection con, WorkDivision work) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		
+
 		String query = prop.getProperty("insertUBusiness");
-		
+
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, work.getContent());
 			pstmt.setString(2, work.getArea());
 			pstmt.setInt(3, work.getTno());
-			
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);		
+			close(pstmt);
 		}
-		
+
 		return result;
 	}
 
@@ -55,30 +57,29 @@ public class TaskDao {
 		ArrayList<WorkDivision> list = null;
 		ResultSet rset = null;
 		Statement stmt = null;
-		
+
 		String query = prop.getProperty("selectWorkList");
-		
+
 		try {
 			stmt = con.createStatement();
-			
+
 			rset = stmt.executeQuery(query);
-			
-			if(rset != null) {
+
+			if (rset != null) {
 				list = new ArrayList<>();
-				while(rset.next()) {
+				while (rset.next()) {
 					WorkDivision work = new WorkDivision();
 					work.setType(rset.getInt("TYPE"));
-					if(rset.getInt("TYPE") == 1) {
+					if (rset.getInt("TYPE") == 1) {
 						work.setPid(rset.getInt("PID"));
 						work.setName(rset.getString("PNAME"));
-					}else {
+					} else {
 						work.setTno(rset.getInt("M_NO"));
 						work.setName(rset.getString("NAME"));
 					}
 					work.setArea(rset.getString("AREA"));
 					work.setContent(rset.getString("CONTENT"));
-					
-					
+
 					list.add(work);
 				}
 			}
@@ -95,22 +96,22 @@ public class TaskDao {
 		ArrayList<Position> list = null;
 		ResultSet rset = null;
 		Statement stmt = null;
-		
+
 		String query = prop.getProperty("selectPosition");
-		
+
 		try {
 			stmt = con.createStatement();
-			
+
 			rset = stmt.executeQuery(query);
-			
-			if(rset != null) {
+
+			if (rset != null) {
 				list = new ArrayList<>();
-				while(rset.next()) {
+				while (rset.next()) {
 					Position p = new Position();
-					
+
 					p.setPid(rset.getInt("PID"));
 					p.setPname(rset.getString("PNAME"));
-					
+
 					list.add(p);
 				}
 			}
@@ -126,22 +127,22 @@ public class TaskDao {
 	public int insertDBusiness(Connection con, WorkDivision work) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		
+
 		String query = prop.getProperty("insertDBusiness");
-		
+
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, work.getContent());
 			pstmt.setString(2, work.getArea());
 			pstmt.setInt(3, work.getPid());
-			
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);		
+			close(pstmt);
 		}
-		
+
 		return result;
 	}
 
@@ -150,29 +151,29 @@ public class TaskDao {
 		PreparedStatement pstmt = null;
 		WorkDivision resultWork = null;
 		String query = "";
-		if(work.getPid() != 0) {
-			query = prop.getProperty("selectWorkPid"); 
-		}else if(work.getTno() != 0){
+		if (work.getPid() != 0) {
+			query = prop.getProperty("selectWorkPid");
+		} else if (work.getTno() != 0) {
 			query = prop.getProperty("selectWorkTno");
 		}
-		
+
 		try {
 			pstmt = con.prepareStatement(query);
-			if(work.getPid() != 0) {
+			if (work.getPid() != 0) {
 				pstmt.setInt(1, work.getPid());
-			}else if(work.getTno() != 0){
+			} else if (work.getTno() != 0) {
 				pstmt.setInt(1, work.getTno());
 			}
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				resultWork = new WorkDivision();
 				resultWork.setType(rset.getInt("TYPE"));
-				if(rset.getInt("TYPE") == 1) {
+				if (rset.getInt("TYPE") == 1) {
 					resultWork.setPid(rset.getInt("PID"));
 					resultWork.setName(rset.getString("PNAME"));
-				}else {
+				} else {
 					resultWork.setTno(rset.getInt("M_NO"));
 					resultWork.setName(rset.getString("NAME"));
 				}
@@ -181,7 +182,7 @@ public class TaskDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
@@ -192,28 +193,28 @@ public class TaskDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String query = "";
-		if(work.getPid() != 0) {
-			query = prop.getProperty("updateWorkPid"); 
-		}else if(work.getTno() != 0){
+		if (work.getPid() != 0) {
+			query = prop.getProperty("updateWorkPid");
+		} else if (work.getTno() != 0) {
 			query = prop.getProperty("updateWorkTno");
 		}
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, work.getContent());
 			pstmt.setString(2, work.getArea());
-			if(work.getPid() != 0) {
+			if (work.getPid() != 0) {
 				pstmt.setInt(3, work.getPid());
-			}else if(work.getTno() != 0){
+			} else if (work.getTno() != 0) {
 				pstmt.setInt(3, work.getTno());
 			}
-			
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);		
+			close(pstmt);
 		}
-		
+
 		return result;
 	}
 
@@ -221,51 +222,51 @@ public class TaskDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		boolean isExist = false;
-		
+
 		String query = prop.getProperty("checkDDuplicate");
-		
+
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, chargeN);
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				isExist = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		
+
 		return isExist;
 	}
-	
+
 	public boolean checkUDuplicate(Connection con, int chargeN) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		boolean isExist = false;
-		
+
 		String query = prop.getProperty("checkUDuplicate");
-		
+
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, chargeN);
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				isExist = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		
+
 		return isExist;
 	}
 
@@ -273,69 +274,69 @@ public class TaskDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String query = "";
-		if(work.getPid() != 0) {
-			query = prop.getProperty("deleteWorkPid"); 
-		}else if(work.getTno() != 0){
+		if (work.getPid() != 0) {
+			query = prop.getProperty("deleteWorkPid");
+		} else if (work.getTno() != 0) {
 			query = prop.getProperty("deleteWorkTno");
 		}
 		try {
 			pstmt = con.prepareStatement(query);
-			if(work.getPid() != 0) {
+			if (work.getPid() != 0) {
 				pstmt.setInt(1, work.getPid());
-			}else if(work.getTno() != 0){
+			} else if (work.getTno() != 0) {
 				pstmt.setInt(1, work.getTno());
 			}
-			
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);		
+			close(pstmt);
 		}
-		
+
 		return result;
 	}
 
 	public int ftlMenuVisible(Connection con) {
 		Statement stmt = null;
 		int result = 0;
-		
+
 		String query = prop.getProperty("ftlMenuVisible");
-		
+
 		try {
 			stmt = con.createStatement();
-			
+
 			result = stmt.executeUpdate(query);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(stmt);
 		}
-		
+
 		return result;
 	}
 
 	public int insertFtl(Connection con, FieldTripLearning ftl) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		
+
 		String query = prop.getProperty("insertFtl");
-		
+
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setDate(1, ftl.getFtlDate());
 			pstmt.setString(2, ftl.getField());
 			pstmt.setInt(3, ftl.getFtlPay());
 			pstmt.setString(4, ftl.getMaterials());
-			
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);		
+			close(pstmt);
 		}
-		
+
 		return result;
 	}
 
@@ -344,15 +345,15 @@ public class TaskDao {
 		Statement stmt = null;
 		FieldTripLearning ftl = null;
 		String query = prop.getProperty("selectFieldTrip");
-		
+
 		try {
 			stmt = con.createStatement();
-			
+
 			rset = stmt.executeQuery(query);
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				ftl = new FieldTripLearning();
-				
+
 				ftl.setFtlId(rset.getInt("FTL_ID"));
 				ftl.setField(rset.getString("FIELD"));
 				ftl.setFtlDate(rset.getDate("FTL_DATE"));
@@ -361,7 +362,7 @@ public class TaskDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(stmt);
 		}
@@ -373,18 +374,18 @@ public class TaskDao {
 		Statement stmt = null;
 		boolean isPayment = false;
 		String query = prop.getProperty("checkMenuable");
-		
+
 		try {
 			stmt = con.createStatement();
-			
+
 			rset = stmt.executeQuery(query);
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				isPayment = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			close(rset);
 			close(stmt);
 		}
@@ -394,20 +395,20 @@ public class TaskDao {
 	public int fieldTripEnd(Connection con) {
 		Statement stmt = null;
 		int result = 0;
-		
+
 		String query = prop.getProperty("ftlMenuInvisible");
-		
+
 		try {
 			stmt = con.createStatement();
-			
+
 			result = stmt.executeUpdate(query);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(stmt);
 		}
-		
+
 		return result;
 	}
 
@@ -415,20 +416,20 @@ public class TaskDao {
 		ResultSet rset = null;
 		Statement stmt = null;
 		int currentChildCount = 0;
-		
+
 		String query = prop.getProperty("currentChildCount");
-		
+
 		try {
 			stmt = con.createStatement();
 			rset = stmt.executeQuery(query);
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				currentChildCount = rset.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return currentChildCount;
 	}
 
@@ -436,20 +437,20 @@ public class TaskDao {
 		ResultSet rset = null;
 		Statement stmt = null;
 		int currentTeacherCount = 0;
-		
+
 		String query = prop.getProperty("currentTeacherCount");
-		
+
 		try {
 			stmt = con.createStatement();
 			rset = stmt.executeQuery(query);
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				currentTeacherCount = rset.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return currentTeacherCount;
 	}
 
@@ -457,22 +458,22 @@ public class TaskDao {
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
 		int minusYear = 0;
-		
+
 		String query = prop.getProperty("minusYear");
-		
+
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, currentYear);
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				minusYear = rset.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return minusYear;
 	}
 
@@ -480,22 +481,22 @@ public class TaskDao {
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
 		int YearsOld = 0;
-		
+
 		String query = prop.getProperty("YearsOld");
-		
+
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, i);
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				YearsOld = rset.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return YearsOld;
 	}
 
@@ -503,19 +504,19 @@ public class TaskDao {
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
 		int[] YearsOldGender = null;
-		
+
 		String query = prop.getProperty("YearsOldGender");
-		
+
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, i);
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset != null) {
+
+			if (rset != null) {
 				YearsOldGender = new int[2];
 				int index = 0;
-				while(rset.next()) {
+				while (rset.next()) {
 					YearsOldGender[index] = rset.getInt(1);
 					index++;
 				}
@@ -524,8 +525,173 @@ public class TaskDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return YearsOldGender;
 	}
-	
+
+	/**
+	 * @param con
+	 * @param year
+	 * @param month
+	 * @param i
+	 *            타입
+	 * @param string
+	 *            식사 타입
+	 * @param weekOfMonth
+	 * @return
+	 */
+	public ArrayList<Meal> mealList(Connection con, int year, int month, int i, String string, int weekOfMonth) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		ArrayList<Meal> mealList = null;
+
+		String query = prop.getProperty("mealList");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, year);
+			pstmt.setInt(2, month);
+			if (month == 12) {
+				pstmt.setInt(3, year + 1);
+				pstmt.setInt(4, 1);
+			} else {
+				pstmt.setInt(3, year);
+				pstmt.setInt(4, month + 1);
+			}
+			pstmt.setInt(5, i);
+			pstmt.setString(6, string);
+			pstmt.setInt(7, weekOfMonth);
+
+			rset = pstmt.executeQuery();
+
+			if (rset != null) {
+				mealList = new ArrayList<>();
+				for (int j = 0; j < 6; j++) {
+					mealList.add(new Meal());
+				}
+				while (rset.next()) {
+					Meal meal = new Meal();
+					meal.setMealNo(rset.getInt("MEAL_NO"));
+					meal.setRice(rset.getString("RICE"));
+					meal.setSoup(rset.getString("SOUP"));
+					meal.setSide1(rset.getString("SIDE1"));
+					meal.setSide2(rset.getString("SIDE2"));
+					meal.setSide3(rset.getString("SIDE3"));
+					meal.setDay(rset.getInt("DAY"));
+					meal.setDietNo(rset.getInt("DIET_NO"));
+					mealList.add(meal.getDay() - 2, meal);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return mealList;
+	}
+
+	public ArrayList<Snack> snackList(Connection con, int year, int month, int i, String string, int weekOfMonth) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		ArrayList<Snack> snackList = null;
+
+		String query = prop.getProperty("snackList");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, year);
+			pstmt.setInt(2, month);
+			if (month == 12) {
+				pstmt.setInt(3, year + 1);
+				pstmt.setInt(4, 1);
+			} else {
+				pstmt.setInt(3, year);
+				pstmt.setInt(4, month + 1);
+			}
+			pstmt.setInt(5, i);
+			pstmt.setString(6, string);
+			pstmt.setInt(7, weekOfMonth);
+
+			rset = pstmt.executeQuery();
+
+			if (rset != null) {
+				snackList = new ArrayList<>();
+				for (int j = 0; j < 6; j++) {
+					snackList.add(new Snack());
+				}
+				while (rset.next()) {
+					Snack snack = new Snack();
+					snack.setDietNo(rset.getInt("DIET_NO"));
+					snack.setDay(rset.getInt("DAY"));
+					snack.setSnackId(rset.getInt("SNACK_ID"));
+					snack.setSnack1(rset.getString("SNACK_NAME"));
+					snack.setSnack2(rset.getString("SNACK_NAME2"));
+					snackList.add(snack.getDay() - 2, snack);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return snackList;
+	}
+
+	public Meal selectOneMeal(Connection con, int dietNo) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		Meal meal = null;
+		
+		String query = prop.getProperty("selectOneMeal");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, dietNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				meal = new Meal();
+				meal.setMealNo(rset.getInt("MEAL_NO"));
+				meal.setType(rset.getInt("TYPE"));
+				meal.setRice(rset.getString("RICE"));
+				meal.setSoup(rset.getString("SOUP"));
+				meal.setSide1(rset.getString("SIDE1"));
+				meal.setSide2(rset.getString("SIDE2"));
+				meal.setSide3(rset.getString("SIDE3"));
+				meal.setDietNo(rset.getInt("DIET_NO"));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+
+	return meal;
+}
+
+	public Snack selectOneSnack(Connection con, int dietNo) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		Snack snack = null;
+
+		String query = prop.getProperty("selectOneSnack");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, dietNo);
+		
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				snack = new Snack();
+				snack.setDietNo(rset.getInt("DIET_NO"));
+				snack.setType(rset.getInt("TYPE"));
+				snack.setSnackId(rset.getInt("SNACK_ID"));
+				snack.setSnack1(rset.getString("SNACK_NAME"));
+				snack.setSnack2(rset.getString("SNACK_NAME2"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return snack;
+	}
+
 }
