@@ -45,55 +45,56 @@
 				age:<%= request.getParameter("age") %>
 			},
 			success:function(data) {
-				console.log(data)
-				if(data.length == 0){
-					alert("입력된 내용이 없습니다.");
-					window.history.back();
-				}
-				
 				$("h1").text(data[0].c.name + " 관찰척도");
 				
 				$("#selectAge").children().each(function(index, value) {
-					if(value.value == data[0].ob.age) {
+					if(value.value == <%= request.getParameter("age") %>) {
 						$(this).prop("selected", true);
 					}
 				});
 				
 				$("#cname").text(data[0].c.name);
-				var date = data[0].ob.eDate;
-				date = date.split(" ");
-				date = date[2] + "년 " + date[0] + " " + date[1].substring(0,2) + "일"
-				$("#fdate").text(date);
-				$("#obname").text(data[0].m.memberName);
 				
-				var score = data[0].ob.escore.split("/");
-				var first = $(".first");
-				for(var i = 0, k = 0; i < first.length; i+=3,k++){
-					for(var j = 0; j < 3; j++) {
-						if(score[k] == first[i+j].innerText){
-							$(first[i+j]).css("background-color","gray");
-							break;
-						}
-						
-					}
-				}
-				
-				$("#total1").text(data[0].ob.eval);
-				
-				if(data.length == 2) {
-					var score2 = data[1].ob.escore.split("/");
-					var second = $(".second");
-					for(var i = 0, k = 0; i < second.length; i+=3,k++){
+				if(Object.keys(data[0]).length == 3){
+					var date = data[0].ob.eDate;
+					date = date.split(" ");
+					date = date[2] + "년 " + date[0] + " " + date[1].substring(0,2) + "일"
+					$("#fdate").text(date);
+					$("#obname").text(data[0].m.memberName);
+					
+					var score = data[0].ob.escore.split("/");
+					var first = $(".first");
+					for(var i = 0, k = 0; i < first.length; i+=3,k++){
 						for(var j = 0; j < 3; j++) {
-							if(score2[k] == second[i+j].innerText){
-								$(second[i+j]).css("background-color","gray");
+							if(score[k] == first[i+j].innerText){
+								$(first[i+j]).css("background-color","gray");
 								break;
 							}
 							
 						}
 					}
 					
-					$("#total2").text(data[1].ob.eval);
+					$("#total1").text(data[0].ob.eval);
+					
+					if(data.length == 2) {
+						var date2 = data[1].ob.eDate;
+						date2 = date2.split(" ");
+						date2 = date2[2] + "년 " + date2[0] + " " + date2[1].substring(0,2) + "일"
+						$("#sdate").text(date2);
+						var score2 = data[1].ob.escore.split("/");
+						var second = $(".second");
+						for(var i = 0, k = 0; i < second.length; i+=3,k++){
+							for(var j = 0; j < 3; j++) {
+								if(score2[k] == second[i+j].innerText){
+									$(second[i+j]).css("background-color","gray");
+									break;
+								}
+								
+							}
+						}
+						
+						$("#total2").text(data[1].ob.eval);
+					}
 				}
 			},
 			error:function() {
@@ -133,13 +134,7 @@
  				<td colspan="3" style="width:20%">관찰자</td>
  				<td colspan="3" style="width:30%"><span id="obname"></span></td>
  				<td colspan="2" style="width:20%">2차</td>
- 				<td colspan="3" style="width:30%">
- 				
- 					<span></span>
-				
-					<span>&nbsp;</span>
-				
- 				</td>
+ 				<td colspan="3" style="width:30%"><span id="sdate"></span></td>
  			</tr>
  			<tr>
  				<td colspan="2" style="width:6%;"><span>영역</span></td>
