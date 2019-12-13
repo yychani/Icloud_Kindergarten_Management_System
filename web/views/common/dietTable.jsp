@@ -1,3 +1,7 @@
+<%@page import="com.oracle5.task.model.vo.Snack"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="com.oracle5.task.model.vo.Meal"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -25,14 +29,15 @@
 	
 	int mondayMonthInt = Integer.parseInt(mondayMonth);
 	int mondayDateInt = Integer.parseInt(mondayDate);
+	HashMap<String, Object> dietMap = (HashMap<String, Object>) request.getAttribute("dietMap");
+	
+	ArrayList<Meal> morningList = (ArrayList<Meal>) dietMap.get("morningList");
+	ArrayList<Meal> lunchList = (ArrayList<Meal>) dietMap.get("lunchList");
+	ArrayList<Meal> dinnerList = (ArrayList<Meal>) dietMap.get("dinnerList");
+	ArrayList<Snack> beforeSunList = (ArrayList<Snack>) dietMap.get("beforeSunList");
+	ArrayList<Snack> afterSunList = (ArrayList<Snack>) dietMap.get("afterSunList");
+
 %>
-<script>
-	$(function(){
-		$(document).on("click", "td:not(#null)", function(){
-			console.log($(this).text());
-		});
-	});
-</script>
 <div>
 	<input type="hidden" value="<%=month %>" id="month">
 	<input type="hidden" value="<%=lastWeek %>" id="lastWeek">
@@ -75,7 +80,7 @@
 				for(int i = start; i <= 7; i++){
 					if(newLine != 0){%>
 					
-					<td><%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %></td>
+					<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
 				<%	} newLine ++; 
 				ind++;
 				} %>
@@ -84,7 +89,70 @@
 				int ind = -1;
 					for(int index = 1; index <= endDayOfWeek; index++) { 
 						if(newLine != 0){%>
-							<td><%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
+							<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
+					<%	} newLine ++; 
+					ind++;%>
+				<% 	}
+						if(newLine != 7){%>
+							<td colspan="<%=7-endDayOfWeek %>" rowspan="5" id="null">다음 달</td>
+					<%	} newLine ++; 
+
+				}else{ 
+					int ind = 0;
+					for(int i = 0; i < 6; i++) {%>
+						<td>
+						<input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+						<input type="hidden" id="dietNo" value="<%=morningList.get(i).getDietNo() %>">
+						<input type="hidden" id="type" value="아침">
+						
+						<span><% if (morningList.get(i).getRice() != null){ %>
+							<%=morningList.get(i).getRice() %>
+							<% } %></span><br>
+						<span><% if (morningList.get(i).getRice() != null){ %>
+							<%=morningList.get(i).getSoup() %>
+							<% } %></span><br>
+						<span><% if (morningList.get(i).getRice() != null){ %>
+							<%=morningList.get(i).getSide1() %>
+								<% } %></span><br>
+						<span><% if (morningList.get(i).getRice() != null){ %>
+							<%=morningList.get(i).getSide2() %>
+							<% } %></span><br>
+						<span><% if (morningList.get(i).getRice() != null){ %>
+							<%=morningList.get(i).getSide3() %>
+							<% } %></span><br>
+						</td>
+					<%	ind++;
+			 		}
+					
+				}%>
+		</tr>
+		<tr class="snack">
+			<td id="null">오전 간식</td>
+			
+			<% 
+			newLine = 0;
+			if(weekOfMonth == 1){
+				 if(start - 2 > 0){ %>
+				<td colspan="<%=start-2 %>" rowspan="5" id="null">이전 달</td>
+				<% } 
+				for(int index = 1; index < start; index++) { 
+					if(newLine != 0){%>
+				<%	} newLine ++; %>
+			<% 	}
+				int ind = 1;
+				for(int i = start; i <= 7; i++){
+					if(newLine != 0){%>
+					
+					<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
+				<%	} newLine ++; 
+				ind++;
+				} %>
+				
+			<% }else if(weekOfMonth == lastWeek){
+				int ind = -1;
+					for(int index = 1; index <= endDayOfWeek; index++) { 
+						if(newLine != 0){%>
+							<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
 					<%	} newLine ++; 
 					ind++;%>
 				<% 	}
@@ -96,46 +164,18 @@
 					int ind = 0;
 					for(int i = 0; i < 6; i++) {%>
 				
-						<td><%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
-					<%	ind++;
-			 		}
-					
-				}%>
-		</tr>
-		<tr class="snack">
-			<td id="null">오전 간식</td>
-			<% 
-			newLine = 0;
-			if(weekOfMonth == 1){
-				for(int index = 1; index < start; index++) { 
-					if(newLine != 0){%>
-				<%	} newLine ++; %>
-			<% 	}
-				int ind = 1;
-				for(int i = start; i <= 7; i++){
-					if(newLine != 0){%>
-					<td><%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %></td>
-				<%	} newLine ++; 
-				ind++;
-				} %>
-				
-			<% }else if(weekOfMonth == lastWeek){
-				int ind = -1;
-					for(int index = 1; index <= endDayOfWeek; index++) { 
-						if(newLine != 0){%>
-							<td><%=mondayYear %>-<%if(Integer.toString(month).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
-					<%	} newLine ++; 
-					ind++;%>
-				<% 	}
-					for(int i = endDayOfWeek; i < 7; i++){
-						if(newLine != 7){%>
-					<%	} newLine ++; 
-					}
-				}else{ 
-					int ind = 0;
-					for(int i = 0; i < 6; i++) {%>
-				
-						<td><%=mondayYear %>-<%if(Integer.toString(month).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
+						<td>
+						<input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+						<input type="hidden" id="dietNo" value="<%=beforeSunList.get(i).getDietNo() %>">
+						<input type="hidden" id="type" value="오전">
+						
+						<span><% if (beforeSunList.get(i).getSnack1() != null){ %>
+							<%=beforeSunList.get(i).getSnack1() %>
+							<% } %></span><br>
+						<span><% if (beforeSunList.get(i).getSnack1() != null){ %>
+							<%=beforeSunList.get(i).getSnack2() %>
+							<% } %></span><br>
+						</td>
 					<%	ind++;
 			 		}
 					
@@ -143,9 +183,13 @@
 		</tr>
 		<tr class="meal">
 			<td id="null">점심</td>
+			
 			<% 
 			newLine = 0;
 			if(weekOfMonth == 1){
+				 if(start - 2 > 0){ %>
+				<td colspan="<%=start-2 %>" rowspan="5" id="null">이전 달</td>
+				<% } 
 				for(int index = 1; index < start; index++) { 
 					if(newLine != 0){%>
 				<%	} newLine ++; %>
@@ -153,7 +197,8 @@
 				int ind = 1;
 				for(int i = start; i <= 7; i++){
 					if(newLine != 0){%>
-					<td><%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %></td>
+					
+					<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
 				<%	} newLine ++; 
 				ind++;
 				} %>
@@ -162,19 +207,39 @@
 				int ind = -1;
 					for(int index = 1; index <= endDayOfWeek; index++) { 
 						if(newLine != 0){%>
-							<td><%=mondayYear %>-<%if(Integer.toString(month).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
+							<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
 					<%	} newLine ++; 
 					ind++;%>
 				<% 	}
-					for(int i = endDayOfWeek; i < 7; i++){
 						if(newLine != 7){%>
+							<td colspan="<%=7-endDayOfWeek %>" rowspan="5" id="null">다음 달</td>
 					<%	} newLine ++; 
-					}
+
 				}else{ 
 					int ind = 0;
 					for(int i = 0; i < 6; i++) {%>
 				
-						<td><%=mondayYear %>-<%if(Integer.toString(month).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
+						<td>
+						<input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+						<input type="hidden" id="dietNo" value="<%=lunchList.get(i).getDietNo() %>">
+						<input type="hidden" id="type" value="점심">
+						
+						<span><% if (lunchList.get(i).getRice() != null){ %>
+							<%=lunchList.get(i).getRice() %>
+							<% } %></span><br>
+						<span><% if (lunchList.get(i).getRice() != null){ %>
+							<%=lunchList.get(i).getSoup() %>
+							<% } %></span><br>
+						<span><% if (lunchList.get(i).getRice() != null){ %>
+							<%=lunchList.get(i).getSide1() %>
+								<% } %></span><br>
+						<span><% if (lunchList.get(i).getRice() != null){ %>
+							<%=lunchList.get(i).getSide2() %>
+							<% } %></span><br>
+						<span><% if (lunchList.get(i).getRice() != null){ %>
+							<%=lunchList.get(i).getSide3() %>
+							<% } %></span><br>
+						</td>
 					<%	ind++;
 			 		}
 					
@@ -182,9 +247,13 @@
 		</tr>
 		<tr class="snack">
 			<td id="null">오후 간식</td>
+			
 			<% 
 			newLine = 0;
 			if(weekOfMonth == 1){
+				 if(start - 2 > 0){ %>
+				<td colspan="<%=start-2 %>" rowspan="5" id="null">이전 달</td>
+				<% } 
 				for(int index = 1; index < start; index++) { 
 					if(newLine != 0){%>
 				<%	} newLine ++; %>
@@ -192,7 +261,8 @@
 				int ind = 1;
 				for(int i = start; i <= 7; i++){
 					if(newLine != 0){%>
-					<td><%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %></td>
+					
+					<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
 				<%	} newLine ++; 
 				ind++;
 				} %>
@@ -201,19 +271,30 @@
 				int ind = -1;
 					for(int index = 1; index <= endDayOfWeek; index++) { 
 						if(newLine != 0){%>
-							<td><%=mondayYear %>-<%if(Integer.toString(month).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
+							<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
 					<%	} newLine ++; 
 					ind++;%>
 				<% 	}
-					for(int i = endDayOfWeek; i < 7; i++){
 						if(newLine != 7){%>
+							<td colspan="<%=7-endDayOfWeek %>" rowspan="5" id="null">다음 달</td>
 					<%	} newLine ++; 
-					}
+
 				}else{ 
 					int ind = 0;
 					for(int i = 0; i < 6; i++) {%>
 				
-						<td><%=mondayYear %>-<%if(Integer.toString(month).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
+						<td>
+						<input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+						<input type="hidden" id="dietNo" value="<%=afterSunList.get(i).getDietNo() %>">
+						<input type="hidden" id="type" value="오후">
+						
+						<span><% if (afterSunList.get(i).getSnack1() != null){ %>
+							<%=afterSunList.get(i).getSnack1() %>
+							<% } %></span><br>
+						<span><% if (afterSunList.get(i).getSnack1() != null){ %>
+							<%=afterSunList.get(i).getSnack2() %>
+							<% } %></span><br>
+						</td>
 					<%	ind++;
 			 		}
 					
@@ -221,9 +302,13 @@
 		</tr>
 		<tr class="meal">
 			<td id="null">저녁</td>
+			
 			<% 
 			newLine = 0;
 			if(weekOfMonth == 1){
+				 if(start - 2 > 0){ %>
+				<td colspan="<%=start-2 %>" rowspan="5" id="null">이전 달</td>
+				<% } 
 				for(int index = 1; index < start; index++) { 
 					if(newLine != 0){%>
 				<%	} newLine ++; %>
@@ -231,7 +316,8 @@
 				int ind = 1;
 				for(int i = start; i <= 7; i++){
 					if(newLine != 0){%>
-					<td><%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %></td>
+					
+					<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
 				<%	} newLine ++; 
 				ind++;
 				} %>
@@ -240,19 +326,39 @@
 				int ind = -1;
 					for(int index = 1; index <= endDayOfWeek; index++) { 
 						if(newLine != 0){%>
-							<td><%=mondayYear %>-<%if(Integer.toString(month).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
+							<td><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
 					<%	} newLine ++; 
 					ind++;%>
 				<% 	}
-					for(int i = endDayOfWeek; i < 7; i++){
 						if(newLine != 7){%>
+							<td colspan="<%=7-endDayOfWeek %>" rowspan="5" id="null">다음 달</td>
 					<%	} newLine ++; 
-					}
+
 				}else{ 
 					int ind = 0;
 					for(int i = 0; i < 6; i++) {%>
 				
-						<td><%=mondayYear %>-<%if(Integer.toString(month).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %></td>
+						<td>
+						<input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+						<input type="hidden" id="dietNo" value="<%=dinnerList.get(i).getDietNo() %>">
+						<input type="hidden" id="type" value="저녁">
+						
+						<span><% if (dinnerList.get(i).getRice() != null){ %>
+							<%=dinnerList.get(i).getRice() %>
+							<% } %></span><br>
+						<span><% if (dinnerList.get(i).getRice() != null){ %>
+							<%=dinnerList.get(i).getSoup() %>
+							<% } %></span><br>
+						<span><% if (dinnerList.get(i).getRice() != null){ %>
+							<%=dinnerList.get(i).getSide1() %>
+								<% } %></span><br>
+						<span><% if (dinnerList.get(i).getRice() != null){ %>
+							<%=dinnerList.get(i).getSide2() %>
+							<% } %></span><br>
+						<span><% if (dinnerList.get(i).getRice() != null){ %>
+							<%=dinnerList.get(i).getSide3() %>
+							<% } %></span><br>
+						</td>
 					<%	ind++;
 			 		}
 					
@@ -291,12 +397,6 @@
 				date -= 7;
 				
 			}
-			<%
-			System.out.println(month);
-			System.out.println(weekOfMonth);
-			System.out.println(year);
-			System.out.println(date);
-			 %>
 		location.href = "<%=request.getContextPath() %>/selectAllDietTable.diet?year=" + year + "&month=" + month + "&date=" + date+ "&weekOfMonth=" + weekOfMonth;
 		}); 
 		$("#next").click(function(){

@@ -2224,6 +2224,7 @@ public class MemberDao {
 		return list;
 	}
 
+
 	public int insertChildOb(Connection con, Observation ob) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -2248,6 +2249,135 @@ public class MemberDao {
 		}
 		
 		return result;
+}
+
+	//학부모 원아정보 가져오기
+	public ArrayList<HashMap<String, Object>> selectCInfo(Connection con, int pNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		HashMap<String, Object> hmap = null;
+		ArrayList<HashMap<String, Object>> list = null;
+		
+		int i = 0;
+		Children c = null;
+		Parents p = null;
+		Scholarly s = null;
+		ArrayList<Scholarly> slist = null;
+		FamilyRelation f = null;
+		ArrayList<FamilyRelation> flist = null;
+		
+		String query = prop.getProperty("selectCInfo");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pNo);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				
+				if(hmap == null) {
+					hmap = new HashMap<>();
+					slist = new ArrayList<>();
+					flist = new ArrayList<>();
+					
+					c = new Children();
+					c.setCId(rset.getInt("C_ID"));
+					c.setName(rset.getString("C_NAME"));
+					c.setBloodType(rset.getString("C_BTYPE"));
+					c.setRno(rset.getString("C_RNO"));
+					c.setDescription(rset.getString("C_DESC"));
+					c.setImgSrc(rset.getString("IMGSRC"));
+					c.setOriginAddr(rset.getString("C_OADDR"));
+	
+					hmap.put("c", c);
+					
+					s = new Scholarly();
+					s.setSDate(rset.getDate("S_DATE"));
+					s.setAgency(rset.getString("AGENCY"));
+					s.setUniqueness(rset.getString("UNIQUENESS"));
+					
+					slist.add(s);
+					
+					p = new Parents();
+					p.setPAddress(rset.getString("ADDRESS"));
+					
+					hmap.put("p", p);
+		
+					f = new FamilyRelation();
+					f.setRelation(rset.getString("RELATION"));
+					f.setName(rset.getString("NAME"));
+					f.setPhone(rset.getString("PHONE"));
+					flist.add(f);
+				
+				} else if (((Children) hmap.get("c")).getName().equals(rset.getString("C_NAME"))) {
+					if(!slist.get(i-1).getAgency().equals(rset.getString("AGENCY"))) {
+						s = new Scholarly();
+						s.setSDate(rset.getDate("S_DATE"));
+						s.setAgency(rset.getString("AGENCY"));
+						s.setUniqueness(rset.getString("UNIQUENESS"));
+						
+						slist.add(s);
+					}
+					f = new FamilyRelation();
+					f.setRelation(rset.getString("RELATION"));
+					f.setName(rset.getString("NAME"));
+					f.setPhone(rset.getString("PHONE"));
+					
+					flist.add(f);
+				} else {
+					hmap.put("slist", slist);
+					hmap.put("flist", flist);
+					list.add(hmap);
+					
+					hmap = new HashMap<>();
+					slist = new ArrayList<>();
+					flist = new ArrayList<>();
+					
+					c = new Children();
+					c.setCId(rset.getInt("C_ID"));
+					c.setName(rset.getString("C_NAME"));
+					c.setBloodType(rset.getString("C_BTYPE"));
+					c.setRno(rset.getString("C_RNO"));
+					c.setDescription(rset.getString("C_DESC"));
+					c.setImgSrc(rset.getString("IMGSRC"));
+	
+					hmap.put("c", c);
+					
+					s = new Scholarly();
+					s.setSDate(rset.getDate("S_DATE"));
+					s.setAgency(rset.getString("AGENCY"));
+					s.setUniqueness(rset.getString("UNIQUENESS"));
+					slist.add(s);
+					
+					
+					p = new Parents();
+					p.setPAddress(rset.getString("ADDRESS"));
+					
+					hmap.put("p", p);
+		
+					f = new FamilyRelation();
+					f.setRelation(rset.getString("RELATION"));
+					f.setName(rset.getString("NAME"));
+					f.setPhone(rset.getString("PHONE"));
+					flist.add(f);
+				}
+				i++;
+			}	
+			hmap.put("slist", slist);
+			hmap.put("flist", flist);
+			list.add(hmap);
+			System.out.println(list);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+
 	}
 
 }
