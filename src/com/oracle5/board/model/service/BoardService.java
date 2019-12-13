@@ -565,8 +565,47 @@ public class BoardService {
 	}
 	//원공지사항 게시물 이미지 보기
 	public Attachment selectOnePreKNoticeImg(int num) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con  = getConnection();
+		Attachment att = new BoardDao().selectOnePreKNoticeImg(con, num);
+		
+		if(att != null) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return att;
+	}
+	//원 공지사항 수정용 매소드
+	public int updatePreKNotice(Board b) {
+		Connection con =getConnection();
+		int result = new BoardDao().updatePreKNotice(con,b);
+		
+		if(result > 0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	//원 공지사항 삭제용 메소드
+	public int deletePreKNotice(int num) {
+		Connection con = getConnection();
+		int result = new BoardDao().deletePreKNotice(con, num);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		return result;
 	}
 	
 	//앨범 사진 다운로드 
@@ -579,3 +618,15 @@ public class BoardService {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

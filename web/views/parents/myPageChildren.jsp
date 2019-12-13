@@ -44,8 +44,8 @@ tr{
 	
 <div class="ui raised card">
   <div class="content">
-    <div class="header">박건후</div>
-    <div class="meta">
+    <div class="header" align="center"> <img class="ui avatar image" src="<%= request.getContextPath() %>/uploadFiles/5racle_2019121016462761291.jpg"> 박건후</div>
+    <div class="meta" align="center">
       <span class="category">15-03-29</span>
     </div>
     <div class="description">
@@ -79,32 +79,20 @@ tr{
       	</tr>
       	<tr>
       		<td>입학전 학적사항 : </td>
-      		<td><div class="ui input"><input type="text" value="2015-03-25"></div></td>
-      		<td><div class="ui input"><input type="text" value="꿈나래 유치원"></div></td>
-      		<td><div class="ui input"><input type="text" value="특이사항입력칸"></div></td>
-      		
+      		<td colspan="3" id="scholarInfo"><div id="scholarValue" class="ui input"><input type="date"><input type="text" placeholder="기관명 입력"><input type="text" placeholder="특이사항 입력"></div></td>
       	</tr>
-      	<tr id="plusBtn"><td colspan="4"><img width="20px" src="<%=request.getContextPath() %>/images/add.png" onclick=""></td></tr>
+      	<tr id="plusBtn"><td colspan="4"><img id="addScholar" width="20px" src="<%=request.getContextPath() %>/images/add.png" onclick=""></td></tr>
       	<tr>
       		<td>가족 사항 : </td>
-      		<td><div class="ui input"><input type="text" value="부"></div></td>
-      		<td><div class="ui input"><input type="text" value="박주호"></div></td>
-      		<td><div class="ui input"><input type="text" value="010-3327-5305"></div></td>
+      		<td colspan="3" id="familyInfo"><div id="familyValue" class="ui fluid icon input"><input  name="fRelation"  type="text" placeholder="관계입력"><input name="fName" type="text" placeholder="이름 입력"><input name="fPhone" type="text" placeholder="연락처 입력"></div></td>
       	</tr>
-      	<tr>
-      		<td></td>
-      		<td><div class="ui input"><input type="text" value="모"></div></td>
-      		<td><div class="ui input"><input type="text" value="안나"></div></td>
-      		<td><div class="ui input"><input type="text" value="010-3327-5305"></div></td>
-      	</tr>
-      	<tr id="plusBtn"><td colspan="4"><img width="20px" src="<%=request.getContextPath() %>/images/add.png" onclick=""></td></tr>
+
+      	<tr id="plusBtn"><td colspan="4"><img id="addFamily" width="20px" src="<%=request.getContextPath() %>/images/add.png" onclick=""></td></tr>
       	<tr>
       		<td>특이사항 : </td>
       		<td colspan="3"><div class="ui fluid icon input">
-  			<input type="text" value="경기도 수원시 팔달구 인계동"></div></td>
+  			<input type="text" placeholder="아이 특이사항 입력란"></div></td>
       	</tr>
-      	
-      	
       </table>
     </div>
   </div>
@@ -112,10 +100,26 @@ tr{
     <div class="right floated author">
     <button class="ui teal basic button">아이 추가하기</button>
     <button class="ui green basic button">아이정보 변경</button>
-      <img class="ui avatar image" src="<%= request.getContextPath() %>/uploadFiles/5racle_2019121016462761291.jpg"> 박건후
     </div>
   </div>
 </div>
+
+<script>
+	/* 학적사항 추가 버튼 */
+		$("#addScholar").click(function(){
+			$("#scholarValue").clone(true).appendTo($("#scholarInfo:last-child"));
+			return false;
+		});
+	
+	/* 가족관계 추가 버튼 */
+	    $("#addFamily").click(function(){
+			$("#familyValue").clone(true).appendTo($("#familyInfo:last-child"));
+			return false;
+		});  
+
+	
+	
+</script>
 
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.oracle5.member.model.service.MemberService;
 
 @WebServlet("/selectChildOb.me")
@@ -19,20 +20,13 @@ public class SelectChildObServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int cid = Integer.parseInt(request.getParameter("cid"));
 
-		ArrayList<Map<String, Object>> list = new MemberService().selectChildObservation(cid);
+		int age = Integer.parseInt(request.getParameter("age"));
 		
-		System.out.println(list);
+		ArrayList<Map<String, Object>> list = new MemberService().selectChildObservation(cid, age);
 		
-		String page = "";
-		if(list != null) {
-			request.setAttribute("list", list);
-			page = "/views/teacher/tcChildObserve.jsp";
-		} else {
-			request.setAttribute("msg", "아이 관찰척도 조회 실패");
-			page = "/views/common/errorPage.jsp";
-		}
-		
-		request.getRequestDispatcher(page).forward(request, response);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		new Gson().toJson(list, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

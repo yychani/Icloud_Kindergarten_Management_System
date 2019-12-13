@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
 <%
-	ArrayList<HashMap<String, Object>> list = (ArrayList<HashMap<String, Object>>) request.getAttribute("list");
-	int i = 0;
+	int cid = Integer.parseInt(request.getParameter("cid"));
+	int age = Integer.parseInt(request.getParameter("age"));
 %>
 <!DOCTYPE html>
 <html>
@@ -35,13 +35,87 @@
 		cursor: pointer;
 	}
 </style>
+<script>
+	$(function() {
+		$.ajax({
+			url:"<%= request.getContextPath() %>/selectChildOb.me",
+			type:"get",
+			data:{
+				cid:<%= request.getParameter("cid") %>,
+				age:<%= request.getParameter("age") %>
+			},
+			success:function(data) {
+				console.log(data)
+				if(data.length == 0){
+					alert("입력된 내용이 없습니다.");
+					window.history.back();
+				}
+				
+				$("h1").text(data[0].c.name + " 관찰척도");
+				
+				$("#selectAge").children().each(function(index, value) {
+					if(value.value == data[0].ob.age) {
+						$(this).prop("selected", true);
+					}
+				});
+				
+				$("#cname").text(data[0].c.name);
+				var date = data[0].ob.eDate;
+				date = date.split(" ");
+				date = date[2] + "년 " + date[0] + " " + date[1].substring(0,2) + "일"
+				$("#fdate").text(date);
+				$("#obname").text(data[0].m.memberName);
+				
+				var score = data[0].ob.escore.split("/");
+				var first = $(".first");
+				for(var i = 0, k = 0; i < first.length; i+=3,k++){
+					for(var j = 0; j < 3; j++) {
+						if(score[k] == first[i+j].innerText){
+							$(first[i+j]).css("background-color","gray");
+							break;
+						}
+						
+					}
+				}
+				
+				$("#total1").text(data[0].ob.eval);
+				
+				if(data.length == 2) {
+					var score2 = data[1].ob.escore.split("/");
+					var second = $(".second");
+					for(var i = 0, k = 0; i < second.length; i+=3,k++){
+						for(var j = 0; j < 3; j++) {
+							if(score2[k] == second[i+j].innerText){
+								$(second[i+j]).css("background-color","gray");
+								break;
+							}
+							
+						}
+					}
+					
+					$("#total2").text(data[1].ob.eval);
+				}
+			},
+			error:function() {
+				console.log("에러")
+			}
+		});
+		
+		$("#selectAge").change(function() {
+			var age = $(this).val();
+			if(age != 'default')
+				location.href="<%= request.getContextPath() %>/views/teacher/tcChildObserve.jsp?cid=<%= request.getParameter("cid") %>&age=" + age; 
+		});
+	});
+</script>
 </head>
 <body>
     <%@ include file="/views/common/teacherMenu.jsp" %>
     <div style="margin: 0 15%;">
- 		<h1 align="center" style="text-decoration: underline; text-underline-position: under;"><%= ((Children) list.get(0).get("c")).getName() %> 관찰척도</h1>
+ 		<h1 align="center" style="text-decoration: underline; text-underline-position: under;"></h1>
  		<select name="selectAge" id="selectAge" style="float:right;">
- 			<option value="3" selected>만 3 세</option>
+ 			<option value="default">선택</option>
+ 			<option value="3">만 3 세</option>
  			<option value="4">만 4 세</option>
  			<option value="5">만 5 세</option>
  		</select>
@@ -51,20 +125,20 @@
  		<table class="childOb">
  			<tr>
  				<td colspan="3" style="width:20%">유아이름</td>
- 				<td colspan="3" style="width:30%"><span><%= ((Children) list.get(0).get("c")).getName() %></span></td>
+ 				<td colspan="3" style="width:30%"><span id="cname"></span></td>
  				<td colspan="2" style="width:20%">1차</td>
- 				<td colspan="3" style="width:30%"><span><%= ((Observation) list.get(0).get("ob")).getEDate() %></span></td>
+ 				<td colspan="3" style="width:30%"><span id="fdate"></span></td>
  			</tr>
  			<tr>
  				<td colspan="3" style="width:20%">관찰자</td>
- 				<td colspan="3" style="width:30%"><span><%= ((Member) list.get(0).get("m")).getMemberName() %></span></td>
+ 				<td colspan="3" style="width:30%"><span id="obname"></span></td>
  				<td colspan="2" style="width:20%">2차</td>
  				<td colspan="3" style="width:30%">
- 				<% if(list.size() == 2) { %>
- 					<span><%= ((Observation) list.get(1).get("ob")).getEDate() %></span>
-				<% } else { %>
+ 				
+ 					<span></span>
+				
 					<span>&nbsp;</span>
-				<% } %>
+				
  				</td>
  			</tr>
  			<tr>
@@ -76,146 +150,142 @@
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">신체운동 건강영역</span></td>
  				<td colspan="5" style="font-weight:normal">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">의사소통영역</span></td>
  				<td colspan="5" style="font-weight:normal">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">사회관계영역</span></td>
  				<td colspan="5" style="font-weight:normal">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">예술경험영역</span></td>
  				<td colspan="5" style="font-weight:normal">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">자연탐구영역</span></td>
  				<td colspan="5" style="font-weight:normal">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td colspan="5">TEST</td>
- 				<td colspan="2">3 2 1</td>
- 				<td colspan="2">3 2 1</td>
+ 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
+ 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
  			</tr>
  			<tr>
  				<td rowspan="2" style="width:3%; height:10em"><span style="writing-mode: tb-rl;">총평</span></td>
  				<td style="width:3%;"><span style="font-size:8px">1학기</span></td> 
- 				<td colspan="9" style="height:4em;"><%= ((Observation) list.get(0).get("ob")).getEval() %></td>
+ 				<td colspan="9" style="height:4em;"><span id="total1"></span></td>
  			</tr>
  			<tr>
  				<td style="width:3%; font-size:0.5em"><span>2학기</span></td>
- 				<td colspan="9" style="height:4em;">
- 				<% if(list.size() == 2) { %>
- 					<%= ((Observation) list.get(1).get("ob")).getEval() %>
- 				<% } else { %>
- 					&nbsp;
- 				<% } %>
+ 				<td colspan="9" style="height:4em;"><span id="total2"></span>
+ 				
  				</td>
  			</tr>		
  		</table>
@@ -223,16 +293,10 @@
  	<div style="margin: 0 15%; height:50px;">
 		<input type="button" value="뒤로가기" style="float:right; background:lightgray; color:black" onclick="location.href='tcChildDetail.jsp'" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		<input type="button" value="수정하기" style="float:right" onclick="location.href='tcChildObserveMod.jsp'" />
+		<input type="button" value="수정하기" style="float:right" onclick="location.href='tcChildObserveMod.jsp?cid=<%= cid %>&age=<%= age %>'" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<input type="button" value="인쇄하기" style="float:right; background:lightgray; color:black" />
 	</div>
-	<script>
-		$("#selectAge").change(function() {
-			console.log($(this).val())
-			<% %>
-		});
-	</script>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>

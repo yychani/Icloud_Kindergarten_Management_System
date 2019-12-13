@@ -91,7 +91,7 @@
 				<div class="btns" align="center">
 					<button type="button" id="kidInfoBtn"
 						class="ui yellow basic button"
-						onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageModKid.jsp'">아이정보</button>
+						onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageChildren.jsp'">아이정보</button>
 					<button type="button" id="psssChangeBtn"
 						class="ui positive basic button" onclick="passChangeModal();">비밀번호
 						변경</button>
