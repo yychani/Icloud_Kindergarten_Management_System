@@ -10,6 +10,7 @@ import static com.oracle5.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 /**
  * @author Ungken
  *
@@ -261,6 +262,80 @@ public class TaskService {
 		
 		close(con);
 		return snack;
+	}
+	
+	/**
+	 * @param hmap 간식과 식사가 들어있는 HashMap
+	 * @return
+	 */
+	public int insertDiet(HashMap<String, Object> hmap) {
+		Connection con = getConnection();
+		Snack snack = (Snack)hmap.get("Snack");
+		Meal meal = (Meal)hmap.get("Meal");
+		int result = 0;
+		int result1 = 0;
+		if(!snack.getSnack1().equals("")) {
+			System.out.println("간식");
+			int snackId = new TaskDao().selectSnack(con, snack);
+			snack.setSnackId(snackId);
+			if(snack.getSnack2().equals("")) {
+				snack.setSnack2(" ");
+			}
+			
+			if(snackId == 0) {
+				System.out.println("일치하는 스낵x 새 스낵 insert");
+				result1 = new TaskDao().insertSnack(con, snack);
+			}else {
+				System.out.println("일치하는 스낵o");
+				result1 = 1;
+			}
+			if(result1 > 0) {
+				snackId = new TaskDao().selectSnack(con, snack);
+			}else {
+			}
+			snack.setSnackId(snackId);
+		}else {
+			System.out.println("식사");
+			int mealNo = new TaskDao().selectMeal(con, meal);
+			meal.setMealNo(mealNo);
+			
+			if(mealNo == 0) {
+				System.out.println("일치하는 식사x 새 식사 insert");
+				result1 = new TaskDao().insertMeal(con, meal);
+			}else {
+				System.out.println("일치하는 식사o");
+				result1 = 1;
+			}
+			if(result1 > 0) {
+				mealNo = new TaskDao().selectMeal(con, meal);
+			}else {
+			}
+			
+			meal.setMealNo(mealNo);
+		}
+		
+		boolean isExist = new TaskDao().selectDietTable(con, snack.getDietNo());
+		
+		if(isExist == false) {
+			result = new TaskDao().insertDietTable(con, snack, meal);
+			
+			if(result > 0 && result1 > 0) {
+				commit(con);
+			}else {
+				rollback(con);
+			}
+		}else {
+			
+			result = new TaskDao().updateDietTable(con, snack, meal);
+			
+			if(result > 0 && result1 > 0) {
+				commit(con);
+			}else {
+				rollback(con);
+			}
+		}
+		close(con);
+		return result;
 	}
 
 

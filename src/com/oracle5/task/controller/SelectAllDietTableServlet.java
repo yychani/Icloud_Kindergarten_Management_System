@@ -92,7 +92,6 @@ public class SelectAllDietTableServlet extends HttpServlet {
 		ArrayList<Snack> afterSunList = new TaskService().snackList(year, month + 1, 2/*타입*/, "오후", weekOfMonth);
 		
 		HashMap<String, Object> dietMap = new HashMap<>();
-		
 		dietMap.put("morningList", morningList);
 		dietMap.put("lunchList", lunchList);
 		dietMap.put("dinnerList", dinnerList);

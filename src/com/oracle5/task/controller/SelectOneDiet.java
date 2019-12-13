@@ -29,17 +29,21 @@ public class SelectOneDiet extends HttpServlet {
 		String type = request.getParameter("type");
 		Meal meal = null;
 		Snack snack = null;
-		System.out.println(type);
+		
 		if(type.equals("아침") || type.equals("점심") || type.equals("저녁")) {
 			meal = new TaskService().selectOneMeal(dietNo);
 			if(meal == null) {
 				meal = new Meal();
 			}
+			meal.setTypeName(type);
+			meal.setDate(date);
 		}else if(type.equals("오전") || type.equals("오후")) {
 			snack = new TaskService().selectOneSnack(dietNo);
 			if(snack == null) {
 				snack = new Snack();
 			}
+			snack.setTypeName(type);
+			snack.setDate(date);
 		}
 		if(meal != null) {
 			response.setContentType("application/json");

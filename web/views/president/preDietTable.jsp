@@ -87,7 +87,7 @@ input[type='text'] {
 }
 
 .menu {
-	width: 900px;
+	width: 1000px;
 }
 
 .menu td {
@@ -101,7 +101,7 @@ input[type='text'] {
 .menu tr:nth-of-type(2n+4) {
 	height: 60px;
 }
-#label {
+.label {
 	width: 100px;
 	text-align: left;
 }
@@ -146,7 +146,7 @@ input[type='text'] {
 		});
 	});
 	$(function() {
-		$(document).on("click", "td:not(#null)", function() {
+		$(document).on("click", "#exist", function() {
 			$(".header").text("");
 			$(".header").append($(this).children("#date").val() + " ");
 			$(".header").append($(this).children("#type").val());
@@ -168,24 +168,28 @@ input[type='text'] {
                 		$("#mealArea").show();
                 		$("#snackArea").hide();
                 		
+                		$("#dietNoDetail").val(data.dietNo);
                 		$("#rice").val(data.rice);
                 		$("#soup").val(data.soup);
                 		$("#side1").val(data.side1);
                 		$("#side2").val(data.side2);
                 		$("#side3").val(data.side3);
-                		
+                		$("#typeName").val(data.typeName);
+                		$("#dateOne").val(data.date);
                 		$("#snack1").val("");
                 		$("#snack2").val("");
                 	}else if(data.type == 2){
                 		$("#mealArea").hide();
                 		$("#snackArea").show();
                 		
+                		$("#dietNoDetail").val(data.dietNo);
                 		$("#rice").val("");
                 		$("#soup").val("");
                 		$("#side1").val("");
                 		$("#side2").val("");
                 		$("#side3").val("");
-                		
+                		$("#typeName").val(data.typeName);
+                		$("#dateOne").val(data.date);
                 		$("#snack1").val(data.snack1);
                 		$("#snack2").val(data.snack2);
                 	}
@@ -212,39 +216,42 @@ input[type='text'] {
 		<div class="header"></div>
 		<div class="image content">
 			<div class="description">
+			<input type="hidden" name="dietNoDetail" id="dietNoDetail" value="">
+			<input type="hidden" name="typeName" id="typeName" value="">
+			<input type="hidden" name="dateOne" id="dateOne" value="">
 				<div id="mealArea">
 					<table>
 						<tr>
-							<td id="label"><label>밥 : </label></td>
-							<td><input type="text" id="rice" name="rice" disabled></td>
+							<td id="null" class="label"><label>밥 : </label></td>
+							<td id="null"><input type="text" id="rice" name="rice" disabled></td>
 						</tr>
 						<tr>
-							<td id="label"><label>국 : </label></td>
-							<td><input type="text" id="soup" name="soup" disabled></td>
+							<td id="null" class="label"><label>국 : </label></td>
+							<td id="null"><input type="text" id="soup" name="soup" disabled></td>
 						</tr>
 						<tr>
-							<td id="label"><label>반찬1 : </label></td>
-							<td><input type="text" id="side1" name="side1" disabled></td>
+							<td id="null" class="label"><label>반찬1 : </label></td>
+							<td id="null"><input type="text" id="side1" name="side1" disabled></td>
 						</tr>
 						<tr>
-							<td id="label"><label>반찬2 : </label></td>
-							<td><input type="text" id="side2" name="side2" disabled></td>
+							<td id="null" class="label"><label>반찬2 : </label></td>
+							<td id="null"><input type="text" id="side2" name="side2" disabled></td>
 						</tr>
 						<tr>
-							<td id="label"><label>반찬3 : </label></td>
-							<td><input type="text" id="side3" name="side3" disabled></td>
+							<td id="null" class="label"><label>반찬3 : </label></td>
+							<td id="null"><input type="text" id="side3" name="side3" disabled></td>
 						</tr>
 					</table>
 				</div>
 				<div id="snackArea">
 					<table>
 						<tr>
-							<td id="label"><label>간식1 : </label></td>
-							<td><input type="text" id="snack1" name="snack1" disabled></td>
+							<td id="null" class="label"><label>간식1 : </label></td>
+							<td id="null"><input type="text" id="snack1" name="snack1" disabled></td>
 						</tr>
 						<tr>
-							<td id="label"><label>간식2 : </label></td>
-							<td><input type="text" id="snack2" name="snack2" disabled></td>
+							<td id="null" class="label"><label>간식2 : </label></td>
+							<td id="null"><input type="text" id="snack2" name="snack2" disabled></td>
 						</tr>
 					</table>
 				</div>
@@ -268,6 +275,7 @@ input[type='text'] {
 			$("#side3").prop("disabled", false);
 			$("#snack1").prop("disabled", false);
 			$("#snack2").prop("disabled", false);
+			$(".ui positive right labeled icon button").text("수정취소");
 		});
 		$("#editCom").click(function(){
 			$("#edit").css("display", "inline-block");
@@ -279,6 +287,7 @@ input[type='text'] {
 			$("#side3").prop("disabled", true);
 			$("#snack1").prop("disabled", true);
 			$("#snack2").prop("disabled", true);
+			$(".ui positive right labeled icon button").text("확인 완료");
 			
 			var rice = $("#rice").val();
 			var soup = $("#soup").val();
@@ -287,10 +296,12 @@ input[type='text'] {
 			var side3 = $("#side3").val();
 			var snack1 = $("#snack1").val();
 			var snack2 = $("#snack2").val();
+			var dietNoDetail = $("#dietNoDetail").val();
+			var typeName = $("#typeName").val();
+			var dateOne = $("#dateOne").val();
 			
 			var month = Number($("#month").val());
 			var weekOfMonth = Number($("#weekOfMonth").val());
-			var lastWeek = Number($("#lastWeek").val());
 			var year = Number($("#year").val());
 			var date = Number($("#date").val());
 			
@@ -303,7 +314,14 @@ input[type='text'] {
             		side2:side2,
             		side3:side3,
             		snack1:snack1,
-            		snack2:snack2
+            		snack2:snack2,
+            		dietNoDetail:dietNoDetail,
+            		typeName:typeName,
+            		dateOne:dateOne,
+            		year:year,
+            		month:month,
+            		date:date,
+            		weekOfMonth:weekOfMonth
             	},
             	type:"post",
                 success:function(data){

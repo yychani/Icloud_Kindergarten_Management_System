@@ -12,4 +12,7 @@ public class Snack implements Serializable {
 	private int day;
 	private int dietNo;
 	private int type = 2;
+	private String typeName;
+	private String date;
+	private int weekOfMonth;
 }

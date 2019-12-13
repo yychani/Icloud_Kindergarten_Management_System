@@ -3,6 +3,7 @@ package com.oracle5.task.model.dao;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -428,6 +429,9 @@ public class TaskDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(stmt);
+			close(rset);
 		}
 
 		return currentChildCount;
@@ -449,6 +453,9 @@ public class TaskDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
 		}
 
 		return currentTeacherCount;
@@ -472,6 +479,9 @@ public class TaskDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 
 		return minusYear;
@@ -495,6 +505,9 @@ public class TaskDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 
 		return YearsOld;
@@ -524,6 +537,9 @@ public class TaskDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 
 		return YearsOldGender;
@@ -571,6 +587,7 @@ public class TaskDao {
 				}
 				while (rset.next()) {
 					Meal meal = new Meal();
+					
 					meal.setMealNo(rset.getInt("MEAL_NO"));
 					meal.setRice(rset.getString("RICE"));
 					meal.setSoup(rset.getString("SOUP"));
@@ -579,11 +596,15 @@ public class TaskDao {
 					meal.setSide3(rset.getString("SIDE3"));
 					meal.setDay(rset.getInt("DAY"));
 					meal.setDietNo(rset.getInt("DIET_NO"));
+					
 					mealList.add(meal.getDay() - 2, meal);
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 
 		return mealList;
@@ -630,6 +651,9 @@ public class TaskDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 
 		return snackList;
@@ -661,6 +685,9 @@ public class TaskDao {
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 
 	return meal;
@@ -689,9 +716,199 @@ public class TaskDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 
 		return snack;
+	}
+
+	public int selectSnack(Connection con, Snack snack) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		int snackNo = 0;
+		String query = prop.getProperty("selectSnackExist");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, snack.getSnack1());
+			pstmt.setString(2, snack.getSnack2());
+		
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				snackNo = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return snackNo;
+	}
+
+	public int insertSnack(Connection con, Snack snack) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("insertSnack");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, snack.getSnack1());
+			
+			pstmt.setString(2, snack.getSnack2());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertDietTable(Connection con, Snack snack, Meal meal) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = "";
+		if(!snack.getSnack1().equals("")) {
+			query = prop.getProperty("insertDietSnack");
+		}else {
+			query = prop.getProperty("insertDietMeal");
+		}
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setDate(1, Date.valueOf(meal.getDate()));
+			if(!snack.getSnack1().equals("")) {
+				pstmt.setInt(2, snack.getSnackId());
+				pstmt.setString(3, snack.getTypeName());
+			}else {
+				pstmt.setInt(2, meal.getMealNo());
+				pstmt.setString(3, meal.getTypeName());
+			}
+			pstmt.setInt(4, meal.getWeekOfMonth());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int selectMeal(Connection con, Meal meal) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		int mealNo = 0;
+		String query = prop.getProperty("selectMealExist");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, meal.getRice());
+			pstmt.setString(2, meal.getSoup());
+			pstmt.setString(3, meal.getSide1());
+			pstmt.setString(4, meal.getSide2());
+			pstmt.setString(5, meal.getSide3());
+		
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				mealNo = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return mealNo;
+	}
+
+	public int insertMeal(Connection con, Meal meal) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("insertMeal");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, meal.getRice());
+			pstmt.setString(2, meal.getSoup());
+			pstmt.setString(3, meal.getSide1());
+			pstmt.setString(4, meal.getSide2());
+			pstmt.setString(5, meal.getSide3());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public boolean selectDietTable(Connection con, int dietNo) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		boolean isExist = false;
+		String query = prop.getProperty("selectDietTable");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, dietNo);
+		
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				isExist = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return isExist;
+	}
+
+	public int updateDietTable(Connection con, Snack snack, Meal meal) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = "";
+		if(!snack.getSnack1().equals("")) {
+			query = prop.getProperty("updateDietSnack");
+		}else {
+			query = prop.getProperty("updateDietMeal");
+		}
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			if(!snack.getSnack1().equals("")) {
+				pstmt.setInt(1, snack.getSnackId());
+			}else {
+				pstmt.setInt(1, meal.getMealNo());
+			}
+			pstmt.setInt(2, meal.getDietNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 }
