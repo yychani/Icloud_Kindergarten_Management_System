@@ -1440,6 +1440,91 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		}
 		return b;
 	}
+
+	public Attachment selectOnePreKNoticeImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		Attachment att = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOnePreKNoticeImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				att = new Attachment();
+				
+				att.setFid(rset.getInt("F_ID"));
+				att.setOriginName(rset.getString("ORIGIN_NAME"));
+				att.setChangeName(rset.getString("CHANGE_NAME"));
+				att.setFilePath(rset.getString("FILE_PATH"));
+				att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+				att.setFileLevel(rset.getInt("FILE_LEVEL"));
+				att.setStatus(rset.getString("STATUS"));
+				att.setType(rset.getInt("TYPE"));
+				att.setCId(rset.getInt("C_ID"));
+				att.setFeedNo(rset.getInt("FEEDNO"));
+				att.setTId(rset.getInt("T_ID"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+			
+		return att;
+	}
+
+	//원 공지사항 수정용 메소드
+	public int updatePreKNotice(Connection con,Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updatePreKNotice");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deletePreKNotice(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("deletePreKNotice");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	
 
 }

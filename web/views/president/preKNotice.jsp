@@ -145,7 +145,7 @@ input[type='button'] {
 			<tbody id="tbodyArea"> 
 			<%for(Board b : list) { %>
 				<tr>
-					<td id="no"><%=b.getPno() %></td>
+					<td id="no"><%=b.getPno() %><input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
 					<td id="title"><%=b.getTtitle() %></td>
                     <td id="writer"><%=b.getTno() %></td>
                     <td id="count"><%=b.getTcount() %></td>

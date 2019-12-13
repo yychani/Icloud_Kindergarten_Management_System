@@ -36,6 +36,16 @@ input[type='submit'], input[type='reset'] {
 textarea {
 	border-radius: 10px;
 }
+button {
+	width: 100px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgb(63, 63, 63);
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+}
 </style>
 <script>
       $(function() {
@@ -60,33 +70,43 @@ textarea {
 	<div style="margin: 0 15%;">
 	<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항 </h1>
  	</div>
+ 	<form id="updateForm" method="post">
  	<div id="hansol" align="right" style="margin-right:22%;">작성자  <%=b.getName() %> 조회수  <%=b.getTcount() %> 작성일 <%=b.getTtime() %></div>
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
-		<input type="text" id="title" name="title" style="border:0;" value="<%=b.getTtitle()%>" readonly>
+		<input type="text" id="title" name="title" style="border:0;" value="<%=b.getTtitle()%>" >
 	</div>
 	
 	<br />
 	
 	<input type="hidden" name="userNo" value="<%=loginUser.getMemberNo()%>">
+	<input type="hidden" name="tid" value="<%=b.getTid()%>">
 	
 	<div class="ui form">
 		<div class="field">
 			<h3 style="text-underline-position: under;">내용</h3>
 			<textarea style="resize: none; width: 100%; border:0;" rows="25" id="content" name="content"
-			  readonly><%=b.getTcont() %></textarea>
+			  ><%=b.getTcont() %></textarea>
 		</div>
 		<div class="Imgscr"><img alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></div>
 	</div>
 	<br>
-	 <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
-	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectPreKNotice.bo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
-	 <%} %>
-	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectAllPreNotice.bo'" style="float: right" />
-	 
+	 <div align="right">
+	 	<button onclick="complete()">작성완료</button>
+	 	<button onclick="deletePreKNotice()">삭제하기</button>
+	 </div>
+	 <script>
+	 	function complete(){
+	 		$("#updateForm").attr("action","<%=request.getContextPath()%>/updatePreKNotice.bo");
+	 	}
+	 	function deletePreKNotice(){
+	 		$("#updateForm").attr("action","<%=request.getContextPath()%>/deletePreKNotice.bo");
+	 	}
+	 </script>
 	 <br><br>
 	</div>
+	</form>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
