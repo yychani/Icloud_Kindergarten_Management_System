@@ -1329,7 +1329,6 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, num);
-			
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -1372,7 +1371,6 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 			
 			if(rset.next()) {
 				att = new Attachment();
-				
 				att.setFid(rset.getInt("F_ID"));
 				att.setOriginName(rset.getString("ORIGIN_NAME"));
 				att.setChangeName(rset.getString("CHANGE_NAME"));
@@ -1439,6 +1437,46 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 			close(pstmt);
 		}
 		return b;
+	}
+
+	public Attachment selectOneDownImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Attachment file = null;
+		
+		String query = prop.getProperty("selectOneDownImg");
+		
+		try {
+			pstmt =con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				file = new Attachment();
+				
+				file.setFid(rset.getInt("F_ID"));
+				file.setOriginName(rset.getString("ORIGIN_NAME"));
+				file.setChangeName(rset.getString("CHANGE_NAME"));
+				file.setFilePath(rset.getString("FILE_PATH"));
+				file.setUploadDate(rset.getDate("UPLOAD_DATE"));
+				file.setFileLevel(rset.getInt("FILE_LEVEL"));
+				file.setStatus(rset.getString("STATUS"));
+				file.setType(rset.getInt("TYPE"));
+				file.setCId(rset.getInt("C_ID"));
+				file.setFeedNo(rset.getInt("FEEDNO"));
+				file.setTId(rset.getInt("T_ID"));
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		return file;
 	}
 	
 
