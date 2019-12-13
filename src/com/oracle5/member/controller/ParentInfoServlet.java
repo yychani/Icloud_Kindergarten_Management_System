@@ -34,7 +34,7 @@ public class ParentInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Member loginUser = (Member) session.getAttribute("loginMember");
-		int pNo = loginUser.getMemberNo();
+		int pNo = loginUser.getMemberNo();  
 		
 		//주소, 개인정보 가져오기
 		Map<String, Object> hmap = new MemberService().selectPInfo(pNo);
