@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.oracle5.board.model.dao.BoardDao;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
+import com.oracle5.common.model.vo.Attachment;
 
 /**
  * Servlet implementation class SelectPreKNotice
@@ -39,11 +39,14 @@ public class SelectPreKNotice extends HttpServlet {
 		
 		
 		Board b = new BoardService().selectOnePreKNotice(num, isUpdate);
+		Attachment a = new BoardService().selectOnePreKNoticeImg(num);
 		
 		String page="";
+		
 		if(b!= null) {
 			page="views/president/preKNoticeUpdate.jsp";
 			request.setAttribute("b",b);
+			request.setAttribute("a", a);
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시글 수정용 상세보기 실패");

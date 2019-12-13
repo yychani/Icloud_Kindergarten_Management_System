@@ -517,7 +517,7 @@ public class BoardService {
 		int result =0;
 		//원 공지사항 insert
 		int result1 = new BoardDao().insertPreKNotice(con,b);
-		//반 공지사항 이미지
+		//원 공지사항 이미지
 		if(result1 > 0) {
 			tid = new BoardDao().selectPreKNoticeTid(con,b);
 		}
@@ -560,6 +560,8 @@ public class BoardService {
 		}
 		
 		b1 = new BoardDao().selectOnePreKNotice(con,num);
+		
+		close(con);
 		
 		return b1;
 	}

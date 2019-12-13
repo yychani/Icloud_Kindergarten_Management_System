@@ -147,7 +147,7 @@ input[type='button'] {
 				<tr>
 					<td id="no"><%=b.getPno() %><input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
 					<td id="title"><%=b.getTtitle() %></td>
-                    <td id="writer"><%=b.getTno() %></td>
+                    <td id="writer"><%=b.getName() %></td>
                     <td id="count"><%=b.getTcount() %></td>
 					<td id="date"><%=b.getTtime() %></td>
 				</tr>

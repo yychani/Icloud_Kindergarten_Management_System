@@ -47,6 +47,53 @@ textarea {
 		</div>
 		
 	</div>
-	<br><input type="file" name="img" /> <input type="submit" id="boardWrite"
-		value="완료" style="float: right" />
+	
+	<table align="center" style="width:100%" id="plusFileArea">
+		<tr>
+			<td style="width:40px;"><input type="button" id="plusFile" style="width:30px; height:30px;" value="+">
+			<td align="left"><input type="file" name="img1" /></td>
+			<td><input type="submit" id="boardWrite"value="완료" style="float: right" /></td>
+		</tr>
+
+	</table>
+	
 </div>
+<script>
+	$(function(){
+		var i = 2;
+		$("#plusFile").click(function(){
+			
+			var name = "img" + i;
+
+			var $tr = $("<tr>");
+			
+			var $td = $("<td></td><td align='left' style='padding: 7px 0;'><input type='file' name='" + name + "'></td><td></td>");
+			var files = $("<input type='file'>");
+			var $tbody = $("#plusFileArea");
+
+			$tr.append($td);
+			
+			$tbody.append($tr);
+			i++;
+		});
+	});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

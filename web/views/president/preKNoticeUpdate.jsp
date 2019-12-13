@@ -89,7 +89,8 @@ button {
 			<textarea style="resize: none; width: 100%; border:0;" rows="25" id="content" name="content"
 			  ><%=b.getTcont() %></textarea>
 		</div>
-		<div class="Imgscr"><img alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></div>
+		<div class="Imgscr"><img name="img"alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></div>
+		
 	</div>
 	<br>
 	 <div align="right">

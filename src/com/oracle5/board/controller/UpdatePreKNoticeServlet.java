@@ -33,7 +33,8 @@ public class UpdatePreKNoticeServlet extends HttpServlet {
 		int tid = Integer.parseInt(request.getParameter("tid"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		
+		String filePath = request.getParameter("img");
+		System.out.println("img"+filePath);
 		/*System.out.println("tid : "+tid);
 		System.out.println("title" + title);
 		System.out.println("content : "+content);*/
