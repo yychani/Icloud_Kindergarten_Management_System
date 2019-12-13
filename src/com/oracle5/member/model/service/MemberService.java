@@ -794,4 +794,14 @@ public class MemberService {
 		return list;
 	}
 
+	//학부모 원아정보 가져오기
+	public ArrayList<HashMap<String, Object>> selectCInfo(int pNo) {
+		Connection con = getConnection();
+		ArrayList<HashMap<String, Object>> list = md.selectCInfo(con, pNo);
+		
+		close(con);
+		
+		return list;
+	}
+
 }
