@@ -783,10 +783,11 @@ public class MemberService {
 
 	}
 
-	public ArrayList<Map<String, Object>> selectChildObservation(int cid) {
+	//아이 관찰 척도 가져오기
+	public ArrayList<Map<String, Object>> selectChildObservation(int cid, int age) {
 		Connection con = getConnection();
 		
-		ArrayList<Map<String, Object>> list = new MemberDao().selectChildObservation(con, cid);
+		ArrayList<Map<String, Object>> list = new MemberDao().selectChildObservation(con, cid, age);
 		
 		close(con);
 		
