@@ -80,7 +80,26 @@
 				for(int i = start; i <= 7; i++){
 					if(newLine != 0){%>
 					
-					<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
+					<td id="exist"><input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>">
+					<input type="hidden" id="dietNo" value="<%=morningList.get(i - 2).getDietNo() %>">
+					<input type="hidden" id="type" value="아침">
+						
+						<span><% if (morningList.get(i - 2).getRice() != null){ %>
+							<%=morningList.get(i - 2).getRice() %>
+							<% } %></span><br>
+						<span><% if (morningList.get(i - 2).getRice() != null){ %>
+							<%=morningList.get(i - 2).getSoup() %>
+							<% } %></span><br>
+						<span><% if (morningList.get(i - 2).getRice() != null){ %>
+							<%=morningList.get(i - 2).getSide1() %>
+								<% } %></span><br>
+						<span><% if (morningList.get(i - 2).getRice() != null){ %>
+							<%=morningList.get(i - 2).getSide2() %>
+							<% } %></span><br>
+						<span><% if (morningList.get(i - 2).getRice() != null){ %>
+							<%=morningList.get(i - 2).getSide3() %>
+							<% } %></span><br>
+						</td>
 				<%	} newLine ++; 
 				ind++;
 				} %>
@@ -89,7 +108,26 @@
 				int ind = -1;
 					for(int index = 1; index <= endDayOfWeek; index++) { 
 						if(newLine != 0){%>
-							<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
+							<td id="exist"><input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+						<input type="hidden" id="dietNo" value="<%=morningList.get(index - 2).getDietNo() %>">
+						<input type="hidden" id="type" value="아침">
+						
+						<span><% if (morningList.get(index - 2).getRice() != null){ %>
+							<%=morningList.get(index - 2).getRice() %>
+							<% } %></span><br>
+						<span><% if (morningList.get(index - 2).getRice() != null){ %>
+							<%=morningList.get(index - 2).getSoup() %>
+							<% } %></span><br>
+						<span><% if (morningList.get(index - 2).getRice() != null){ %>
+							<%=morningList.get(index - 2).getSide1() %>
+								<% } %></span><br>
+						<span><% if (morningList.get(index - 2).getRice() != null){ %>
+							<%=morningList.get(index - 2).getSide2() %>
+							<% } %></span><br>
+						<span><% if (morningList.get(index - 2).getRice() != null){ %>
+							<%=morningList.get(index - 2).getSide3() %>
+							<% } %></span><br>
+						</td>
 					<%	} newLine ++; 
 					ind++;%>
 				<% 	}
@@ -143,7 +181,19 @@
 				for(int i = start; i <= 7; i++){
 					if(newLine != 0){%>
 					
-					<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
+					<td id="exist"><input id="date" type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>">
+					<input type="hidden" id="dietNo" value="<%=beforeSunList.get(i - 2).getDietNo() %>">
+						<input type="hidden" id="type" value="오전">
+						
+						<span><% if (beforeSunList.get(i - 2).getSnack1() != null){ %>
+							<%=beforeSunList.get(i - 2).getSnack1() %>
+							<% } %></span><br>
+						<% if (beforeSunList.get(i - 2).getSnack1() != null){ 
+						if(!beforeSunList.get(i - 2).getSnack2().equals(" ")) {%>
+							<span><%=beforeSunList.get(i - 2).getSnack2() %></span>
+							<%}
+						} %>
+						</td>
 				<%	} newLine ++; 
 				ind++;
 				} %>
@@ -152,7 +202,19 @@
 				int ind = -1;
 					for(int index = 1; index <= endDayOfWeek; index++) { 
 						if(newLine != 0){%>
-							<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
+							<td id="exist"><input id="date" type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+							<input type="hidden" id="dietNo" value="<%=beforeSunList.get(index - 2).getDietNo() %>">
+						<input type="hidden" id="type" value="오전">
+						
+						<span><% if (beforeSunList.get(index - 2).getSnack1() != null){ %>
+							<%=beforeSunList.get(index - 2).getSnack1() %>
+							<% } %></span><br>
+						<% if (beforeSunList.get(index - 2).getSnack1() != null){ 
+						if(!beforeSunList.get(index - 2).getSnack2().equals(" ")) {%>
+							<span><%=beforeSunList.get(index - 2).getSnack2() %></span>
+							<%}
+						} %>
+						</td>
 					<%	} newLine ++; 
 					ind++;%>
 				<% 	}
@@ -200,7 +262,26 @@
 				for(int i = start; i <= 7; i++){
 					if(newLine != 0){%>
 					
-					<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
+					<td id="exist"><input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>">
+					<input type="hidden" id="dietNo" value="<%=lunchList.get(i - 2).getDietNo() %>">
+						<input type="hidden" id="type" value="점심">
+						
+						<span><% if (lunchList.get(i - 2).getRice() != null){ %>
+							<%=lunchList.get(i - 2).getRice() %>
+							<% } %></span><br>
+						<span><% if (lunchList.get(i - 2).getRice() != null){ %>
+							<%=lunchList.get(i - 2).getSoup() %>
+							<% } %></span><br>
+						<span><% if (lunchList.get(i - 2).getRice() != null){ %>
+							<%=lunchList.get(i - 2).getSide1() %>
+								<% } %></span><br>
+						<span><% if (lunchList.get(i - 2).getRice() != null){ %>
+							<%=lunchList.get(i - 2).getSide2() %>
+							<% } %></span><br>
+						<span><% if (lunchList.get(i - 2).getRice() != null){ %>
+							<%=lunchList.get(i - 2).getSide3() %>
+							<% } %></span><br>
+						</td>
 				<%	} newLine ++; 
 				ind++;
 				} %>
@@ -209,7 +290,26 @@
 				int ind = -1;
 					for(int index = 1; index <= endDayOfWeek; index++) { 
 						if(newLine != 0){%>
-							<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
+							<td id="exist"><input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+							<input type="hidden" id="dietNo" value="<%=lunchList.get(index - 2).getDietNo() %>">
+						<input type="hidden" id="type" value="점심">
+						
+						<span><% if (lunchList.get(index - 2).getRice() != null){ %>
+							<%=lunchList.get(index - 2).getRice() %>
+							<% } %></span><br>
+						<span><% if (lunchList.get(index - 2).getRice() != null){ %>
+							<%=lunchList.get(index - 2).getSoup() %>
+							<% } %></span><br>
+						<span><% if (lunchList.get(index - 2).getRice() != null){ %>
+							<%=lunchList.get(index - 2).getSide1() %>
+								<% } %></span><br>
+						<span><% if (lunchList.get(index - 2).getRice() != null){ %>
+							<%=lunchList.get(index - 2).getSide2() %>
+							<% } %></span><br>
+						<span><% if (lunchList.get(index - 2).getRice() != null){ %>
+							<%=lunchList.get(index - 2).getSide3() %>
+							<% } %></span><br>
+						</td>
 					<%	} newLine ++; 
 					ind++;%>
 				<% 	}
@@ -264,7 +364,19 @@
 				for(int i = start; i <= 7; i++){
 					if(newLine != 0){%>
 					
-					<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
+					<td id="exist"><input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>">
+					<input type="hidden" id="dietNo" value="<%=afterSunList.get(i - 2).getDietNo() %>">
+						<input type="hidden" id="type" value="오후">
+						
+						<span><% if (afterSunList.get(i - 2).getSnack1() != null){ %>
+							<%=afterSunList.get(i - 2).getSnack1() %>
+							<% } %></span><br>
+						<% if (afterSunList.get(i - 2).getSnack1() != null){ 
+						if(!afterSunList.get(i - 2).getSnack2().equals(" ")){%>
+							<span><%=afterSunList.get(i - 2).getSnack2() %></span>
+							<% }
+						} %>
+						</td>
 				<%	} newLine ++; 
 				ind++;
 				} %>
@@ -273,7 +385,19 @@
 				int ind = -1;
 					for(int index = 1; index <= endDayOfWeek; index++) { 
 						if(newLine != 0){%>
-							<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
+							<td id="exist"><input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+							<input type="hidden" id="dietNo" value="<%=afterSunList.get(index - 2).getDietNo() %>">
+						<input type="hidden" id="type" value="오후">
+						
+						<span><% if (afterSunList.get(index - 2).getSnack1() != null){ %>
+							<%=afterSunList.get(index - 2).getSnack1() %>
+							<% } %></span><br>
+						<% if (afterSunList.get(index - 2).getSnack1() != null){ 
+						if(!afterSunList.get(index - 2).getSnack2().equals(" ")){%>
+							<span><%=afterSunList.get(index - 2).getSnack2() %></span>
+							<% }
+						} %>
+						</td>
 					<%	} newLine ++; 
 					ind++;%>
 				<% 	}
@@ -321,7 +445,26 @@
 				for(int i = start; i <= 7; i++){
 					if(newLine != 0){%>
 					
-					<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>"></td>
+					<td id="exist"><input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-0<%=ind %>">
+					<input type="hidden" id="dietNo" value="<%=dinnerList.get(i - 2).getDietNo() %>">
+						<input type="hidden" id="type" value="저녁">
+						
+						<span><% if (dinnerList.get(i - 2).getRice() != null){ %>
+							<%=dinnerList.get(i - 2).getRice() %>
+							<% } %></span><br>
+						<span><% if (dinnerList.get(i - 2).getRice() != null){ %>
+							<%=dinnerList.get(i - 2).getSoup() %>
+							<% } %></span><br>
+						<span><% if (dinnerList.get(i - 2).getRice() != null){ %>
+							<%=dinnerList.get(i - 2).getSide1() %>
+								<% } %></span><br>
+						<span><% if (dinnerList.get(i - 2).getRice() != null){ %>
+							<%=dinnerList.get(i - 2).getSide2() %>
+							<% } %></span><br>
+						<span><% if (dinnerList.get(i - 2).getRice() != null){ %>
+							<%=dinnerList.get(i - 2).getSide3() %>
+							<% } %></span><br>
+						</td>
 				<%	} newLine ++; 
 				ind++;
 				} %>
@@ -330,7 +473,26 @@
 				int ind = -1;
 					for(int index = 1; index <= endDayOfWeek; index++) { 
 						if(newLine != 0){%>
-							<td id="exist"><input type="hidden" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>"></td>
+							<td id="exist"><input type="hidden" id="date" value="<%=mondayYear %>-<%if(Integer.toString(month + 1).length() == 1){%>0<%=month + 1%><%}else{%><%=month + 1%><% } %>-<%if(Integer.toString(mondayDateInt + ind).length() == 1){%>0<%=mondayDateInt + ind %><%}else {%><%=mondayDateInt + ind %><%} %>">
+							<input type="hidden" id="dietNo" value="<%=dinnerList.get(index - 2).getDietNo() %>">
+						<input type="hidden" id="type" value="저녁">
+						
+						<span><% if (dinnerList.get(index - 2).getRice() != null){ %>
+							<%=dinnerList.get(index - 2).getRice() %>
+							<% } %></span><br>
+						<span><% if (dinnerList.get(index - 2).getRice() != null){ %>
+							<%=dinnerList.get(index - 2).getSoup() %>
+							<% } %></span><br>
+						<span><% if (dinnerList.get(index - 2).getRice() != null){ %>
+							<%=dinnerList.get(index - 2).getSide1() %>
+								<% } %></span><br>
+						<span><% if (dinnerList.get(index - 2).getRice() != null){ %>
+							<%=dinnerList.get(index - 2).getSide2() %>
+							<% } %></span><br>
+						<span><% if (dinnerList.get(index - 2).getRice() != null){ %>
+							<%=dinnerList.get(index - 2).getSide3() %>
+							<% } %></span><br>
+						</td>
 					<%	} newLine ++; 
 					ind++;%>
 				<% 	}

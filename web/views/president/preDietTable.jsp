@@ -223,23 +223,23 @@ input[type='text'] {
 					<table>
 						<tr>
 							<td id="null" class="label"><label>밥 : </label></td>
-							<td id="null"><input type="text" id="rice" name="rice" disabled></td>
+							<td id="null"><input type="text" id="rice" name="rice" placeholder=" 밥류" disabled></td>
 						</tr>
 						<tr>
 							<td id="null" class="label"><label>국 : </label></td>
-							<td id="null"><input type="text" id="soup" name="soup" disabled></td>
+							<td id="null"><input type="text" id="soup" name="soup" placeholder=" 국류" disabled></td>
 						</tr>
 						<tr>
 							<td id="null" class="label"><label>반찬1 : </label></td>
-							<td id="null"><input type="text" id="side1" name="side1" disabled></td>
+							<td id="null"><input type="text" id="side1" name="side1" placeholder=" 김치류"disabled></td>
 						</tr>
 						<tr>
 							<td id="null" class="label"><label>반찬2 : </label></td>
-							<td id="null"><input type="text" id="side2" name="side2" disabled></td>
+							<td id="null"><input type="text" id="side2" name="side2" placeholder=" 메인반찬(고기류)" disabled></td>
 						</tr>
 						<tr>
 							<td id="null" class="label"><label>반찬3 : </label></td>
-							<td id="null"><input type="text" id="side3" name="side3" disabled></td>
+							<td id="null"><input type="text" id="side3" name="side3" placeholder=" 부반찬(나물류)" disabled></td>
 						</tr>
 					</table>
 				</div>
@@ -247,11 +247,11 @@ input[type='text'] {
 					<table>
 						<tr>
 							<td id="null" class="label"><label>간식1 : </label></td>
-							<td id="null"><input type="text" id="snack1" name="snack1" disabled></td>
+							<td id="null"><input type="text" id="snack1" name="snack1" placeholder=" 간식" disabled></td>
 						</tr>
 						<tr>
 							<td id="null" class="label"><label>간식2 : </label></td>
-							<td id="null"><input type="text" id="snack2" name="snack2" disabled></td>
+							<td id="null"><input type="text" id="snack2" name="snack2" placeholder=" 간식" disabled></td>
 						</tr>
 					</table>
 				</div>
