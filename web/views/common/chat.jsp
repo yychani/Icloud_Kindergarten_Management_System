@@ -1,6 +1,8 @@
+<%@page import="java.net.InetAddress"%>
 <%@page import="com.oracle5.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
@@ -48,7 +50,9 @@
 	});
 	
 	function getConnection() {
-		ws = new WebSocket("ws:localhost:8001" + '<%=request.getContextPath() %>/chat');
+		
+		
+		ws = new WebSocket("ws:<%=svrIP %>:8001" + '<%=request.getContextPath() %>/chat');
 		
 		ws.onopen = function(event){
 			
