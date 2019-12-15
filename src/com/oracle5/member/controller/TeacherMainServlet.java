@@ -13,29 +13,21 @@ import com.oracle5.member.model.service.MemberService;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.Member;
 
-@WebServlet("/selectBanChildren.me")
-public class SelectBanChildrenServlet extends HttpServlet {
+@WebServlet("/teacher")
+public class TeacherMainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Member m = (Member) request.getSession().getAttribute("loginMember");
 		
-		String date = "";
-		if(request.getParameter("date") != null) {
-			date = request.getParameter("date");
-		}
+		String banName = new MemberService().selectBanName(m.getMemberNo());
 		
 		ArrayList<Children> list = new MemberService().selectBanChilren(m.getMemberNo());
 		
-		if(list != null && date.equals("")) {
+		if(list != null) {
+			request.setAttribute("bn", banName);
 			request.setAttribute("list", list);
-			request.getRequestDispatcher("/views/teacher/tcChildMgmt.jsp").forward(request, response);
-		} else if(list != null && !date.equals("")) {
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("/views/teacher/tcChildAttendMgmt.jsp?date=" + date).forward(request, response);
-		} else {
-			request.setAttribute("msg", "원아리스트 요청 실패");
-			request.getRequestDispatcher("/views/errorPage.jsp").forward(request, response);
+			request.getRequestDispatcher("/views/teacher/tcMain.jsp").forward(request, response);
 		}
 	}
 

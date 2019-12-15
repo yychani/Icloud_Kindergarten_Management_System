@@ -288,7 +288,7 @@
  	<div style="margin: 0 15%; height:50px;">
 		<input type="button" value="뒤로가기" style="float:right; background:lightgray; color:black" onclick="location.href='tcChildDetail.jsp'" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		<input type="button" value="수정하기" style="float:right" onclick="location.href='tcChildObserveMod.jsp?cid=<%= cid %>&age=<%= age %>'" />
+		<input type="button" value="수정하기" style="float:right" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildObserveMod.jsp?cid=<%= cid %>&age=<%= age %>'" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<input type="button" value="인쇄하기" style="float:right; background:lightgray; color:black" />
 	</div>

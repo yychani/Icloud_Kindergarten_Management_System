@@ -36,6 +36,9 @@
 		border: none;
 		cursor: pointer;
 	}
+	#ftotal, #stotal {
+		text-align:center;
+	}
 </style>
 <script>
  	var now = new Date();
@@ -102,39 +105,35 @@
 					$("#obname").text(data[0].m.memberName);
 					
 					var score = data[0].ob.escore.split("/");
-					console.log(score)
 					var first = $(".childOb tbody tr:nth-of-type(n+4) td").find('input').parent();
-					console.log(first)
-					for(var i = 0, k = 0; i < first.length; i+=3,k++){
-						for(var j = 0; j < 3; j++) {
-							if(score[k] == first[i+j].innerText){
-								$(first[i+j]).css("background-color","gray");
-								break;
+					for(var i = 0, k = 0; i < first.length - 2; i+=2, k++) {
+						for(var j = 0; j < 5; j+=2) {
+							if(first[i].children[j].value == score[k]) {
+								first[i].children[j].checked = true;
 							}
-							
 						}
 					}
 					
-					$("#total1").text(data[0].ob.eval);
+					$("#ftotal").val(data[0].ob.eval);
 					
 					if(data.length == 2) {
 						var date2 = data[1].ob.eDate;
 						date2 = date2.split(" ");
 						date2 = date2[2] + "년 " + date2[0] + " " + date2[1].substring(0,2) + "일"
-						$("#sdate").text(date2);
+						$("#sdate").val(date2);
+
 						var score2 = data[1].ob.escore.split("/");
-						var second = $(".second");
-						for(var i = 0, k = 0; i < second.length; i+=3,k++){
-							for(var j = 0; j < 3; j++) {
-								if(score2[k] == second[i+j].innerText){
-									$(second[i+j]).css("background-color","gray");
-									break;
+						var first = $(".childOb tbody tr:nth-of-type(n+4) td").find('input').parent();
+						for(var i = 1, k = 0; i < first.length - 2; i+=2, k++) {
+							for(var j = 0; j < 5; j+=2) {
+								if(first[i].children[j].value == score2[k]) {
+									first[i].children[j].checked = true;
 								}
-								
 							}
 						}
 						
-						$("#total2").text(data[1].ob.eval);
+						
+						$("#stotal").val(data[1].ob.eval);
 					}
 				}
 			},
@@ -142,8 +141,13 @@
 				console.log("에러")
 			}
 		});
+		
+		$("#selectAge").change(function() {
+			var age = $(this).val();
+			if(age != 'default')
+				location.href="<%= request.getContextPath() %>/views/teacher/tcChildObserveMod.jsp?cid=<%= request.getParameter("cid") %>&age=" + age; 
+		});
     });
-	
 </script>
 </head>
 <body>
@@ -512,11 +516,11 @@
  			<tr>
  				<td rowspan="2" style="width:3%; height:10em"><span style="writing-mode: tb-rl;">총평</span></td>
  				<td style="width:3%;"><span style="font-size:10px">1학기</span></td>
- 				<td colspan="9" style="height:4em;"><input type="text" name="ftotal" style="width:100%; height:100%" /></td>
+ 				<td colspan="9" style="height:4em;"><input type="text" name="ftotal" id="ftotal" style="width:100%; height:100%" /></td>
  			</tr>
  			<tr>
  				<td style="width:3%; font-size:0.5em"><span>2학기</span></td>
- 				<td colspan="9" style="height:4em;"><input type="text" name="stotal" style="width:100%; height:100%" /></td>
+ 				<td colspan="9" style="height:4em;"><input type="text" name="stotal" id="stotal" style="width:100%; height:100%" /></td>
  			</tr>		
  		</table>
  	</div>

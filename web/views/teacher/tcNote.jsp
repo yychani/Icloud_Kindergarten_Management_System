@@ -1,7 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
 <%
+	ArrayList<Note> list = (ArrayList<Note>) request.getAttribute("list");
 	String date = (String) request.getParameter("date");
+	String[] spdate = date.split("-");
+	String day = spdate[0] + "년 " + spdate[1] + "월 " + spdate[2] + "일";
+	Note n = null;
+	int cid;
+	if(list.size() != 0 && request.getParameter("cid") != null) {
+		cid = Integer.parseInt(request.getParameter("cid"));
+		for(int i = 0; i < list.size(); i++){
+			if(list.get(i).getCid() == cid) {
+				n = list.get(i);
+			}
+		}
+	} else if(list.size() != 0 && list.get(0) != null) {
+		n = list.get(0);
+	}
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -57,32 +73,82 @@ table {
           $(".li:nth-child(5)").addClass("on");
           $(".topMenuLi:nth-child(2)").addClass("on");
        });
+        
+        $.ajax({
+        	url:"<%= request.getContextPath() %>/selectBanChildList.do",
+        	type:"get",
+        	data:{tno: $("#tno").val()},
+        	success:function(data) {
+        		$select = $("#childList");
+        		$select.find("option").remove();
+        		
+        		for(var i = 0; i < data.length; i++) {
+        			var name = data[i].name;
+					var childname = $("h1").text();
+					childname = childname.substring(0, childname.lastIndexOf(" "));
+					var selected = (name == childname) ? "selected" : "";
+					
+        			$select.append("<option value='" + data[i].cId + "' " + selected + ">" + name + "</option>");
+        		}
+        		
+        		$("#childList").children().each(function(index, value){
+       				if(value.value == <%= request.getParameter("cid") %>) {
+       					$(this).prop("selected", true);
+       				}
+        		});
+        	},
+        	error:function() {
+        		console.log("실패")
+        	}
+        });
+        
+        $("#childList").change(function() {
+        	var cid = $(this).val();
+        	var tno = $("#tno").val();
+        	var date = $("#date").val(); 
+        	location.href="<%= request.getContextPath() %>/selectChildNote.me?date=" + date + "&tno=" + tno + "&cid=" + cid;
+        });
+        
+        if($("#shealth").val() != null) {
+        	$("[name=health]").each(function(index, value){
+        		if(value.value === $("#shealth").val()){
+        			$(this).prop("checked", true);
+        		}
+        	});
+        }
 	});
 </script>
 </head>
 <body>
 	<%@ include file="/views/common/teacherMenu.jsp" %>
  	<div style="margin: 0 15%;">
- 	<h1 style="text-decoration: underline; text-underline-position: under;"><%= request.getParameter("date") %>&nbsp; 알림장</h1>
+ 	<h1 style="text-decoration: underline; text-underline-position: under;"><%= day %>&nbsp;알림장</h1>
  	</div>
-	<form action="">
+	<form action="<%= request.getContextPath() %>/insertChildNote.me" method="get">
 	<div style="margin: 0 30%; padding-top :10px; padding-bottom:50px">
+		<input type="hidden" id="tno" name="tno" value="<%= loginUser.getMemberNo() %>" />
+		<input type="hidden" id="date" name="date" value="<%= request.getParameter("date") %>" />
 		<span style="font-size:20px; font-weight:bold; margin-right:10px;">이름</span>
-		<select name="child" id="child" style="display:inline-block;">
-			<option value="박건후">박건후</option>
-			<option value="윤재영">윤재영</option>
-			<option value="권연주">권연주</option>
-			<option value="이원경">이원경</option>
+		<select name="childList" id="childList" style="display:inline-block;">
 		</select>
+		<% if(n == null) { %>
 		<h3 style="text-decoration: underline; text-underline-position: under;">특이사항</h3>
-		<textarea style="resize: none;" rows="10"></textarea>
+		<textarea id="unique" name="unique" style="resize: none;" rows="10"></textarea>
 		<h3 style="text-decoration: underline; text-underline-position: under;">준비물</h3>
-		<textarea style="resize: none;" rows="10"></textarea>
+		<textarea id="materials" name="materials" style="resize: none;" rows="10"></textarea>
 		<h3 style="text-decoration: underline; text-underline-position: under;">오늘 하루 건강</h3>
+		<% } else { %>
+		<h3 style="text-decoration: underline; text-underline-position: under;">특이사항</h3>
+		<textarea id="unique" name="unique" style="resize: none;" rows="10"><%= n.getUnique() %></textarea>
+		<h3 style="text-decoration: underline; text-underline-position: under;">준비물</h3>
+		<textarea id="materials" name="materials" style="resize: none;" rows="10"><%= n.getMaterials() %></textarea>
+		<h3 style="text-decoration: underline; text-underline-position: under;">오늘 하루 건강</h3>
+		<input type="hidden" id="shealth" name="shealth" value=<%= n.getHealth() %> />
+		<% } %>
 		<input type="radio" name="health" id="health1" value="좋음"/><label for="health1">좋음</label>
 		<input type="radio" name="health" id="health2" value="보통"/><label for="health2">보통</label>
 		<input type="radio" name="health" id="health3" value="나쁨"/><label for="health3">나쁨</label>
-		<br /><br />
+		<br><br>
 		<input type="submit" value="완료" style="float:right; border-radius:5px;"/>
 	</div>
 	</form>

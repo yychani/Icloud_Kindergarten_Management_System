@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.dao.MemberDao;
+import com.oracle5.member.model.vo.AsList;
 import com.oracle5.member.model.vo.Attend;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.BodyInfo;
@@ -18,6 +19,7 @@ import com.oracle5.member.model.vo.FamilyRelation;
 import com.oracle5.member.model.vo.FieldLearning;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
+import com.oracle5.member.model.vo.Note;
 import com.oracle5.member.model.vo.Observation;
 import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.ReturnAgree;
@@ -829,6 +831,122 @@ public class MemberService {
 		
 		return list;
 
+	}
+
+	public int checkChildOb(Observation ob) {
+		Connection con = getConnection();
+		
+		int check = new MemberDao().checkChildOb(con, ob);
+		
+		close(con);
+		
+		return check;
+	}
+
+	public int updateChildOb(Observation ob) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().updateChildOb(con, ob);
+		
+		close(con);
+		
+		return result;
+	}
+
+	public int insertChildNote(Note n) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().insertChildNote(con, n);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	public ArrayList<Note> selectChildNote(Date nDate, int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<Note> list = new MemberDao().selectChildNote(con, nDate, tno);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public int insertChildAttend(Attend a) {
+		
+		return 0;
+	}
+
+	public int insertChildAttend(String date, String[] cidArr, String[] attArr) {
+		Connection con = getConnection();
+		
+		int result = 0;
+		
+		for(int i = 0; i < cidArr.length; i++) {
+			Attend a = new Attend();
+			a.setAmDate(Date.valueOf(date));
+			a.setAType(attArr[i]);
+			a.setCId(Integer.parseInt(cidArr[i]));
+			
+			result += new MemberDao().insertChildAttend(con, a);
+		}
+		
+		if(result == cidArr.length) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	public ArrayList<Attend> selectBanChildAttend(Date nDate, int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<Attend> list = new MemberDao().selectBanChildAttend(con, nDate, tno);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public ArrayList<Children> selectBanOkAsList(int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<Children> list = new MemberDao().selectBanOkAsList(con, tno);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public ArrayList<Children> selectBanNoAsList(int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<Children> list = new MemberDao().selectBanNoAsList(con, tno);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public String selectBanName(int memberNo) {
+		Connection con = getConnection();
+		
+		String banName = new MemberDao().selectBanName(con, memberNo);
+		
+		close(con);
+		
+		return banName;
 	}
 
 }
