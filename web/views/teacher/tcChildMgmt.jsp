@@ -57,8 +57,6 @@
 	<div class="list">
 		<h1 align="center">해바라기반 원아 목록</h1>
 		<table class="main" align="center">
-			<%-- db값 읽어오는걸로 유동적으로 추가되도록 할 것 --%>
-			<!-- tcChildDetail?name=test -> test자리는 db에서 아이이름 가져와서 채울 것 -->
 			<tr style="background:lightgray">
 				<th class="no">No.</th>
 				<th class="name">이름</th>

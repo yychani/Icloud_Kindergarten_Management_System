@@ -21,6 +21,7 @@ import java.util.Properties;
 import javax.naming.PartialResultException;
 
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.vo.AsList;
 import com.oracle5.member.model.vo.Attend;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.BodyInfo;
@@ -30,6 +31,7 @@ import com.oracle5.member.model.vo.FamilyRelation;
 import com.oracle5.member.model.vo.FieldLearning;
 import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
+import com.oracle5.member.model.vo.Note;
 import com.oracle5.member.model.vo.Observation;
 import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.Participation;
@@ -1597,7 +1599,7 @@ public class MemberDao {
 		return bi;
 	}
 
-	//아이 출석정보 가져오기
+	//한 아이 출석정보 가져오기
 	public Map<String, Object> selectChildAttend(Connection con, int cid) {
 	      PreparedStatement pstmt = null;
 	      ResultSet rset = null;
@@ -2378,6 +2380,286 @@ public class MemberDao {
 		
 		return list;
 
+	}
+
+	public int checkChildOb(Connection con, Observation ob) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("checkChildOb");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, ob.getRound());
+			pstmt.setInt(2, ob.getCid());
+			pstmt.setInt(3, ob.getAge());
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateChildOb(Connection con, Observation ob) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("updateChildOb");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, ob.getEscore());
+			pstmt.setString(2, ob.getEval());
+			pstmt.setInt(3, ob.getTno());
+			pstmt.setDate(4, ob.getEDate());
+			pstmt.setInt(5, ob.getRound());
+			pstmt.setInt(6, ob.getAge());
+			pstmt.setInt(7, ob.getCid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertChildNote(Connection con, Note n) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("insertChildNote");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, n.getCid());
+			pstmt.setString(2, n.getUnique());
+			pstmt.setString(3, n.getMaterials());
+			pstmt.setString(4, n.getHealth());
+			pstmt.setDate(5, n.getNDate());
+			pstmt.setInt(6, n.getTno());
+			pstmt.setInt(7, n.getCid());
+			pstmt.setString(8, n.getUnique());
+			pstmt.setString(9, n.getMaterials());
+			pstmt.setString(10, n.getHealth());
+			pstmt.setDate(11, n.getNDate());
+			pstmt.setInt(12, n.getTno());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Note> selectChildNote(Connection con, Date nDate, int tno) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Note> list = null;
+		Note n = null;
+		
+		String sql = prop.getProperty("selectChildNote");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setDate(1, nDate);
+			pstmt.setInt(2, tno);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				n = new Note();
+				
+				n.setCid(rset.getInt("C_ID"));
+				n.setUnique(rset.getString("UNIQUENESS"));
+				n.setMaterials(rset.getString("MATERIALS"));
+				n.setHealth(rset.getString("HEALTH"));
+				n.setNDate(rset.getDate("N_DATE"));
+				n.setTno(rset.getInt("T_NO"));
+				
+				list.add(n);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public int insertChildAttend(Connection con, Attend a) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("insertChildAttend");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, a.getCId());
+			pstmt.setDate(2, a.getAmDate());
+			pstmt.setString(3, a.getAType());
+			pstmt.setDate(4, a.getAmDate());
+			pstmt.setInt(5, a.getCId());
+			pstmt.setString(6, a.getAType());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Attend> selectBanChildAttend(Connection con, Date nDate, int tno) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Attend> list = null;
+		Attend a = null;
+		
+		String sql = prop.getProperty("selectBanChildAttend");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setDate(1, nDate);
+			pstmt.setInt(2, tno);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				a = new Attend();
+				
+				a.setAType(rset.getString("A_TYPE"));
+				a.setCId(rset.getInt("C_ID"));
+				
+				list.add(a);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<Children> selectBanOkAsList(Connection con, int tno) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Children> list = null;
+		Children c = null;
+		
+		String sql = prop.getProperty("selectBanOkAsList");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, tno);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				c = new Children();
+				
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				c.setEntDate(rset.getDate("APPROVAL_DATE"));
+				
+				list.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<Children> selectBanNoAsList(Connection con, int tno) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Children> list = null;
+		Children c = null;
+		
+		String sql = prop.getProperty("selectBanNoAsList");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, tno);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				c = new Children();
+				
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				c.setEntDate(rset.getDate("APPROVAL_DATE"));
+				
+				list.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public String selectBanName(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String banName = "";
+		
+		String sql = prop.getProperty("selectBanName");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				banName = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return banName;
 	}
 
 }

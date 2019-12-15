@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*, com.oracle5.board.model.vo.CommonNote, java.sql.Date"%>
+<%
+	ArrayList<CommonNote> list = (ArrayList<CommonNote>) request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -99,6 +102,19 @@
             background: rgba(30, 143, 255, 0.432);
         }
     </style>
+     <script>
+    	$(function(){
+    		<% for(int i = 0; i < list.size(); i++) {
+    			String date = list.get(i).getDate().toString();%>
+    			$(".dailyDate1").each(function(){
+    				if($(this).val() == "<%=date %>"){
+    					$(this).parent().children("p").text("작성");
+    				}
+    			});
+    		<% } %>
+    		
+    	});
+    </script>
 </head>
 
 <body style="overflow-x: hidden">
@@ -112,7 +128,9 @@
         <label>내용</label><br>
         <textarea name="dateCont" id="dateCont" cols="100" rows="5" readonly></textarea><br>
         <input type="button" name="edit" id="edit" value="수정하기" style="float:right;">
+        <input type="hidden" name="dateVal" id="dateVal" />
         <input type="hidden" name="editComplete" id="editComplete" value="수정완료" style="float:right;"> 
+        <input type="hidden" name="tno" id="tno" value="<%= loginUser.getMemberNo() %>" />
     </div>
     <br /><br />
     
@@ -120,7 +138,24 @@
         $(function () {
             var today = $(".date[bgcolor='#C9C9C9']");
             var todayVal = today.children(".dailyDate").val();
+            var todayVal1 = today.children(".dailyDate1").val();
+            var tno = $("#tno").val();
+            
             $("#dateOutput").text(todayVal);
+            $("#dateVal").val(todayVal1);
+            
+            $.ajax({
+            	url:"<%= request.getContextPath() %>/selectTcNote",
+            	data:{
+            		date:todayVal1,
+            		tno:tno
+            	},
+            	type:"post",
+                success:function(data){
+                	$("#dateCont").text(data);
+                }
+            });
+            
             function calColor() {
                 $(".date").css("background", "white");
                 today.css("background", "#C9C9C9");
@@ -143,9 +178,24 @@
             $(".date").on("click", function(){
                 calColor();
                 var date = $(this).children(".dailyDate").val();
+                var date1 = $(this).children(".dailyDate1").val();
+                var tno = $("#tno").val();
                 $(this).css("background", "rgba(30, 143, 255, 0.432)")
                 $("#dateOutput").text(date);
-                console.log(date);
+                $("#dateVal").val(date1);
+                
+                $.ajax({
+                	url:"<%= request.getContextPath() %>/selectTcNote",
+                	data:{
+                		date:date1,
+                		tno:tno
+                	},
+                	type:"post",
+                    success:function(data){
+                    	$("#dateCont").val("");
+                    	$("#dateCont").val(data);
+                    }
+                });
             });
 
             $("#edit").on("click", function() {
@@ -153,10 +203,32 @@
                 $("#editComplete").prop("type", "button");
                 $(this).prop("type", "hidden");
             });
+            
             $("#editComplete").on("click", function() {
                 $("#dateCont").prop("readonly", true);
                 $("#edit").prop("type", "button");
                 $(this).prop("type", "hidden");
+                
+                var dateVal = $("#dateVal").val();
+                var dateCont = $("#dateCont").val();
+                var tno = $("#tno").val();
+                
+                $.ajax({
+                	url:"<%= request.getContextPath() %>/insertTcNote",
+                	data:{
+                		date:dateVal,
+                		dateCont:dateCont,
+                		tno:tno
+                	},
+                	type:"post",
+                	success:function(data){
+                		$(".dailyDate1").each(function(){
+            				if($(this).val() == dateVal){
+            					$(this).parent().children("p").text("작성");
+            				}
+            			});
+                	}
+                });
             });
         }); 
     </script>

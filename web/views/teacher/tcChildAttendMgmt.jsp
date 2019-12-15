@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
 <% 
 	String date = (String) request.getParameter("date");
+	ArrayList<Children> list = (ArrayList<Children>) request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html>
@@ -24,19 +25,43 @@
 		$(this).find('input[type=radio]').prop('checked', true);
 		if($(this).find('input[type=radio]').attr('name') === "selectAll") {
 			var check = $(this).find('input[type=radio]').attr('id');
-			$(".attendTable").children('tbody').find('td').find('#'+check).prop('checked',true);
+			$(".attendTable").children('tbody').find('td').find('.'+check).each(function(index, value){
+				$(this).prop("checked", true);
+			});
 		}
 	});
 	
 	function saveAttend() {
 		var cnt = 0;
-		var input = $(".attendTable").children('tbody').find('td').find('input[type=radio]');
+		var input = $(".attendTable").children('tbody').find('td').find("input[type=radio]");
+		var cidArr = [];
+		var attArr = [];
 		input.each(function(index, item) {
-			if($(this).is(":checked")) {
-				cnt++;
+			if(index <= 138) {
+				if($(this).is(":checked")) {
+					cidArr[cnt] = $("#cid"+cnt).val();
+					attArr[cnt] = $(this).val();
+					cnt++;
+				}
 			}
 		});
-		console.log(cnt);
+		
+		var date = '<%= request.getParameter("date") %>';
+		$.ajax({
+			url:"<%= request.getContextPath() %>/insertChildAttend.do",
+			type:"post",
+			data:{
+				cidArr:cidArr,
+				attArr:attArr,
+				date:date
+			},
+			success:function(data) {
+				alert("저장되었습니다.");
+			},
+			error:function(){
+				console.log("실패")
+			}
+		});
 	};
 	
 	$(function() {
@@ -53,6 +78,28 @@
           $(".li:nth-child(7)").addClass("on");
           $(".topMenuLi:nth-child(2)").addClass("on");
        });
+        
+        $.ajax({
+        	url:"<%= request.getContextPath() %>/selectChildAttend.do",
+        	type:"post",
+        	data:{
+        		date:'<%= date %>',
+        		tno:$("#tno").val()
+        	},
+        	success:function(data) {
+        		for(var i = 0; i < data.length; i ++) {
+        			if($("#cid" + i).val() == data[i].cId) {
+        				$("#cid" + i).parent().parent().find("input[type=radio]").each(function(index, value) {
+        					if(value.value === data[i].aType) {
+        						$(this).prop("checked", true);
+        					}
+        				});
+        			}
+        		}
+        	}, error:function() {
+        		console.log("실패")
+        	}
+        });
 	});
 </script>
 </head>
@@ -64,6 +111,7 @@
     </div>
     <div class="outer">
     	<div class="tableArea">
+    	<input type="hidden" id="tno" value="<%= loginUser.getMemberNo() %>" />
     		<table class="attendTable" border=1>
     			<tr>
     				<th style="width:10%">No.</th>
@@ -73,30 +121,16 @@
     				<th>조퇴</th>
     				<th>결석</th>
     			</tr>
+    			<% for(int i = 0; i < list.size(); i++) { %>
     			<tr>
-    				<td>1</td>
-    				<td>박건후</td>
-    				<td><input type="radio" id="attend" name="atMgmt" /></td>
-    				<td><input type="radio" id="tardy" name="atMgmt" /></td>
-    				<td><input type="radio" id="leave" name="atMgmt" /></td>
-    				<td><input type="radio" id="absent" name="atMgmt" /></td>
+    				<td><%= i+1 %><input type="hidden" id="cid<%= i %>" value=<%= list.get(i).getCId()%> /></td>
+    				<td><%= list.get(i).getName() %></td>
+    				<td><input type="radio" id="attend" name="atMgmt<%= i %>" class="attend" value="출석" /></td>
+    				<td><input type="radio" id="tardy" name="atMgmt<%= i %>" class="tardy" value="지각" /></td>
+    				<td><input type="radio" id="leave" name="atMgmt<%= i %>" class="leave" value="조퇴" /></td>
+    				<td><input type="radio" id="absent" name="atMgmt<%= i %>" class="absent" value="결석" /></td>
     			</tr>
-    			<tr>
-    				<td>2</td>
-    				<td>이원경</td>
-    				<td><input type="radio" id="attend" name="atMgmt2" /></td>
-    				<td><input type="radio" id="tardy" name="atMgmt2" /></td>
-    				<td><input type="radio" id="leave" name="atMgmt2" /></td>
-    				<td><input type="radio" id="absent" name="atMgmt2" /></td>
-    			</tr>
-    			<tr>
-    				<td>3</td>
-    				<td>윤재영</td>
-    				<td><input type="radio" id="attend" name="atMgmt3" /></td>
-    				<td><input type="radio" id="tardy" name="atMgmt3" /></td>
-    				<td><input type="radio" id="leave" name="atMgmt3" /></td>
-    				<td><input type="radio" id="absent" name="atMgmt3" /></td>
-    			</tr>
+    			<% } %>
     			<tr>
     				<td colspan="2">전체선택</td>
     				<td><input type="radio" id="attend" name="selectAll" /></td>

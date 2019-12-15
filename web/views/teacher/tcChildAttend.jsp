@@ -137,7 +137,9 @@
                 calColor();
                 var date = $(this).children(".dailyDate").val();
                 $(this).css("background", "rgba(30, 143, 255, 0.432)")
-                location.href="tcChildAttendMgmt.jsp?date=" + date;
+                date = date.split(" ");
+                date = date[0].substring(0, date[0].length - 1) + "-" + date[1].substring(0, date[1].length - 1) + "-" + date[2].substring(0, date[2].length - 1);
+                location.href="<%= request.getContextPath() %>/selectBanChildren.me?date=" + date;
             });
         }); 
     </script>

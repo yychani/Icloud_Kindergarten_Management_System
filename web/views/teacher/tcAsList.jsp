@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+<%
+	ArrayList<Children> oklist = (ArrayList<Children>) request.getAttribute("oklist");
+	ArrayList<Children> nolist = (ArrayList<Children>) request.getAttribute("nolist");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -105,6 +109,42 @@
         width: 30%; /* Could be more or less, depending on screen size */                          
     }
     </style>
+    <script>
+    $(document).on("click",".asTable tr>td:nth-of-type(2)", function(){
+  		var cid = $(this).parent().find($("[name=cid]")).val();
+  		$.ajax({
+  			url:"<%=request.getContextPath()%>/selectModalChild.do",
+  			type:"get",
+  			data:{cid:cid},
+  			success:function(data) {
+  				var splitrno = data.rno.split("-");
+  				var name = data.name;
+  				$("#childName").text("이름 : " + name);
+  				
+  				var birth = splitrno[0];
+  				var year = splitrno[0].substring(0,2);
+  				year = year > 50 ? "19" + year : "20" + year;
+  				var month = splitrno[0].substring(2,4);
+  				var day = splitrno[0].substring(4,6);
+  				birth = year + "년 " + month + "월 " + day + "일";
+  				$("#childBirth").text("생년월일 : " + birth);
+  				
+  				var gender = splitrno[1].substring(0,1) == 1 ? '남' : '여';
+  				$("#childGender").text("성별 : " + gender);
+  				
+  				var imgSrc ="<%=request.getContextPath()%>/" + data.imgSrc.substring(data.imgSrc.lastIndexOf('\\') + 1);
+  				$("#childImg").attr("src", imgSrc);
+  			},
+  			error:function(request, status, error){   
+  				alert("code : " + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error); 
+  			}
+
+  		});
+  		
+  		
+  		$("#myModal").show();
+  	});      
+    </script>
 </head>
 
 <body style="overflow-x: hidden">
@@ -118,41 +158,44 @@
 	        <option value="이전 신청 이력">이전 신청 이력</option>
 	    </select>
     </div>
-    <table id="table1" >
+    <table id="table1" class="asTable" >
         <tr id="applyTr">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">선택</th>
         </tr>
+        <% for(int i = 0; i < nolist.size(); i++) { %>
         <tr id="applyTr">
-            <td id="no">1</td>
-            <td id="applicant">박건후</td>
+            <td id="no"><%= i + 1 %><input type="hidden" name="cid" id="cid" value="<%= nolist.get(i).getCId() %>" /></td>
+            <td id="applicant"><%= nolist.get(i).getName() %></td>
             <td id="apply" align="center"><input id="check" type="checkbox"></td>
         </tr>
+        <% } %>
         <tr id="applyTr">
                 <th style="height: 30px;"></th>
                 <th align="right">전체선택</th>
                 <th><input id="allCheck" type="checkbox"></th>
-            
         </tr>
         <tr>
             <td></td>
             <td></td>
-                <td colspan="3" style="float: right; padding-right: 0;"><input type="button" value="승인" style="width: 70px; height:30px"></td>
+                <td colspan="3" style="float: right; padding-right: 0;"><input type="button" id="accept" value="승인" style="width: 70px; height:30px"></td>
             
         </tr>
     </table>
-    <table id="table2" hidden>
+    <table id="table2" class="asTable" hidden>
             <tr id="applyTr">
                 <th id="no">No</th>
                 <th id="applicant">신청자</th>
                 <th id="apply">승인 날짜</th>
             </tr>
+            <% for(int i = 0; i < oklist.size(); i++) { %>
             <tr id="applyTr">
-                <td id="no"></td>
-                <td id="applicant"></td>
-                <td id="apply" align="center"></td>
+                <td id="no"><%= i + 1 %></td>
+                <td id="applicant"><%= oklist.get(i).getName() %></td>
+                <td id="apply" align="center"><%= oklist.get(i).getEntDate() %></td>
             </tr>
+            <% } %>
             <tr id="applyTr">
                     <th style="height: 20px;"></th>
                     <th align="right"></th>
@@ -173,14 +216,14 @@
       	<div class="modal-content">
 				<table style="text-align:left">
 					<tr>
-						<td>이름 : 박건후</td>
-						<td rowspan="4"><img src="<%= request.getContextPath() %>/images/img.jpg" alt="" width="200px" style="margin:0 10%"/></td>
+						<td id="childName"></td>
+						<td rowspan="4"><img id="childImg" alt="" width="200px" style="margin:0 10%"/></td>
 					</tr>
 					<tr>
-						<td>성별 : 남</td>
+						<td id="childGender"></td>
 					</tr>
 					<tr>
-						<td>생년월일 : 2015년 10월 10일</td>
+						<td id="childBirth"></td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
@@ -228,17 +271,16 @@
                     $("#table2").attr("hidden", false);
                  }
             });
-            
-            
-        	$("td#applicant:nth-of-type(n+1)").click(function() {
-    			$("#myModal").show();
-    		});
+          }); 
     		
-        }); 
         
         function close_pop() {
 			$("#myModal").hide();
 		};
+		
+		$("#accept").click(function() {
+			console.log(1)
+		});
     </script>
     <%@ include file="/views/common/footer.jsp"%>
     <%@ include file="/views/common/chat.jsp"%>

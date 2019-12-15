@@ -22,6 +22,7 @@ public class InsertChildObservationServlet extends HttpServlet {
 		
 		int result1 = 0;
 		int result2 = 0;
+		int check = 0;
 		
 		int cid = Integer.parseInt(request.getParameter("cid"));
 		
@@ -75,9 +76,13 @@ public class InsertChildObservationServlet extends HttpServlet {
 			ob.setEscore(fscore);
 			ob.setEDate(d);
 			
-			System.out.println(ob);
+			check = new MemberService().checkChildOb(ob);
 			
-			result1 = new MemberService().insertChildOb(ob);
+			if(check == 0) {
+				result1 = new MemberService().insertChildOb(ob);
+			} else {
+				result1 = new MemberService().updateChildOb(ob);
+			}
 		}  else if(!fdate.equals("") && !sdate.equals("")) {
 			int round2 = 2;
 			String s1 = request.getParameter("s1");
@@ -115,7 +120,7 @@ public class InsertChildObservationServlet extends HttpServlet {
 			Member loginUser = ((Member) request.getSession().getAttribute("loginMember"));
 			int tno = loginUser.getMemberNo();
 			
-			Date d = Date.valueOf(fdate);
+			Date d = Date.valueOf(sdate);
 			
 			Observation ob = new Observation();
 			ob.setRound(round2);
@@ -126,9 +131,13 @@ public class InsertChildObservationServlet extends HttpServlet {
 			ob.setEscore(sscore);
 			ob.setEDate(d);
 			
-			System.out.println(ob);
-			
-			result2 = new MemberService().insertChildOb(ob);
+			check = new MemberService().checkChildOb(ob);
+
+			if(check == 0) {
+				result2 = new MemberService().insertChildOb(ob);
+			} else {
+				result2 = new MemberService().updateChildOb(ob);
+			}
 		} 
 		
 		if(result1 > 0 || result2 > 0) {

@@ -7,6 +7,7 @@ import static com.oracle5.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,6 +16,7 @@ import com.oracle5.board.model.vo.Board;
 import com.oracle5.board.model.vo.CommonNote;
 import com.oracle5.board.model.vo.Schedule;
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.dao.MemberDao;
 public class BoardService {
 	
 	public String selectPreNote(Date date) {
@@ -686,6 +688,42 @@ public class BoardService {
 		close(con);
 		
 		return result;
+	}
+
+	public int insertTcNote(CommonNote cNote, int tno) {
+		Connection con = getConnection();
+		
+		int result = new BoardDao().insertTcNote(con, cNote, tno);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	public String selectTcNote(Date date, int tno) {
+		Connection con = getConnection();
+		
+		String dateCont = new BoardDao().selectTcNote(con, date, tno);
+		
+		close(con);
+		
+		return dateCont;
+	}
+
+	public ArrayList<CommonNote> selectAllTcNote(int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<CommonNote> list = new BoardDao().selectAllTcNote(con, tno);
+		
+		close(con);
+		
+		return list;
 	}
 	
 	

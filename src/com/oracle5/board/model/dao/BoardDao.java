@@ -1711,6 +1711,92 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		return result;
 	}
+
+	public int insertTcNote(Connection con, CommonNote cNote, int tno) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = prop.getProperty("insertTcNote");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setDate(1, cNote.getDate());
+			pstmt.setInt(2, tno);
+			pstmt.setString(3, cNote.getNote());
+			pstmt.setString(4, cNote.getNote());
+			pstmt.setDate(5, cNote.getDate());
+			pstmt.setInt(6, tno);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public String selectTcNote(Connection con, Date date, int tno) {
+		String dateCont = "";
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+
+		String query = prop.getProperty("selectTcNote");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setDate(1, date);
+			pstmt.setInt(2, tno);
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				dateCont = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		return dateCont;
+	}
+
+	public ArrayList<CommonNote> selectAllTcNote(Connection con, int tno) {
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		ArrayList<CommonNote> list = null;
+
+		String sql = prop.getProperty("selectAllTcNote");
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, tno);
+			
+			rset = pstmt.executeQuery();
+			
+			if (rset != null) {
+				list = new ArrayList<>();
+				while (rset.next()) {
+					CommonNote cn = new CommonNote();
+
+					cn.setNote(rset.getString("NOTE"));
+					cn.setDate(rset.getDate("C_DATE"));
+					cn.setTNo(rset.getInt("T_NO"));
+
+					list.add(cn);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return list;
+	}
 	
 
 }

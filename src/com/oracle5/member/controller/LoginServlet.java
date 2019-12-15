@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
 				if(loginMember.getMemberId().equals("admin")) {
 					response.sendRedirect("views/president/preMain.jsp");
 				}else {
-					response.sendRedirect("views/teacher/tcMain.jsp");
+					response.sendRedirect("teacher");
 				}
 			}else if(loginMember.getUType().equals("학부모")) {
 				response.sendRedirect("views/parents/parMain.jsp");

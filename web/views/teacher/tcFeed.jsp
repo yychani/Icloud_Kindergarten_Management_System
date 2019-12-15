@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	int cid = Integer.parseInt(request.getParameter("cid"));
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +14,7 @@
 </head>
 <body>
  	<%@ include file="/views/common/teacherMenu.jsp" %>
- 	<h1>피드</h1>
+ 	<h1><%= cid %></h1>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
 </html>
