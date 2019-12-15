@@ -35,6 +35,30 @@
         color: rgb(255, 255, 255) !important;
     }
 </style>
+
+<script>
+	$(function(){
+		$.ajax({
+			url : "/main/selectTeacher.do",
+			type : "post",
+			success : function(data) {
+				$select = $("#receiver");
+				$select.find("option").remove();
+				for (var i = 0; i < data.length; i++) {
+					var name = decodeURIComponent(data[i].name);
+					var selected = (i == 0) ? "selected" : "";
+					if(data[i].tNo == 1){
+						$select.append("<option value='" + data[i].tNo + "' " + selected + ">" + name + "선생님</option>");
+					}
+				}
+			},
+			error : function(data) {
+				console.log("실패!");
+			}
+		});
+	});
+</script>
+
 <%
 	if (loginUser == null || !loginUser.getUType().equals("교사")) {
 		request.setAttribute("msg", "잘못된 경로로 접근하셨습니다.");
@@ -45,7 +69,7 @@
 	<tr>
 		<td rowspan="2" id="menu">
 			<div id="logo">
-				<a href="<%=request.getContextPath()%>/views/teacher/tcMain.jsp">
+				<a href="<%=request.getContextPath()%>/teacher">
 					<img src="<%=request.getContextPath() %>/images/logo.png"
 						style="width: 300px; display: inline-block;"></a>
 			</div>

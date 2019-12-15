@@ -38,10 +38,46 @@ public class ServerTime {
 						try {
 							Session session = itr.next();
 							Calendar cal = Calendar.getInstance();
-							String time = cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
+							
+							String amPm = "";
+							if(cal.get(Calendar.AM_PM) == 0) {
+								amPm = "오전";
+							}else if(cal.get(Calendar.AM_PM) == 1) {
+								amPm = "오후";
+							}
+							
+							int hour24 = 0;
+							if(cal.get(Calendar.HOUR) < 12) {
+								hour24 = cal.get(Calendar.HOUR);
+							}else {
+								hour24 = cal.get(Calendar.HOUR) + 12;
+							}
+							
+							String hour = "";
+							if(hour24 < 10) {
+								hour = "0" + hour24;
+							}else {
+								hour = "" + hour24;
+							}
+							
+							String min = "";
+							if(cal.get(Calendar.MINUTE) < 10) {
+								min = "0" + cal.get(Calendar.MINUTE);
+							}else {
+								min = "" + cal.get(Calendar.MINUTE);
+							}
+							
+							String sec = "";
+							if(cal.get(Calendar.SECOND) < 10) {
+								sec = "0" + cal.get(Calendar.SECOND);
+							}else {
+								sec = "" + cal.get(Calendar.SECOND);
+							}
+							
+							String time = hour + ":" + min + ":" + sec;
 							
 							session.getBasicRemote().sendText(time);
-							System.out.println(time);
+							//System.out.println(time);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

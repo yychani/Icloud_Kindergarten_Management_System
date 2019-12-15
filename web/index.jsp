@@ -70,7 +70,7 @@ input[type=submit]:hover, input[type=button]:hover {
 					if (loginUser.getMemberId().equals("admin")) {%>
 										'<%=request.getContextPath()%>/views/president/preMain.jsp'
 									<%} else {%>
-										'<%=request.getContextPath()%>/views/teacher/tcMain.jsp'
+										'<%=request.getContextPath()%>/teacher'
 									<%}
 				} else if (loginUser.getUType().equals("학부모")) {%>
 										'<%=request.getContextPath()%>/views/parents/parMain.jsp'
