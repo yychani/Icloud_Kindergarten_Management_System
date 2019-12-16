@@ -1,6 +1,8 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
+import com.oracle5.common.model.vo.Attachment;
 
 /**
  * Servlet implementation class SelectTcFamiltLetterServlet
@@ -35,7 +38,7 @@ public class SelectTcFamilyLetterServlet extends HttpServlet {
 			isUpdate = request.getParameter("isUpdate");
 		}
 		Board b = new BoardService().selectOneUpdateTcL(num, isUpdate);
-		
+		ArrayList<Attachment> list = new BoardService().selectOneFLetterImg(num);
 		String page ="";
 		
 		if(b != null) {

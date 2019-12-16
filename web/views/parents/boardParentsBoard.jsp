@@ -180,7 +180,7 @@ $(function() {
 				}
 			%>
 			<%
-				for (int p = startPage; p < endPage; p++) {
+				for (int p = startPage; p <= endPage; p++) {
 					if (p == currentPage) {
 			%>
 			<button disabled class="current" style="width: 30px; height: 30px;"><%=p%></button>

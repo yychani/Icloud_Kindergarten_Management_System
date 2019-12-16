@@ -1,6 +1,8 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,13 +40,13 @@ public class SelectOneTcFamilyLetterServlet extends HttpServlet {
 		
 		
 		Board b = new BoardService().selectOneFLetter(num, isUpdate);
-		Attachment att1 = new BoardService().selectOneFLetterImg(num);
+		ArrayList<Attachment> list = new BoardService().selectOneFLetterImg(num);
 		String page = "";
 		
 		if(b != null) {
 			page="views/teacher/tcFamilyLetterDetail.jsp";
 			request.setAttribute("b", b);
-			request.setAttribute("att1", att1);
+			request.setAttribute("list", list);
 			
 			
 		}else {

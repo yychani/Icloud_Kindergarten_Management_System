@@ -1,6 +1,8 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,14 +39,14 @@ public class SelectChildImgServlet extends HttpServlet {
 			isUpdate = request.getParameter("isUpdate");
 		}
 		Board b = new BoardService().selectOneUpdateChilImge(num, isUpdate);
-		Attachment att = new BoardService().selectOneChildImg(num);
+		ArrayList<Attachment> list = new BoardService().selectOneChildImg(num);
 		
 		String page = "";
 		
 		if(b != null) {
 			page = "views/teacher/tcChildImgUpdate.jsp";
 			request.setAttribute("b", b);
-			request.setAttribute("att", att);
+			request.setAttribute("list", list);
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "앨범 수정 상세보기 페이지 실패");
