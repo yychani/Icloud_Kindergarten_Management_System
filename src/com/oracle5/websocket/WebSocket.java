@@ -22,7 +22,7 @@ public class WebSocket {
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
 		// 서버로부터 테이터를 전송받을 시점
-		System.out.println(msg);
+		//System.out.println(msg);
 		String[] srr = msg.split(":");
 		
 		String userName = srr[0];
@@ -34,7 +34,7 @@ public class WebSocket {
 		
 		String sendMessage = recieveUser + ":" + userName+ ":" + message + ":" + hour + ":" + min + ":" + sec;
 		
-		System.out.println(sendMessage);
+		//System.out.println(sendMessage);
 		
 		// 하나의 일 처리를 수행하는동안 사용자의 변경이 일어나면 안된다.
 		// 즉 NullPointer를 방지하기 위해 동기화 처리를 해준다.

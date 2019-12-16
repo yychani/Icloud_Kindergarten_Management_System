@@ -1,6 +1,10 @@
 <%@page import="com.oracle5.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.net.InetAddress"%>
+<% InetAddress inet = InetAddress.getLocalHost();
+		String svrIP = inet.getHostAddress();
+		int svrPort = request.getServerPort();%>
 <%
 	Member loginUser = (Member) session.getAttribute("loginMember");
 %>

@@ -1,10 +1,6 @@
-<%@page import="java.net.InetAddress"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <% InetAddress inet = InetAddress.getLocalHost();
-		String svrIP = inet.getHostAddress();
-		int svrPort = request.getServerPort();%>
-		
+
 <footer align="center">
     <hr>
     <p>떡잎유치원 | 주소 : 서울특별시 강서구 방화도 878번지 동부센트레빌단지내 | 원 전화번호 : 02-2667-0645</small>
