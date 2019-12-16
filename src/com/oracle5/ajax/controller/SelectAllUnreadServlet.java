@@ -1,6 +1,8 @@
 package com.oracle5.ajax.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,25 +13,27 @@ import com.google.gson.Gson;
 import com.oracle5.websocket.model.service.ChatService;
 import com.oracle5.websocket.model.vo.Chat;
 
-@WebServlet("/saveChat.chat")
-public class SaveChatServlet extends HttpServlet {
+@WebServlet("/selectAllUnread.chat")
+public class SelectAllUnreadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public SaveChatServlet() {
+    public SelectAllUnreadServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int reciever = Integer.parseInt(request.getParameter("reciever"));
 		int sendUser = Integer.parseInt(request.getParameter("sendUser"));
-		String message = request.getParameter("message");
 		
-		System.out.println(reciever + " " + sendUser + " " + message);
+		ArrayList<Chat> chatList = new ChatService().selectAllUnread(sendUser);
 		
-		Chat chat = new ChatService().saveChat(reciever, sendUser, message); 
-		
+		System.out.println(chatList);
 		response.setContentType("application/json");
-		new Gson().toJson(chat, response.getWriter());
+		response.setCharacterEncoding("UTF-8");
+		if(chatList != null) {
+			new Gson().toJson(chatList, response.getWriter());
+		}else {
+			new Gson().toJson(null, response.getWriter());
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

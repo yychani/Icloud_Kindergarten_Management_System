@@ -14,7 +14,7 @@
 	$(function(){
 		getServerTime();
 	});
-	
+	  
 	function getServerTime() {
 		
 
@@ -42,12 +42,11 @@
 		var timeArr = event.data.split(":");
 		
 		var hour = parseInt(timeArr[0]);
-		
-		if(hour > 18 || hour < 8){
+		/*if(hour >= 18 || hour <= 8){
 			$("#chat").hide();
 		}else {
 			$("#chat").show();
-		}
+		}*/
 		
 		$("#serverTime").text(serverMessage);
 	}

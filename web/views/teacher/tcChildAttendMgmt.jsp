@@ -37,9 +37,9 @@
 		var cidArr = [];
 		var attArr = [];
 		input.each(function(index, item) {
-			if(index <= 138) {
+			if(index < input.length - 4) {
 				if($(this).is(":checked")) {
-					cidArr[cnt] = $("#cid"+cnt).val();
+					cidArr[cnt] = $(this).parent().parent().children().eq(0).children().val();
 					attArr[cnt] = $(this).val();
 					cnt++;
 				}
@@ -87,15 +87,21 @@
         		tno:$("#tno").val()
         	},
         	success:function(data) {
-        		for(var i = 0; i < data.length; i ++) {
-        			if($("#cid" + i).val() == data[i].cId) {
-        				$("#cid" + i).parent().parent().find("input[type=radio]").each(function(index, value) {
-        					if(value.value === data[i].aType) {
-        						$(this).prop("checked", true);
-        					}
-        				});
+        		var tb = $(".attendTable").children().children();
+        		var cnt = 0;
+        		tb.each(function(index, value){
+        			if(index != 0) {
+        				for(var i = 0; i < data.length; i++){
+	        				if($(this).children().find('input[type=hidden]').val() == data[i].cId) {
+	        					for(var j = 0; j < 4; j++){
+	        						if($(this).children().find('input[type=radio]')[j].value == data[i].aType) {
+	        							$(this).children().find('input[type=radio]')[j].checked = true
+	        						}
+	        					}
+	        				}
+        				}
         			}
-        		}
+        		});
         	}, error:function() {
         		console.log("실패")
         	}

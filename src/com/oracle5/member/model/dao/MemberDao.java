@@ -1787,7 +1787,7 @@ public class MemberDao {
   }
 
 	//현장 체험학습 리스트 select
-	public Map<String, Object> selectFtlApplyList(Connection con, int cId) {
+	public Map<String, Object> selectFtlApplyList(Connection con, int pNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		Map<String, Object> hmap = null;
@@ -1796,7 +1796,7 @@ public class MemberDao {
 		
 		try {
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, cId);
+			pstmt.setInt(1, pNo);
 			
 			rset = pstmt.executeQuery();
 			
@@ -1816,7 +1816,7 @@ public class MemberDao {
 				flList.add(fl);
 				
 				Participation p = new Participation();
-				p.setCId(cId);
+				p.setCId(rset.getInt("C_ID"));
 				p.setPayment(rset.getString("PAYMENT"));
 				p.setAttend(rset.getString("ATTEND"));
 				
@@ -2690,7 +2690,6 @@ public class MemberDao {
 				
 				c.setCId(rset.getInt("C_ID"));
 				c.setName(rset.getString("C_NAME"));
-				System.out.println(c);
 				
 				cNameList.add(c);
 			}
@@ -2899,7 +2898,6 @@ public class MemberDao {
 				a.setEndDate(rset.getDate("END_DATE"));
 				
 				aList.add(a);
-				System.out.println(a);
 			}
 
 			hmap.put("cList", cList);
@@ -2935,6 +2933,153 @@ public class MemberDao {
 		}
 		
 		return result;
+
+	}
+
+
+	//cId로 출석 가져오기
+	public ArrayList<Attend> selectCAttend(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Attend> list = null;
+		Attend a = null;
+		
+		String query = prop.getProperty("selectCAttend");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<Attend>();
+			while(rset.next()){
+				a = new Attend();
+				a.setAmDate(rset.getDate("AM_DATE"));
+				a.setAType(rset.getString("A_TYPE"));
+				
+				list.add(a);
+			} 
+      
+    }catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<DoseRequest> selectBanDoseList(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ArrayList<DoseRequest> list = null;
+		DoseRequest dr = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBanDoseList");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				dr = new DoseRequest();
+				
+				dr.setCNo(rset.getInt("C_NO"));
+				dr.setCName(rset.getString("C_NAME"));
+				dr.setSymptom(rset.getString("SYMPTOM"));
+				dr.setKinds(rset.getString("KINDS"));
+				dr.setKeep(rset.getString("KEEP"));
+				dr.setStartDate(rset.getDate("START_DATE"));
+				dr.setRemarks(rset.getString("REMARKS"));
+				dr.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+				dr.setPNo(rset.getInt("P_NO"));
+				dr.setEndDate(rset.getDate("END_DATE"));
+				dr.setStatus(rset.getString("STATUS"));
+				dr.setDNo(rset.getInt("D_NO"));
+				dr.setDosingTime(rset.getString("D_TIME"));
+				
+				list.add(dr);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+
+	//방과후 이력 확인
+	public int selectAsCheck(Connection con, int cId, int currentMonth, int currentYear) {
+		PreparedStatement pstmt = null;
+		int check = 0;
+		
+		String query = prop.getProperty("selectAsCheck");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, currentYear);
+			pstmt.setInt(2, currentMonth);
+			pstmt.setInt(3, cId);
+			
+			check = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return check;
+}
+
+	public DoseRequest selectChildDoseReq(Connection con, int dno) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		DoseRequest dr = null;
+		
+		String sql = prop.getProperty("selectChildDoseReq");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, dno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				dr = new DoseRequest();
+				
+				dr.setCNo(rset.getInt("C_NO"));
+				dr.setCName(rset.getString("C_NAME"));
+				dr.setSymptom(rset.getString("SYMPTOM"));
+				dr.setKinds(rset.getString("KINDS"));
+				dr.setKeep(rset.getString("KEEP"));
+				dr.setStartDate(rset.getDate("START_DATE"));
+				dr.setRemarks(rset.getString("REMARKS"));
+				dr.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+				dr.setPNo(rset.getInt("P_NO"));
+				dr.setEndDate(rset.getDate("END_DATE"));
+				dr.setStatus(rset.getString("STATUS"));
+				dr.setDNo(rset.getInt("D_NO"));
+				dr.setDosingTime(rset.getString("D_TIME"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return dr;
 
 	}
 

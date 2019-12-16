@@ -16,11 +16,14 @@ import java.util.Properties;
 
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.board.model.vo.CommonNote;
+import com.oracle5.board.model.vo.Reply;
 import com.oracle5.board.model.vo.Schedule;
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.Parents;
+
+import lombok.Getter;
 
 public class BoardDao {
 	Properties prop = new Properties();
@@ -2104,6 +2107,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return result;
 	}
 	
+
 	//가정통신문 updateCount false
 	public int updateFLetterCount(Connection con, int num) {
 		PreparedStatement pstmt = null;
@@ -2538,6 +2542,119 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		return result;
 	}
 	
+
+	//유치원 운영 위원회 업데이트용 메소드(수정)
+	public int updatePreHBoard(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updatePreHBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//유치원 운영위원회 삭제 메소드
+	public int deletePreHBoard(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("deletePreHBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//유치원 운영위원회 게시판 댓글용 메소드
+	public int insertReplyPreHBoard(Connection con, Reply r) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("insertReplyPreHBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, r.getRname());
+			pstmt.setString(2, r.getRcont());
+			pstmt.setInt(3, r.getTid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//유치원 운영 위원회 댓글 리스트 조회
+	public ArrayList<Reply> selectPreHBoardReplyList(Connection con, int tid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Reply> list = null;
+		
+		String query = prop.getProperty("selectReplyPreHBoardList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, tid);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<Reply>();
+			
+			while(rset.next()) {
+				Reply r = new Reply();
+				r.setRid(rset.getInt("R_ID"));
+				r.setRname(rset.getString("R_NAME"));
+				r.setRcont(rset.getString("R_CONT"));
+				r.setRdate(rset.getDate("R_DATE"));
+				r.setTid(rset.getInt("T_ID"));
+				r.setRstmt(rset.getString("R_STMT"));
+				
+				System.out.println(r.getRid());
+				System.out.println(r.getRname());
+				System.out.println(r.getRcont());
+				System.out.println(r.getRdate());
+				System.out.println(r.getTid());
+				System.out.println(r.getRstmt());
+				list.add(r);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
 
 }
 	

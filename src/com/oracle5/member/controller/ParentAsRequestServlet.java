@@ -40,20 +40,28 @@ public class ParentAsRequestServlet extends HttpServlet {
 				
 		//해당 월 신청 이력 확인
 		Calendar calendar = new GregorianCalendar(Locale.KOREA);
-		int currentMonth;
+		int currentMonth = 0;
 		currentMonth = calendar.get(Calendar.MONTH) + 1;
+		int currentYear = calendar.get(Calendar.YEAR);
+		
+		int check = new MemberService().selectAsCheck(cId, currentMonth, currentYear);
 
 
 		if(cId != 0) {
-			int result = new MemberService().asRequest(cId);
-			
-			if(result > 0) {
-				response.sendRedirect("views/common/successPage.jsp?successCode=8");
-			}else {
-				response.sendRedirect("views/common/successPage.jsp?successCode=9");
+			if(check == 0) {
+				int result = new MemberService().asRequest(cId);
 				
-				//request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				if(result > 0) {
+					response.sendRedirect("views/common/successPage.jsp?successCode=8");
+				}else {
+					response.sendRedirect("views/common/successPage.jsp?successCode=9");
+
+				}
+			} else {
+				request.setAttribute("msg", "이번 달에 이미 신청하셨습니다.");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 			}
+			
 		} else {
 			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

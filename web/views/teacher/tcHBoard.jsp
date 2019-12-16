@@ -41,7 +41,7 @@ input[type=checkbox] {
 	}
 </style>
 </head>
-<body style="overflow-x: hidden">
+ <body style="overflow-x: hidden">
 	<%@ include file="/views/common/teacherMenu.jsp"%>
 	<div style="margin: 0 15%;">
 		<h1 style="text-decoration: underline; text-underline-position: under;">유치원 운영위원회 게시판</h1>
@@ -65,7 +65,7 @@ input[type=checkbox] {
 		}); 
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
-	<%@ include file="/views/common/chat.jsp"%>
+	<%@ include file="/views/common/chat.jsp"%> 
 </body>
 
 </html>

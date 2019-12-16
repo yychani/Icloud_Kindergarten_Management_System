@@ -47,9 +47,9 @@
   		position: absolute;
   		z-index: 1;
   		bottom: -2px;
-  		right: -56px;
+  		right: -55.987497px;
   		width: 26px;
-  		height: 20px;
+  		height: 23px;
  		background: white;
   		border-bottom-left-radius: 10px;
   		-webkit-transform: translate(-30px, -2px);
@@ -107,12 +107,22 @@
 	.sendTime {
 		float: right;
 	}
+	#redCircle {
+		width: 20px;
+		height: 20px;
+		position: fixed;
+        bottom: 80px;
+        right: 80px;
+        background: tomato;
+        border-radius: 20px;
+        z-index: 999;
+	}
 </style>
+<div id="redCircle"></div>
 <div id="chat" class="ui avatar image" data-tooltip="Add users to your feed" data-position="top right">
     <img style="width:80px; height:80px;" src="<%=request.getContextPath()%>/images/chat.png">
 </div>
 <div class="ui custom popup top left transition hidden">
-   
 	<select name="receiver" id="receiver" style="width: 50%; height: 30px; margin-bottom: 10px;">
    	</select>
     <div style="border: 1px solid black; width: 100%; height: 200px; margin-bottom: 10px;"id="chatContext">
@@ -121,13 +131,37 @@
     &nbsp;&nbsp;<input type="button" name="sendBtn" onclick="send()" id="sendBtn" style="width: 47px; height: 25px;" value="보내기">
     
 </div>
+
 <script>
+
     $('.ui.avatar.image').popup({
         popup: $('.custom.popup'),
         on: 'click',
         position : 'top right'
     })
 	$(function(){
+		$("#redCircle").hide();
+		var sendUser = <%=loginUser.getMemberNo()%>;
+		$.ajax({
+			url:"/main/selectAllUnread.chat",
+			data:{
+				sendUser:sendUser
+			},
+			type:"post",
+			success:function(data){
+				if(data.length != 0){ 
+					$("#redCircle").show();
+					for(var i = 0; i < data.length; i++){
+						$('#receiver option').each(function(index){ 
+							if (this.value == data[i].mno) { 
+								$(this).css({"background":"tomato", "color":"white"});
+							} 
+						});
+					}
+				}
+			}
+		});
+		
 		$(document).on("change", "#receiver", function(){
 			$("#chatContext").html("");
 			$chatContext = $("#chatContext");
@@ -141,6 +175,7 @@
 					sendUser:sendUser
 				},
 				success:function(data){
+					$chatContext.append("<input type='hidden' id='chatRoomNo' val='" + data[0].chatNo + "'>");
 					for(var i = 0; i < data.length; i++){
 						var time = data[i].time;
 						var mno = data[i].mno;
@@ -148,18 +183,40 @@
 						if(mno == sendUser){
 							$chatContext.append("<div class='clear'></div>"
 									+ "<div class='sendMessage'>" + message + "</div><small class='sendTime'>" + time + "</small>");
-							$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
 						}else {
 							$chatContext.append("<div class='clear'></div>"
 			 						+ "<div class='message'>" + message + "</div><small class='recieveTime'>" + time + "</small>");
-							$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
 						}
 					}
+					$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
 				}
 			});
-			$("#reciever").val()
+		});
+		
+		$(document).on("focus", ".custom.popup", function(){
+			$("#redCircle").hide();
+			var receiver = $("#receiver").val();
+			var sendUser = <%=loginUser.getMemberNo()%>;
+			$.ajax({
+				url:"/main/updateView.chat",
+				data:{
+					receiver:receiver,
+					sendUser:sendUser
+				},
+				type:"post",
+				success:function(data){
+					console.log(data);
+					$('#receiver option').each(function(){ 
+						if (this.value == receiver) { 
+							$(this).css({"background":"white", "color":"black"});
+						} 
+					});
+				}
+			});
 		});
 	});
+    
+    
     $(document).ready(function(){
         $("#sendMassage").keypress(function (e) {
          if (e.which == 13){
@@ -176,7 +233,7 @@
 	function getConnection() {
 		
 		
-		ws = new WebSocket("ws:localhost:8001" + '<%=request.getContextPath() %>/chat');
+		ws = new WebSocket("ws:<%=svrIP %>:<%=svrPort %>" + '<%=request.getContextPath() %>/chat');
 		
 		ws.onopen = function(event){
 			
@@ -242,15 +299,20 @@
 		$chatContext = $("#chatContext");
 		
 		if(recieveUser == "<%=loginUser.getMemberNo() %>"){
-			console.log(reciever);
 			if(reciever == sendUser){
 				$chatContext.append("<div class='clear'></div>"
 			 						+ "<div class='message'>" + message + "</div><small class='recieveTime'>" + time + "</small>");
 				$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
 			}
-		}
-		$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
-		
+			//$("#receiver").val(sendUser).prop("selected", true);
+			//$("#receiver").trigger("change");
+			$("#redCircle").show();
+			$('#receiver option').each(function(){ 
+				if (this.value == sendUser) { 
+					$(this).css({"background":"tomato", "color":"white"});
+				} 
+			});
+		}		
 			
 	}
 		

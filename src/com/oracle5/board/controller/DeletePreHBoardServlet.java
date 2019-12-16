@@ -1,29 +1,26 @@
-package com.oracle5.member.controller;
+package com.oracle5.board.controller;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.oracle5.member.model.service.MemberService;
-import com.oracle5.member.model.vo.Member;
+import com.oracle5.board.model.service.BoardService;
 
 /**
- * Servlet implementation class ParentFtlApplyListServlet
+ * Servlet implementation class DeletePreHBoardServlet
  */
-@WebServlet("/ftlApplyList.me")
-public class ParentFtlApplyListServlet extends HttpServlet {
+@WebServlet("/deletePreHBoard.bo")
+public class DeletePreHBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ParentFtlApplyListServlet() {
+    public DeletePreHBoardServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,20 +29,18 @@ public class ParentFtlApplyListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Member loginUser = (Member) session.getAttribute("loginMember");
-		int pNo = loginUser.getMemberNo();
+		int num = Integer.parseInt(request.getParameter("tid"));
 		
+		int result = new BoardService().deletePreHBoard(num);
 		
-		//현장체험학습 리스트 가져오기
-		Map<String, Object> hmap = new MemberService().selectFtlApplyList(pNo);
-		System.out.println(hmap);
-		if(hmap != null) {
-			request.setAttribute("hmap", hmap);
-			request.getRequestDispatcher("/views/parents/ftlApplyList.jsp").forward(request, response);
+		String page = "";
+		if(result >0) {
+			response.sendRedirect("/main/selectAllPreHBoard.bo");
+		}else {
+			page="views/common/errorPage.jsp";
+			request.setAttribute("msg", "학부모 게시판 수정하는데 실패 하였습니다.");
+			request.getRequestDispatcher(page).forward(request, response);
 		}
-		
-		
 	}
 
 	/**

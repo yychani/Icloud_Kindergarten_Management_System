@@ -64,7 +64,7 @@ tr{
 			for (int i = 0; i < ((ArrayList<FieldLearning>)hmap.get("flList")).size(); i++) {
 		%>
 
-		<button class="accordion"> 일자 :  <%= ((ArrayList<FieldLearning>)hmap.get("flList")).get(i).getFtlDate() %> 원아명 : <%= ((ArrayList<Children>)hmap.get("cList")).get(i).getName() %></button>
+		<button class="accordion"> 일자 :  <%= ((ArrayList<FieldLearning>)hmap.get("flList")).get(i).getFtlDate() %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;원아명 : <%= ((ArrayList<Children>)hmap.get("cList")).get(i).getName() %></button>
 		<div class="panel">
 			<table align="center" class="goHomeTable">
 				<tr>
@@ -85,7 +85,7 @@ tr{
 					<td><label><%= ((ArrayList<FieldLearning>)hmap.get("flList")).get(i).getMaterials() %></label></td>
 				</tr>
 				<tr>
-					<td><label>비용 지불 여부: </label></td>
+					<td><label>납부 확인 여부: </label></td>
 					<td><label><%= ((ArrayList<Participation>)hmap.get("pList")).get(i).getPayment() %></label></td>
 				</tr>
 				<tr>

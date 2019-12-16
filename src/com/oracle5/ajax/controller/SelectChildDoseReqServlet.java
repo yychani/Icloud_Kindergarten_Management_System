@@ -8,28 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.oracle5.websocket.model.service.ChatService;
-import com.oracle5.websocket.model.vo.Chat;
+import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.DoseRequest;
 
-@WebServlet("/saveChat.chat")
-public class SaveChatServlet extends HttpServlet {
+@WebServlet("/selectChildDoseReq.do")
+public class SelectChildDoseReqServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public SaveChatServlet() {
-        super();
-    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int reciever = Integer.parseInt(request.getParameter("reciever"));
-		int sendUser = Integer.parseInt(request.getParameter("sendUser"));
-		String message = request.getParameter("message");
+		int dno = Integer.parseInt(request.getParameter("dno"));
 		
-		System.out.println(reciever + " " + sendUser + " " + message);
-		
-		Chat chat = new ChatService().saveChat(reciever, sendUser, message); 
+		DoseRequest dr = new MemberService().selectChildDoseReq(dno);
 		
 		response.setContentType("application/json");
-		new Gson().toJson(chat, response.getWriter());
+		response.setCharacterEncoding("UTF-8");
+		new Gson().toJson(dr, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
