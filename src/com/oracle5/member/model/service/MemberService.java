@@ -290,10 +290,10 @@ public class MemberService {
 		
 		return result;
   }
-	public List<Map<String, Object>> selectNotAppList(int currentPage, int limit) {
+	public List<Map<String, Object>> selectNotAppList(int currentPage, int limit, int memberNo) {
 		Connection con = getConnection();
 		
-		List<Map<String, Object>> list = new MemberDao().selectNotAppList(con, currentPage, limit);
+		List<Map<String, Object>> list = new MemberDao().selectNotAppList(con, currentPage, limit, memberNo);
 		
 		close(con);
 		
@@ -328,10 +328,10 @@ public class MemberService {
 		return c;
 	}
 
-	public List<Map<String, Object>> selectAcceptAppList(int currentPage, int limit) {
+	public List<Map<String, Object>> selectAcceptAppList(int currentPage, int limit, int memberNo) {
 		Connection con = getConnection();
 		
-		List<Map<String, Object>> list = new MemberDao().selectAcceptAppList(con, currentPage, limit);
+		List<Map<String, Object>> list = new MemberDao().selectAcceptAppList(con, currentPage, limit, memberNo);
 		
 		close(con);
 		
@@ -401,20 +401,20 @@ public class MemberService {
 		return result;
   }
 
-	public int getNotAppListCount() {
+	public int getNotAppListCount(int memberNo) {
 		Connection con = getConnection();
 		
-		int listCount = new MemberDao().getNotAppListCount(con);
+		int listCount = new MemberDao().getNotAppListCount(con, memberNo);
 		
 		close(con);
 		
 		return listCount;
 	}
 
-	public int getAcceptListCount() {
+	public int getAcceptListCount(int memberNo) {
 		Connection con = getConnection();
 		
-		int listCount = new MemberDao().getAcceptListCount(con);
+		int listCount = new MemberDao().getAcceptListCount(con, memberNo);
 		
 		close(con);
 		
@@ -966,6 +966,7 @@ public class MemberService {
 		return cNote;
 	}
 
+
 	//선생님 알림장
 	public CNote selectTNote(int tNo, Date cDate) {
 		Connection con = getConnection();
@@ -1008,6 +1009,37 @@ public class MemberService {
 		close(con);
 		
 		return hmap;
+  }
+
+	public ArrayList<Attend> selectBanAttend(int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<Attend> list = new MemberDao().selectBanAttend(con, tno);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public int updateAsList(String[] cid, Date endDate) {
+		Connection con = getConnection();
+		
+		int result = 0;
+		
+		for(int i = 0; i < cid.length; i++) {
+			result += new MemberDao().updateAsList(con, Integer.parseInt(cid[i]), endDate);
+		}
+		
+		if(result == cid.length) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+
 	}
 
 }

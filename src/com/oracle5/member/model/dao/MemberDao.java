@@ -790,7 +790,7 @@ public class MemberDao {
 		return result;
 	}
 
-	public List<Map<String, Object>> selectNotAppList(Connection con, int currentPage, int limit) {
+	public List<Map<String, Object>> selectNotAppList(Connection con, int currentPage, int limit, int memberNo) {
 		List<Map<String, Object>> list = null;
 		Map<String, Object> hmap = null;
 		Parents p = null;
@@ -805,8 +805,9 @@ public class MemberDao {
 
 		try {
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
+			pstmt.setInt(1, memberNo);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 
 			rset = pstmt.executeQuery();
 
@@ -897,7 +898,7 @@ public class MemberDao {
 		return c;
 	}
 
-	public List<Map<String, Object>> selectAcceptAppList(Connection con, int currentPage, int limit) {
+	public List<Map<String, Object>> selectAcceptAppList(Connection con, int currentPage, int limit, int memberNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		List<Map<String, Object>> list = null;
@@ -913,8 +914,9 @@ public class MemberDao {
 
 		try {
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
+			pstmt.setInt(1, memberNo);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 
 			rset = pstmt.executeQuery();
 
@@ -1128,8 +1130,8 @@ public class MemberDao {
 	
   }
 
-	public int getNotAppListCount(Connection con) {
-		Statement stmt = null;
+	public int getNotAppListCount(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		int listCount = 0;
@@ -1137,9 +1139,10 @@ public class MemberDao {
 		String sql = prop.getProperty("NotApplistCount");
 
 		try {
-			stmt = con.createStatement();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
 
-			rset = stmt.executeQuery(sql);
+			rset = pstmt.executeQuery();
 
 			if (rset.next()) {
 				listCount = rset.getInt(1);
@@ -1148,14 +1151,14 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 
 		return listCount;
 	}
 
-	public int getAcceptListCount(Connection con) {
-		Statement stmt = null;
+	public int getAcceptListCount(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		int listCount = 0;
@@ -1163,9 +1166,10 @@ public class MemberDao {
 		String sql = prop.getProperty("AcceptListCount");
 
 		try {
-			stmt = con.createStatement();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
 
-			rset = stmt.executeQuery(sql);
+			rset = pstmt.executeQuery();
 
 			if (rset.next()) {
 				listCount = rset.getInt(1);
@@ -1174,7 +1178,7 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(stmt);
+			close(pstmt);
 		}
 
 		return listCount;
@@ -2554,6 +2558,7 @@ public class MemberDao {
 				
 				a.setAType(rset.getString("A_TYPE"));
 				a.setCId(rset.getInt("C_ID"));
+				a.setAmDate(rset.getDate("AM_DATE"));
 				
 				list.add(a);
 			}
@@ -2736,6 +2741,7 @@ public class MemberDao {
 		return cNote;
 	}
 
+
 	//선생님 알림장
 	public CNote selectTNote(Connection con, int tNo, Date cDate) {
 		PreparedStatement pstmt = null;
@@ -2786,6 +2792,38 @@ public class MemberDao {
 				pNote.setDate(rset.getDate("C_DATE"));
 				pNote.setNote(rset.getString("NOTE"));
 				pNote.setTNo(rset.getInt("T_NO"));
+        			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+    	return pNote;
+	}
+
+	public ArrayList<Attend> selectBanAttend(Connection con, int tno) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Attend> list = null;
+		Attend a = null;
+		
+		String sql = prop.getProperty("selectBanAttend");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, tno);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				a = new Attend();
+				
+				a.setAmDate(rset.getDate(1));
+				
+				list.add(a);
 
 			}
 		} catch (SQLException e) {
@@ -2794,9 +2832,10 @@ public class MemberDao {
 			close(rset);
 			close(pstmt);
 		}
-		
-		return pNote;
+  	return list;
 	}
+		
+
 
 	//반 이름 가져오기
 	public Ban selectNoteBan(Connection con, int cId) {
@@ -2874,6 +2913,29 @@ public class MemberDao {
 		}
 		
 		return hmap;
+
+  }
+
+	public int updateAsList(Connection con, int cid, Date endDate) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("updateAsList");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setDate(1, endDate);
+			pstmt.setInt(2, cid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+
 	}
 
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.Note;
 
 @WebServlet("/insertChildNote.me")
@@ -17,7 +18,6 @@ public class InsertChildNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		int cid = Integer.parseInt(request.getParameter("childList"));
 		int tno = Integer.parseInt(request.getParameter("tno"));
 		String date = request.getParameter("date");
@@ -37,9 +37,10 @@ public class InsertChildNoteServlet extends HttpServlet {
 		
 		int result = new MemberService().insertChildNote(n);
 		
+		Member m = (Member) request.getSession().getAttribute("loginMember");
+		
 		if(result > 0) {
-			response.setCharacterEncoding("UTF-8");
-			response.sendRedirect(request.getContextPath() + "/views/teacher/tcNote.jsp?date="+date+"&cid="+cid);
+			response.sendRedirect(request.getContextPath() + "/selectChildNote.me?date=" + date + "&tno=" + m.getMemberNo() + "&cid=" + cid);
 		} else {
 			request.setAttribute("msg", "원아별 알림장 입력 실패!");
 			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);

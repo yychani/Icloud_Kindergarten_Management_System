@@ -47,7 +47,7 @@ public class ServerTime {
 							}
 							
 							int hour24 = 0;
-							if(cal.get(Calendar.HOUR) < 12) {
+							if(cal.get(Calendar.AM_PM) == 0) {
 								hour24 = cal.get(Calendar.HOUR);
 							}else {
 								hour24 = cal.get(Calendar.HOUR) + 12;
