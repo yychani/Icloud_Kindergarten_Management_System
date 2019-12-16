@@ -25,6 +25,7 @@ import com.oracle5.member.model.vo.AsList;
 import com.oracle5.member.model.vo.Attend;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.BodyInfo;
+import com.oracle5.member.model.vo.CNote;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.FamilyRelation;
@@ -982,7 +983,7 @@ public class MemberDao {
 	}
 
 	// 학부모 방과후 신청
-	public int asRequest(Connection con, int userMno, int cId) {
+	public int asRequest(Connection con, int cId) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 
@@ -2703,7 +2704,7 @@ public class MemberDao {
 		return cNameList;
 	}
 
-	//날짜랑 원아번호로 반 알림장 조회해오기
+	//날짜랑 원아번호로 원아 알림장 조회해오기
 	public Note selectCNote(Connection con, int cId, Date cDate) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -2740,6 +2741,67 @@ public class MemberDao {
 		return cNote;
 	}
 
+
+	//선생님 알림장
+	public CNote selectTNote(Connection con, int tNo, Date cDate) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		CNote tNote = null;
+		
+		String query = prop.getProperty("selectTNote");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, tNo);
+			pstmt.setDate(2, cDate);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				tNote = new CNote();
+				tNote.setNote(rset.getString("NOTE"));
+				tNote.setDate(rset.getDate("C_DATE"));
+				tNote.setTNo(rset.getInt("T_NO"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return tNote;
+	}
+
+	//원장님 알림장
+	public CNote selectPNote(Connection con, Date cDate) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		CNote pNote = null;
+		
+		String query = prop.getProperty("selectPNote");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setDate(1, cDate);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				pNote = new CNote();
+				pNote.setDate(rset.getDate("C_DATE"));
+				pNote.setNote(rset.getString("NOTE"));
+				pNote.setTNo(rset.getInt("T_NO"));
+        			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+    	return pNote;
+	}
+
 	public ArrayList<Attend> selectBanAttend(Connection con, int tno) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -2762,6 +2824,7 @@ public class MemberDao {
 				a.setAmDate(rset.getDate(1));
 				
 				list.add(a);
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -2769,9 +2832,89 @@ public class MemberDao {
 			close(rset);
 			close(pstmt);
 		}
-		
-		return list;
+  	return list;
 	}
+		
+
+
+	//반 이름 가져오기
+	public Ban selectNoteBan(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Ban b = null;
+		
+		String query = prop.getProperty("selectNoteBan");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			pstmt.setInt(2, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				b = new Ban();
+				b.setBanNo(rset.getInt("B_NO"));
+				b.setBanName(rset.getString("B_NAME"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return b;
+	}
+
+	//방과 후 신청 이력 가져오기
+	public HashMap<String, Object> selectAsList(Connection con, int pNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		HashMap<String, Object> hmap = null;
+		
+		String query = prop.getProperty("selectAsList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pNo);
+			
+			rset = pstmt.executeQuery();
+			
+			hmap = new HashMap<>();
+			
+			ArrayList<AsList> aList = new ArrayList<AsList>();
+			ArrayList<Children> cList = new ArrayList<Children>();
+			
+			while(rset.next()) {
+				Children c = new Children();
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				
+				cList.add(c);
+				System.out.println(c);
+				
+				AsList a = new AsList();
+				a.setApplyDate(rset.getDate("APPLY_DATE"));
+				a.setApprovalDate(rset.getDate("APPROVAL_DATE"));
+				a.setEndDate(rset.getDate("END_DATE"));
+				
+				aList.add(a);
+				System.out.println(a);
+			}
+
+			hmap.put("cList", cList);
+			hmap.put("aList", aList);
+			System.out.println(hmap);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return hmap;
+
+  }
 
 	public int updateAsList(Connection con, int cid, Date endDate) {
 		PreparedStatement pstmt = null;
@@ -2792,6 +2935,7 @@ public class MemberDao {
 		}
 		
 		return result;
+
 	}
 
 }

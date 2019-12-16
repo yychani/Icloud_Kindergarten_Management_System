@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+<%
+	HashMap<String, Object> hmap = (HashMap<String, Object>) request.getAttribute("hmap");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>방과후 활동 신청 이력</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -53,236 +56,45 @@
 <body style="overflow-x: hidden">
 
 	<%@ include file="/views/common/parentsMenu.jsp"%>
-	<h1 align="center">방과후 신청 리스트</h1>
+	<h1 align="center">방과후 신청 이력</h1>
 
 	<div id="totalList" align="center">
-		<button class="accordion">2019-10-20</button>
+
+<%
+			for (int i = 0; i < ((ArrayList<Children>)hmap.get("cList")).size(); i ++) {
+				
+		%>
+
+		<button class="accordion">원아명 : <%= ((ArrayList<Children>)hmap.get("cList")).get(i).getName() %>          신청 일자 : <%= ((ArrayList<AsList>)hmap.get("aList")).get(i).getApplyDate() %></button>
 		<div class="panel">
+			<table align="center" class="goHomeTable">
+				<tr>
+					<td><label>신청 일자 : </label></td>
+					<td><label><%= ((ArrayList<AsList>)hmap.get("aList")).get(i).getApplyDate() %></label></td>
+				</tr>
+				<tr>
+					<td><label>승인 일자 : </label></td>
+					<td><label><%= ((ArrayList<AsList>)hmap.get("aList")).get(i).getApprovalDate() %></label></td>
+				</tr>
+				<tr>
+					<td><label>종료 일자 : </label></td>
+					<td><label><%=  ((ArrayList<AsList>)hmap.get("aList")).get(i).getEndDate() %></label></td>
 
-				<table align="center" class="doesTable">
-					<tr>
-						<td><label>유아명 : </label></td>
-						<td><label>박건후</label></td>
-					</tr>
-					<tr>
-						<td><label>증상명 : </label></td>
-						<td><label>감기</label>
-						</td>
-					</tr>
-					<tr>
-						<td><label>약의 종류 및 용량 : </label></td>
-						<td><label>해열제 및 감기약 식후 한알씩</label>
-						</td>
-					</tr>
-					<tr>
-						<td><label>약의 보관 방법 :</label></td>
-						<td>
-							<div class="ui form">
-								<div class="grouped fields">
-									<div class="field">
-										<div class="ui radio checkbox">
-											<input type="radio" name="keepMedicine" value="상온"
-												id="ordinary" checked="checked"> <label
-												for="ordinary">상온</label>
-										</div>
-
-										<div class="ui radio checkbox">
-											<input type="radio" name="keepMedicine" value="냉온"
-												id="freeze"> <label for="freeze">냉온</label>
-										</div>
-									</div>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td><label>투약 의뢰 기간 : </label></td>
-						<td>
-							<div class="ui mini icon input">
-								<input type="date" id="dosingPeriodStart">~ <input
-									type="date" id="dosingPeriodEnd">
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td><label>투약 의뢰 시간 : </label></td>
-						<td>
-							<div id="dosingTimeArea" class="ui mini icon input">
-								<input class="timepicker" id='dosingTime' name='dosingTime'>
-								<button class="ui icon button timeplus" onclick="return false">
-									<i class="plus icon"></i>
-								</button>
-							</div>
-
-						</td>
-					</tr>
-					<tr>
-						<td><label>비고 : </label></td>
-						<td><label>약먹기 싫어하는데 잘 달래서 먹여주세요~~</label></td>
-					</tr>
-					<tr>
-						<td><label>의뢰자 : </label></td>
-						<td><label>박주호</label>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-					</tr>
-
-				</table>
-
+				</tr>
+				
+			</table>
 		</div>
+		<br>
+		<%
+			
+		}
+		%>
 
-		<button class="accordion">2019-10-01</button>
-		<div class="panel">
-				<table align="center" class="doesTable">
-					<tr>
-						<td><label>유아명 : </label></td>
-						<td><label>박건후</label></td>
-					</tr>
-					<tr>
-						<td><label>증상명 : </label></td>
-						<td><label>감기</label>
-						</td>
-					</tr>
-					<tr>
-						<td><label>약의 종류 및 용량 : </label></td>
-						<td><label>해열제 및 감기약 식후 한알씩</label>
-						</td>
-					</tr>
-					<tr>
-						<td><label>약의 보관 방법 :</label></td>
-						<td>
-							<div class="ui form">
-								<div class="grouped fields">
-									<div class="field">
-										<div class="ui radio checkbox">
-											<input type="radio" name="keepMedicine" value="상온"
-												id="ordinary" checked="checked"> <label
-												for="ordinary">상온</label>
-										</div>
 
-										<div class="ui radio checkbox">
-											<input type="radio" name="keepMedicine" value="냉온"
-												id="freeze"> <label for="freeze">냉온</label>
-										</div>
-									</div>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td><label>투약 의뢰 기간 : </label></td>
-						<td>
-							<div class="ui mini icon input">
-								<input type="date" id="dosingPeriodStart">~ <input
-									type="date" id="dosingPeriodEnd">
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td><label>투약 의뢰 시간 : </label></td>
-						<td>
-							<div id="dosingTimeArea" class="ui mini icon input">
-								<input class="timepicker" id='dosingTime' name='dosingTime'>
-								<button class="ui icon button timeplus" onclick="return false">
-									<i class="plus icon"></i>
-								</button>
-							</div>
-
-						</td>
-					</tr>
-					<tr>
-						<td><label>비고 : </label></td>
-						<td><label>약먹기 싫어하는데 잘 달래서 먹여주세요~~</label></td>
-					</tr>
-					<tr>
-						<td><label>의뢰자 : </label></td>
-						<td><label>박주호</label>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-					</tr>
-
-				</table>
-		</div>
-
-		<button class="accordion">2019-09-17</button>
-		<div class="panel">
-				<table align="center" class="doesTable">
-					<tr>
-						<td><label>유아명 : </label></td>
-						<td><label>박건후</label></td>
-					</tr>
-					<tr>
-						<td><label>증상명 : </label></td>
-						<td><label>감기</label>
-						</td>
-					</tr>
-					<tr>
-						<td><label>약의 종류 및 용량 : </label></td>
-						<td><label>해열제 및 감기약 식후 한알씩</label>
-						</td>
-					</tr>
-					<tr>
-						<td><label>약의 보관 방법 :</label></td>
-						<td>
-							<div class="ui form">
-								<div class="grouped fields">
-									<div class="field">
-										<div class="ui radio checkbox">
-											<input type="radio" name="keepMedicine" value="상온"
-												id="ordinary" checked="checked"> <label
-												for="ordinary">상온</label>
-										</div>
-
-										<div class="ui radio checkbox">
-											<input type="radio" name="keepMedicine" value="냉온"
-												id="freeze"> <label for="freeze">냉온</label>
-										</div>
-									</div>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td><label>투약 의뢰 기간 : </label></td>
-						<td>
-							<div class="ui mini icon input">
-								<input type="date" id="dosingPeriodStart">~ <input
-									type="date" id="dosingPeriodEnd">
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td><label>투약 의뢰 시간 : </label></td>
-						<td>
-							<div id="dosingTimeArea" class="ui mini icon input">
-								<input class="timepicker" id='dosingTime' name='dosingTime'>
-								<button class="ui icon button timeplus" onclick="return false">
-									<i class="plus icon"></i>
-								</button>
-							</div>
-
-						</td>
-					</tr>
-					<tr>
-						<td><label>비고 : </label></td>
-						<td><label>약먹기 싫어하는데 잘 달래서 먹여주세요~~</label></td>
-					</tr>
-					<tr>
-						<td><label>의뢰자 : </label></td>
-						<td><label>박주호</label>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-					</tr>
-
-				</table>
-		</div>
+		
 	</div>
+	
+	
 	<script>
 		var acc = document.getElementsByClassName("accordion");
 		var i;

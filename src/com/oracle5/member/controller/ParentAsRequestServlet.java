@@ -32,25 +32,33 @@ public class ParentAsRequestServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userMno = Integer.parseInt(request.getParameter("userNo"));
+		int pNo = Integer.parseInt(request.getParameter("userNo"));
+		String kidName = request.getParameter("kidName");
 		
+		// 원아명과 부모 번호 일치 확인 후 cid가져오기
+		int cId = new MemberService().cNamepNoCheck(kidName, pNo);
+				
 		//해당 월 신청 이력 확인
 		Calendar calendar = new GregorianCalendar(Locale.KOREA);
 		int currentMonth;
 		currentMonth = calendar.get(Calendar.MONTH) + 1;
 
 
-
-		
-		int result = new MemberService().asRequest(userMno);
-		
-		if(result > 0) {
-			response.sendRedirect("views/common/successPage.jsp?successCode=8");
-		}else {
-			response.sendRedirect("views/common/successPage.jsp?successCode=9");
+		if(cId != 0) {
+			int result = new MemberService().asRequest(cId);
 			
-			//request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			if(result > 0) {
+				response.sendRedirect("views/common/successPage.jsp?successCode=8");
+			}else {
+				response.sendRedirect("views/common/successPage.jsp?successCode=9");
+				
+				//request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
+		} else {
+			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
+
 	}
 
 	/**
