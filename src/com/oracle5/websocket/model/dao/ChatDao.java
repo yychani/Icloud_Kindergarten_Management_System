@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -13,11 +14,11 @@ import com.oracle5.websocket.model.vo.Chat;
 
 import static com.oracle5.common.JDBCTemplate.*;
 
-public class chatDao {
+public class ChatDao {
 	Properties prop = new Properties();
 	
-	public chatDao() {
-		String fileName = chatDao.class.getResource("/sql/chat/chat-query.properties").getPath();
+	public ChatDao() {
+		String fileName = ChatDao.class.getResource("/sql/chat/chat-query.properties").getPath();
 		
 		try {
 			prop.load(new FileReader(fileName));
@@ -217,6 +218,68 @@ public class chatDao {
 			close(rset);
 		}
 		
+		return chatList;
+	}
+
+	public int updateView(Connection con, int receiver, int sendUser) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateView");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, sendUser);
+			pstmt.setInt(2, receiver);
+			pstmt.setInt(3, sendUser);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Chat> selectAllUnread(Connection con, int sendUser) {
+		ArrayList<Chat> chatList = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("selectAllUnread");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, sendUser);
+			pstmt.setInt(2, sendUser);
+			rset = pstmt.executeQuery();
+			
+			if(rset != null) {
+				chatList = new ArrayList<>();
+				while(rset.next()) {
+					Chat chat = new Chat();
+					
+					chat.setCtype(rset.getInt("C_TYPE"));
+					chat.setChatNo(rset.getInt("CHAT_NO"));
+					chat.setDate(rset.getDate("C_DATE"));
+					chat.setCont(rset.getString("C_CONT"));
+					chat.setMno(rset.getInt("M_NO"));
+					chat.setViewCheck(rset.getString("VIEWCHECK"));
+					
+					chatList.add(chat);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+	
 		return chatList;
 	}
 	

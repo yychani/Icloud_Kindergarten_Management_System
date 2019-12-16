@@ -55,6 +55,8 @@
 %>
 <script>
 	$(function(){
+
+		
 		$.ajax({
 			url : "/main/selectTeacher.do",
 			type : "post",
@@ -63,16 +65,23 @@
 				$select.find("option").remove();
 				for (var i = 0; i < data.length; i++) {
 					var name = decodeURIComponent(data[i].name);
-					var selected = (i == 0) ? "selected" : "";
+					var selected = (i == 3) ? "selected" : "";
 					if(data[i].tNo != <%=loginUser.getMemberNo()%>){
-						$select.append("<option value='" + data[i].tNo + "' " + selected + ">" + name + "선생님</option>");
+						$select.append("<option value='" + data[i].tNo + "' " + ">" + name + "선생님</option>");
+						
 					}
 				}
+				
+				$("#receiver option:nth-child(3)").eq(0).prop("selected", true);
+				$("#receiver").trigger("change");
+				$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
 			},
 			error : function(data) {
 				console.log("실패!");
 			}
 		});
+
+		
 	});
 </script>
 <table style="margin-top: 10px; width: 100%;">
