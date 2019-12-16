@@ -14,6 +14,7 @@ import java.util.HashMap;
 import com.oracle5.board.model.dao.BoardDao;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.board.model.vo.CommonNote;
+import com.oracle5.board.model.vo.Reply;
 import com.oracle5.board.model.vo.Schedule;
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.dao.MemberDao;
@@ -914,7 +915,7 @@ public class BoardService {
 
 	}
 	//가정통신문 selectOne IMG
-	public Attachment selectOneFLetterImg(int num) {
+	/*public Attachment selectOneFLetterImg(int num) {
 		Connection con = getConnection();
 		Attachment attachment = new BoardDao().selectOneFLetterImg(con,num);
 		
@@ -927,7 +928,7 @@ public class BoardService {
 		close(con);
   
   		return attachment;
-	}
+	}*/
 
 	public Board selectOneUpdateTcL(int num, String isUpdate) {
 		Connection con = getConnection();
@@ -997,6 +998,50 @@ public class BoardService {
 		}
 		
 		close(con);
+		return replyList;
+	}
+
+	//학부모 운영 위원회 게시판 수정용 메소드
+	public int updatePreHBoard(Board b) {
+		Connection con = getConnection();
+		int result = new BoardDao().updatePreHBoard(con, b);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		close(con);
+		return result;
+	}
+
+	//학부모 위원회 게시판 삭제용 메소드
+	public int deletePreHBoard(int num) {
+		Connection con =getConnection();
+		
+		int result = new BoardDao().deletePreHBoard(con, num);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		return result;
+	}
+
+	public ArrayList<Reply> insertReplyPreHBoard(Reply r) {
+		Connection con = getConnection();
+		ArrayList<Reply> replyList = null;
+		
+		int result = new BoardDao().insertReplyPreHBoard(con, r);
+		
+		if(result >0) {
+			commit(con);
+			replyList = new BoardDao().selectPreHBoardReplyList(con, r.getTid());
+			System.out.println(replyList);
+		}else {
+			rollback(con);
+		}
 		return replyList;
 	}
 	
