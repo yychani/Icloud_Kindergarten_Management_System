@@ -147,7 +147,7 @@
 	function getConnection() {
 		
 		
-		ws = new WebSocket("ws:<%=svrIP %>:<%=svrPort %>" + '<%=request.getContextPath() %>/chat');
+		ws = new WebSocket("ws:localhost:8001" + '<%=request.getContextPath() %>/chat');
 		
 		ws.onopen = function(event){
 			

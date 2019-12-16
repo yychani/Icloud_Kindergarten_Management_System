@@ -55,13 +55,26 @@ $(function(){
 			type:"get",
 			success:function(data){
 				console.log(data);
-				$("#uniqueness").text(data.unique);
-				$("#materials").text(data.materials);
-				$("input:radio[id='example2']:input[value='data.health']").prop("checked",true);
-				var check = $('[name=example2]:checked').val();
+				$("#uniqueness").text("");
+				$("#materials").text("");
+				$("#banName").text("");
+				$("#presidentNotice").text("");
+				$("#teacherNotice").text(""); 
+				
+				$("#uniqueness").text(data.cNote.unique);
+				$("#materials").text(data.cNote.materials);
+				$("input:radio[name='example2']:input[value='"+ data.cNote.health +"']").prop("checked",true);
+				$("#banName").text(data.b.banName + "반 알림장");
+				$("#presidentNotice").text(data.pNote.note);
+				$("#teacherNotice").text(data.tNote.note); 
 			},
 			error:function(data){
-				console.log("실패임");
+				$("#uniqueness").text("");
+				$("#materials").text("");
+				$("#banName").text("");
+				$("#presidentNotice").text("");
+				$("#teacherNotice").text(""); 
+				$("input[type=radio]").prop("checked",false);
 			}
 		});
 	
@@ -85,7 +98,7 @@ $(function(){
 
 	<div class="ui olive segment" id="outBox" align="center">
 		<br>
-		<h2>해바라기 반 알림장</h2>
+		<h2 id="banName"></h2>
 		<select id="cNameSelect"></select>
 
 		<div class="ui mini icon input">
@@ -93,7 +106,7 @@ $(function(){
 		</div>
 		<div class="ui piled segment">
 			<h4 class="ui header">원장님 알림사항</h4>
-			<label id=""></label>
+			<label id="presidentNotice"></label>
 		</div>
 
 		<div class="ui piled segment">
@@ -102,7 +115,7 @@ $(function(){
 		</div>
 
 		<div class="ui piled segment">
-			<h4 class="ui header">건후 하루 특이사항</h4>
+			<h4 class="ui header">하루 특이사항</h4>
 			<label id="uniqueness"></label>
 		</div>
 

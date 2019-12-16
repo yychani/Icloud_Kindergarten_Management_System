@@ -13,6 +13,7 @@ import com.oracle5.member.model.vo.AsList;
 import com.oracle5.member.model.vo.Attend;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.BodyInfo;
+import com.oracle5.member.model.vo.CNote;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.FamilyRelation;
@@ -340,12 +341,10 @@ public class MemberService {
 
 
 	//학부모 방과후 신청
-	public int asRequest(int userMno) {
+	public int asRequest(int cId) {
 		Connection con = getConnection();
 		
-		int cId = md.searchCID(con, userMno);
-		
-		int result = md.asRequest(con, userMno, cId);
+		int result = md.asRequest(con, cId);
 		
 		if(result > 0) {
 			commit(con);
@@ -628,10 +627,10 @@ public class MemberService {
 	}
 
 	//현장 체험학습 리스트 select
-	public Map<String, Object> selectFtlApplyList(int cId) {
+	public Map<String, Object> selectFtlApplyList(int pNo) {
 		Connection con = getConnection();
 		
-		Map<String, Object> hmap = new MemberDao().selectFtlApplyList(con, cId);
+		Map<String, Object> hmap = new MemberDao().selectFtlApplyList(con, pNo);
 		
 		close(con);
 		
@@ -956,7 +955,7 @@ public class MemberService {
 		return cNameList;
 	}
 
-	//날짜랑 원아번호로 반 알림장 조회해오기
+	//날짜랑 원아번호로 원아 알림장 조회해오기
 	public Note selectCNote(int cId, Date cDate) {
 		Connection con = getConnection();
 		
@@ -965,6 +964,50 @@ public class MemberService {
 		close(con);
 		
 		return cNote;
+	}
+
+	//선생님 알림장
+	public CNote selectTNote(int tNo, Date cDate) {
+		Connection con = getConnection();
+		
+		CNote tNote = md.selectTNote(con, tNo, cDate);
+		
+		close(con);
+		
+		return tNote;
+	}
+
+	//원장님 알림장
+	public CNote selectPNote(Date cDate) {
+		Connection con = getConnection();
+		
+		CNote pNote = md.selectPNote(con, cDate);
+		
+		close(con);
+		
+		return pNote;
+	}
+
+	//반 이름 가져오기
+	public Ban selectNoteBan(int cId) {
+		Connection con = getConnection();
+		
+		Ban b = md.selectNoteBan(con, cId);
+		
+		close(con);
+		
+		return b;
+	}
+
+	//방과 후 신청 이력 가져오기
+	public HashMap<String, Object> selectAsList(int pNo) {
+		Connection con = getConnection();
+		
+		HashMap<String, Object> hmap = md.selectAsList(con, pNo);
+		
+		close(con);
+		
+		return hmap;
 	}
 
 }

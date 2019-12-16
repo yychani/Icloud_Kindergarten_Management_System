@@ -75,14 +75,18 @@
 </div>
 
 <!-- 방과 후 신청 버튼 모달 -->
-<div class="ui basic modal">
+<div class="ui basic modal"  align="center">
   <div class="ui icon header">
     <i class="hand point right outline icon"></i>
     다음 달 방과 후 신청을 하시겠습니까?
   </div>
+  <p>원아명을 입력해주세요</p>
   <form action="<%=request.getContextPath()%>/asRequest.me" method="post">
   <input type="hidden" value="<%=loginUser.getMemberNo()%>"
 					name="userNo">
+	<div class="ui input" align="center">
+  <input type="text" name="kidName">
+</div>
   <div class="actions" align="center">
     <div class="ui red basic cancel inverted button">
       <i class="remove icon"></i>
