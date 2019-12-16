@@ -91,7 +91,7 @@
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/selectAllBanList" class="submenuLink">반 공지사항</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcFamilyLetter.jsp" class="submenuLink">가정통신문</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectFLetterList.tbo" class="submenuLink">가정통신문</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcSchedule.jsp" class="submenuLink">일정표</a></li>
 							<li>|</li>

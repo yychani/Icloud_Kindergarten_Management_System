@@ -127,8 +127,9 @@
 	<div align="center">
 			<table id="tableArea">
 			<tr id="trArea">
-				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>">									
-				<input type="file" name="imges" /></td>
+				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
+									<td><input type="file" name="img"></td>
+									<td><input type="submit" id="update" value="수정" onclick="location.href='<%=request.getContextPath()%>/updateOneChildImg.tbo'">
 			<tr>
 				<td	colspan="2">&nbsp;</td>	
 			</tr>
@@ -136,8 +137,7 @@
 				<td	colspan="2">&nbsp;</td>
 			</tr>
 			<tr>
-				<td colspan="4"><img class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"
-									onclick="location.href='<%=request.getContextPath()%>/?num=<%= a.getFid()%>'"></td>
+				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"</td>
 			</tr>
 			<tr>
 				<td	colspan="4">&nbsp;</td>
@@ -260,6 +260,18 @@
 		});
 
 	});
+    
+	</script>
+	<script>
+	function updateImg(){
+		var img = document.createElement("img");
+		img.src ="htt"
+		var holder = document.getElementById("imgPlaceHolder");
+		holder.appendChild(img);
+	}
+	
+	
+	
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>

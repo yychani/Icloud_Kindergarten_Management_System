@@ -213,10 +213,18 @@
 		
 	</form>
 	
+	<table>
+		<tr>
+			<td></td>
+		</tr>
 	
+	
+	</table>
 	<div class="ui comments">
   <h3 class="ui dividing header">댓글</h3>
+ 
   <div class="comment">
+   <div class="reply">
     <div class="content">
       <a class="author">채성아</a>
       <div class="metadata">
@@ -225,6 +233,7 @@
       <div class="text">
            조용히해!
       </div>
+       </div>
       <div class="actions" onclick="">
         <a class="rereply">댓글달기</a>
       </div>
@@ -234,6 +243,7 @@
     	</div>
     </div>
   </div>
+ 
   <div class="comment">
     <div class="content">
       <a class="author">나미리</a>
@@ -286,6 +296,27 @@
       <i class="icon edit"></i> 등록하기
     </div>
   </form>
+  
+   <h3 class="ui dividing header">댓글</h3>
+  	<div>
+		<table id="replySelectTable" border="1" align="center">
+			
+		</table>
+		
+	</div>
+  <div class="replyArea">
+		<div class="replyWriteArea">
+		<table align="center">
+		
+				<tr>
+					<td>댓글작성</td>
+					<td><textarea rows="3" cols="80" id="replyContent"></textarea></td>
+					<td><button id="addReply">댓글 작성</button></td>
+				</tr>
+			</table>
+		</div>
+			
+		</div><!-- replyArea end -->
 </div>
 	<%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
 	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectChildImg2.tbo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
@@ -315,23 +346,57 @@
 		});
 
 	});
-    $(function(){
-    	$(".icon edit").click(function(){
-    	
-    	})
-    	
-    })
     
-    $(function(){
-    	$(".rereArea").hide();
-    	
-    	$(".rereply").click(function(){
-    		$(".rereArea").toggle();
-    		
-    	})
-    	
-    	
-    })
+	</script>
+	<script>
+	$(function(){
+		$("#addReply").click(function(){
+			var writer = <%=loginUser.getMemberNo()%>
+			var tid = <%=b.getTid()%>
+			var content = $("#replyContent").val();
+			
+			$.ajax({
+				url:"/jsp/insertReply.bo",
+				data:{
+					writer:writer,
+					content:content,
+					tid:tid,
+					
+				},
+				type:"post",
+				success:function(data){
+					//console.log(data);
+					var $replySelectTable = $("#replySelectTable");
+					$replySelectTable.html('');
+					
+					for(var key in data){
+						var $tr = $("<tr>");
+						var $writerTd = $("<td>").text(data[key].bWriter).css("width","100px");
+						var $contentTd = $("<td>").text(data[key].bContent).css("width","400px");
+						var $dateTd = $("<td>").text(data[key].bDate).css("width","200px");
+						
+						$tr.append($writerTd);
+						$tr.append($contentTd);
+						$tr.append($dateTd);  
+						
+						$replySelectTable.append($tr);
+					}
+				},
+				error:function(){
+					console.log("에러!");
+				}
+				
+				
+			})
+			
+		})
+		
+		
+		
+	})
+	
+	
+	
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
