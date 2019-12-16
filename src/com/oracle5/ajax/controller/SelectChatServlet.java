@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.oracle5.websocket.model.service.chatService;
+import com.oracle5.websocket.model.service.ChatService;
 import com.oracle5.websocket.model.vo.Chat;
 
 @WebServlet("/selectChat.chat")
@@ -25,7 +25,7 @@ public class SelectChatServlet extends HttpServlet {
 		int sendUser = Integer.parseInt(request.getParameter("sendUser"));
 		int reciever = Integer.parseInt(request.getParameter("reciever"));
 		
-		ArrayList<Chat> chatList = new chatService().selectChat(sendUser, reciever);
+		ArrayList<Chat> chatList = new ChatService().selectChat(sendUser, reciever);
 		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");

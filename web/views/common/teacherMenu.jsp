@@ -55,6 +55,7 @@
 						$select.append("<option value='" + data[i].tNo + "' " + selected + ">" + name + "선생님</option>");
 					}
 				}
+				$("#receiver").trigger("change");
 			},
 			error : function(data) {
 				console.log("실패!");
