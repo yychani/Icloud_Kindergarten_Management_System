@@ -1,29 +1,29 @@
 package com.oracle5.member.controller;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.oracle5.member.model.service.MemberService;
-import com.oracle5.member.model.vo.Member;
+import com.oracle5.member.model.vo.Attend;
 
 /**
- * Servlet implementation class ParentFtlApplyListServlet
+ * Servlet implementation class ChildAttendServlet
  */
-@WebServlet("/ftlApplyList.me")
-public class ParentFtlApplyListServlet extends HttpServlet {
+@WebServlet("/cAttend.me")
+public class ChildAttendServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ParentFtlApplyListServlet() {
+    public ChildAttendServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,20 +32,19 @@ public class ParentFtlApplyListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Member loginUser = (Member) session.getAttribute("loginMember");
-		int pNo = loginUser.getMemberNo();
+		int cId = Integer.parseInt(request.getParameter("cId"));
+		System.out.println(cId);
 		
-		
-		//현장체험학습 리스트 가져오기
-		Map<String, Object> hmap = new MemberService().selectFtlApplyList(pNo);
-		System.out.println(hmap);
-		if(hmap != null) {
-			request.setAttribute("hmap", hmap);
-			request.getRequestDispatcher("/views/parents/ftlApplyList.jsp").forward(request, response);
+		//cId로 출석 가져오기
+		ArrayList<Attend> list = new MemberService().selectCAttend(cId);
+		System.out.println(list);
+		if(list != null) {
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			new Gson().toJson(list, response.getWriter());
+		} else {
+			
 		}
-		
-		
 	}
 
 	/**

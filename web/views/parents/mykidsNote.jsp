@@ -99,8 +99,9 @@ $(function(){
 	<div class="ui olive segment" id="outBox" align="center">
 		<br>
 		<h2 id="banName"></h2>
-		<select id="cNameSelect"></select>
-
+		
+		<select class="ui dropdown" id="cNameSelect"></select>
+ 
 		<div class="ui mini icon input">
 			<input type="date" id="datepicker" name="datepicker">
 		</div>

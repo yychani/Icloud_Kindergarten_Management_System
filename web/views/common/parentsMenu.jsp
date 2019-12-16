@@ -101,7 +101,7 @@ table {
                
                <li class="topMenuLi"><a class="menuLink" href="">방과후 </a>
                   <ul class="submenu">
-                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/asListMain.jsp" class="submenuLink longLink">방과후 프로그램</a></li>
+                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/asListMain.jsp" class="submenuLink">방과후 프로그램</a></li>
                      <li>|</li>
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/asApply.jsp" class="submenuLink">방과후 신청</a></li>
                      <li>|</li>

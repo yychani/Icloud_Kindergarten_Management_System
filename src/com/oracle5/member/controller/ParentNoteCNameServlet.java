@@ -37,13 +37,10 @@ public class ParentNoteCNameServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member loginUser = (Member) session.getAttribute("loginMember");
 		int pNo = loginUser.getMemberNo();
-		System.out.println(pNo);
-		
-		
+
 		//원아 이름,cid 가져오기
 		ArrayList<Children> cNameList = new MemberService().selectCName(pNo);
 		
-		System.out.println(cNameList);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		new Gson().toJson(cNameList, response.getWriter());

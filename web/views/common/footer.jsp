@@ -14,7 +14,7 @@
 	$(function(){
 		getServerTime();
 	});
-	
+	  
 	function getServerTime() {
 		
 
