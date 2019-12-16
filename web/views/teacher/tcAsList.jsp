@@ -18,7 +18,7 @@
         table {
             margin: 50px auto;
         }
-        #table1, #table2, #table3, #table4 {
+        #table1, #table2 {
             margin: 10px auto;
         }
 

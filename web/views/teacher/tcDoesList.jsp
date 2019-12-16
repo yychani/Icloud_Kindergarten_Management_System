@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+<%
+	ArrayList<DoseRequest> list = (ArrayList<DoseRequest>) request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -14,7 +17,7 @@
         table {
             margin: 50px auto;
         }
-        #table1, #table2, #table3, #table4 {
+        #table1, #table2, #table3 {
             margin: 10px auto;
         }
 
@@ -50,13 +53,17 @@
             height: 50px;
         } 
         th[id="apply"]{
-            width: 50px;
+            width: 100px;
             height: 50px;
             padding-right: 0;
         } 
         th[id="applicant"] {
-            width: 500px;
+            width: 400px;
             height: 50px;
+        }
+        th[id="date"] {
+        	width: 100px;
+        	height: 50px;
         }
         th {
             background: lightgrey;
@@ -102,7 +109,19 @@
         margin: 15% auto; /* 15% from the top and centered */
         padding: 20px;
         border: 1px solid #888;
-        width: 30%; /* Could be more or less, depending on screen size */                          
+        width: 40%; /* Could be more or less, depending on screen size */                          
+    }
+    
+    #modaltable td{
+    	height:30px
+    }
+    .modalBtn {
+    	cursor:pointer;
+    	background-color:#DDDDDD;
+    	text-align: center;
+    	padding-bottom: 10px;
+    	padding-top: 10px;
+    	display:inline-block;
     }
     </style>
 </head>
@@ -116,30 +135,35 @@
 	    <select name="as" id="as">
 	        <option value="투약 의뢰서 리스트" selected>투약 의뢰서 리스트</option>
 	        <option value="이전 신청 이력">이전 신청 이력</option>
+	        <option value="반려 이력">반려 이력</option>
 	    </select>
     </div>
     <table id="table1" >
         <tr id="applyTr">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
-            <th id="apply">선택</th>
+            <th id="apply">증상</th>
+            <th id="date">신청일</th>
         </tr>
+        <% for(int i = 0; i < list.size(); i++) { 
+        		if(list.get(i).getStatus().equals("미확인")) {%>
+        <tr id="applyTr" class="child<%= i %>">
+            <td id="no"><%= i + 1 %> 
+            	<input type="hidden" id="cid" value="<%= list.get(i).getCNo() %>" />
+            	<input type="hidden" id="dno" value="<%= list.get(i).getDNo() %>" />
+            </td>
+            <td id="applicant"><%= list.get(i).getCName() %></td>
+            <td id="apply"><%= list.get(i).getSymptom() %></td>
+            <td id="date"><%= list.get(i).getSubmitDate() %></td>
+        </tr>
+        <% }
+        } %>
         <tr id="applyTr">
-            <td id="no">1</td>
-            <td id="applicant">박건후</td>
-            <td id="apply" align="center"><input id="check" type="checkbox"></td>
-        </tr>
-        <tr id="applyTr">
-                <th style="height: 30px;"></th>
-                <th align="right">전체선택</th>
-                <th><input id="allCheck" type="checkbox"></th>
-            
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-                <td colspan="3" style="float: right; padding-right: 0;"><input type="button" value="승인" style="width: 70px; height:30px"></td>
-            
+            <th style="height: 30px;"></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </table>
     <table id="table2" hidden>
@@ -148,11 +172,15 @@
                 <th id="applicant">신청자</th>
                 <th id="apply">승인 날짜</th>
             </tr>
-            <tr id="applyTr">
-                <td id="no"></td>
-                <td id="applicant"></td>
-                <td id="apply" align="center"></td>
-            </tr>
+            <% for(int i = 0; i < list.size(); i++) { 
+        		if(list.get(i).getStatus().equals("수신 확인")) {%>
+	        <tr id="applyTr">
+	            <td id="no"><%= i + 1 %></td>
+	            <td id="applicant"><%= list.get(i).getCName() %></td>
+	            <td id="apply" align="center"><input id="check" type="checkbox"></td>
+	        </tr>
+	        <% }
+	        } %>
             <tr id="applyTr">
                     <th style="height: 20px;"></th>
                     <th align="right"></th>
@@ -165,33 +193,76 @@
                 
             </tr>
         </table>
-        
+        <table id="table3" hidden>
+            <tr id="applyTr">
+                <th id="no">No</th>
+                <th id="applicant">신청자</th>
+                <th id="apply">승인 날짜</th>
+            </tr>
+            <% for(int i = 0; i < list.size(); i++) { 
+        		if(list.get(i).getStatus().equals("반려")) {%>
+	        <tr id="applyTr">
+	            <td id="no"><%= i + 1 %></td>
+	            <td id="applicant"><%= list.get(i).getCName() %></td>
+	            <td id="apply" align="center"><input id="check" type="checkbox"></td>
+	        </tr>
+	        <% }
+	        } %>
+            <tr id="applyTr">
+                    <th style="height: 20px;"></th>
+                    <th align="right"></th>
+                    <th></th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                    <td colspan="3" style="float: right; padding-right: 0;"><input type="button" value="승인" style="width: 70px; height:30px"></td>
+                
+            </tr>
+        </table>
         <!-- The Modal -->
     <div id="myModal" class="modal">
  
       <!-- Modal content -->
       	<div class="modal-content">
-				<table style="text-align:left">
+				<table id="modaltable" style="text-align:center; width:100%;" border=1>
 					<tr>
-						<td>이름 : 박건후</td>
-						<td rowspan="4"><img src="<%= request.getContextPath() %>/images/img.jpg" alt="" width="200px" style="margin:0 10%"/></td>
+						<td style="width:25%">이름</td>
+						<td style="width:25%" id="name"></td>
+						<td style="width:25%">보관방법</td>
+						<td style="width:25%" id="keep"></td>
 					</tr>
 					<tr>
-						<td>성별 : 남</td>
+						<td>투약시작일자</td>
+						<td id="startDate"></td>
+						<td>투약종료일자</td>
+						<td id="endDate"></td>
 					</tr>
 					<tr>
-						<td>생년월일 : 2015년 10월 10일</td>
+						<td>증상</td>
+						<td id="symptom"></td>
+						<td>요청사항</td>
+						<td id="remarks"></td>
 					</tr>
 					<tr>
-						<td>&nbsp;</td>
+						<td>투약시간</td>
+						<td colspan="3" id="dosingTime"></td>
+						
 					</tr>
 				</table>
                 <p><br /></p>
-            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
-                <span class="pop_bt" style="font-size: 13pt;" >
-                     	닫기
-                </span>
-            </div>
+                <div style="display: inline-block; margin-left: 85%; width: 150px;">
+                <div class="modalBtn"style="margin-right:20px;">
+            		<span class="pop_bt" style="font-size: 13pt;" >
+                     		확인
+                	</span>
+            	</div>
+           		<div class="modalBtn" onClick="close_pop();">
+               		<span class="pop_bt" style="font-size: 13pt;" >
+                    			닫기
+               		</span>
+           		</div>
+             </div>
 	     </div>
  
     </div>
@@ -222,19 +293,59 @@
             $("#as").change(function(){
                  if($(this).val() == "투약 의뢰서 리스트"){
                     $("#table2").attr("hidden", true);
+                    $("#table3").attr("hidden", true);
                     $("#table1").attr("hidden", false);
                  }else if($(this).val() == "이전 신청 이력"){
                     $("#table1").attr("hidden", true);
+                    $("#table3").attr("hidden", true);
                     $("#table2").attr("hidden", false);
+                 } else if($(this).val() == "반려 이력"){
+                    $("#table1").attr("hidden", true);
+                    $("#table2").attr("hidden", true);
+                    $("#table3").attr("hidden", false);
                  }
             });
             
             
         	$("td#applicant:nth-of-type(n+1)").click(function() {
+        		var dno = $(this).parent().find("#dno").val();
+        		console.log(dno)
+        		
+        		
+        		$.ajax({
+        			url:"selectChildDoseReq.do",
+        			type:"post",
+        			data:{
+        				dno:dno
+        			},
+        			success:function(data) {
+        				console.log(data)
+        				
+        				$("#name").text(data.cName);
+        				$("#startDate").text(changeDate(data.startDate));
+        				$("#endDate").text(changeDate(data.endDate));
+        				$("#symptom").text(data.symptom);
+        				$("#keep").text(data.keep);
+        				$("#dosingTime").text(data.dosingTime);
+        				$("#remarks").text(data.remarks);
+        			},
+        			error:function() {
+        				console.log("실패")
+        			}
+        		});
+        		
+        		
     			$("#myModal").show();
     		});
     		
         }); 
+        
+        function changeDate(date) {
+        	date = date.split(" ");
+        	date = date[2] + "년 " + date[0] + " " + date[1].substring(0, date[1].length - 1) + "일";
+        	console.log(date)
+        	return date;
+        }
         
         function close_pop() {
 			$("#myModal").hide();

@@ -1042,4 +1042,24 @@ public class MemberService {
 
 	}
 
+	public ArrayList<DoseRequest> selectBanDoseList(int memberNo) {
+		Connection con = getConnection();
+		
+		ArrayList<DoseRequest> list = new MemberDao().selectBanDoseList(con, memberNo);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public DoseRequest selectChildDoseReq(int dno) {
+		Connection con = getConnection();
+		
+		DoseRequest dr = new MemberDao().selectChildDoseReq(con, dno);
+		
+		close(con);
+		
+		return dr;
+	}
+
 }
