@@ -25,20 +25,23 @@
 
 <style>
 .accordion {
-	background-color: #eee;
+	background-color: rgb(255, 255, 255);
 	color: #444;
+    border: 1.5px solid rgb(147, 196, 34);
+    border-radius: 10px;
 	cursor: pointer;
 	padding: 18px;
-	border: none;
-	text-align: left;
+	text-align: center;
 	outline: none;
 	font-size: 15px;
 	transition: 0.4s;
 	width: 1000px;
+	font-family: 'Noto Sans KR', sans-serif;
+	width: 700px;
 }
 
 .active, .accordion:hover {
-	background-color: #ccc;
+	background-color: rgba(228, 247, 228, 0.306);
 }
 
 .panel {
@@ -47,6 +50,10 @@
 	max-height: 0;
 	overflow: hidden;
 	transition: max-height 0.2s ease-out;
+	 font-family: 'Noto Sans KR', sans-serif;
+}
+tr{
+	height: 30px;
 }
 </style>
 
@@ -98,6 +105,7 @@
 				</tr>
 			</table>
 		</div>
+		<br>
 		<%
 			}
 		%>

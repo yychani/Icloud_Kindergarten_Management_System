@@ -1042,4 +1042,32 @@ public class MemberService {
 
 	}
 
+	//cId로 출석 가져오기
+	public ArrayList<Attend> selectCAttend(int cId) {
+		Connection con = getConnection();
+		
+		ArrayList<Attend> list = md.selectCAttend(con, cId);
+		
+		close(con);
+		
+		return list;
+	}
+
+	//방과후 이력 확인
+	public int selectAsCheck(int cId, int currentMonth, int currentYear) {
+		Connection con = getConnection();
+		
+		int check = md.selectAsCheck(con, cId, currentMonth, currentYear);
+		
+		if(check > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return check;
+	}
+
 }

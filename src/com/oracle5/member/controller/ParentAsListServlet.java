@@ -37,11 +37,9 @@ public class ParentAsListServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		Member loginUser = (Member) session.getAttribute("loginMember");
 		int pNo = loginUser.getMemberNo();
-		System.out.println(pNo);
 		
 		//방과 후 신청 이력 가져오기
 		HashMap<String, Object> hmap = new MemberService().selectAsList(pNo);
-		System.out.println(hmap);
 		if(hmap != null) {
 			request.setAttribute("hmap", hmap);
 			request.getRequestDispatcher("views/parents/asApplyList.jsp").forward(request, response);
