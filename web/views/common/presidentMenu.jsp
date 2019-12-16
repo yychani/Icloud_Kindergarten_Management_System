@@ -116,7 +116,7 @@
 							<li class="li9"><a href="<%=request.getContextPath()%>/views/president/prePBoard.jsp"
 									class="submenuLink">학부모 게시판</a></li>
 							<li>|</li>
-							<li class="li10"><a href="<%=request.getContextPath()%>/views/president/preHBoard.jsp"
+							<li class="li10"><a href="<%=request.getContextPath()%>/selectAllPreHBoard.bo"
 									class="submenuLink longLink">유치원 운영위원회 게시판</a></li>
 
 						</ul>

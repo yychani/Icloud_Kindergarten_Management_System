@@ -2,7 +2,6 @@ package com.oracle5.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,16 +14,16 @@ import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
 
 /**
- * Servlet implementation class SelectBoardServlet
+ * Servlet implementation class SelectPreHBoardServlet
  */
-@WebServlet("/selectOneBanBoard.bo")
-public class SelectOneBanBoardServlet extends HttpServlet {
+@WebServlet("/selectPreHBoard.bo")
+public class SelectPreHBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectOneBanBoardServlet() {
+    public SelectPreHBoardServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,29 +33,24 @@ public class SelectOneBanBoardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int num = Integer.parseInt(request.getParameter("num"));
-		System.out.println("num : " + num);
 		String isUpdate = "false";
 		if(request.getParameter("isUpdate") != null) {
 			isUpdate = request.getParameter("isUpdate");
 		}
 		
+		Board b= new BoardService().selectOnePreHBoard(num,isUpdate);
+		ArrayList<Attachment> list = new BoardService().selectOnePreHBoardImg(num);
 		
-		Board b = new BoardService().selectOneBoard(num, isUpdate);
-		ArrayList<Attachment> list = new BoardService().selectOneImg(num);
 		String page = "";
 		
-		if(b != null) {
-			page="views/teacher/tcClassNoticeDetail.jsp";
+		if(b!= null) {
+			page="views/president/preHBoardUpdate.jsp";
 			request.setAttribute("b", b);
 			request.setAttribute("list", list);
-			
-			
 		}else {
 			page="views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시글 수정용 상세보기 실패");
+			request.setAttribute("msg", "유치원 운영 위원회 게시판 수정용 상세보기");
 		}
-		System.out.println("b"+b);
-		System.out.println("list"+list);
 		request.getRequestDispatcher(page).forward(request, response);
 	}
 
