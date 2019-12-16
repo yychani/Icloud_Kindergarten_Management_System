@@ -41,7 +41,7 @@ public class ServerTime {
 							String time = cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
 							
 							session.getBasicRemote().sendText(time);
-							System.out.println(time);
+							//System.out.println(time);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

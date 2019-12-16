@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="com.oracle5.board.model.vo.*"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <!-- 시멘틱ui -->
 <link rel="stylesheet"
@@ -13,14 +16,60 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
-<!-- jquery -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-<style>
+<script>
+$(function(){
+	$.ajax({
+		url:"<%=request.getContextPath()%>/pCName.me",
+		type:"get",
+		success:function(data){
+			console.log(data);
 
+			$select = $("#cNameSelect");
+			$select.find("option").remove();
+			
+			for(var key in data){
+				var $option = $("<option>");
+				$option.val(data[key].cId);
+				$option.text(data[key].name);
+				$select.append($option);
+				
+			}
+			
+		},
+		error:function(data){
+			console.log("faileㅠㅠ");
+		}
+	});
+
+	$("#datepicker").change(function(){
+		var date = $(this).val();
+		console.log(date);
+		
+		var cId = $("#cNameSelect").val();
+		console.log(cId);
+
+		var cData = {"cId":cId, "date":date};
+		$.ajax({
+			url:"<%=request.getContextPath()%>/pSelectCNote.me",
+			data:{cId, date},
+			type:"get",
+			success:function(data){
+				console.log(data);
+				$("#uniqueness").text(data.unique);
+				$("#materials").text(data.materials);
+				$("input:radio[id='example2']:input[value='data.health']").prop("checked",true);
+				var check = $('[name=example2]:checked').val();
+			},
+			error:function(data){
+				console.log("실패임");
+			}
+		});
+	
+	});
+});
+</script>
+
+<style>
 #outBox {
 	margin: 0 20%;
 }
@@ -37,32 +86,29 @@
 	<div class="ui olive segment" id="outBox" align="center">
 		<br>
 		<h2>해바라기 반 알림장</h2>
-		<p>박건후</p>
+		<select id="cNameSelect"></select>
+
 		<div class="ui mini icon input">
-			<input type="date" id="today">
+			<input type="date" id="datepicker" name="datepicker">
 		</div>
 		<div class="ui piled segment">
 			<h4 class="ui header">원장님 알림사항</h4>
-			<p>안녕하세요 떡잎유치원 원장 ㅇㅇㅇ입니다. 20xx년 xx월 xx일 ~ 로 현장학습 예정입니다. 가정통신문
-				참조하시어 참가여부 회신 부탁드립니다.</p>
+			<label id=""></label>
 		</div>
 
 		<div class="ui piled segment">
 			<h4 class="ui header">선생님 알림사항</h4>
-			<p>오늘 하루는 아이 감각 키우기 활동을 했어요~ 많은 자연물들과 사물들을 만져보며 감각을 느껴보는 시간을
-				가졌답니다!~</p>
+			<label id="teacherNotice"></label>
 		</div>
 
 		<div class="ui piled segment">
 			<h4 class="ui header">건후 하루 특이사항</h4>
-			<p>오늘 하루는 아이 감각 키우기 활동을 했어요~ 많은 자연물들과 사물들을 만져보며 감각을 느껴보는 시간을
-				가졌답니다!~</p>
+			<label id="uniqueness"></label>
 		</div>
 
 		<div class="ui piled segment">
 			<h4 class="ui header">준비물</h4>
-			<p>준비물 : 개인 수채화 물감 12색 , 파레트 , 수채화 붓 (물통은 유치원에 준비되어 있습니다) 다음주 월요일
-				까지 준비물에 이름써서 준비해 주시면 감사하겠습니다.</p>
+			<label id="materials"></label>
 		</div>
 
 		<div class="ui piled segment">
@@ -71,17 +117,17 @@
 				<div class="grouped fields">
 					<div class="field">
 						<div class="ui radio checkbox">
-							<input type="radio" name="example2" checked="checked"> <label>좋음</label>
+							<input type="radio" name="example2" value="좋음"> <label>좋음</label>
 						</div>
 					</div>
 					<div class="field">
 						<div class="ui radio checkbox">
-							<input type="radio" name="example2"> <label>보통</label>
+							<input type="radio" name="example2"  value="보통"> <label>보통</label>
 						</div>
 					</div>
 					<div class="field">
 						<div class="ui radio checkbox">
-							<input type="radio" name="example2"> <label>나쁨</label>
+							<input type="radio" name="example2"  value="나쁨"> <label>나쁨</label>
 						</div>
 					</div>
 				</div>
@@ -95,20 +141,33 @@
 
 	<!-- 날짜 선택 -->
 	<script>
-		$function()
-		{
-			var rangeDate = 31; // set limit day
-			var setSdate, setEdate;
-			$("#today").datepicker({
-				dateFormat : 'yy-mm-dd',
-				minDate : 0,
-			});
+ 	$(function() {
+        //input을 datepicker로 선언
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd' //Input Display Format 변경
+            ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+            ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+            ,changeYear: true //콤보박스에서 년 선택 가능
+            ,changeMonth: true //콤보박스에서 월 선택 가능                
+            ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+            ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+            ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+            ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+            ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+            ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+            ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+            ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+            ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+            ,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+            ,maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+        
+        });                    
+        
+        //초기값을 오늘 날짜로 설정
+        $('#datepicker').datepicker('setDate', '-1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+    }); 
 
-			$('#datepicker').datepicker('setDate', 'today');
-
-		}
 		
- 
 	</script>
 	<script>
 	
@@ -128,6 +187,26 @@
 	    });
 
 	 });
+	
+
+	
+	
+
+	
+	<%-- $("#cNameSelect").change(function(){
+		var check = $(this).val();
+		console.log(check);
+		var day = $("#today").val();
+		console.log(day);
+		$.ajax({
+			url:"<%=request.getContextPath()%>/pSelectCNote.me",
+			data:{"check":check, "date":day},
+			type:"get",
+			success:function(data){
+				consol.log(data);
+			}
+		}); 
+	}); --%>
 	
 	
 	</script>
