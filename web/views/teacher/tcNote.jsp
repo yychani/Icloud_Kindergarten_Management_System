@@ -17,7 +17,6 @@
 	} else if(list.size() != 0 && list.get(0) != null) {
 		n = list.get(0);
 	}
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -152,7 +151,7 @@ table {
 		<input type="submit" value="완료" style="float:right; border-radius:5px;"/>
 	</div>
 	</form>
-	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
+	<%@ include file="/views/common/chat.jsp" %>
 </body>
 </html>

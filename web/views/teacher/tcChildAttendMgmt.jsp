@@ -144,7 +144,7 @@
     			<input type="button" value="저장하기" onclick="saveAttend()" style="float:right"/>
     		</div>
     </div>
-    <%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
+    <%@ include file="/views/common/chat.jsp" %>
 </body>
 </html>
