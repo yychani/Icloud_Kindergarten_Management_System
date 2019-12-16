@@ -73,6 +73,7 @@
         }
         td[id="apply"]{
             padding-right: 0;
+            width: 15%;
         } 
         td[id="rtn"]{
             height: 30px;
@@ -168,7 +169,7 @@
         <tr id="applyTr">
             <td id="no"><%= i + 1 %><input type="hidden" name="cid" id="cid" value="<%= nolist.get(i).getCId() %>" /></td>
             <td id="applicant"><%= nolist.get(i).getName() %></td>
-            <td id="apply" align="center"><input id="check" type="checkbox"></td>
+            <td id="apply" align="center"><input id="check" class="asCheck" type="checkbox"></td>
         </tr>
         <% } %>
         <tr id="applyTr">
@@ -191,7 +192,7 @@
             </tr>
             <% for(int i = 0; i < oklist.size(); i++) { %>
             <tr id="applyTr">
-                <td id="no"><%= i + 1 %></td>
+                <td id="no"><%= i + 1 %><input type="hidden" name="cid" id="cid" value="<%= oklist.get(i).getCId() %>" /></td>
                 <td id="applicant"><%= oklist.get(i).getName() %></td>
                 <td id="apply" align="center"><%= oklist.get(i).getEntDate() %></td>
             </tr>
@@ -256,9 +257,9 @@
             
             $("#allCheck").click(function() {
                 if($("#allCheck").prop("checked")) {
-                    $("#check").prop("checked", true);
+                    $(".asCheck").prop("checked", true);
                 } else {
-                    $("#check").prop("checked", false);
+                    $(".asCheck").prop("checked", false);
                 }
             });
             
@@ -279,7 +280,28 @@
 		};
 		
 		$("#accept").click(function() {
-			console.log(1)
+			var cid = [];
+			var cnt = 0;
+			$('#table1 tbody').children().find("input[type=checkbox]:not('#allCheck')").each(function(index, value) {
+				if($(this).is(':checked') == true) {
+					cid[cnt++] = $(this).parent().parent().find("#cid").val();
+				}
+			});
+			
+			$.ajax({
+				url:"updateAsList.do",
+				type:"post",
+				data:{
+					cid:cid
+				},
+				success:function(data) {
+					alert(data +"명 승인 완료");
+					location.reload();
+				},
+				error:function() {
+					console.log("실패")
+				}
+			});
 		});
     </script>
     <%@ include file="/views/common/footer.jsp"%>

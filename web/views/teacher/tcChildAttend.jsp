@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+<%
+	ArrayList<Attend> list = (ArrayList<Attend>) request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -142,6 +145,19 @@
                 location.href="<%= request.getContextPath() %>/selectBanChildren.me?date=" + date;
             });
         }); 
+    </script>
+    <script>
+    	$(function(){
+    		<% for(int i = 0; i < list.size(); i++) {
+    			String amdate = list.get(i).getAmDate().toString();%>
+    			$(".dailyDate1").each(function(){
+    				if($(this).val() == "<%=amdate %>"){
+    					$(this).parent().children("p").text("작성");
+    				}
+    			});
+    		<% } %>
+    		
+    	});
     </script>
     <%@ include file="/views/common/footer.jsp"%>
     <%@ include file="/views/common/chat.jsp"%>

@@ -211,9 +211,6 @@ input[type='button'] {
 	</div>
  	
 
-
-    <%@ include file="/views/common/footer.jsp" %>
-     	<%@ include file="/views/common/chat.jsp" %>
     <script>
     $(function(){
     	$(".writing").click(function(){
@@ -234,5 +231,7 @@ input[type='button'] {
     });
     
     </script>
+    <%@ include file="/views/common/footer.jsp" %>
+ 	<%@ include file="/views/common/chat.jsp" %>
 </body>
 </html>

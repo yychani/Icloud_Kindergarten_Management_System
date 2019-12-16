@@ -732,6 +732,7 @@ public class BoardService {
 		return list;
 	}
 
+
 	//유치원 운영 위원회 게시판 insert
 	public int insertPreHBoard(HashMap<String, Object> hmap, Board b) {
 		Connection con = getConnection();
@@ -813,6 +814,7 @@ public class BoardService {
 		
 		return b;
 	}
+  
 	//유치원 운영 위원회 게시글이미지 보기
 	public ArrayList<Attachment> selectOnePreHBoardImg(int num) {
 		Connection con = getConnection();
@@ -825,9 +827,181 @@ public class BoardService {
 		}
 		return list;
 	}
+
+	//가정통신문 리스트
+	public ArrayList<Board> selectAllTcFamilyList(int currentPage, int limit) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectAllTcFamilyList(con,currentPage,limit);
+		
+		close(con);
+		
+		
+		return list;
+	}
+  
+	//가정 통신문 리스트 카운트
+	public int getFamilyListCount() {
+		Connection con = getConnection();
+		
+		int listCount = new BoardDao().getFamilyListCount(con);
+		
+		close(con);
+		
+		return listCount;
+	}
+	
+	//가정통신문 insert
+	public int insertFLetter(HashMap<String, Object> hmap, Board b) {
+		Connection con = getConnection();
+		
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
+		
+		int tid = 0;
+		int result = 0;
+		//가정통신문 
+		int result1 = new BoardDao().insertFLetter(con, b);
+		if(result1 > 0) {
+			tid = new BoardDao().selectFLetterTid(con, b);
+			
+		}
+		Attachment banBImg = fileList.get(0);
+		int result2 = 0;
+		if(banBImg.getOriginName() != null) {
+			result2 = new BoardDao().insertFLetterImg(con, banBImg ,tid);
+			
+		}else {
+			result2 = 1;
+		}
+		
+		if(result1 > 0 && result2 > 0 ) {
+			commit(con);
+			result = 1;
+			
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+	
+	//가정 통신문 selectOne
+	public Board selectOneFLetter(int num, String isUpdate) {
+		Connection con = getConnection();
+		
+		Board b = null;
+		int tid = 0;
+		int result = 0;
+		if(isUpdate.equals("false")) {
+			result = new BoardDao().updateFLetterCount(con, num);
+		}
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			
+			rollback(con);
+		}
+		
+		b= new BoardDao().selectOneFLetter(con, num);
+		
+		
+		close(con);
+		
+		return b;
+
+	}
+	//가정통신문 selectOne IMG
+	public Attachment selectOneFLetterImg(int num) {
+		Connection con = getConnection();
+		Attachment attachment = new BoardDao().selectOneFLetterImg(con,num);
+		
+		if(attachment != null) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+  
+  		return attachment;
+	}
+
+	public Board selectOneUpdateTcL(int num, String isUpdate) {
+		Connection con = getConnection();
+		
+		Board b = null;
+		int tid = 0;
+		int result = 0;
+		if(isUpdate.equals("false")) {
+			result = new BoardDao().updateCountTcL(con, num);
+		}
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			
+			rollback(con);
+		}
+		
+		b= new BoardDao().selectOneUpdateTcL(con, num);
+		
+		
+		close(con);
+		return b;
+
+	}
+	//가정통신문 수정 update
+	public int updateTcFamilyLetter(Board b) {
+		Connection con = getConnection();
+		int result = new BoardDao().updateTcFamilyLetter(con, b);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		return result;
+	}
+
+	public int deleteTcFamilyLetter(int num) {
+		Connection con = getConnection();
+		int result = new BoardDao().deleteTcFamilyLetter(con, num);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+	//앨범 리
+	public ArrayList<Board> insertReplyChildImg(Board b) {
+		Connection con = getConnection();
+		ArrayList<Board> replyList = null;
+		
+		int result = new BoardDao().insertReplyChildImg(con,b);
+		
+		if(result>0) {
+			commit(con);
+			replyList = new BoardDao().selectReplyChildImg(con,b.getTid());
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		return replyList;
+	}
 	
 	
-	
+		
 
 }
 
