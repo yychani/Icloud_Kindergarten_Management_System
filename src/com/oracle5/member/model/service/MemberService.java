@@ -361,10 +361,6 @@ public class MemberService {
 	public int doseRequest(DoseRequest dr) {
 		Connection con = getConnection();
 		
-		//투약의뢰서에 원아 아이디 넣어주기
-		int cId = md.searchCID(con, dr.getPNo());
-		dr.setCNo(cId);
-		
 		//DOESREQ 테이블 INSERT
 		int result = md.doseRequest(con, dr);
 		
@@ -947,6 +943,28 @@ public class MemberService {
 		close(con);
 		
 		return banName;
+	}
+
+	//학부모알림장 - 원아 이름,cid 가져오기
+	public ArrayList<Children> selectCName(int pNo) {
+		Connection con = getConnection();
+		
+		ArrayList<Children> cNameList = md.selectCName(con, pNo);
+		
+		close(con);
+		
+		return cNameList;
+	}
+
+	//날짜랑 원아번호로 반 알림장 조회해오기
+	public Note selectCNote(int cId, Date cDate) {
+		Connection con = getConnection();
+		
+		Note cNote = md.selectCNote(con, cId, cDate);
+		
+		close(con);
+		
+		return cNote;
 	}
 
 }

@@ -60,35 +60,44 @@ public class ParentDoseRequest extends HttpServlet {
 	
 		String remarks = request.getParameter("remarks");
 
+		// 원아명과 부모 번호 일치 확인 후 cid가져오기
+		int cId = new MemberService().cNamepNoCheck(kidsName, pNo);
 		
-		
-		DoseRequest dr = new DoseRequest();
-		dr.setSymptom(symptom);
-		dr.setKinds(kinds);
-		dr.setKeep(keep);
-		dr.setStartDate(startDate);
-		dr.setRemarks(remarks);
-		dr.setPNo(pNo);
-		dr.setEndDate(endDate);
-		dr.setDosingTime(dosingTimeSum);
-		
-		//투약의뢰서 테이블 INSERT
-		int result1 = new MemberService().doseRequest(dr);
-		
-		//넣은 투약의뢰서 가져오기
-		DoseRequest requestDose = new MemberService().selectDoseReq(pNo);
-		System.out.println("requestDose : " + requestDose);
-		
-		//투약 시간 테이블 INSERT
-		int result = new MemberService().doseTimeInsert(requestDose, dr.getDosingTime());
-		
-		if(result > 0) {
-			response.sendRedirect("views/common/successPage.jsp?successCode=13");
-		} else {
-			request.setAttribute("msg", "투약의뢰서 신청 실패");
+		if(cId != 0) {
+			DoseRequest dr = new DoseRequest();
+			dr.setSymptom(symptom);
+			dr.setKinds(kinds);
+			dr.setKeep(keep);
+			dr.setStartDate(startDate);
+			dr.setRemarks(remarks);
+			dr.setPNo(pNo);
+			dr.setEndDate(endDate);
+			dr.setDosingTime(dosingTimeSum);
+			dr.setCNo(cId);
 			
+			//투약의뢰서 테이블 INSERT
+			int result1 = new MemberService().doseRequest(dr);
+			
+			//넣은 투약의뢰서 가져오기
+			DoseRequest requestDose = new MemberService().selectDoseReq(pNo);
+			System.out.println("requestDose : " + requestDose);
+			
+			//투약 시간 테이블 INSERT
+			int result = new MemberService().doseTimeInsert(requestDose, dr.getDosingTime());
+			
+			if(result > 0) {
+				response.sendRedirect("views/common/successPage.jsp?successCode=10");
+			} else {
+				request.setAttribute("msg", "투약의뢰서 신청 실패");
+				
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
+		} else {
+			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
+		
+		
 		
 	}
 

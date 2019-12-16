@@ -33,13 +33,13 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int pNo = Integer.parseInt(request.getParameter("pNo"));
+		String kidsName = request.getParameter("kidsName");
 		String guideName = request.getParameter("guideName");
 		String guidePhone = request.getParameter("guidePhone");
 		
-		//아이 이름으로 cid 가져오기 
-		String kidsName = request.getParameter("kidsName");
-		int cId = new MemberService().selectCId(kidsName);
-		System.out.println(cId);
+		// 원아명과 부모 번호 일치 확인 후 cid가져오기
+		int cId = new MemberService().cNamepNoCheck(kidsName, pNo);
+		
 		String sapplyDate = request.getParameter("applyDate");
 		Date applyDate;
 		if(sapplyDate != "") {
@@ -50,23 +50,30 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 		
 		String applyTime = request.getParameter("applyTime");
 		
-		ReturnAgree ra = new ReturnAgree();
-		ra.setPNo(pNo);
-		ra.setApplyDate(applyDate);
-		ra.setApplyTime(applyTime);
-		ra.setGuideName(guideName);
-		ra.setGuidePhone(guidePhone);
-		ra.setCId(cId);
-		
-		int result = new MemberService().returnApply(ra);
-		
-		if(result > 0) {
-			response.sendRedirect("views/common/successPage.jsp?successCode=12");
-		} else {
-			request.setAttribute("msg", "귀가동의서 신청 실패");
+		if(cId != 0) {
+			ReturnAgree ra = new ReturnAgree();
+			ra.setPNo(pNo);
+			ra.setApplyDate(applyDate);
+			ra.setApplyTime(applyTime);
+			ra.setGuideName(guideName);
+			ra.setGuidePhone(guidePhone);
+			ra.setCId(cId);
 			
+			int result = new MemberService().returnApply(ra);
+			
+			if(result > 0) {
+				response.sendRedirect("views/common/successPage.jsp?successCode=12");
+			} else {
+				request.setAttribute("msg", "귀가동의서 신청 실패");
+				
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
+		} else {
+			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
+		
+		
 	}
 
 	/**

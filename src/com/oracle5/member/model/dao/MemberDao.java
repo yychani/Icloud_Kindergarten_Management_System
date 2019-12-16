@@ -2662,4 +2662,77 @@ public class MemberDao {
 		return banName;
 	}
 
+	//학부모알림장 - 원아 이름,cid 가져오기
+	public ArrayList<Children> selectCName(Connection con, int pNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Children> cNameList = null;
+		Children c = null;
+		
+		String query = prop.getProperty("selectCName");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pNo);
+			
+			rset = pstmt.executeQuery();
+			
+			cNameList = new ArrayList<Children>();
+			
+			while(rset.next()) {
+				c = new Children();
+				
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				System.out.println(c);
+				
+				cNameList.add(c);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return cNameList;
+	}
+
+	//날짜랑 원아번호로 반 알림장 조회해오기
+	public Note selectCNote(Connection con, int cId, Date cDate) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Note cNote = null;
+		
+		String query = prop.getProperty("selectNote");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, cId);
+			pstmt.setDate(2, cDate);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				cNote = new Note();
+				cNote.setCid(rset.getInt("C_ID"));
+				cNote.setUnique(rset.getString("UNIQUENESS"));
+				cNote.setMaterials(rset.getString("MATERIALS"));
+				cNote.setHealth(rset.getString("HEALTH"));
+				cNote.setNDate(rset.getDate("N_DATE"));
+				cNote.setTno(rset.getInt("T_NO"));
+				
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return cNote;
+	}
+
 }
