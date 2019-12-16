@@ -82,6 +82,11 @@ public class InsertPreKNotice extends HttpServlet {
 				fileList.add(at);
 			}
 			
+			for(int i=0; i<fileList.size(); i++) {
+				String at = fileList.get(i).getOriginName();
+				System.out.println(at);
+			}
+			
 			HashMap<String, Object> hmap = new HashMap<>();
 			hmap.put("fileList",fileList);
 			hmap.put("Board", b);

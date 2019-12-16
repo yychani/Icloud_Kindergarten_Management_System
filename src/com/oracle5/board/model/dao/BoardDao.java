@@ -1193,19 +1193,22 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return result;
 	}
 	//원 공지사항 이미지 삽입
-	public int insertPreKImg(Connection con, Attachment preKImg, int tid) {
+	public int insertPreKImg(Connection con, ArrayList<Attachment> at, int tid) {
 		PreparedStatement pstmt = null;
 		int result =0;
+		ArrayList<Attachment> file = null;
+		
 		
 		String query = prop.getProperty("insertPreKImg");
 		
 		try {
+			for(int i=0; i<at.size(); i++) {
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, preKImg.getOriginName());
-			pstmt.setString(2, preKImg.getChangeName());
-			pstmt.setString(3, preKImg.getFilePath());
+			pstmt.setString(1, at.get(i).getOriginName());
+			pstmt.setString(2, at.get(i).getChangeName());
+			pstmt.setString(3, at.get(i).getFilePath());
 			pstmt.setInt(4, tid);
-			
+			}
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1493,8 +1496,9 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return file;
 }
       
-	public Attachment selectOnePreKNoticeImg(Connection con, int num) {
+	public ArrayList<Attachment> selectOnePreKNoticeImg(Connection con, int num) {
 		PreparedStatement pstmt = null;
+		ArrayList<Attachment> list = new ArrayList<>();
 		Attachment att = null;
 		ResultSet rset = null;
 		
@@ -1505,9 +1509,9 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
       			pstmt.setInt(1, num);
 			
 			rset = pstmt.executeQuery();
+			while(rset.next()) {
 			
-			if(rset.next()) {
-        	att = new Attachment();
+				att = new Attachment();
 				
 				att.setFid(rset.getInt("F_ID"));
 				att.setOriginName(rset.getString("ORIGIN_NAME"));
@@ -1520,7 +1524,10 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 				att.setCId(rset.getInt("C_ID"));
 				att.setFeedNo(rset.getInt("FEEDNO"));
 				att.setTId(rset.getInt("T_ID"));
+				
+				list.add(att);
 			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1530,7 +1537,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		}
 		
 			
-		return att;
+		return list;
 	}
 
 	//원 공지사항 수정용 메소드

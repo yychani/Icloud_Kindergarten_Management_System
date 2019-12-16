@@ -93,7 +93,7 @@ public class ServerTime {
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
 		// 서버로부터 테이터를 전송받을 시점
-		System.out.println(msg);
+		//System.out.println(msg);
 		
 	}
 	@OnError

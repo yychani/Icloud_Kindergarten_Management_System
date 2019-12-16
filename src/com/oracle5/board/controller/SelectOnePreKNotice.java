@@ -1,6 +1,7 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,14 +40,14 @@ public class SelectOnePreKNotice extends HttpServlet {
 		}
 		
 		Board b = new BoardService().selectOnePreKNotice(num, isUpdate);
-		Attachment a = new BoardService().selectOnePreKNoticeImg(num);
+		ArrayList<Attachment> list = new BoardService().selectOnePreKNoticeImg(num);
 		
 		String page ="";
 		
 		if(b != null) {
 			page="views/president/preKNoticeDetail.jsp";
 			request.setAttribute("b", b);
-			request.setAttribute("a", a);
+			request.setAttribute("list", list);
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시글 자세히 보기 실패");
