@@ -1,21 +1,20 @@
-
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.oracle5.common.model.vo.Attachment"%>
+<%@page import="com.oracle5.board.model.vo.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
+    pageEncoding="UTF-8"%>
     <%
-    	Board b = (Board) request.getAttribute("b"); 
-    ArrayList<Attachment> list = new ArrayList<>();
-	if((ArrayList<Attachment>) request.getAttribute("list") != null){
-		list = (ArrayList<Attachment>) request.getAttribute("list");
-	}
-     %>
+    	Board b = (Board) request.getAttribute("b");
+    	ArrayList<Attachment> list = new ArrayList<>();
+    	if((ArrayList<Attachment>) request.getAttribute("list") != null){
+    		list = (ArrayList<Attachment>) request.getAttribute("list");
+    	}
+    %>
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 detail</title>
+<title>원 공지사항 detail</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -58,9 +57,9 @@ textarea {
 </script>
 </head>
 <body>
-	<%@ include file="/views/common/teacherMenu.jsp" %>
+	<%@ include file="/views/common/presidentMenu.jsp" %>
 	<div style="margin: 0 15%;">
- 	<h1 style="text-decoration: underline; text-underline-position: under;">반 공지사항 </h1>
+	<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항 </h1>
  	</div>
  	<div id="hansol" align="right" style="margin-right:22%;">작성자  <%=b.getName() %> 조회수  <%=b.getTcount() %> 작성일 <%=b.getTtime() %></div>
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
@@ -85,18 +84,41 @@ textarea {
 		<div class="Imgscr"><img alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName()%>"></div>
 		
 		<%} %>
-	
 	</div>
 	<br>
 	 <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
-	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectBanBoard.bo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
+	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectPreHBoard.bo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
 	 <%} %>
-	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectAllBanList'" style="float: right" />
+	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectAllPreHBoard.bo'" style="float: right" />
 	 
 	 <br><br>
-</div>
-
+	</div>
+	
     <%@ include file="/views/common/footer.jsp" %>
-     	<%@ include file="/views/common/chat.jsp" %>
+    <%@ include file="/views/common/chat.jsp" %>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

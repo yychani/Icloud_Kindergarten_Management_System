@@ -210,6 +210,7 @@ input[type='button'] {
         </div> 
 	</div>
  	
+
     <script>
     $(function(){
     	$(".writing").click(function(){

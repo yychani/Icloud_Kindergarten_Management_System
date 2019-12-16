@@ -185,15 +185,18 @@ public class BoardService {
 			tid = new BoardDao().selectBanNoticeTid(con, b);
 			System.out.println("tid : "+tid);
 		}
-		Attachment banBImg = fileList.get(0);
 		int result2 = 0;
+		for(int i=0; i<fileList.size(); i++) {
+		ArrayList<Attachment> at = new ArrayList<>();
+		Attachment banBImg = fileList.get(i);
+		at.add(banBImg);
 		if(banBImg.getOriginName() != null) {
-			result2 = new BoardDao().insertBoardImg(con, banBImg ,tid);
+			result2 = new BoardDao().insertBoardImg(con, at ,tid);
 			
 		}else {
 			result2 = 1;
 		}
-		
+		}
 		
 		System.out.println("b.tno : "+ b.getTno());
 		System.out.println("b.bdid : "+ b.getBdid());
@@ -334,11 +337,11 @@ public class BoardService {
   
   
 	//반 공지사항 이미지 조회
-	public Attachment selectOneImg(int num) {
+	public ArrayList<Attachment> selectOneImg(int num) {
 		Connection con = getConnection();
-		Attachment attachment = new BoardDao().selectOneImg(con,num);
+		ArrayList<Attachment> list = new BoardDao().selectOneImg(con,num);
 		
-		if(attachment != null) {
+		if(list != null) {
 			commit(con);
 		}else {
 			rollback(con);
@@ -346,7 +349,7 @@ public class BoardService {
 		
 		close(con);
   
-  		return attachment;
+  		return list;
 	}
 		
 	
@@ -728,6 +731,103 @@ public class BoardService {
 		
 		return list;
 	}
+
+
+	//유치원 운영 위원회 게시판 insert
+	public int insertPreHBoard(HashMap<String, Object> hmap, Board b) {
+		Connection con = getConnection();
+		
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
+		int tid=0;
+		int result = 0;
+		
+		//유치원 운영 위원회 insert
+		int result1= new BoardDao().insertPreHBoard(con,b);
+		//유치원 운영위원회 이미지 insert
+		if(result1>0) {
+			tid = new BoardDao().selectPreHBoardTid(con,b);
+		}
+		int result2 = 0;
+		for(int i=0; i<fileList.size(); i++) {
+			ArrayList<Attachment> at = new ArrayList<>();
+			Attachment preHImg = fileList.get(i);
+			at.add(preHImg);
+			if(preHImg.getOriginName() != null) {
+				result2 = new BoardDao().insertPreHImg(con,at,tid);
+			}else {
+				result2= 1;
+			}
+		}
+		
+		if(result1 >0 && result2>0) {
+			commit(con);
+			result =1;
+			
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	//유치원 운영 위원회 listCount
+	public int getListCountPreHNotice() {
+		Connection con = getConnection();
+		
+		int result = new BoardDao().listCountPreHBoard(con);
+		
+		close(con);
+		
+		return result;
+	}
+
+	//유치원 운영위원회 전체 조회
+	public ArrayList<Board> selectAllPreHBoard(int currentPage, int limit) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectAllPreHBoard(con,currentPage,limit);
+		
+		close(con);
+		
+		return list;
+	}
+
+	//유치원 운영 위원회 게시글 보기
+	public Board selectOnePreHBoard(int num, String isUpdate) {
+		Connection con = getConnection();
+		Board b = null;
+		int tid=0;
+		int result=0;
+		if(isUpdate.equals("false")) {
+			result = new BoardDao().updatePreHBoardCount(con, num);
+		}
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		b= new BoardDao().selectOnePreHBoard(con,num);
+		
+		return b;
+	}
+  
+	//유치원 운영 위원회 게시글이미지 보기
+	public ArrayList<Attachment> selectOnePreHBoardImg(int num) {
+		Connection con = getConnection();
+		ArrayList<Attachment> list = new BoardDao().selectOnePreHBoardImg(con, num);
+		
+		if(list != null) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		return list;
+	}
+
 	//가정통신문 리스트
 	public ArrayList<Board> selectAllTcFamilyList(int currentPage, int limit) {
 		Connection con = getConnection();
@@ -739,6 +839,7 @@ public class BoardService {
 		
 		return list;
 	}
+  
 	//가정 통신문 리스트 카운트
 	public int getFamilyListCount() {
 		Connection con = getConnection();
@@ -749,7 +850,6 @@ public class BoardService {
 		
 		return listCount;
 	}
-	
 	
 	//가정통신문 insert
 	public int insertFLetter(HashMap<String, Object> hmap, Board b) {

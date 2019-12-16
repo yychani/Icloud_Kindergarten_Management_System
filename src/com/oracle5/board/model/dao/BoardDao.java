@@ -645,19 +645,21 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return result;
 	}
 
-	public int insertBoardImg(Connection con, Attachment banBImg, int tid) {
+	public int insertBoardImg(Connection con, ArrayList<Attachment>at, int tid) {
 		PreparedStatement pstmt = null;
 		int result =0;
+		ArrayList<Attachment> file= null;
 		
 		String query = prop.getProperty("insertBanBImg");
 		
 		try {
+			for(int i=0; i<at.size(); i++) {
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, banBImg.getOriginName());
-			pstmt.setString(2, banBImg.getChangeName());
-			pstmt.setString(3, banBImg.getFilePath());
+			pstmt.setString(1, at.get(i).getOriginName());
+			pstmt.setString(2, at.get(i).getChangeName());
+			pstmt.setString(3, at.get(i).getFilePath());
 			pstmt.setInt(4, tid);
-			
+			}
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -846,8 +848,9 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return result;
 	}
 
-	public Attachment selectOneImg(Connection con, int num) {
+	public ArrayList<Attachment> selectOneImg(Connection con, int num) {
 		PreparedStatement pstmt = null;
+		ArrayList<Attachment> list = new ArrayList<>();
 		Attachment at = null;
 		ResultSet rset = null;
 		
@@ -859,7 +862,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 			
 			
 			rset = pstmt.executeQuery();
-			if(rset.next()) {
+			while(rset.next()) {
 				at = new Attachment();
 				
 				at.setFid(rset.getInt("F_ID"));
@@ -873,6 +876,8 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 				at.setCId(rset.getInt("C_ID"));
 				at.setFeedNo(rset.getInt("FEEDNO"));
 				at.setTId(rset.getInt("T_ID"));
+				
+				list.add(at);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -881,7 +886,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 			close(rset);
 			close(pstmt);
 		}
-		return at;
+		return list;
 	}
 
 	//반 리스트 공지사항 보기
@@ -1804,6 +1809,94 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 
 		return list;
 	}
+
+
+	//유치원 운영위원회 게시판 등록용 메소드
+	public int insertPreHBoard(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("insertPreHBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3,b.getTno());
+			pstmt.setInt(4, b.getBdid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+	
+		
+		return result;
+	}
+  
+	//유치원 운영위원회 t_id 조회용 메소드
+	public int selectPreHBoardTid(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result =0;
+		
+		String query = prop.getProperty("selectPreHBoardTid");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, b.getTno());
+			pstmt.setInt(2, b.getBdid());
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+  
+	//유치원 운영위원회 이미지 등록용 메소드
+	public int insertPreHImg(Connection con, ArrayList<Attachment> at, int tid) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		ArrayList<Attachment> file = null;
+		
+		String query = prop.getProperty("insertPreHImg");
+		
+		try {
+			for(int i=0; i<at.size(); i++) {
+				pstmt= con.prepareStatement(query);
+				pstmt.setString(1, at.get(i).getOriginName());
+				pstmt.setString(2, at.get(i).getChangeName());
+				pstmt.setString(3, at.get(i).getFilePath());
+				pstmt.setInt(4, tid);
+				
+			}
+			result = pstmt.executeUpdate();
+
+			
+		} catch (SQLException e) {
+      e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+
 	//가정통신문 리스트
 	public ArrayList<Board> selectAllTcFamilyList(Connection con, int currentPage, int limit) {
 		PreparedStatement pstmt = null;
@@ -1830,9 +1923,6 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 					b.setTcount(rset.getInt("T_COUNT"));
 					b.setTtime(rset.getDate("T_TIME"));
 					b.setPno(rset.getInt("RNUM"));
-					
-			
-			
 					
 					list.add(b); 
 				}
@@ -1872,6 +1962,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 	
 		return listCount;
 	}
+      
 	//가정통신문 insert
 	public int insertFLetter(Connection con, Board b) {
 		PreparedStatement pstmt = null;
@@ -1891,9 +1982,97 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		}finally {
 			close(pstmt);
 		}
-		
 		return result;
 	}
+
+	//유치원 운영위원회 listCount
+	public int listCountPreHBoard(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		int listCount =0;
+		
+		String query = prop.getProperty("listCountPreHBoard");
+		
+		try {
+			stmt=con.createStatement();
+			
+			rset= stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+			close(rset);
+		}
+		return listCount;
+	}
+
+	//유치원 운영 위원회 전체 조회용 메소드
+	public ArrayList<Board> selectAllPreHBoard(Connection con, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectAllPreHBoard");
+		int startRow = (currentPage -1)* limit +1;
+		int endRow = startRow + limit -1;
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<Board>();
+			while(rset.next()) {
+				Board b = new Board();
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setPno(rset.getInt("RNUM"));
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
+
+//유치원 운영 위원회 조회수용
+   public int updatePreHBoardCount(Connection con, int num) {
+      PreparedStatement pstmt = null;
+      int result =0;
+      
+      String query = prop.getProperty("updatePreHBoardCount");
+      
+      try {
+         pstmt = con.prepareStatement(query);
+         pstmt.setInt(1, num);
+         pstmt.setInt(2, num);
+         
+         result = pstmt.executeUpdate();
+      } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }finally {
+         close(pstmt);
+      }
+      
+      return result;
+   }
 	
 	//가정 통신문 Tid
 	public int selectFLetterTid(Connection con, Board b) {
@@ -1969,80 +2148,146 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		return result;
 	}
-	
-	//가정통신문 selectOne 
-	public Board selectOneFLetter(Connection con, int num) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		Board b = null;
-		
-		String query = prop.getProperty("selectOneFLetter");
-		
-		try {
-			pstmt=con.prepareStatement(query);
-			pstmt.setInt(1, num);
-			
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				b= new Board();
-				
-				b.setTid(rset.getInt("T_ID"));
-				b.setTtitle(rset.getString("T_TITLE"));
-				b.setTcont(rset.getString("T_CONT"));
-				b.setName(rset.getString("NAME"));
-				b.setTcount(rset.getInt("T_COUNT"));
-				b.setTtime(rset.getDate("T_TIME"));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(rset);
-			close(pstmt);
-		}
-		
-		
-		return b;
-	}
-	
-	//가정 통신문 img
-	public Attachment selectOneFLetterImg(Connection con, int num) {
-		PreparedStatement pstmt = null;
-		Attachment att = null;
-		ResultSet rset = null;
-		
-		String query = prop.getProperty("selectOneFLetterImg");
-		
-		try {
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, num);
-			
-			
-			rset = pstmt.executeQuery();
-			if(rset.next()) {
-				att = new Attachment();
-				
-				att.setFid(rset.getInt("F_ID"));
-				att.setOriginName(rset.getString("ORIGIN_NAME"));
-				att.setChangeName(rset.getString("CHANGE_NAME"));
-				att.setFilePath(rset.getString("FILE_PATH"));
-				att.setUploadDate(rset.getDate("UPLOAD_DATE"));
-				att.setFileLevel(rset.getInt("FILE_LEVEL"));
-				att.setStatus(rset.getString("STATUS"));
-				att.setType(rset.getInt("TYPE"));
-				att.setCId(rset.getInt("C_ID"));
-				att.setFeedNo(rset.getInt("FEEDNO"));
-				att.setTId(rset.getInt("T_ID"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(rset);
-			close(pstmt);
-		}
-		return att;
-	}
+
+
+//유치원 운영 위원회 조회용 메소드
+   public Board selectOnePreHBoard(Connection con, int num) {
+      PreparedStatement pstmt = null;
+      ResultSet rset = null;
+      Board b = null;
+      String query = prop.getProperty("selectOnePreHBoard");
+      
+      try {
+         pstmt = con.prepareStatement(query);
+         pstmt.setInt(1, num);
+         
+         rset = pstmt.executeQuery();
+         
+         if(rset.next()) {
+            b = new Board();
+            
+            b.setTid(rset.getInt("T_ID"));
+            b.setTtitle(rset.getString("T_TItle"));
+            b.setTcont(rset.getString("T_CONT"));
+            b.setName(rset.getString("NAME"));
+            b.setTcount(rset.getInt("T_COUNT"));
+            b.setTtime(rset.getDate("T_TIME"));
+         }
+      } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }finally {
+         close(rset);
+         close(pstmt);
+      }
+      
+      
+      return b;
+   }
+
+   //가정통신문 selectOne 
+   public Board selectOneFLetter(Connection con, int num) {
+      PreparedStatement pstmt = null;
+      ResultSet rset = null;
+      Board b = null;
+      
+      String query = prop.getProperty("selectOneFLetter");
+      
+      try {
+         pstmt=con.prepareStatement(query);
+         pstmt.setInt(1, num);
+         
+         rset = pstmt.executeQuery();
+         
+         if(rset.next()) {
+            b= new Board();
+            
+            b.setTid(rset.getInt("T_ID"));
+            b.setTtitle(rset.getString("T_TITLE"));
+            b.setTcont(rset.getString("T_CONT"));
+            b.setName(rset.getString("NAME"));
+            b.setTcount(rset.getInt("T_COUNT"));
+            b.setTtime(rset.getDate("T_TIME"));
+            
+         }
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }finally {
+         close(rset);
+         close(pstmt);
+      }
+      
+      
+      return b;
+   }
+  
+
+
+public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
+      PreparedStatement pstmt = null;
+      ArrayList<Attachment> list = new ArrayList<>();
+      Attachment att = null;
+      ResultSet rset = null;
+      
+      String query = prop.getProperty("selectOnePreHBoardImg");
+      
+      try {
+         pstmt = con.prepareStatement(query);
+         pstmt.setInt(1, num);
+         
+         rset = pstmt.executeQuery();
+         while(rset.next()) {
+            att = new Attachment();
+            
+            att.setFid(rset.getInt("F_ID"));
+            att.setOriginName(rset.getString("ORIGIN_NAME"));
+            att.setChangeName(rset.getString("CHANGE_NAME"));
+            att.setFilePath(rset.getString("FILE_PATH"));
+            att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+            att.setFileLevel(rset.getInt("FILE_LEVEL"));
+            att.setStatus(rset.getString("STATUS"));
+            att.setType(rset.getInt("TYPE"));
+            att.setCId(rset.getInt("C_ID"));
+            att.setFeedNo(rset.getInt("FEEDNO"));
+            att.setTId(rset.getInt("T_ID"));
+            
+            list.add(att);
+         }
+      } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }finally {
+         close(rset);
+         close(pstmt);
+      }
+      
+      return list;
+   }
+
+	   //가정통신문 Img
+   public int insertFLetterImg(Connection con, Attachment banBImg, int tid) {
+      PreparedStatement pstmt = null;
+      int result =0;
+      
+      String query = prop.getProperty("insertFLetterImg");
+      
+      try {
+         pstmt = con.prepareStatement(query);
+         pstmt.setString(1, banBImg.getOriginName());
+         pstmt.setString(2, banBImg.getChangeName());
+         pstmt.setString(3, banBImg.getFilePath());
+         pstmt.setInt(4, tid);
+         
+         result = pstmt.executeUpdate();
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }finally {
+         close(pstmt);
+      }
+      
+      return result;
+   }
+
 	
 	//가정통신문 update페이지 update카운트 false
 	public int updateCountTcL(Connection con, int num) {
@@ -2065,6 +2310,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		
 		return result;
 	}
+  
 	//가정 통신문 update페이지 select
 	public Board selectOneUpdateTcL(Connection con, int num) {
 		PreparedStatement pstmt = null;
@@ -2121,9 +2367,9 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 			close(pstmt);
 		}
 		
-		
 		return result;
 	}
+  
 	//가정 통신문 삭제
 	public int deleteTcFamilyLetter(Connection con, int num) {
 		PreparedStatement pstmt = null;
