@@ -1804,9 +1804,379 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 
 		return list;
 	}
+	//가정통신문 리스트
+	public ArrayList<Board> selectAllTcFamilyList(Connection con, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectAllTcFamilyList");
+		int startRow = (currentPage -1 ) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+				list = new ArrayList<Board>();
+				while(rset.next()) {
+					Board b = new Board();
+					b.setTid(rset.getInt("T_ID"));
+					b.setTtitle(rset.getString("T_TITLE"));
+					b.setName(rset.getString("NAME"));
+					b.setTcount(rset.getInt("T_COUNT"));
+					b.setTtime(rset.getDate("T_TIME"));
+					b.setPno(rset.getInt("RNUM"));
+					
+			
+			
+					
+					list.add(b); 
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
 	
+	//가정통신문 리스트 카운트
+	public int getFamilyListCount(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		int listCount = 0;
+		
+		String query = prop.getProperty("getFamilyListCount");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+		
+		if(rset.next()) {
+			listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+			close(rset);
+		}
+		
+	
+		return listCount;
+	}
+	//가정통신문 insert
+	public int insertFLetter(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertFLetter");
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTno());
+			pstmt.setInt(4, b.getBdid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//가정 통신문 Tid
+	public int selectFLetterTid(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = prop.getProperty("selectFLetterTid");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, b.getTno());
+			pstmt.setInt(2, b.getBdid());
+			
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//가정통신문 Img
+	public int insertFLetterImg(Connection con, Attachment banBImg, int tid) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("insertFLetterImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, banBImg.getOriginName());
+			pstmt.setString(2, banBImg.getChangeName());
+			pstmt.setString(3, banBImg.getFilePath());
+			pstmt.setInt(4, tid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//가정통신문 updateCount false
+	public int updateFLetterCount(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateFLetterCount");
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//가정통신문 selectOne 
+	public Board selectOneFLetter(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board b = null;
+		
+		String query = prop.getProperty("selectOneFLetter");
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b= new Board();
+				
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setTcont(rset.getString("T_CONT"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return b;
+	}
+	
+	//가정 통신문 img
+	public Attachment selectOneFLetterImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		Attachment att = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOneFLetterImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				att = new Attachment();
+				
+				att.setFid(rset.getInt("F_ID"));
+				att.setOriginName(rset.getString("ORIGIN_NAME"));
+				att.setChangeName(rset.getString("CHANGE_NAME"));
+				att.setFilePath(rset.getString("FILE_PATH"));
+				att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+				att.setFileLevel(rset.getInt("FILE_LEVEL"));
+				att.setStatus(rset.getString("STATUS"));
+				att.setType(rset.getInt("TYPE"));
+				att.setCId(rset.getInt("C_ID"));
+				att.setFeedNo(rset.getInt("FEEDNO"));
+				att.setTId(rset.getInt("T_ID"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return att;
+	}
+	
+	//가정통신문 update페이지 update카운트 false
+	public int updateCountTcL(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateCountTcL");
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	//가정 통신문 update페이지 select
+	public Board selectOneUpdateTcL(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board b = null;
+		
+		String query = prop.getProperty("selectOneUpdateTcL");
+		
+		try {
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b= new Board();
+				
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setTcont(rset.getString("T_CONT"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return b;
+	}
+	
+	//가정통신문 
+	public int updateTcFamilyLetter(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateTcFamilyLetter");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+	//가정 통신문 삭제
+	public int deleteTcFamilyLetter(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("deleteTcFamilyLetter");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+	//앨범 리플 insert
+	public int insertReplyChildImg(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = prop.getProperty("insertReplyChildImg");
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTcont());
+			pstmt.setInt(2, b.getTwriter());
+			pstmt.setInt(3, b.getTid());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	//앨범 리플 select 
+	public ArrayList<Board> selectReplyChildImg(Connection con, int tid) {
+		
+		return null;
+	}
 
 }
+	
+
+
 
 
 

@@ -164,7 +164,7 @@ input[type='button'] {
 				}
 			%>
 			<%
-				for (int p = startPage; p < endPage; p++) {
+				for (int p = startPage; p <= endPage; p++) {
 					if (p == currentPage) {
 			%>
 			<button disabled class="current" style="width: 30px; height: 30px;"><%=p%></button>
@@ -204,8 +204,9 @@ input[type='button'] {
 	</div>
 	
  	
- 	<%@ include file="/views/common/chat.jsp" %>
+ 	
     <%@ include file="/views/common/footer.jsp" %>
+    <%@ include file="/views/common/chat.jsp" %>
     <script>
     $(function(){
     	$(".writing").click(function(){
