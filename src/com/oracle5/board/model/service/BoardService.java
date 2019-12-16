@@ -521,13 +521,16 @@ public class BoardService {
 		if(result1 > 0) {
 			tid = new BoardDao().selectPreKNoticeTid(con,b);
 		}
-		
-		Attachment preKImg = fileList.get(0);
 		int result2 = 0;
-		if(preKImg.getOriginName() != null) {
-			result2= new BoardDao().insertPreKImg(con, preKImg, tid);
-		}else {
-			result2 =1;
+		for(int i=0; i<fileList.size(); i++) {
+			ArrayList<Attachment> at = new ArrayList<>();
+			Attachment preKImg = fileList.get(i);	
+			at.add(preKImg);
+			if(preKImg.getOriginName() != null) {
+				result2= new BoardDao().insertPreKImg(con, at, tid);
+			}else {
+				result2 =1;
+			}
 		}
 		
 		if(result1 > 0 && result2 > 0) {
@@ -566,11 +569,11 @@ public class BoardService {
 		return b1;
 	}
 	//원공지사항 게시물 이미지 보기
-	public Attachment selectOnePreKNoticeImg(int num) {
+	public ArrayList<Attachment> selectOnePreKNoticeImg(int num) {
 		Connection con  = getConnection();
-		Attachment att = new BoardDao().selectOnePreKNoticeImg(con, num);
+		ArrayList<Attachment> list = new BoardDao().selectOnePreKNoticeImg(con, num);
 		
-		if(att != null) {
+		if(list != null) {
 			commit(con);
 		}else {
 			rollback(con);
@@ -578,7 +581,7 @@ public class BoardService {
 		
 		close(con);
 		
-		return att;
+		return list;
 	}
 	//원 공지사항 수정용 매소드
 	public int updatePreKNotice(Board b) {

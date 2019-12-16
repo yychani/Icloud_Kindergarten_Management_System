@@ -1,12 +1,13 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.oracle5.common.model.vo.Attachment"%>
 <%@page import="com.oracle5.board.model.vo.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
     	Board b = (Board) request.getAttribute("b");
-    	Attachment a = new Attachment();
-    	if((Attachment) request.getAttribute("a") != null){
-    		a = (Attachment) request.getAttribute("a");
+    	ArrayList<Attachment> list = new ArrayList<>();
+    	if((ArrayList<Attachment>) request.getAttribute("list") != null){
+    		list = (ArrayList<Attachment>) request.getAttribute("list");
     	}
     %>
 <!DOCTYPE html>
@@ -77,7 +78,12 @@ textarea {
 			<textarea style="resize: none; width: 100%; border:0;" rows="25" id="content" name="content"
 			  readonly><%=b.getTcont() %></textarea>
 		</div>
-		<div class="Imgscr"><img alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></div>
+		<% 
+			for(Attachment at : list){
+		%>
+		<div class="Imgscr"><img alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName()%>"></div>
+		
+		<%} %>
 	</div>
 	<br>
 	 <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>

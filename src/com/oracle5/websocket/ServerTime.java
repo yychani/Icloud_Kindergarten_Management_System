@@ -41,7 +41,7 @@ public class ServerTime {
 							String time = cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
 							
 							session.getBasicRemote().sendText(time);
-							System.out.println(time);
+							//System.out.println(time);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -57,7 +57,7 @@ public class ServerTime {
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
 		// 서버로부터 테이터를 전송받을 시점
-		System.out.println(msg);
+		//System.out.println(msg);
 		
 	}
 	@OnError
