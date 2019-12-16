@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
 <%@ page import="com.oracle5.common.model.vo.Attachment"%>
-    <%
+<%@page import="java.util.ArrayList"%>
+       <%
     	Board b = (Board) request.getAttribute("b"); 
-    	Attachment a = new Attachment();
-    	if((Attachment) request.getAttribute("att") != null){
-    		a  = (Attachment) request.getAttribute("att");
-    	}
+    ArrayList<Attachment> list = new ArrayList<>();
+	if((ArrayList<Attachment>) request.getAttribute("list") != null){
+		list = (ArrayList<Attachment>) request.getAttribute("list");
+	}
      %>
 <!DOCTYPE html>
 <html>
@@ -113,92 +114,22 @@
 		<div align="center">
 			<table id="tableArea">
 			<tr id="trArea">
-				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"
-									onclick="location.href='<%=request.getContextPath()%>/imgdownload.tbo?num=<%= a.getFid()%>'"></td>
+		<% 
+			for(Attachment at : list){
+		%>
+				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"
+									onclick="location.href='<%=request.getContextPath()%>/imgdownload.tbo?num=<%= at.getFid()%>'"></td>
 			</tr>
+
+		
 			<tr>
 				<td	colspan="2">&nbsp;</td>	
 			</tr>
 			<tr>
 				<td	colspan="2">&nbsp;</td>
 			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-				
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
 	
-			
+			<%} %>
 			</table>
 			<table align="center" id="tableArea2">
 			<tr>

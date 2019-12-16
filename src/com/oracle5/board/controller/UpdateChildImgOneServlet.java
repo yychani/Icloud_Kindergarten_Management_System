@@ -84,7 +84,7 @@ public class UpdateChildImgOneServlet extends HttpServlet {
 			hmap.put("fileList", fileList);
 			hmap.put("Board", b);
 			
-			int result = new BoardService().updateChildImg(hmap,b);
+			int result = new BoardService().updateChildoneImg(hmap,b);
 			
 			String page = "";
 			

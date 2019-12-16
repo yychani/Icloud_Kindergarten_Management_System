@@ -420,7 +420,7 @@ public class BoardService {
 	
 	//앨범 게시판 insert
 	public int insertChildImg(HashMap<String, Object> hmap, Board b) {
-	Connection con = getConnection();
+		Connection con = getConnection();
 		
 		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
 		int tid = 0;
@@ -433,19 +433,22 @@ public class BoardService {
 			tid = new BoardDao().selectTcChildImgBoardTid(con,b);
 			System.out.println(tid);
 		}
-		Attachment tcChildImg = fileList.get(0);
 		int result2 = 0;
+		for(int i=0; i<fileList.size(); i++) {
+			ArrayList<Attachment> attchment = new ArrayList<>();
+			Attachment tcChildImg = fileList.get(i);
+			attchment.add(tcChildImg);
 		if(tcChildImg.getOriginName() != null) {
 			result2 = new BoardDao().insertTcChildBoardImg(con, tcChildImg ,tid);
 			
 		}else {
 			result2 = 1;
+			}
 		}
 		
-		
-		if(result1 > 0 && result2 > 0 ) {
+		if(result1 >0 && result2>0) {
 			commit(con);
-			result = 1;
+			result =1;
 			
 		}else {
 			rollback(con);
@@ -479,9 +482,9 @@ public class BoardService {
 	}
 	
 	//앨범게시판 이미지 보여주기
-	public Attachment selectOneChildImg(int num) {
+	public ArrayList<Attachment> selectOneChildImg(int num) {
 		Connection con = getConnection();
-		Attachment attachment = new BoardDao().selectTcChildImg(con,num);
+		ArrayList<Attachment> attachment = new BoardDao().selectTcChildImg(con,num);
 		
 		if(attachment != null) {
 			commit(con);
@@ -866,18 +869,22 @@ public class BoardService {
 			tid = new BoardDao().selectFLetterTid(con, b);
 			
 		}
-		Attachment banBImg = fileList.get(0);
 		int result2 = 0;
-		if(banBImg.getOriginName() != null) {
-			result2 = new BoardDao().insertFLetterImg(con, banBImg ,tid);
+		for(int i=0; i<fileList.size(); i++) {
+			ArrayList<Attachment> attchment = new ArrayList<>();
+			Attachment tcFL = fileList.get(i);
+			attchment.add(tcFL);
+		if(tcFL.getOriginName() != null) {
+			result2 = new BoardDao().insertFLetterImg(con, tcFL ,tid);
 			
 		}else {
 			result2 = 1;
+			}
 		}
 		
-		if(result1 > 0 && result2 > 0 ) {
+		if(result1 >0 && result2>0) {
 			commit(con);
-			result = 1;
+			result =1;
 			
 		}else {
 			rollback(con);
@@ -914,21 +921,7 @@ public class BoardService {
 		return b;
 
 	}
-	//가정통신문 selectOne IMG
-	/*public Attachment selectOneFLetterImg(int num) {
-		Connection con = getConnection();
-		Attachment attachment = new BoardDao().selectOneFLetterImg(con,num);
-		
-		if(attachment != null) {
-			commit(con);
-		}else {
-			rollback(con);
-		}
-		
-		close(con);
-  
-  		return attachment;
-	}*/
+
 
 	public Board selectOneUpdateTcL(int num, String isUpdate) {
 		Connection con = getConnection();
@@ -968,7 +961,7 @@ public class BoardService {
 		close(con);
 		return result;
 	}
-
+	//가정통신문 삭제
 	public int deleteTcFamilyLetter(int num) {
 		Connection con = getConnection();
 		int result = new BoardDao().deleteTcFamilyLetter(con, num);
@@ -1044,6 +1037,63 @@ public class BoardService {
 		}
 		return replyList;
 	}
+	
+	//앨범 수정 
+	public int updateChildImges(Board b) {
+		Connection con = getConnection();
+		int result = new BoardDao().updateChildImges(con, b);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		return result;
+	}
+	
+	
+	//test앨범 one
+	public int updateChildoneImg(HashMap<String, Object> hmap, Board b) {
+		Connection con = getConnection();
+		
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
+		int tid = 0;
+		int result =0;
+
+		int result1 = new BoardDao().insertTcChildImgBoardone(con,b);
+		
+		if(result1 >0) {
+			tid = new BoardDao().selectTcChildImgBoardOneTid(con,b);
+			System.out.println(tid);
+		}
+		int result2 = 0;
+		for(int i=0; i<fileList.size(); i++) {
+			ArrayList<Attachment> attchment = new ArrayList<>();
+			Attachment oneimgch = fileList.get(i);
+			attchment.add(oneimgch);
+		if(oneimgch.getOriginName() != null) {
+			result2 = new BoardDao().insertTcChildBoardOneImg(con, oneimgch ,tid);
+			
+		}else {
+			result2 = 1;
+			}
+		}
+		
+		if(result2>0) {
+			commit(con);
+			result =1;
+			
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
 	
 	
 		

@@ -76,13 +76,18 @@ public class InsertFamilyLetterServlet extends HttpServlet {
 			
 			ArrayList<Attachment> fileList = new ArrayList<>();
 			
-			for(int i=originFiles.size() -1; i>=0; i--) {
-				Attachment at = new Attachment();
-				at.setFilePath(savePath);
-				at.setOriginName(originFiles.get(i));
-				at.setChangeName(saveFiles.get(i));
+			
+			for(int i = originFiles.size() -1; i>=0; i--) {
+				Attachment attchment = new Attachment();
+				attchment.setFilePath(savePath);
+				attchment.setOriginName(originFiles.get(i));
+				attchment.setChangeName(saveFiles.get(i));
 				
-				fileList.add(at);
+				fileList.add(attchment);
+			}
+			
+			for(int i=0; i<fileList.size(); i++) {
+				String at = fileList.get(i).getOriginName();
 			}
 			
 			HashMap<String, Object> hmap = new HashMap<>();

@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
 <%@ page import="com.oracle5.common.model.vo.Attachment"%>
-    <%
+<%@page import="java.util.ArrayList"%>
+       <%
     	Board b = (Board) request.getAttribute("b"); 
-    	Attachment a = new Attachment();
-    	if((Attachment) request.getAttribute("att") != null){
-    		a  = (Attachment) request.getAttribute("att");
-    	}
+    ArrayList<Attachment> list = new ArrayList<>();
+	if((ArrayList<Attachment>) request.getAttribute("list") != null){
+		list = (ArrayList<Attachment>) request.getAttribute("list");
+	}
      %>
+<!DOCTYPE h
 <!DOCTYPE html>
 <html>
 
@@ -120,99 +122,32 @@
 	<%@ include file="/views/common/teacherMenu.jsp"%>
 	<h1 style="margin: 0 15%; text-decoration: underline; text-underline-position: under;" >아이들 사진 갤러리 수정</h1>
 	
-	<div align="center"><input type="text" <%=b.getTtitle() %>></div>
+	<div align="center"><input type="text" id="title" name="title" value="<%=b.getTtitle()%>"></div>
 	<div class="ui dividing header" align="center"></div>
 	<label id="textArea"><%=b.getTtime()%></label>
 	<form id="updateForm" method="post">
 	<div align="center">
 			<table id="tableArea">
 			<tr id="trArea">
-				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
-									<td><input type="file" name="img"></td>
-									<td><input type="submit" id="update" value="수정" onclick="location.href='<%=request.getContextPath()%>/updateOneChildImg.tbo'">
+		<% 
+			for(Attachment at : list){
+		%>
+				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"
+									onclick="location.href='<%=request.getContextPath()%>/updateOneChildImg.tbo/<%=at.getFid()%>"></td>
+							<td><button onclick="location.href='<%=request.getContextPath()%>/deleteOneChildImg.tbo'">삭제</button></td>		
+							
+								
+			</tr>
+
+		
 			<tr>
 				<td	colspan="2">&nbsp;</td>	
 			</tr>
 			<tr>
 				<td	colspan="2">&nbsp;</td>
 			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=a.getChangeName() %>"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-				
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="4"><img class="imgi" src="<%=request.getContextPath() %>/images/child.png"></td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
-			<tr>
-				<td	colspan="4">&nbsp;</td>
-			</tr>
 	
-			
+			<%} %>
 			</table>
 			<table align="center" id="tableArea2">
 			<tr>
@@ -229,6 +164,8 @@
 		<input type="hidden" name="tid" value="<%=b.getTid()%>">
 		
 		
+		
+		
 
 	 <br><br>
 	 <div align="right">
@@ -238,7 +175,7 @@
 	</form>
 	<script>
 		function complete(){
-			$("#updateForm").attr("action","<%=request.getContextPath()%>/");
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/updateChildImg.tbo");
 		}
 		function deleteimg(){
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/deletechildImgBoard.tbo")
@@ -261,17 +198,6 @@
 
 	});
     
-	</script>
-	<script>
-	function updateImg(){
-		var img = document.createElement("img");
-		img.src ="htt"
-		var holder = document.getElementById("imgPlaceHolder");
-		holder.appendChild(img);
-	}
-	
-	
-	
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>

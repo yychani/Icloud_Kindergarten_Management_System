@@ -1,6 +1,14 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.oracle5.common.model.vo.Attachment"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
-    <%Board b = (Board) request.getAttribute("b"); %>
+    <%
+    	Board b = (Board) request.getAttribute("b"); 
+    ArrayList<Attachment> list = new ArrayList<>();
+	if((ArrayList<Attachment>) request.getAttribute("list") != null){
+		list = (ArrayList<Attachment>) request.getAttribute("list");
+	}
+     %>
 <!DOCTYPE html>
 
 <html>
@@ -81,6 +89,11 @@ textarea {
 			<textarea style="resize: none; width: 100%;" rows="25" id="content" name="content"
 			  ><%=b.getTcont() %></textarea>
 		</div>
+		<% 
+			for(Attachment at : list){
+		%>
+		<div class="Imgscr"><img alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></div>
+		<%} %>
 		
 	</div>
 	<br>

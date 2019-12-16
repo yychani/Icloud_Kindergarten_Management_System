@@ -71,9 +71,7 @@ public class InsertChildImgServlet extends HttpServlet {
 			b.setBdid(bdId);
 			b.setTno(writer);
 			
-			System.out.println(title);
-			System.out.println(content);
-			System.out.println(writer);
+
 			ArrayList<Attachment> fileList = new ArrayList<>();
 			
 			for(int i = originFiles.size() -1; i>=0; i--) {
@@ -83,6 +81,10 @@ public class InsertChildImgServlet extends HttpServlet {
 				attchment.setChangeName(saveFiles.get(i));
 				
 				fileList.add(attchment);
+			}
+			
+			for(int i=0; i<fileList.size(); i++) {
+				String at = fileList.get(i).getOriginName();
 			}
 			
 			HashMap<String, Object> hmap = new HashMap<>();

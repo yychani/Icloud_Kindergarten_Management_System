@@ -1286,6 +1286,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 	public int insertTcChildBoardImg(Connection con, Attachment tcChildImg, int tid) {
 		PreparedStatement pstmt = null; 
 		int result =0;
+		ArrayList<Attachment> file = null;
 		
 		String query = prop.getProperty("insertTcChildBoardImg");
 									
@@ -1367,46 +1368,46 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 	}
 	
 	//앨범 img 보기
-	public Attachment selectTcChildImg(Connection con, int num) {
+	public ArrayList<Attachment> selectTcChildImg(Connection con, int num) {
 		PreparedStatement pstmt = null;
+		ArrayList<Attachment> list = new ArrayList<>();
 		Attachment att = null;
 		ResultSet rset = null;
 		
 		String query = prop.getProperty("selectTcChildImg");
 		
-		try {
-			pstmt=con.prepareStatement(query);
-			pstmt.setInt(1, num);
-			System.out.println(num);
-			rset= pstmt.executeQuery();
-			
-			if(rset.next()) {
-				att = new Attachment();
-				att.setFid(rset.getInt("F_ID"));
-				att.setOriginName(rset.getString("ORIGIN_NAME"));
-				att.setChangeName(rset.getString("CHANGE_NAME"));
-				att.setFilePath(rset.getString("FILE_PATH"));
-				att.setUploadDate(rset.getDate("UPLOAD_DATE"));
-				att.setFileLevel(rset.getInt("FILE_LEVEL"));
-				att.setStatus(rset.getString("STATUS"));
-				att.setType(rset.getInt("TYPE"));
-				att.setCId(rset.getInt("C_ID"));
-				att.setFeedNo(rset.getInt("FEEDNO"));
-				att.setTId(rset.getInt("T_ID"));
-				
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(pstmt);
-			close(rset);
-		}
-		
-		
-		return att;
-	}
-
+		 try {
+	         pstmt = con.prepareStatement(query);
+	         pstmt.setInt(1, num);
+	         
+	         rset = pstmt.executeQuery();
+	         while(rset.next()) {
+	            att = new Attachment();
+	            
+	            att.setFid(rset.getInt("F_ID"));
+	            att.setOriginName(rset.getString("ORIGIN_NAME"));
+	            att.setChangeName(rset.getString("CHANGE_NAME"));
+	            att.setFilePath(rset.getString("FILE_PATH"));
+	            att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+	            att.setFileLevel(rset.getInt("FILE_LEVEL"));
+	            att.setStatus(rset.getString("STATUS"));
+	            att.setType(rset.getInt("TYPE"));
+	            att.setCId(rset.getInt("C_ID"));
+	            att.setFeedNo(rset.getInt("FEEDNO"));
+	            att.setTId(rset.getInt("T_ID"));
+	            
+	            list.add(att);
+	         }
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      }finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return list;
+	   }
 	//원 공지사항 조회수용 메소드-한솔
 	public int updatePreKNoticeCount(Connection con, int num) {
 		PreparedStatement pstmt = null;
@@ -2106,8 +2107,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		return result;
 	}
 	
-	
-	
+
 	//가정통신문 updateCount false
 	public int updateFLetterCount(Connection con, int num) {
 		PreparedStatement pstmt = null;
@@ -2201,6 +2201,46 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
       
       return b;
    }
+   public  ArrayList<Attachment> selectOneFLetterImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ArrayList<Attachment> list = new ArrayList<>();
+		Attachment att = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOneFLetterImg");
+		
+		try {
+	         pstmt = con.prepareStatement(query);
+	         pstmt.setInt(1, num);
+	         
+	         rset = pstmt.executeQuery();
+	         while(rset.next()) {
+	            att = new Attachment();
+	            
+	            att.setFid(rset.getInt("F_ID"));
+	            att.setOriginName(rset.getString("ORIGIN_NAME"));
+	            att.setChangeName(rset.getString("CHANGE_NAME"));
+	            att.setFilePath(rset.getString("FILE_PATH"));
+	            att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+	            att.setFileLevel(rset.getInt("FILE_LEVEL"));
+	            att.setStatus(rset.getString("STATUS"));
+	            att.setType(rset.getInt("TYPE"));
+	            att.setCId(rset.getInt("C_ID"));
+	            att.setFeedNo(rset.getInt("FEEDNO"));
+	            att.setTId(rset.getInt("T_ID"));
+	            
+	            list.add(att);
+	         }
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      }finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return list;
+	   }
   
 
 
@@ -2246,17 +2286,17 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
    }
 
 	   //가정통신문 Img
-   public int insertFLetterImg(Connection con, Attachment banBImg, int tid) {
+   public int insertFLetterImg(Connection con, Attachment TcF, int tid) {
       PreparedStatement pstmt = null;
       int result =0;
-      
+      ArrayList<Attachment> file = null;
       String query = prop.getProperty("insertFLetterImg");
       
       try {
          pstmt = con.prepareStatement(query);
-         pstmt.setString(1, banBImg.getOriginName());
-         pstmt.setString(2, banBImg.getChangeName());
-         pstmt.setString(3, banBImg.getFilePath());
+         pstmt.setString(1, TcF.getOriginName());
+         pstmt.setString(2, TcF.getChangeName());
+         pstmt.setString(3,	TcF.getFilePath());
          pstmt.setInt(4, tid);
          
          result = pstmt.executeUpdate();
@@ -2399,6 +2439,109 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		
 		return null;
 	}
+	
+	//앨범 수정 
+	public int updateChildImges(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateChildImges");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	
+	//앨범 수정 하나
+	public int selectTcChildImgBoardOneTid(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = prop.getProperty("selectTcChildImgBoardOneTid");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, b.getTno());
+			pstmt.setInt(2, b.getBdid());
+
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	
+	//앨범 수정 in
+	public int insertTcChildBoardOneImg(Connection con, Attachment oneimgch, int tid) {
+		PreparedStatement pstmt = null; 
+		int result =0;
+		ArrayList<Attachment> file = null;
+		
+		String query = prop.getProperty("insertTcChildBoardOneImg");
+									
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, oneimgch.getOriginName());
+			pstmt.setString(2, oneimgch.getChangeName());
+			pstmt.setString(3, oneimgch.getFilePath());
+			pstmt.setInt(4, tid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertTcChildImgBoardone(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertTcChildImgBoardone");
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTno());
+			pstmt.setInt(4, b.getBdid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
 
 	//유치원 운영 위원회 업데이트용 메소드(수정)
 	public int updatePreHBoard(Connection con, Board b) {
