@@ -110,7 +110,7 @@
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcSelectNoteDate.jsp" class="submenuLink">원아별 알림장</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/selectBanAttend.me?tno=<%= loginUser.getMemberNo() %>" class="submenuLink">출석 관리</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectBanAttend.me" class="submenuLink">출석 관리</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/selectBanChildren.me" class="submenuLink">원아 관리</a></li>
 							<li>|</li>
@@ -118,7 +118,7 @@
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/selectBanAsList.me?tno=<%= loginUser.getMemberNo() %>" class="submenuLink">방과후 신청 관리</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcDoesList.jsp" class="submenuLink">투약 의뢰서 관리</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectBanDoseList.me" class="submenuLink">투약 의뢰서 관리</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcRtnList.jsp" class="submenuLink">귀가 동의서 관리</a></li>
 						</ul>

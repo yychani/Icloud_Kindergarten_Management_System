@@ -2938,4 +2938,89 @@ public class MemberDao {
 
 	}
 
+	public ArrayList<DoseRequest> selectBanDoseList(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ArrayList<DoseRequest> list = null;
+		DoseRequest dr = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBanDoseList");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				dr = new DoseRequest();
+				
+				dr.setCNo(rset.getInt("C_NO"));
+				dr.setCName(rset.getString("C_NAME"));
+				dr.setSymptom(rset.getString("SYMPTOM"));
+				dr.setKinds(rset.getString("KINDS"));
+				dr.setKeep(rset.getString("KEEP"));
+				dr.setStartDate(rset.getDate("START_DATE"));
+				dr.setRemarks(rset.getString("REMARKS"));
+				dr.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+				dr.setPNo(rset.getInt("P_NO"));
+				dr.setEndDate(rset.getDate("END_DATE"));
+				dr.setStatus(rset.getString("STATUS"));
+				dr.setDNo(rset.getInt("D_NO"));
+				dr.setDosingTime(rset.getString("D_TIME"));
+				
+				list.add(dr);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public DoseRequest selectChildDoseReq(Connection con, int dno) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		DoseRequest dr = null;
+		
+		String sql = prop.getProperty("selectChildDoseReq");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, dno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				dr = new DoseRequest();
+				
+				dr.setCNo(rset.getInt("C_NO"));
+				dr.setCName(rset.getString("C_NAME"));
+				dr.setSymptom(rset.getString("SYMPTOM"));
+				dr.setKinds(rset.getString("KINDS"));
+				dr.setKeep(rset.getString("KEEP"));
+				dr.setStartDate(rset.getDate("START_DATE"));
+				dr.setRemarks(rset.getString("REMARKS"));
+				dr.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+				dr.setPNo(rset.getInt("P_NO"));
+				dr.setEndDate(rset.getDate("END_DATE"));
+				dr.setStatus(rset.getString("STATUS"));
+				dr.setDNo(rset.getInt("D_NO"));
+				dr.setDosingTime(rset.getString("D_TIME"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return dr;
+	}
+
 }

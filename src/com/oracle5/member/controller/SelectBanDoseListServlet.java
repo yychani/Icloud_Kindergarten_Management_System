@@ -10,23 +10,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.member.model.service.MemberService;
-import com.oracle5.member.model.vo.Attend;
+import com.oracle5.member.model.vo.DoseRequest;
 import com.oracle5.member.model.vo.Member;
 
-@WebServlet("/selectBanAttend.me")
-public class SelectBanAttendServlet extends HttpServlet {
+@WebServlet("/selectBanDoseList.me")
+public class SelectBanDoseListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Member m = (Member) request.getSession().getAttribute("loginMember");
 		
-		ArrayList<Attend> list = new MemberService().selectBanAttend(m.getMemberNo());
-		
+		ArrayList<DoseRequest> list = new MemberService().selectBanDoseList(m.getMemberNo());
+
 		if(list != null) {
 			request.setAttribute("list", list);
-			request.getRequestDispatcher("/views/teacher/tcChildAttend.jsp").forward(request, response);
+			request.getRequestDispatcher("/views/teacher/tcDoesList.jsp").forward(request, response);
 		} else {
-			request.setAttribute("msg", "원아 출석 현황 불러오기 실패");
+			request.setAttribute("msg", "투약의뢰서 리스트 조회 실패");
 			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);
 		}
 	}

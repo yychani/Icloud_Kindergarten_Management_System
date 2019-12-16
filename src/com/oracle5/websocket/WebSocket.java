@@ -15,7 +15,7 @@ public class WebSocket {
 	@OnOpen
 	public void onOpen(Session session) {
 		clients.add(session);
-		System.out.println(session.getId() + "서버 연결");
+		//System.out.println(session.getId() + "서버 연결");
 		// 서버 연결 시점
 	}
 	
@@ -52,7 +52,7 @@ public class WebSocket {
 	@OnClose
 	public void onClose(Session session) {
 		//지워주지 않으면 Set에 이미 나간 사용자가 남아있기 때문에 메세지 전송시 에러 난다.
-		System.out.println("서버 종료");
+		//System.out.println("서버 종료");
 		clients.remove(session);
 	}
 }
