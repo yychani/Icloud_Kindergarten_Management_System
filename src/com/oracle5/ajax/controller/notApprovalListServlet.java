@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.oracle5.common.model.vo.PageInfo;
 import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.Member;
 
 @WebServlet("/notApprovalList.do")
 public class notApprovalListServlet extends HttpServlet {
@@ -26,6 +27,7 @@ public class notApprovalListServlet extends HttpServlet {
 		int maxPage;
 		int startPage;
 		int endPage;
+		Member m = (Member) request.getSession().getAttribute("loginMember");
 	
 		currentPage = 1;
 
@@ -35,7 +37,7 @@ public class notApprovalListServlet extends HttpServlet {
 		
 		limit = 10;
 		
-		int listCount = new MemberService().getNotAppListCount();
+		int listCount = new MemberService().getNotAppListCount(m.getMemberNo());
 		
 		maxPage = (int) ((double) listCount / limit + 0.9);
 
@@ -49,7 +51,8 @@ public class notApprovalListServlet extends HttpServlet {
 
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-		List<Map<String, Object>> list = new MemberService().selectNotAppList(currentPage, limit);
+		
+		List<Map<String, Object>> list = new MemberService().selectNotAppList(currentPage, limit, m.getMemberNo());
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("pi", pi);
