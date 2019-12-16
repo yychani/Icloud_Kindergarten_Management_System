@@ -5,6 +5,7 @@
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <%
 	Member loginUser = (Member) session.getAttribute("loginMember");
+
 %>
 <style>
 	table {
@@ -48,6 +49,28 @@
 		request.getRequestDispatcher("../common/errorPage.jsp").forward(request, response);
 	} else {
 %>
+<script>
+	$(function(){
+		$.ajax({
+			url : "/main/selectTeacher.do",
+			type : "post",
+			success : function(data) {
+				$select = $("#receiver");
+				$select.find("option").remove();
+				for (var i = 0; i < data.length; i++) {
+					var name = decodeURIComponent(data[i].name);
+					var selected = (i == 0) ? "selected" : "";
+					if(data[i].tNo != <%=loginUser.getMemberNo()%>){
+						$select.append("<option value='" + data[i].tNo + "' " + selected + ">" + name + "선생님</option>");
+					}
+				}
+			},
+			error : function(data) {
+				console.log("실패!");
+			}
+		});
+	});
+</script>
 <table style="margin-top: 10px; width: 100%;">
 	<tr>
 		<td rowspan="2" id="menu">

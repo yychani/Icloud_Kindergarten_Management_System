@@ -41,7 +41,6 @@ public class WebSocket {
 		synchronized(clients) {
 			for(Session client : clients) {
 				client.getBasicRemote().sendText(sendMessage);
-						
 			}
 		}
 	}
