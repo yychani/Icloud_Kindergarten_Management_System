@@ -98,6 +98,7 @@
 	}
 	#chatContext {
 		overflow-y:scroll; 
+		overflow-x:hidden;
 	}
 
 	.recieveTime {
@@ -129,6 +130,34 @@
 	$(function(){
 		$(document).on("change", "#receiver", function(){
 			$("#chatContext").html("");
+			$chatContext = $("#chatContext");
+			var sendUser = <%=loginUser.getMemberNo()%>;
+			var reciever = $("#receiver").val();
+			$.ajax({
+				url:"/main/selectChat.chat",
+				type:"post",
+				data:{
+					reciever:reciever,
+					sendUser:sendUser
+				},
+				success:function(data){
+					for(var i = 0; i < data.length; i++){
+						var time = data[i].time;
+						var mno = data[i].mno;
+						var message = data[i].cont;
+						if(mno == sendUser){
+							$chatContext.append("<div class='clear'></div>"
+									+ "<div class='sendMessage'>" + message + "</div><small class='sendTime'>" + time + "</small>");
+							$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
+						}else {
+							$chatContext.append("<div class='clear'></div>"
+			 						+ "<div class='message'>" + message + "</div><small class='recieveTime'>" + time + "</small>");
+							$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
+						}
+					}
+				}
+			});
+			$("#reciever").val()
 		});
 	});
     $(document).ready(function(){
@@ -180,9 +209,22 @@
 		
 		$chatContext = $("#chatContext");
 		
-		$chatContext.append("<div class='clear'></div>"
-							+ "<div class='sendMessage'>" + message + "</div><small class='sendTime'>" + curTime + "</small>");
-		$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
+		
+		
+		$.ajax({
+			url:"/main/saveChat.chat",
+			data:{
+				reciever:reciever,
+				sendUser:sendUser,
+				message:message
+			},
+			type:"post",
+			success:function(data){
+				$chatContext.append("<div class='clear'></div>"
+						+ "<div class='sendMessage'>" + data.cont + "</div><small class='sendTime'>" + data.time + "</small>");
+				$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
+			}
+		});
 	}
 		
 	function onMessage(event){
@@ -204,6 +246,7 @@
 			if(reciever == sendUser){
 				$chatContext.append("<div class='clear'></div>"
 			 						+ "<div class='message'>" + message + "</div><small class='recieveTime'>" + time + "</small>");
+				$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
 			}
 		}
 		$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);

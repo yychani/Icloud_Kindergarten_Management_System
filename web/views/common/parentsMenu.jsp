@@ -1,6 +1,10 @@
 <%@page import="com.oracle5.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.net.InetAddress"%>
+    <% InetAddress inet = InetAddress.getLocalHost();
+		String svrIP = inet.getHostAddress();
+		int svrPort = request.getServerPort();%>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/menu.css" />
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <%
