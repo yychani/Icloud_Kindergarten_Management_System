@@ -18,15 +18,15 @@
         position: fixed !important;
         bottom: 100px !important;
         right: 45px !important;
-        width: 300px !important;
-        height: 300px !important;
+        width: 350px !important;
+        height: 400px !important;
     }
 
     .sendMessage {
   		position: relative;
   		padding: 10px 20px;
  		color: white;
-  		background: #0B93F6;
+  		background: forestgreen;
   		border-radius: 25px;
   		float: right;
   		margin-right: 9px;
@@ -34,11 +34,11 @@
 	.sendMessage:before {
   		content: "";
   		position: absolute;
-  		z-index: -1;
+  		z-index: 0;
   		bottom: -2px;
   		right: -7px;
   		height: 20px;
-  		border-right: 20px solid #0B93F6;
+  		border-right: 20px solid forestgreen;
   		border-bottom-left-radius: 16px 14px;
   		-webkit-transform: translate(0, -2px);
 	}
@@ -99,6 +99,7 @@
 	#chatContext {
 		overflow-y:scroll; 
 		overflow-x:hidden;
+		background: white;
 	}
 
 	.recieveTime {
@@ -116,30 +117,38 @@
         background: tomato;
         border-radius: 20px;
         z-index: 999;
+        padding: 1px 6px;
+        color: white;
+        font-weight: bold;
+	}
+	.ui.top.right.popup:before{
+		background: seagreen;
 	}
 </style>
+
 <div id="redCircle"></div>
 <div id="chat" class="ui avatar image" data-tooltip="Add users to your feed" data-position="top right">
     <img style="width:80px; height:80px;" src="<%=request.getContextPath()%>/images/chat.png">
 </div>
-<div class="ui custom popup top left transition hidden">
-	<select name="receiver" id="receiver" style="width: 50%; height: 30px; margin-bottom: 10px;">
+<div class="ui custom popup top left transition hidden" style="max-width: 400px; background: seagreen; border-radius: 10px;">
+	<select class="ui search dropdown" name="receiver" id="receiver" style="width: 50%; height: 30px; margin-bottom: 10px;">
    	</select>
-    <div style="border: 1px solid black; width: 100%; height: 200px; margin-bottom: 10px;"id="chatContext">
+    <div style="border: 1px solid black; width: 100%; height: 295px; margin-bottom: 10px; margin-top: 10px;"id="chatContext">
     </div>
     <input type="text" style="width: 73%; height: 30px; border: 1px solid rgba(211, 211, 211, 0.842)" name="sendMassage" id="sendMassage">
-    &nbsp;&nbsp;<input type="button" name="sendBtn" onclick="send()" id="sendBtn" style="width: 47px; height: 25px;" value="보내기">
+    &nbsp;&nbsp;<input type="button" name="sendBtn" onclick="send()" id="sendBtn" style="width: 79px; height: 30px;" value="보내기">
     
 </div>
 
 <script>
-
+	$('#receiver').dropdown();	
     $('.ui.avatar.image').popup({
         popup: $('.custom.popup'),
         on: 'click',
         position : 'top right'
     })
 	$(function(){
+		var dataValue = document.querySelectorAll('div[class="item"]');
 		$("#redCircle").hide();
 		var sendUser = <%=loginUser.getMemberNo()%>;
 		$.ajax({
@@ -151,13 +160,16 @@
 			success:function(data){
 				if(data.length != 0){ 
 					$("#redCircle").show();
+					/* var dataValue = document.querySelectorAll('div[class="menu"] div');  
+					
 					for(var i = 0; i < data.length; i++){
-						$('#receiver option').each(function(index){ 
-							if (this.value == data[i].mno) { 
-								$(this).css({"background":"tomato", "color":"white"});
-							} 
-						});
-					}
+						for(var j = 0; j < dataValue.length; j++){
+							if (dataValue[j].dataset.value == data[i].mno) { 
+								var item = dataValue.item(j);
+								item.style.background = "tomato";
+							}
+						}
+					} */
 				}
 			}
 		});
@@ -187,14 +199,14 @@
 							$chatContext.append("<div class='clear'></div>"
 			 						+ "<div class='message'>" + message + "</div><small class='recieveTime'>" + time + "</small>");
 						}
+						$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
 					}
-					$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
 				}
 			});
 		});
 		
-		$(document).on("focus", ".custom.popup", function(){
-			$("#redCircle").hide();
+		$(document).on("focus", "#sendMassage", function(){
+			
 			var receiver = $("#receiver").val();
 			var sendUser = <%=loginUser.getMemberNo()%>;
 			$.ajax({
@@ -205,12 +217,15 @@
 				},
 				type:"post",
 				success:function(data){
-					console.log(data);
-					$('#receiver option').each(function(){ 
-						if (this.value == receiver) { 
-							$(this).css({"background":"white", "color":"black"});
-						} 
-					});
+						
+					console.log(dataValue[0]);
+					for(var j = 0; j < dataValue.length; j++){
+						console.log(dataValue[j].dataset);
+						if (dataValue[j].dataset.value == $("#receiver").val()) { 
+							var item = dataValue.item(j);
+							item.style.background = "white";
+						}
+					}
 				}
 			});
 		});
@@ -226,10 +241,70 @@
  });
 </script>
 <script>
+	  
 	$(function(){
 		getConnection();
+		getUnreadCount();
+		
 	});
-	
+	function getUnreadCount(){
+		ws2 = new WebSocket("ws:<%=svrIP %>:<%=svrPort %>" + '<%=request.getContextPath() %>/chatReadCheck.chat');
+		
+		ws2.onopen = function(event){
+			console.log("전송 완료");
+			ws2.send(<%=loginUser.getMemberNo()%>);
+		}
+		
+		ws2.onmessage = function(event){
+			onMessage3(event);
+		}
+		
+		ws2.onerror = function(event){
+			onError3(event);
+		}
+		
+		ws2.onclose = function(event){
+			onClose3(event);
+		}
+	}
+	function onMessage3(event){
+		var serverMessage = event.data.split(":");
+		var recieveUser = serverMessage[0];
+		var unReadCount = parseInt(serverMessage[1]);
+		
+		
+		var unread = [];
+		for(var i = 2; i < serverMessage.length; i++){
+			unread[i - 2] = parseInt(serverMessage[i]);
+		}
+		if(recieveUser == "<%=loginUser.getMemberNo() %>"){
+			if(unReadCount == "0"){
+				$("#redCircle").hide();
+			}else {
+				$("#redCircle").show();
+				$("#redCircle").text(unReadCount);
+				var dataValue = document.querySelectorAll('div[class="menu"] div');
+				
+				for(var k = 0; k < unread.length; k++){
+					for(var j = 0; j < dataValue.length; j++){
+						var item = dataValue.item(j);
+						if (parseInt(dataValue[j].dataset.value) == unread[k]) { 
+							item.style.background = "tomato";
+						}
+					}
+				}
+			
+			}
+		}		
+	}
+		
+	function onError3(event){
+		alert(event.data);
+	}
+		
+	function onClose3(event){
+		alert(event);
+	}
 	function getConnection() {
 		
 		
@@ -251,7 +326,6 @@
 			onClose(event);
 		}
 	}
-		
 	function send(msg){
 		var reciever = $("#receiver").val();
 		var sendUser = "<%=loginUser.getMemberNo() %>";
@@ -297,7 +371,6 @@
 		
 		var time = remainHour + ":" + remainMin + ":" + remainSec;
 		$chatContext = $("#chatContext");
-		
 		if(recieveUser == "<%=loginUser.getMemberNo() %>"){
 			if(reciever == sendUser){
 				$chatContext.append("<div class='clear'></div>"
@@ -307,11 +380,6 @@
 			//$("#receiver").val(sendUser).prop("selected", true);
 			//$("#receiver").trigger("change");
 			$("#redCircle").show();
-			$('#receiver option').each(function(){ 
-				if (this.value == sendUser) { 
-					$(this).css({"background":"tomato", "color":"white"});
-				} 
-			});
 		}		
 			
 	}
