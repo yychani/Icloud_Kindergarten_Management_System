@@ -282,6 +282,34 @@ public class ChatDao {
 	
 		return chatList;
 	}
+
+	public int unReadCount(Connection con, int userNo) {
+		int unReadCount = 0;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("unReadCount");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				unReadCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		
+		return unReadCount;
+	}
 	
 	
 }

@@ -22,6 +22,7 @@
 	}
 	body {
         font-family: 'Noto Sans KR', sans-serif;
+        overflow-x:hidden;
     }
 	input[type='button'] {
 		width: 100px;
