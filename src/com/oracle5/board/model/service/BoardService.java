@@ -1207,7 +1207,18 @@ public class BoardService {
 	}
 
 	
-	
+	/** 선생 건의 문의 게시판 보기
+	 * @param tno 건의 문의 내용 보려는 교사번호
+	 * @return
+	 */
+	public ArrayList<Board> selectQnA(int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> qnaList = new BoardDao().selectQnA(con, tno);
+		
+		close(con);
+		return qnaList;
+	}
 		
 
 }

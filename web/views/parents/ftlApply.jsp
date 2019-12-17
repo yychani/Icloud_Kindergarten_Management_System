@@ -25,7 +25,7 @@
 
 <style>
 .ui.card {
-	margin: 5% auto;
+	margin: 5% auto !important;
 }
 
 tr {

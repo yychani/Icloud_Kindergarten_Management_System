@@ -3289,11 +3289,42 @@ public class MemberDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
 		}
 		
 		
 		return bList;
 
+	}
+
+	public Teacher selectMyTeacher(Connection con, int pno) {
+		Teacher teacher = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("selectMyTeacher");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				teacher = new Teacher();
+				teacher.setTeacherNo(rset.getInt("T_NO"));
+				teacher.setClassName(rset.getString("NAME"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return teacher;
 	}
 
 }
