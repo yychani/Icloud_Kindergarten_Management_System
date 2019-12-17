@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
+import com.google.gson.Gson;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.common.Oracle5FileRenamePolicy;
 import com.oracle5.common.model.vo.Attachment;
@@ -49,47 +50,38 @@ public class UpdateImgChilServlet extends HttpServlet {
 				saveFiles.add(multiRequest.getFilesystemName(name));
 				originFiles.add(multiRequest.getOriginalFileName(name));
 			}
-			int imgfid = Integer.parseInt(multiRequest.getParameter("imgfid"));
+			int imgfid = Integer.parseInt(multiRequest.getParameter("fid"));
+			int tid = Integer.parseInt(multiRequest.getParameter("tidImg"));
 			String filePath = savePath + saveFiles.get(0);
 		
 			ArrayList<Attachment> fileList = new ArrayList<>();
 		
 			for(int i = originFiles.size() -1; i>=0; i--) {
-			Attachment attchment = new Attachment();
-			attchment.setFilePath(savePath);
-			attchment.setOriginName(originFiles.get(i));
-			attchment.setChangeName(saveFiles.get(i));
+				Attachment attchment = new Attachment();
+				attchment.setFilePath(savePath);
+				attchment.setOriginName(originFiles.get(i));
+				attchment.setChangeName(saveFiles.get(i));
+				
+				fileList.add(attchment);
 			
-			fileList.add(attchment);
+			}
+			Attachment attachment = new Attachment();
+			attachment = fileList.get(0);
+			attachment.setTId(tid);
+			attachment.setFid(imgfid);
+	
+			int result = new BoardService().updateinsertChildImg(attachment);
+			
+			if(result > 0) {
+				response.setContentType("application/json");
+				new Gson().toJson(attachment, response.getWriter());
+			}else {
+				
+			}
 		}
-		for(int i=0; i<fileList.size(); i++) {
-			String at = fileList.get(i).getOriginName();
-		}
-		HashMap<String, Object> hmap = new HashMap<>();
-		hmap.put("fileList", fileList);
-		
-		int result = new BoardService().updateinsertChildImg(hmap,imgfid);
-		
-		/*String page = "";
-		if(result>0) {
-			response.sendRedirect(request.getContextPath()+"/SelectUpdateOneImgServlet.tbo");
-		}else {
-			page="views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시글 수정용 상세보기 실패");
-		}*/
-
-		request.getRequestDispatcher(page).forward(request, response);
-		
-		
-		}
-		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
