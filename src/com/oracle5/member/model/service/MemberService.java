@@ -1090,6 +1090,7 @@ public class MemberService {
 
 	}
 
+
 	public int updateDoseReqStatus(int dno, String stat) {
 		Connection con = getConnection();
 		
@@ -1140,6 +1141,40 @@ public class MemberService {
 		close(con);
 		
 		return result;
+  }
+
+	//내아이 정보 - 이름, 사진 불러오기
+	public Children selectCnamePhoto(int cId) {
+		Connection con = getConnection();
+		
+		Children c = md.selectCnamePhoto(con, cId);
+		
+		close(con);
+		
+		return c;
+	}
+
+	//최근 신체정보 불러오기
+	public BodyInfo selectRecentBodyInfo(int cId) {
+		Connection con = getConnection();
+		
+		BodyInfo b = md.selectRecentBodyInfo(con, cId);
+		
+		close(con);
+		
+		return b;
+	}
+
+	//신체정보 리스트 불러오기
+	public ArrayList<BodyInfo> selectBodyInfoList(int cId) {
+		Connection con = getConnection();
+		
+		ArrayList<BodyInfo> bList = md.selectBodyInfoList(con, cId);
+		
+		close(con);
+		
+		return bList;
+
 	}
 
 }

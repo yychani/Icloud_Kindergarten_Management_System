@@ -26,7 +26,6 @@ public class SelectAllUnreadServlet extends HttpServlet {
 		
 		ArrayList<Chat> chatList = new ChatService().selectAllUnread(sendUser);
 		
-		System.out.println(chatList);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		if(chatList != null) {

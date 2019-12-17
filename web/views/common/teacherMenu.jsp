@@ -22,6 +22,7 @@
 	}
 	body {
         font-family: 'Noto Sans KR', sans-serif;
+        overflow-x:hidden;
     }
 	input[type='button'] {
 		width: 100px;
@@ -43,17 +44,18 @@
 <script>
 	$(function(){
 		$.ajax({
-			url : "/main/selectTeacher.do",
+			url : "/main/selectBanChildList.do",
+			data:{
+				tno:<%=loginUser.getMemberNo() %>
+			},
 			type : "post",
 			success : function(data) {
 				$select = $("#receiver");
 				$select.find("option").remove();
+				$select.append("<option value='1' selected>원장 선생님</option>");
 				for (var i = 0; i < data.length; i++) {
 					var name = decodeURIComponent(data[i].name);
-					var selected = (i == 0) ? "selected" : "";
-					if(data[i].tNo == 1){
-						$select.append("<option value='" + data[i].tNo + "' " + selected + ">" + name + "선생님</option>");
-					}
+					$select.append("<option value='" + data[i].bcNo + "'>" + name + " 학부모</option>");
 				}
 				$("#receiver").trigger("change");
 			},
@@ -126,7 +128,7 @@
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
 						<ul class="submenu">
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcTcBoard.jsp" class="submenuLink">선생님 게시판</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllTctc.bo" class="submenuLink">선생님 게시판</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcHBoard.jsp" class="submenuLink longLink">유치원 운영위원회 게시판</a></li>
 

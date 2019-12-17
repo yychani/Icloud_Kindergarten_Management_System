@@ -24,7 +24,7 @@ public class SaveChatServlet extends HttpServlet {
 		int sendUser = Integer.parseInt(request.getParameter("sendUser"));
 		String message = request.getParameter("message");
 		
-		System.out.println(reciever + " " + sendUser + " " + message);
+//		System.out.println(reciever + " " + sendUser + " " + message);
 		
 		Chat chat = new ChatService().saveChat(reciever, sendUser, message); 
 		

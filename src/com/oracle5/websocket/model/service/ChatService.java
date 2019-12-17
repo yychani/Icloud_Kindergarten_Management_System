@@ -82,4 +82,12 @@ public class ChatService extends Chat {
 		return chatList;
 	}
 
+	public int unReadCount(int userNo) {
+		Connection con = getConnection();
+		
+		int unReadCount = new ChatDao().unReadCount(con, userNo);
+		close(con);
+		return unReadCount;
+	}
+
 }

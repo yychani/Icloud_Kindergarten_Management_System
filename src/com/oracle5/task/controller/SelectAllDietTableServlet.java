@@ -106,7 +106,7 @@ public class SelectAllDietTableServlet extends HttpServlet {
 			}else if((loginUser).getUType().equals("교사")) {
 				page = "views/teacher/tcMenu.jsp";
 			}else {
-				page = "views/parents/newsCalendar.jsp";
+				page = "views/parents/newsMealMenu.jsp";
 			}
 		request.setAttribute("dietMap", dietMap);
 		request.setAttribute("mondayYear", mondayYear);

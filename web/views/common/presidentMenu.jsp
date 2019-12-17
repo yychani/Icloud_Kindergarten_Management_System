@@ -72,7 +72,7 @@
 					}
 				}
 				
-				$("#receiver option:nth-child(3)").eq(0).prop("selected", true);
+				//$("#receiver option:nth-child(3)").eq(0).prop("selected", true);
 				$("#receiver").trigger("change");
 				$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
 			},
