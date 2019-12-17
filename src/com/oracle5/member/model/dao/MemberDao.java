@@ -3296,4 +3296,38 @@ public class MemberDao {
 
 	}
 
+	public Teacher selectOneTeacher(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Teacher t = null;
+		
+		String sql = prop.getProperty("selectOneTeacher");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				t = new Teacher();
+				
+				t.setTeacherNo(rset.getInt("T_NO"));
+				t.setTEntDate(rset.getDate("ENTDATE"));
+				t.setTDescription(rset.getString("DESCRIPTION"));
+				t.setImgSrc(rset.getString("IMGSRC"));
+				t.setClassName(rset.getString("B_NAME"));
+				t.setPId(rset.getInt("PID"));
+				t.setBcNo(rset.getInt("BC_NO"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return t;
+	}
+
 }
