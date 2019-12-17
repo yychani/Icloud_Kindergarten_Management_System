@@ -1198,4 +1198,25 @@ public class MemberService {
 
 	}
 
+	public int updateTeacherInfo(int mno, Teacher t, Member m) {
+		Connection con = getConnection();
+		
+		int result = 0;
+		
+		int result1 = new MemberDao().updateTeacherInfo(con, mno, t);
+		
+		int result2 = new MemberDao().updateTeacherMInfo(con, mno, m);
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(con);
+			result = 1;
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
 }
