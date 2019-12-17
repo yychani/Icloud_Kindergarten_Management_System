@@ -1022,18 +1022,17 @@ public class BoardService {
 		return result;
 	}
 
-	public ArrayList<Reply> insertReplyPreHBoard(Reply r, int tid) {
+	public ArrayList<Reply> insertReplyPreHBoard(Reply r) {
 		Connection con = getConnection();
 		ArrayList<Reply> replyList = null;
 		int result =0;
-		if(r != null) {
-		    result = new BoardDao().insertReplyPreHBoard(con, r,tid);
-		}else {
-			result =1;
-		}
+		
+		result = new BoardDao().insertReplyPreHBoard(con, r);
+		
+			
 		if(result >0) {
 			commit(con);
-			replyList = new BoardDao().selectPreHBoardReplyList(con, tid);
+			replyList = new BoardDao().selectPreHBoardReplyList(con,r.getTid());
 			System.out.println(replyList);
 		}else {
 			rollback(con);
@@ -1287,6 +1286,47 @@ public class BoardService {
 		
 		close(con);
 		return qnaList;
+	}
+
+	//해당글의 댓글 불러오기 용 메소드
+	public ArrayList<Reply> selectAllPreHBoardReply(int tid) {
+		Connection con = getConnection();
+		
+		ArrayList<Reply> replyList = new BoardDao().selectAllPreHBoardReply(con,tid);
+		
+		close(con);
+		return replyList;
+	}
+
+	public ArrayList<Reply> inserPreHtrereply(Reply r) {
+		/*Connection con = getConnection();
+		ArrayList<Reply> replyList = null;
+		int result =0;
+		
+		result = new BoardDao().insertReplyPreHBoard(con, r);
+		
+			
+		if(result >0) {
+			commit(con);
+			replyList = new BoardDao().selectPreHBoardReplyList(con,r.getTid());
+			System.out.println(replyList);
+		}else {
+			rollback(con);
+		}
+		return replyList;*/
+		Connection con =getConnection();
+		ArrayList<Reply> replyList = null;
+		int result = 0;
+		
+		result = new BoardDao().insertPreHrereply(con, r);
+		
+		if(result >0) {
+			commit(con);
+			//replyList = new BoardDao().selectPreHrereplyList(con,r.getRid());
+		}else {
+			rollback(con);
+		}
+		return replyList;
 	}
 		
 

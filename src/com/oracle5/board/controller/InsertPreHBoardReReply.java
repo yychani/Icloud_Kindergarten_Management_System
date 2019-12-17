@@ -11,20 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.oracle5.board.model.service.BoardService;
-import com.oracle5.board.model.vo.Board;
 import com.oracle5.board.model.vo.Reply;
 
 /**
- * Servlet implementation class InsertPerHBoardReply
+ * Servlet implementation class InsertPreHBoardReReply
  */
-@WebServlet("/preHBoardInsertReply.bo")
-public class InsertPerHBoardReply extends HttpServlet {
+@WebServlet("/preHBoardInsertReReply.bo")
+public class InsertPreHBoardReReply extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertPerHBoardReply() {
+    public InsertPreHBoardReReply() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,26 +36,23 @@ public class InsertPerHBoardReply extends HttpServlet {
 		String content = request.getParameter("content");
 		int tid = Integer.parseInt(request.getParameter("tid"));
 		
-		System.out.println("writer : "+ writer);
-		System.out.println("content : "+ content);
-		System.out.println("tid : " +tid);
+		System.out.println(writer);
+		System.out.println(content);
+		System.out.println(tid);
 		
 		Reply r = new Reply();
-		r.setTid(tid);
 		r.setRname(writer);
 		r.setRcont(content);
+		r.setTid(tid);
 		
-		ArrayList<Reply> replyList = new BoardService().insertReplyPreHBoard(r);
-		for(int i=0; i<replyList.size(); i++) {
-			System.out.println(replyList.get(i).getRname());
-			System.out.println(replyList.get(i).getRcont());
-			System.out.println(replyList.get(i).getRdate());
-		}
+		ArrayList<Reply> replyList = new BoardService().inserPreHtrereply(r);
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		new Gson().toJson(replyList, response.getWriter());
 	}
 
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
