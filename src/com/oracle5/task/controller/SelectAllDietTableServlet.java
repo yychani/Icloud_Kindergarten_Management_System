@@ -104,7 +104,7 @@ public class SelectAllDietTableServlet extends HttpServlet {
 			if((loginUser).getMemberId().equals("admin")) {
 				page = "views/president/preDietTable.jsp";
 			}else if((loginUser).getUType().equals("교사")) {
-				page = "views/teacher/tcSchedule.jsp";
+				page = "views/teacher/tcMenu.jsp";
 			}else {
 				page = "views/parents/newsCalendar.jsp";
 			}

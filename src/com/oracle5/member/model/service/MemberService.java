@@ -1090,4 +1090,56 @@ public class MemberService {
 
 	}
 
+	public int updateDoseReqStatus(int dno, String stat) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().updateDoseReqStatus(con, dno, stat);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	public ArrayList<ReturnAgree> selectBanRtnList(int memberNo) {
+		Connection con = getConnection();
+		
+		ArrayList<ReturnAgree> list = new MemberDao().selectBanRtnList(con, memberNo);
+		
+		close(con);
+		
+		return list;
+	}
+
+	public ReturnAgree selectChildRtn(int rano) {
+		Connection con = getConnection();
+		
+		ReturnAgree r = new MemberDao().selectChildRtn(con, rano);
+		
+		close(con);
+		
+		return r;
+	}
+
+	public int updateRtnStatus(int rano, String stat) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().updateRtnStatus(con, rano, stat);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
 }
