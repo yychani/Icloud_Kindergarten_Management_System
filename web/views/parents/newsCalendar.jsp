@@ -52,22 +52,23 @@ input[type=checkbox] {
 		<h1 style="text-decoration: underline; text-underline-position: under;">원 일정</h1>
     </div>
     <%@ include file="/views/common/schedule.jsp"%>
-	<script>
-    $(function() {
-        $(".li1").addClass("on");
-        $(".topMenuLi:nth-child(1)").addClass("on");
-
-        $(".topMenuLi").mouseover(function() {
-           $(".li1").removeClass("on");
-           $(".topMenuLi:nth-child(1)").removeClass("on");
-        });
-        $(".topMenuLi").mouseleave(function() {
-           $(".li1").addClass("on");
-           $(".topMenuLi:nth-child(1)").addClass("on");
-        });
-
-     });  
-	</script>
+<script>
+      $(function() {
+    	  $(".li:nth-child(7)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(2)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(7)").removeClass("on");
+            $(".topMenuLi:nth-child(2)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(7)").addClass("on");
+            $(".topMenuLi:nth-child(2)").addClass("on");
+         });
+      }); 
+</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
 </body>

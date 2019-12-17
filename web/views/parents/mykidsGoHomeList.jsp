@@ -55,18 +55,55 @@
 tr{
 	height: 30px;
 }
+#noList{
+	margin:auto auto;
+	height: 450px;
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight:bold;
+    color: rgb(209, 57, 57)
+}
 </style>
 
 
 </head>
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+	<script>
+      $(function() {
+    	  $(".li:nth-child(9)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(1)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(9)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(9)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
+         });
+      }); 
+</script>
+	
 	<h1 align="center">귀가동의서 신청이력</h1>
 
 
 	<div id="totalList" align="center">
+	<%
+	
+	if( list.size() == 0){
+		
 
-		<%
+	%>
+	<div id="noList"><label> 신청 이력이 없습니다.</label></div>
+	
+	
+	<%} else {
 			for (ReturnAgree r : list) {
 		%>
 		<button class="accordion"><%=r.getApplyDate()%>
@@ -107,7 +144,7 @@ tr{
 		</div>
 		<br>
 		<%
-			}
+			}}
 		%>
 
 
@@ -132,6 +169,7 @@ tr{
 			});
 		}
 	</script>
+	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
 </body>
 </html>

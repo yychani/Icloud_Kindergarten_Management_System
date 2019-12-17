@@ -68,6 +68,21 @@ table {
       <td id="menu">
          <nav id="topMenu">
             <ul>
+            
+              <li class="topMenuLi"><a class="menuLink" href="">내 아이</a>
+                  <ul class="submenu">
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsInfo.jsp" class="submenuLink">내 아이 정보</a></li>
+                     <li>|</li>
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsNote.jsp" class="submenuLink">알림장</a></li>
+                     <li>|</li>
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsAttendance.jsp" class="submenuLink">출결사항</a></li>
+                     <li>|</li>
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsDose.jsp" class="submenuLink">투약의뢰서</a></li>
+                     <li>|</li>
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsGohome.jsp" class="submenuLink">귀가동의서</a></li>
+                  </ul>
+               </li>
+               
                <li class="topMenuLi"><a class="menuLink" href="">소식</a>
                   <ul class="submenu">
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsNotice.jsp" class="submenuLink">원 공지사항</a></li>
@@ -110,19 +125,7 @@ table {
                   </ul>
                </li>
 
-               <li class="topMenuLi"><a class="menuLink" href="">내 아이</a>
-                  <ul class="submenu">
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsInfo.jsp" class="submenuLink">내 아이 정보</a></li>
-                     <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsNote.jsp" class="submenuLink">알림장</a></li>
-                     <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsAttendance.jsp" class="submenuLink">출결사항</a></li>
-                     <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsDose.jsp" class="submenuLink">투약의뢰서</a></li>
-                     <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsGohome.jsp" class="submenuLink">귀가동의서</a></li>
-                  </ul>
-               </li>
+             
                <li class="topMenuLi"><a class="menuLink" href="">마이페이지</a>
                   <ul class="submenu">
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/myPagePassCheck.jsp"  class="submenuLink">내 정보</a></li>
