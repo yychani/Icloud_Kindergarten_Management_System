@@ -1293,6 +1293,7 @@ public class MemberDao {
 				c.setCId(rset.getInt("C_ID"));
 				c.setName(rset.getString("C_NAME"));
 				c.setPno(rset.getInt("ROWNUM"));
+				c.setBcNo(rset.getInt("P_NO"));
 				
 				list.add(c);
 			}
