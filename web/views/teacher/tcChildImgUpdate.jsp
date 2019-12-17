@@ -129,31 +129,36 @@
 		<% 
 			for(Attachment at : list){
 		%>
-		<form id="imgUpdateForm" method="post">
-			<table id="tableArea">
-			<tr id="trArea">
-				<td><input type="hidden" name="fid" id="fid"value="<%=at.getFid()%>"></td>
-				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
-				<td><input type="button" class="updateImg" value="수정"></td>
-				<td><input type="button" class="deleteImg" value="삭제"></td>		
-				<td>
-					<div id="fileArea">
-						<input type="file" id="thumbnailImg1" name="imgfid<%=at.getFid()%>" onchange="loadImg(this, 1)">
-					</div>
-				</td>							
-			</tr>
-				
-				
+		<div>
+			<form action="" method="post" enctype="multipart/form-data" id="imgUpdateForm">
+				<table id="tableArea">
+				<tr id="trArea">
+					<td><input type="hidden" name="fid" id="fid"value="<%=at.getFid()%>">
+					<input type="hidden" name="tidImg" value="<%=b.getTid()%>"></td>
+					<td colspan="2"><img width="800" height="400" class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
+					<td><input type="button" class="updateImg" value="수정"></td>
+					<td><input type="button" class="deleteImg" value="삭제"></td>		
+					<td>
+						<div id="titleImgArea" style="width: 200px; height:180px; border: 1px solid black;">
+						</div>
+						<div id="fileArea">
+							<input type="file" id="thumbnailImg1" name="imgfid<%=at.getFid()%>" onchange="loadImg(this, 1)">
+						</div>
+					</td>							
+				</tr>
+					
+					
+			
+				<tr>
+					<td	colspan="2">&nbsp;</td>	
+				</tr>
+				<tr>
+					<td	colspan="2">&nbsp;</td>
+				</tr>
 		
-			<tr>
-				<td	colspan="2">&nbsp;</td>	
-			</tr>
-			<tr>
-				<td	colspan="2">&nbsp;</td>
-			</tr>
-	
-			</table>
+				</table>
 			</form>
+		</div>
 			<%} %>
 			<div>
 			<!-- <form id="updateForm" method="post"> -->
@@ -197,11 +202,11 @@
 			}
 		}
 		$(function(){
-			$("#fileArea").hide();
+			/* $("#fileArea").hide();
 			
 			$("#titleImgArea").click(function(){
 				$("#thumbnailImg1").click();
-			})
+			}) */
 		})
 		
 	
@@ -243,20 +248,50 @@
 	</script>
 	<script>
 		$(function(){
+			
 			$(document).on("click", ".updateImg", function(){
 				var writer = "<%=loginUser.getMemberName()%>";
 				var fid = $(this).parent().siblings().children("#fid").val();
-				
-				
+				var form = $(this).parents("form");
+			    var formdata = new FormData(form[0]);
+			    var img = $(this).parent().prev().children().eq(0);
+			    
 				$.ajax({
-					url:"/main/"
+					url:"/main/UpdateImgServlet.tbo",
+					type:"post",
+			    	processData:false,
+			    	contentType:false,
+			    	data:formdata,
+			    	success:function(data) {
+			    		img.prop("src", "<%=request.getContextPath() %>/uploadFiles/" + data.changeName);
+			    	},
+			    	error:function() {
+			    		console.log("실패");
+			    	} 
 				});
-			})
-		})
-		
-	
-	
-	
+			});
+			$(document).on("click", ".deleteImg", function(){
+				var writer = "<%=loginUser.getMemberName()%>";
+				var fid = $(this).parent().siblings().children("#fid").val();
+			    var img = $(this).parent().prev().children().eq(0);
+			    var form = $(this).parents("form");
+			    
+				$.ajax({
+					url:"/main/deleteImg.tbo",
+					type:"post",
+			    	data:{
+			    		fid:fid
+			    	},
+			    	success:function(data) {
+			    		console.log("이미지 삭제완료")
+			    		form.remove();
+			    	},
+			    	error:function() {
+			    		console.log("실패");
+			    	} 
+				});
+			});
+		});
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>

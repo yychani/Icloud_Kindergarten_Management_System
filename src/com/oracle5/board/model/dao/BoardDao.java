@@ -2909,20 +2909,20 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		return list;
 	}
   
-	public int insertTcChildImgOne(Connection con, Attachment tcChildImgOne, int imgfid) {
+	public int updateTcChildImgOne(Connection con, Attachment tcChildImgOne) {
 
 		PreparedStatement pstmt = null; 
 		int result =0;
 		ArrayList<Attachment> file = null;
 		
-		String query = prop.getProperty("insertTcChildImgOne");
+		String query = prop.getProperty("updateTcChildImgOne");
 									
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, tcChildImgOne.getOriginName());
 			pstmt.setString(2, tcChildImgOne.getChangeName());
 			pstmt.setString(3, tcChildImgOne.getFilePath());
-			pstmt.setInt(4, imgfid);
+			pstmt.setInt(4, tcChildImgOne.getFid());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -3122,11 +3122,30 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
 		}
-		return 0;
+		return result;
   }
 
-
+	public int deleteChildImg(Connection con, int fid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("deleteChildImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, fid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }
 	
 
