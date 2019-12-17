@@ -2587,7 +2587,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 	}
 
 	//유치원 운영위원회 게시판 댓글용 메소드
-	public int insertReplyPreHBoard(Connection con, Reply r, int tid) {
+	public int insertReplyPreHBoard(Connection con, Reply r) {
 		PreparedStatement pstmt = null;
 		int result =0;
 		
@@ -2597,7 +2597,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, r.getRname());
 			pstmt.setString(2, r.getRcont());
-			pstmt.setInt(3, tid);
+			pstmt.setInt(3, r.getTid());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -3011,24 +3011,75 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		return result;
 	}
 
+	//해당글의 모든 댓글 가져오기
+	public ArrayList<Reply> selectAllPreHBoardReply(Connection con,int tid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Reply> replyList = null;
+		
+		String query = prop.getProperty("selectAllPreHBoardReply");
+  	try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, tid);
+      rset = pstmt.executeQuery();
+			
+			replyList = new ArrayList<>();
+			while(rset.next()) {
+				Reply r = new Reply();
+				r.setRid(rset.getInt("R_ID"));
+				r.setRname(rset.getString("R_NAME"));
+				r.setRcont(rset.getString("R_CONT"));
+				r.setRdate(rset.getDate("R_DATE"));
+				r.setTid(rset.getInt("T_ID"));
+				r.setRstmt(rset.getString("R_STMT"));
+				
+				replyList.add(r);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+	
+		return replyList;
+	}
+      
 	public int updateQnAStatus(Connection con, int tid) {
 		PreparedStatement pstmt = null;
 		int result =0;
 		
 		String query = prop.getProperty("updateQnAStatus");
-		
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, tid);
-			
-			result = pstmt.executeUpdate();
+      result = pstmt.executeUpdate();
+      
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			close(pstmt);
 		}
 		return result;
+
 	}
+
+	//댓글의 댓글 insert
+	public int insertPreHrereply(Connection con, Reply r) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertPreHrereply");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+  }
 
 }
 	

@@ -11,20 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.oracle5.board.model.service.BoardService;
-import com.oracle5.board.model.vo.Board;
 import com.oracle5.board.model.vo.Reply;
 
 /**
- * Servlet implementation class InsertPerHBoardReply
+ * Servlet implementation class SelectAllPreHBoardReply
  */
-@WebServlet("/preHBoardInsertReply.bo")
-public class InsertPerHBoardReply extends HttpServlet {
+@WebServlet("/selectAllPreH.re")
+public class SelectAllPreHBoardReply extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertPerHBoardReply() {
+    public SelectAllPreHBoardReply() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,28 +32,16 @@ public class InsertPerHBoardReply extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String writer = request.getParameter("writer");
-		String content = request.getParameter("content");
 		int tid = Integer.parseInt(request.getParameter("tid"));
+		System.out.println(tid);
 		
-		System.out.println("writer : "+ writer);
-		System.out.println("content : "+ content);
-		System.out.println("tid : " +tid);
+		ArrayList<Reply> replyList = new BoardService().selectAllPreHBoardReply(tid);
 		
-		Reply r = new Reply();
-		r.setTid(tid);
-		r.setRname(writer);
-		r.setRcont(content);
-		
-		ArrayList<Reply> replyList = new BoardService().insertReplyPreHBoard(r);
-		for(int i=0; i<replyList.size(); i++) {
-			System.out.println(replyList.get(i).getRname());
-			System.out.println(replyList.get(i).getRcont());
-			System.out.println(replyList.get(i).getRdate());
-		}
-		response.setContentType("application/json");
+		response.setContentType("application.json");
 		response.setCharacterEncoding("UTF-8");
 		new Gson().toJson(replyList, response.getWriter());
+		
+		
 	}
 
 	/**
