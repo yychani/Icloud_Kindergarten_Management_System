@@ -1093,6 +1093,21 @@ public class BoardService {
 		
 		return result;
 	}
+	//가정통신문 selectOne IMG
+		public ArrayList<Attachment> selectOneFLetterImg(int num) {
+			Connection con = getConnection();
+			ArrayList<Attachment> list = new BoardDao().selectOneFLetterImg(con,num);
+			
+			if(list != null) {
+				commit(con);
+			}else {
+				rollback(con);
+			}
+			
+			close(con);
+	  
+	  		return list;
+		}
 
 	//선생님 게시판 전체 리스트 카운트용 메소드
 	public int getListCountTctcBoard() {
