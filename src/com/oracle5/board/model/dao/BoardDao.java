@@ -2910,6 +2910,39 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		return list;
 	}
 
+	public ArrayList<Board> selectQnA(Connection con, int tno) {
+		ArrayList<Board> qnaList = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("selectQnA");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, tno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset != null) {
+				qnaList = new ArrayList<>();
+				
+				while(rset.next()) {
+					Board board = new Board();
+					board.setTid(rset.getInt("T_ID"));
+					board.setTtitle(rset.getString("T_TITLE"));
+					board.setTcount(rset.getInt("T_COUNT"));
+					board.setName(rset.getString("NAME"));
+					board.setTtime(rset.getDate("T_TIME"));
+					board.setTwriter(rset.getInt("M_NO"));
+					
+					qnaList.add(board);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return qnaList;
+	}
 }
 	
 
