@@ -132,13 +132,32 @@
 		<% 
 			for(Attachment at : list){
 		%>
-				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"
-									onclick="location.href='<%=request.getContextPath()%>/updateOneChildImg.tbo/<%=at.getFid()%>"></td>
-							<td><button onclick="location.href='<%=request.getContextPath()%>/deleteOneChildImg.tbo'">삭제</button></td>		
+				<td><input type="hidden" name="fid" value="<%=at.getFid()%>"></td>
+				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
 							
-								
+							<td><input type="button" class="updateImg" onclick="updateImg();" value="수정"></td>
+							<td><input type="button" onclick="location.href='<%=request.getContextPath()%>/deleteOneChildImg.tbo'" value="삭제")></td>		
+							<td colspan="2">
+						<div id ="titleImgArea">
+						<img id="titleImg" width="120" height="100">
+						</div>
+						</td>
+						
+						<td>
+						<div id="fileArea">
+						<input type="file" id="thumbnailImg1" name="thumbnailImg1" onchange="loadImg(this, 1)">
+						
+						</div>
+						</td>
+							
+							
 			</tr>
-
+			<tr>
+			
+				
+			</tr>
+				
+				
 		
 			<tr>
 				<td	colspan="2">&nbsp;</td>	
@@ -160,6 +179,7 @@
 					<div  class="ui dividing header"></div>
 		</div>
 		<br><br>
+		
 		<input type="hidden" name="userNo" value="<%=loginUser.getMemberNo()%>">
 		<input type="hidden" name="tid" value="<%=b.getTid()%>">
 		
@@ -169,17 +189,51 @@
 
 	 <br><br>
 	 <div align="right">
-		<button onclick="complete()">작성완료</button>
-		<button onclick="deleteimg()">삭제하기</button>
+		<input type="button" onclick="complete()" value="작성완료">
+		<input type="button" onclick="deleteimg()" value="삭제하기">
 	</div>
 	</form>
 	<script>
+		function loadImg(value, num){
+			if(value.files && value.files[0]){
+				var reader = new FileReader();
+				
+				reader.onload = function(e){
+					switch(num){
+					case 1 : $("#titleImg").attr("src",e.target.result);break;
+					}
+				}
+				reader.readAsDataURL(value.file[0]);
+			}
+		}
+		$(function(){
+			$("#fileArea").hide();
+			
+			$("#titleImgArea").click(function(){
+				$("#thumbnailImg1").click();
+			})
+		})
+		
+	
+	</script>
+	<script>
+	
+	$(document).on("click", ".updateImg", function(){
+		updateImg();
+	})
 		function complete(){
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/updateChildImg.tbo");
+			$("#updateForm").submit();
 		}
 		function deleteimg(){
-			$("#updateForm").attr("action","<%=request.getContextPath()%>/deletechildImgBoard.tbo")
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/deletechildImgBoard.tbo");
+			$("#updateForm").submit();
 		}
+		function updateImg(){
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/UpdateImgServlet.tbo");
+			$("#updateForm").submit();
+		}
+		
 		
     $(function() {
     	$(".li:nth-child(1)").addClass("on");
@@ -197,6 +251,7 @@
 		});
 
 	});
+    
     
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
