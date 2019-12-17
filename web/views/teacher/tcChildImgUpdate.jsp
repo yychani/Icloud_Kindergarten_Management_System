@@ -9,7 +9,6 @@
 		list = (ArrayList<Attachment>) request.getAttribute("list");
 	}
      %>
-<!DOCTYPE h
 <!DOCTYPE html>
 <html>
 
@@ -125,36 +124,23 @@
 	<div align="center"><input type="text" id="title" name="title" value="<%=b.getTtitle()%>"></div>
 	<div class="ui dividing header" align="center"></div>
 	<label id="textArea"><%=b.getTtime()%></label>
-	<form id="updateForm" method="post">
+
 	<div align="center">
-			<table id="tableArea">
-			<tr id="trArea">
 		<% 
 			for(Attachment at : list){
 		%>
-				<td><input type="hidden" name="fid" value="<%=at.getFid()%>"></td>
+		<form id="imgUpdateForm" method="post">
+			<table id="tableArea">
+			<tr id="trArea">
+				<td><input type="hidden" name="fid" id="fid"value="<%=at.getFid()%>"></td>
 				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
-							
-							<td><input type="button" class="updateImg" onclick="updateImg();" value="수정"></td>
-							<td><input type="button" class="deleteImg" onclick="deleteImg();" value="삭제")></td>		
-							<td colspan="2">
-						<div id ="titleImgArea">
-						<img id="titleImg" width="120" height="100">
-						</div>
-						</td>
-						
-						<td>
-						<div id="fileArea">
-						<input type="file" id="thumbnailImg1" name="thumbnailImg1" onchange="loadImg(this, 1)">
-						
-						</div>
-						</td>
-							
-							
-			</tr>
-			<tr>
-			
-				
+				<td><input type="button" class="updateImg" value="수정"></td>
+				<td><input type="button" class="deleteImg" value="삭제"></td>		
+				<td>
+					<div id="fileArea">
+						<input type="file" id="thumbnailImg1" name="imgfid<%=at.getFid()%>" onchange="loadImg(this, 1)">
+					</div>
+				</td>							
 			</tr>
 				
 				
@@ -166,8 +152,11 @@
 				<td	colspan="2">&nbsp;</td>
 			</tr>
 	
-			<%} %>
 			</table>
+			</form>
+			<%} %>
+			<div>
+			<!-- <form id="updateForm" method="post"> -->
 			<table align="center" id="tableArea2">
 			<tr>
 				<td rowspan="4" id="content"><textarea style="resize: none; width: 100%;" rows="15" id="content" name="content"
@@ -192,7 +181,8 @@
 		<input type="button" onclick="complete()" value="작성완료">
 		<input type="button" onclick="deleteimg()" value="삭제하기">
 	</div>
-	</form>
+	<!-- </form> -->
+	
 	<script>
 		function loadImg(value, num){
 			if(value.files && value.files[0]){
@@ -218,9 +208,6 @@
 	</script>
 	<script>
 	
-	$(document).on("click", ".updateImg", function(){
-		updateImg();
-	})
 		function complete(){
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/updateChildImg.tbo");
 			$("#updateForm").submit();
@@ -230,8 +217,8 @@
 			$("#updateForm").submit();
 		}
 		function updateImg(){
-			$("#updateForm").attr("action","<%=request.getContextPath()%>/SelectUpdateOneImgServlet.tbo");
-			$("#updateForm").submit();
+			$("#imgUpdateForm").attr("action","<%=request.getContextPath()%>/");
+			$("#imgUpdateForm").submit();
 		}
 		
 		
@@ -253,6 +240,23 @@
 	});
     
     
+	</script>
+	<script>
+		$(function(){
+			$(document).on("click", ".updateImg", function(){
+				var writer = "<%=loginUser.getMemberName()%>";
+				var fid = $(this).parent().siblings().children("#fid").val();
+				
+				
+				$.ajax({
+					url:"/main/"
+				});
+			})
+		})
+		
+	
+	
+	
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>

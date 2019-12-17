@@ -19,24 +19,14 @@ import com.oracle5.common.Oracle5FileRenamePolicy;
 import com.oracle5.common.model.vo.Attachment;
 import com.oreilly.servlet.MultipartRequest;
 
-/**
- * Servlet implementation class UpdateChildImgOneServlet
- */
 @WebServlet("/updateOneChildImg.tbo")
 public class UpdateChildImgOneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public UpdateChildImgOneServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 1024 * 1024 * 10;
@@ -101,11 +91,7 @@ public class UpdateChildImgOneServlet extends HttpServlet {
 		
 		
 	}
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

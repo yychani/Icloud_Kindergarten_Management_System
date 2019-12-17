@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectOneChildImgServlet
@@ -43,18 +44,29 @@ public class SelectOneChildImgServlet extends HttpServlet {
 		Board b = new BoardService().selectOneTcChildImgBoard(num,isUpdate);
 		ArrayList<Attachment> list = new BoardService().selectOneChildImg(num);
 		
-		String page = "";
-		
-		if(b != null) {
-			page = "views/teacher/tcChildImgDetail.jsp";
-			request.setAttribute("b", b);
-			request.setAttribute("list", list);
-		}else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "앨범 상세 보기 실패");
+
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+			
+			String page = "";
+			
+			if(b != null) {
+				if((loginUser).getUType().equals("교사")) {
+					page = "views/teacher/tcChildImgDetail.jsp";
+					
+				}else {
+					page="views/parents/boardThumbnailDe.jsp";
+					
+				}
+				request.setAttribute("b", b);
+				request.setAttribute("list", list);
+				
+				
+			
+			}
+			
+			request.getRequestDispatcher(page).forward(request, response);
 		}
-		request.getRequestDispatcher(page).forward(request, response);
-	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

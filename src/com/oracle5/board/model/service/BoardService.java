@@ -1239,7 +1239,7 @@ public class BoardService {
 	}
   
 	//앨범 하나 수정 넣기
-	public int updateinsertChildImg(HashMap<String, Object> hmap, int fid) {
+	public int updateinsertChildImg(HashMap<String, Object> hmap, int imgfid) {
 		Connection con = getConnection();
 		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
 		int result = 0;
@@ -1250,7 +1250,7 @@ public class BoardService {
 			Attachment tcChildImgOne = fileList.get(i);
 			attchment.add(tcChildImgOne);
 		if(tcChildImgOne.getOriginName() != null) {
-			result2 = new BoardDao().insertTcChildImgOne(con, tcChildImgOne ,fid);
+			result2 = new BoardDao().insertTcChildImgOne(con, tcChildImgOne ,imgfid);
 			
 		}else {
 			result2 = 1;
@@ -1271,9 +1271,19 @@ public class BoardService {
 	}
 
 	public ArrayList<Attachment> selectUpdateOneImg(int fid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Connection con = getConnection();
+		ArrayList<Attachment> attachment = new BoardDao().selectUpdateOneImg(con,fid);
+		
+		if(attachment != null) {
+			commit(con);
+    }else {
+			rollback(con);
+		}
+		close(con);
+    return attachment;
+
+  }
+	
 
 	/** 선생 건의 문의 게시판 보기
 	 * @param tno 건의 문의 내용 보려는 교사번호
