@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.PageInfo;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectAllTcFamilyLetterListServlet
@@ -61,25 +62,27 @@ public class SelectAllTcFamilyLetterListServlet extends HttpServlet {
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
 		ArrayList<Board> list = new BoardService().selectAllTcFamilyList(currentPage, limit);
-	
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+		
 		String page = "";
 		
 		if(list != null) {
-			page="views/teacher/tcFamilyLetter.jsp";
+			if((loginUser).getUType().equals("교사")) {
+				page="views/teacher/tcFamilyLetter.jsp";
+				
+			}else {
+				page="views/parents/newsFamilyL.jsp";
+				
+			}
+			
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
-		}else {
-			request.setAttribute("msg", "앨범 리스트 실패");
-			page ="views/common/errorPage.jsp";
+		
 		}
+		
 		request.getRequestDispatcher(page).forward(request, response);
-	
-	
-	
-	
-	
 	}
-
+		
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

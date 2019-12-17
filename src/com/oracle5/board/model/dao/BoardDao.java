@@ -2914,7 +2914,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		
 
 
-	public int insertTcChildImgOne(Connection con, Attachment tcChildImgOne, int fid) {
+	public int insertTcChildImgOne(Connection con, Attachment tcChildImgOne, int imgfid) {
 		PreparedStatement pstmt = null; 
 		int result =0;
 		ArrayList<Attachment> file = null;
@@ -2926,7 +2926,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			pstmt.setString(1, tcChildImgOne.getOriginName());
 			pstmt.setString(2, tcChildImgOne.getChangeName());
 			pstmt.setString(3, tcChildImgOne.getFilePath());
-			pstmt.setInt(4, fid);
+			pstmt.setInt(4, imgfid);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -2936,6 +2936,49 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		}
 		
 		return result;
+	}
+
+	public ArrayList<Attachment> selectUpdateOneImg(Connection con, int fid) {
+		PreparedStatement pstmt = null;
+		ArrayList<Attachment> list = new ArrayList<>();
+		Attachment att = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectUpdateOneImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+
+			
+			pstmt.setInt(1, fid);
+			
+
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				att = new Attachment();
+				att.setOriginName(rset.getString("ORIGIN_NAME"));
+				att.setChangeName(rset.getString("CHANGE_NAME"));
+				att.setFilePath(rset.getString("FILE_PATH"));
+				att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+				att.setFileLevel(rset.getInt("FILE_LEVEL"));
+				att.setStatus(rset.getString("STATUS"));
+				att.setType(rset.getInt("TYPE"));
+				att.setCId(rset.getInt("C_ID"));
+				att.setFeedNo(rset.getInt("FEEDNO"));
+				att.setTId(rset.getInt("T_ID"));
+				
+				list.add(att);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectOneTcFamilyLetterServlet
@@ -41,21 +42,30 @@ public class SelectOneTcFamilyLetterServlet extends HttpServlet {
 		
 		Board b = new BoardService().selectOneFLetter(num, isUpdate);
 		ArrayList<Attachment> list = new BoardService().selectOneFLetterImg(num);
-		String page = "";
-		
-		if(b != null) {
-			page="views/teacher/tcFamilyLetterDetail.jsp";
-			request.setAttribute("b", b);
-			request.setAttribute("list", list);
-			
-			
-		}else {
-			page="views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시글 수정용 상세보기 실패");
-		}
 
-		request.getRequestDispatcher(page).forward(request, response);
-	}
+
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+			
+			String page = "";
+			
+			if(b != null) {
+				if((loginUser).getUType().equals("교사")) {
+					page="views/teacher/tcFamilyLetterDetail.jsp";
+					
+				}else {
+					page="views/parents/newsFamilyLDetail.jsp";
+					
+				}
+				
+				request.setAttribute("b", b);
+				request.setAttribute("list", list);
+			
+			}
+			
+			request.getRequestDispatcher(page).forward(request, response);
+		}
+		
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

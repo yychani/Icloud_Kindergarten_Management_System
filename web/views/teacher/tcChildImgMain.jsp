@@ -203,7 +203,7 @@ input[type='button'] {
         </div> 
 	</div>
 	
- 	
+ 	<input type="hidden" name="userNo" value="<%=loginUser.getMemberNo()%>">
  	
     <%@ include file="/views/common/footer.jsp" %>
     <%@ include file="/views/common/chat.jsp" %>

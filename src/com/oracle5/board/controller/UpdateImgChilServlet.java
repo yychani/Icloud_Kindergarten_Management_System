@@ -18,24 +18,14 @@ import com.oracle5.common.Oracle5FileRenamePolicy;
 import com.oracle5.common.model.vo.Attachment;
 import com.oreilly.servlet.MultipartRequest;
 
-/**
- * Servlet implementation class UpdateImgChilServlet
- */
 @WebServlet("/UpdateImgServlet.tbo")
 public class UpdateImgChilServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public UpdateImgChilServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
@@ -59,12 +49,12 @@ public class UpdateImgChilServlet extends HttpServlet {
 				saveFiles.add(multiRequest.getFilesystemName(name));
 				originFiles.add(multiRequest.getOriginalFileName(name));
 			}
-		int fid = Integer.parseInt(multiRequest.getParameter("fid"));
-		String filePath = savePath + saveFiles.get(0);
+			int imgfid = Integer.parseInt(multiRequest.getParameter("imgfid"));
+			String filePath = savePath + saveFiles.get(0);
 		
-		ArrayList<Attachment> fileList = new ArrayList<>();
+			ArrayList<Attachment> fileList = new ArrayList<>();
 		
-		for(int i = originFiles.size() -1; i>=0; i--) {
+			for(int i = originFiles.size() -1; i>=0; i--) {
 			Attachment attchment = new Attachment();
 			attchment.setFilePath(savePath);
 			attchment.setOriginName(originFiles.get(i));
@@ -78,17 +68,15 @@ public class UpdateImgChilServlet extends HttpServlet {
 		HashMap<String, Object> hmap = new HashMap<>();
 		hmap.put("fileList", fileList);
 		
-		int result = new BoardService().updateinsertChildImg(hmap,fid);
+		int result = new BoardService().updateinsertChildImg(hmap,imgfid);
 		
-		String page = "";
+		/*String page = "";
 		if(result>0) {
 			response.sendRedirect(request.getContextPath()+"/SelectUpdateOneImgServlet.tbo");
-			
-			
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시글 수정용 상세보기 실패");
-		}
+		}*/
 
 		request.getRequestDispatcher(page).forward(request, response);
 		

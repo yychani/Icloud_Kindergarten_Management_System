@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.PageInfo;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectAllTcChildImgListServlet
@@ -61,23 +62,26 @@ public class SelectAllTcChildImgListServlet extends HttpServlet {
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
 		ArrayList<Board> list = new BoardService().selectAllTcChildImgList(currentPage, limit);
-	
+		
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+		
 		String page = "";
 		
 		if(list != null) {
-			page="views/teacher/tcChildImgMain.jsp";
+			if((loginUser).getUType().equals("교사")) {
+				page="views/teacher/tcChildImgMain.jsp";
+				
+			}else {
+				page="views/parents/boardThumbnailMain.jsp";
+				
+			}
+			
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
-		}else {
-			request.setAttribute("msg", "앨범 리스트 실패");
-			page ="views/common/errorPage.jsp";
+		
 		}
+		
 		request.getRequestDispatcher(page).forward(request, response);
-	
-	
-	
-	
-	
 	}
 
 	/**
