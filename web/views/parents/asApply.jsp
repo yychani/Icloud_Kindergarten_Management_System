@@ -36,6 +36,11 @@
 .title{
 	color: #4183c4;
 }
+#kidName{
+	width:200px;
+	margin: 0 auto;
+}
+
 </style>
 
 </head>
@@ -78,15 +83,15 @@
 <div class="ui basic modal"  align="center">
   <div class="ui icon header">
     <i class="hand point right outline icon"></i>
-    다음 달 방과 후 신청을 하시겠습니까?
+   		 다음 달 방과 후 신청을 하시겠습니까?
+    <p id="writeCName">원아명을 입력해주세요</p>
   </div>
-  <p>원아명을 입력해주세요</p>
+  
   <form action="<%=request.getContextPath()%>/asRequest.me" method="post">
-  <input type="hidden" value="<%=loginUser.getMemberNo()%>"
-					name="userNo">
-	<div class="ui input" align="center">
-  <input type="text" name="kidName">
-</div>
+  <input type="hidden" value="<%=loginUser.getMemberNo()%>" name="userNo">
+	<div align="center"><div class="ui input">
+  	<input type="text" id="kidName" name="kidName">
+	</div></div><br><br>
   <div class="actions" align="center">
     <div class="ui red basic cancel inverted button">
       <i class="remove icon"></i>

@@ -3083,4 +3083,96 @@ public class MemberDao {
 
 	}
 
+	//내아이 정보 - 이름, 사진 불러오기
+	public Children selectCnamePhoto(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Children c = null;
+		
+		String query = prop.getProperty("selectCnamePhoto");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				c = new Children();
+				c.setCId(rset.getInt("C_ID"));
+				c.setName(rset.getString("C_NAME"));
+				c.setImgSrc(rset.getString("IMGSRC"));
+				c.setDescription(rset.getString("C_DESC"));
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return c;
+	}
+
+	//최근 신체정보 불러오기
+	public BodyInfo selectRecentBodyInfo(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		BodyInfo b = null;
+		
+		String query = prop.getProperty("selectRecentBodyInfo");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			pstmt.setInt(2, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new BodyInfo();
+				b.setHeight(rset.getDouble("HEIGHT"));
+				b.setWeight(rset.getDouble("WEIGHT"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return b;
+	}
+
+	//신체정보 리스트 불러오기
+	public ArrayList<BodyInfo> selectBodyInfoList(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<BodyInfo> bList = null;
+		BodyInfo b = null;
+		
+		String query = prop.getProperty("selectBodyInfoList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			bList = new ArrayList<BodyInfo>();
+			
+			while(rset.next()) {
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return bList;
+	}
+
 }

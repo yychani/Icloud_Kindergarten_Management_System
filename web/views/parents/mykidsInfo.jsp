@@ -95,27 +95,36 @@ article section .chart {
 	height: 400px;
 }
 </style>
+
+
+
  
 </head>
 <body>
 
 	<%@ include file="/views/common/parentsMenu.jsp"%>
-
-	<h2 class="ui header">내 아이 정보</h2>
+	<div align="center">
+		<h2 class="ui header">내 아이 정보</h2>
+		<select class="ui dropdown" id="cNameSelect"></select>
+	</div>
+		
+	
+	
+	
 
 	<div class="outBox">
 		<div class="ui olive inverted segment mykidInfo" align="center">
 			<div class="ui raised segment">
 				<br>
-				<br> <img class="ui medium circular image"
-					src="<%=request.getContextPath()%>/images/건후.jpg"><br> <a class="ui yellow image label"> 박건후
-					<div class="detail">해바라기반</div>
+				<br> <img class="ui medium circular image" id="kidImg"
+					src=""><br> <a class="ui yellow image label"><label id="kidName"></label>
+					<div class="detail" id="kidBan"></div>
 				</a><br>
 				<br>
-				<p>나이 : 만 3 세</p>
-				<p>키 : 88.5 cm</p>
-				<p>몸무게 : 15.2kg</p>
-				<p>특이사항 : 다문화가정</p>
+				<label>나이 : 만 </label><label id="kidAge"></label><br>
+				<label>키 : </label><label id="recentHeight"></label><br>
+				<label>몸무게 : </label><label id="recentWeight"></label><br>
+				<label>특이사항 : </label><label id="desc"></label>
 				<br>
 				<br>
 			</div>
@@ -140,6 +149,64 @@ article section .chart {
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+	    
+	 <script>
+	 $(function(){
+			cId = 0;
+			$.ajax({
+				url:"<%=request.getContextPath()%>/pCName.me",
+				type:"get",
+				success:function(data){
+					console.log(data);
+
+					$select = $("#cNameSelect");
+					$select.find("option").remove();
+					
+					for(var key in data){
+						var $option = $("<option>");
+						$option.val(data[key].cId);
+						$option.text(data[key].name);
+						$select.append($option);
+						
+						 $("#cNameSelect").trigger("change"); 
+						
+					}
+					
+				},
+				error:function(data){
+					console.log("failㅠㅠ");
+				}
+			});
+		});
+	 
+	 $(function(){
+		 $(document).on("change", "#cNameSelect", function(){
+			 var cId = $("#cNameSelect").val();
+			 
+			 $.ajax({
+					url: "<%=request.getContextPath()%>/myKidsInfo.me",
+					data:{cId},
+					type:"get",
+					success:function(data){
+						console.log(data);
+						$("#kidName").text(data.c.name);
+						$("#kidImg").attr("src", '<%= request.getContextPath() %>/uploadFiles/'+ data.c.imgSrc);
+						$("#kidAge").text(data.c.cId + " 세");
+						$("#recentHeight").text(data.b.height + " cm");
+						$("#recentWeight").text(data.b.weight + " kg");
+						$("#desc").text(data.c.description);
+						$("#kidBan").text(data.ban.banName + "반");
+					},
+					error:function(data){
+						console.log("내아이 정보 불러오기 실패");
+					}
+				 });
+		 });
+	 });
+	 
+	 </script>   
+	    
+	    
 	<script>
 		var data1 = {
 			datasets : [ {
