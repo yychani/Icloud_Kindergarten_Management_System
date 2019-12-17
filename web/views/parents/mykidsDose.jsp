@@ -49,6 +49,11 @@ h1 {
 #labelText {
 	text-align: right;
 }
+#cNameSelect{
+	width:161px;
+	height:34px;
+	border-radius:4px;
+}
 </style>
 </head>
 <body style="overflow-x: hidden">
@@ -84,9 +89,14 @@ h1 {
 				<table align="center" class="doesTable">
 					<tr>
 						<td id="labelText"><label>유아명 : </label></td>
-						<td><div class="ui mini icon input">
+						<td>
+						<div align="center">
+	<select class="ui dropdown" id="cNameSelect" name="cName"></select>
+	</div>
+						
+						<!-- <div class="ui mini icon input">
 								<input type="text" placeholder="유아명 입력" name="kidsName">
-							</div></td>
+							</div> --></td>
 					</tr>
 					<tr>
 						<td id="labelText"><label>증상명 : </label></td>
@@ -184,7 +194,7 @@ h1 {
            }
             
 			function addtimepicker() {
-					console.log(($('#dosingTime').clone()).append('<br>'));
+					
 					$("#dosingTimeArea")
 							.append($('#dosingTime').clone())
 							.append(
@@ -222,32 +232,42 @@ h1 {
 					$("#dosingRequest").submit();
 					
 					$('input[name=dosingTime]').each(function(index, value){
-						
-						console.log(index);
-						console.log(value);
+
 					})
 				}
+				
+				$(function(){
+					cId = 0;
+					$.ajax({
+						url:"<%=request.getContextPath()%>/pCName.me",
+						type:"get",
+						success:function(data){
 
-				//메뉴바 고정
-				$(function() {
-					$(".li1").addClass("on");
-					$(".topMenuLi:nth-child(4)").addClass("on");
-
-					$(".topMenuLi").mouseover(function() {
-						$(".li1").removeClass("on");
-						$(".topMenuLi:nth-child(4)").removeClass("on");
+							$select = $("#cNameSelect");
+							$select.find("option").remove();
+							
+							for(var key in data){
+								var $option = $("<option>");
+								$option.val(data[key].cId);
+								$option.text(data[key].name);
+								$select.append($option);
+								
+								$("#cNameSelect").trigger("change");
+								
+							}
+							
+						},
+						error:function(data){
+							console.log("failㅠㅠ");
+						}
 					});
-					$(".topMenuLi").mouseleave(function() {
-						$(".li1").addClass("on");
-						$(".topMenuLi:nth-child(4)").addClass("on");
-					});
-
 				});
+
 			</script>
 		</div>
 	</div>
 
-
+	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
 </body>
 </html>

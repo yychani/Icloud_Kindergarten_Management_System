@@ -1288,6 +1288,7 @@ public class BoardService {
 		return qnaList;
 	}
 
+
 	//해당글의 댓글 불러오기 용 메소드
 	public ArrayList<Reply> selectAllPreHBoardReply(int tid) {
 		Connection con = getConnection();
@@ -1327,6 +1328,26 @@ public class BoardService {
 			rollback(con);
 		}
 		return replyList;
+  }
+
+	/** 건의 문의 답변 다는 메소드
+	 * @param reply
+	 * @return
+	 */
+	public int insertQnAReply(Reply reply) {
+		Connection con = getConnection();
+		
+		int result = new BoardDao().insertReplyPreHBoard(con, reply, reply.getTid());
+		
+		int result1 = new BoardDao().updateQnAStatus(con, reply.getTid());
+		
+		if(result > 0 && result1 > 0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		return result;
+
 	}
 		
 

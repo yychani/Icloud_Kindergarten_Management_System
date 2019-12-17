@@ -56,18 +56,18 @@ tr {
 	<%@ include file="/views/common/parentsMenu.jsp"%>
 	 <script>
       $(function() {
-    	  $(".li:nth-child(9)").addClass("on");
+    	  $(".li:nth-child(1)").addClass("on");
     	  
-          $(".topMenuLi:nth-child(5)").addClass("on");
+          $(".topMenuLi:nth-child(4)").addClass("on");
          
           $(".topMenuLi").mouseover(function() {
-            $(".li:nth-child(9)").removeClass("on");
-            $(".topMenuLi:nth-child(5)").removeClass("on");
+            $(".li:nth-child(1)").removeClass("on");
+            $(".topMenuLi:nth-child(4)").removeClass("on");
          });
         
           $(".topMenuLi").mouseleave(function() {
-            $(".li:nth-child(9)").addClass("on");
-            $(".topMenuLi:nth-child(5)").addClass("on");
+            $(".li:nth-child(1)").addClass("on");
+            $(".topMenuLi:nth-child(4)").addClass("on");
          });
       }); 
 </script>
@@ -121,9 +121,12 @@ tr {
 		<br><br><br>
 			<div class="ui input">
 				
-					<p>원아명 :</p>
-					<input type="text" placeholder="원아명 입력" id="kidName" name="kidName">
-				
+					
+
+					<div align="center">
+					<p>원아를 선택해주세요</p>
+	<select class="ui dropdown" id="cNameSelect" name="cName"></select>
+	</div>
 			</div>
 		</div>
 		<div class="actions" align="center">
@@ -153,6 +156,34 @@ tr {
 				return true;
 			}
 		}
+		
+		$(function(){
+			cId = 0;
+			$.ajax({
+				url:"<%=request.getContextPath()%>/pCName.me",
+				type:"get",
+				success:function(data){
+					console.log(data);
+
+					$select = $("#cNameSelect");
+					$select.find("option").remove();
+					
+					for(var key in data){
+						var $option = $("<option>");
+						$option.val(data[key].cId);
+						$option.text(data[key].name);
+						$select.append($option);
+						
+						$("#cNameSelect").trigger("change");
+						
+					}
+					
+				},
+				error:function(data){
+					console.log("failㅠㅠ");
+				}
+			});
+		});
 	</script>
 
 

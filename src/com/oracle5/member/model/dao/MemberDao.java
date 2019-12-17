@@ -3364,5 +3364,84 @@ public class MemberDao {
   	return teacher;
 }
 
+	public int updateTeacherInfo(Connection con, int mno, Teacher t) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("updateTeacherInfo");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, t.getImgSrc());
+			pstmt.setString(2, t.getTDescription());
+			pstmt.setInt(3, mno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateTeacherMInfo(Connection con, int mno, Member m) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("updateTeacherMInfo");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, m.getMemberPwd());
+			pstmt.setString(2, m.getMemberRno());
+			pstmt.setString(3, m.getEmail());
+			pstmt.setString(4, m.getPhone());
+			pstmt.setInt(5, mno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+  }
+
+	public Children selectChildren(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Children c = null;
+		
+		String query = prop.getProperty("selectChildren");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				c = new Children();
+				c.setOriginAddr(rset.getString("C_OADDR"));
+				c.setBloodType(rset.getString("C_BTYPE"));
+				c.setDescription(rset.getString("C_DESC"));
+				c.setImgSrc(rset.getString("IMGSRC"));
+				c.setName(rset.getString("C_NAME"));
+				c.setRno(rset.getString("C_RNO"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return c;
+
+	}
+
 
 }

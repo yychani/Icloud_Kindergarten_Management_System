@@ -2953,7 +2953,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 					Board board = new Board();
 					board.setTid(rset.getInt("T_ID"));
 					board.setTtitle(rset.getString("T_TITLE"));
-					board.setTcount(rset.getInt("T_COUNT"));
+					board.setTcont(rset.getString("T_CONT"));
 					board.setName(rset.getString("NAME"));
 					board.setTtime(rset.getDate("T_TIME"));
 					board.setTwriter(rset.getInt("M_NO"));
@@ -3018,12 +3018,10 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		ArrayList<Reply> replyList = null;
 		
 		String query = prop.getProperty("selectAllPreHBoardReply");
-		
-		try {
+  	try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, tid);
-			
-			rset = pstmt.executeQuery();
+      rset = pstmt.executeQuery();
 			
 			replyList = new ArrayList<>();
 			while(rset.next()) {
@@ -3044,8 +3042,27 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			close(pstmt);
 			close(rset);
 		}
-		
+	
 		return replyList;
+	}
+      
+	public int updateQnAStatus(Connection con, int tid) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateQnAStatus");
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, tid);
+      result = pstmt.executeUpdate();
+      
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+
 	}
 
 	//댓글의 댓글 insert
@@ -3059,11 +3076,10 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			pstmt = con.prepareStatement(query);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;
-	}
+  }
 
 }
 	

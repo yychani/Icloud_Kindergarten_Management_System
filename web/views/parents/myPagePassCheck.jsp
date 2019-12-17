@@ -32,6 +32,24 @@
 <body>
 	<%@ include file="/views/common/parentsMenu.jsp"%>
 	
+		 <script>
+      $(function() {
+    	  $(".li:nth-child(1)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(6)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(1)").removeClass("on");
+            $(".topMenuLi:nth-child(6)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(1)").addClass("on");
+            $(".topMenuLi:nth-child(6)").addClass("on");
+         });
+      }); 
+</script>
+	
 	<div id="outBox" align="center">
 		<form action="<%=request.getContextPath()%>/passcheck.me" method="post" onsubmit="return true">
 			<label>비밀번호 확인이 필요합니다.</label><br><br>
@@ -46,27 +64,7 @@
 			<button type="submit" class="ui positive basic button">확인</button>
 		</form>
 	</div>
-	
-	
-	<script>
-	//메뉴바 고정
-	$(function() {
-	    $(".li1").addClass("on");
-	    $(".topMenuLi:nth-child(5)").addClass("on");
-
-	    $(".topMenuLi").mouseover(function() {
-	       $(".li1").removeClass("on");
-	       $(".topMenuLi:nth-child(5)").removeClass("on");
-	    });
-	    $(".topMenuLi").mouseleave(function() {
-	       $(".li1").addClass("on");
-	       $(".topMenuLi:nth-child(5)").addClass("on");
-	    });
-
-	 });
-	
-	
-	</script>
-
+	<%@ include file="/views/common/footer.jsp"%>
+	<%@ include file="/views/common/chat.jsp"%>
 </body>
 </html>

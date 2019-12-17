@@ -166,7 +166,7 @@
                 $(".topMenuLi:nth-child(1)").removeClass("on");
             });
             $(".topMenuLi").mouseleave(function () {
-                $(".li3").addClass("on");
+                $(".li2").addClass("on");
                 $(".topMenuLi:nth-child(1)").addClass("on");
             });
            
