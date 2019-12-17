@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+	pageEncoding="UTF-8" import="java.util.*, java.sql.Date, com.oracle5.member.model.vo.*"%>
 <%
 	ArrayList<DoseRequest> list = (ArrayList<DoseRequest>) request.getAttribute("list");
+	System.out.println(list.get(1).getEndDate());
+	
+	java.sql.Date d = new Date(new java.util.Date().getTime());
 %>
 <!DOCTYPE html>
 <html>
@@ -17,7 +20,7 @@
         table {
             margin: 50px auto;
         }
-        #table1, #table2, #table3 {
+        #table1, #table2, #table3, #table4 {
             margin: 10px auto;
         }
 
@@ -122,6 +125,11 @@
     	padding-bottom: 10px;
     	padding-top: 10px;
     	display:inline-block;
+    	width: 40px;
+    }
+    
+    td#applicant:nth-of-type(n+1) {
+    	cursor:pointer;
     }
     </style>
 </head>
@@ -133,12 +141,43 @@
     </div>
     <div style="margin: 20px 20%">
 	    <select name="as" id="as">
-	        <option value="투약 의뢰서 리스트" selected>투약 의뢰서 리스트</option>
+	        <option value="투약 리스트" selected>투약 리스트</option>
+	        <option value="미확인 리스트">미확인 리스트</option>
 	        <option value="이전 신청 이력">이전 신청 이력</option>
 	        <option value="반려 이력">반려 이력</option>
 	    </select>
     </div>
     <table id="table1" >
+        <tr id="applyTr">
+            <th id="no">No</th>
+            <th id="applicant">신청자</th>
+            <th id="apply">증상</th>
+            <th id="date">신청일</th>
+        </tr>
+        <% for(int i = 0; i < list.size(); i++) { 
+        		if(list.get(i).getStatus().equals("수신 확인")) {
+        				if(list.get(i).getEndDate().after(d) || String.valueOf(list.get(1).getEndDate()).equals(String.valueOf(d))) {%>
+        <tr id="applyTr" class="child<%= i %>">
+            <td id="no"><%= i + 1 %> 
+            	<input type="hidden" id="cid" value="<%= list.get(i).getCNo() %>" />
+            	<input type="hidden" id="dno" value="<%= list.get(i).getDNo() %>" />
+            </td>
+            <td id="applicant"><%= list.get(i).getCName() %></td>
+            <td id="apply"><%= list.get(i).getSymptom() %></td>
+            <td id="date"><%= list.get(i).getSubmitDate() %></td>
+        </tr>
+        <% 	}
+      	  }
+        } %>
+        <tr id="applyTr">
+            <th style="height: 30px;"></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </table>
+    <table id="table2" hidden>
         <tr id="applyTr">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
@@ -166,62 +205,65 @@
             <th></th>
         </tr>
     </table>
-    <table id="table2" hidden>
-            <tr id="applyTr">
-                <th id="no">No</th>
-                <th id="applicant">신청자</th>
-                <th id="apply">승인 날짜</th>
-            </tr>
-            <% for(int i = 0; i < list.size(); i++) { 
+    <table id="table3" hidden>
+        <tr id="applyTr">
+            <th id="no">No</th>
+            <th id="applicant">신청자</th>
+            <th id="apply">증상</th>
+            <th id="date">신청일</th>
+        </tr>
+        <% for(int i = 0; i < list.size(); i++) { 
         		if(list.get(i).getStatus().equals("수신 확인")) {%>
-	        <tr id="applyTr">
-	            <td id="no"><%= i + 1 %></td>
-	            <td id="applicant"><%= list.get(i).getCName() %></td>
-	            <td id="apply" align="center"><input id="check" type="checkbox"></td>
-	        </tr>
-	        <% }
-	        } %>
-            <tr id="applyTr">
-                    <th style="height: 20px;"></th>
-                    <th align="right"></th>
-                    <th></th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                    <td colspan="3" style="float: right; padding-right: 0;"><input type="button" value="승인" style="width: 70px; height:30px"></td>
-                
-            </tr>
-        </table>
-        <table id="table3" hidden>
-            <tr id="applyTr">
-                <th id="no">No</th>
-                <th id="applicant">신청자</th>
-                <th id="apply">승인 날짜</th>
-            </tr>
-            <% for(int i = 0; i < list.size(); i++) { 
+        <tr id="applyTr" class="child<%= i %>">
+            <td id="no"><%= i + 1 %> 
+            	<input type="hidden" id="cid" value="<%= list.get(i).getCNo() %>" />
+            	<input type="hidden" id="dno" value="<%= list.get(i).getDNo() %>" />
+            </td>
+            <td id="applicant"><%= list.get(i).getCName() %></td>
+            <td id="apply"><%= list.get(i).getSymptom() %></td>
+            <td id="date"><%= list.get(i).getSubmitDate() %></td>
+        </tr>
+        <% }
+        } %>
+        <tr id="applyTr">
+            <th style="height: 30px;"></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </table>
+    <table id="table4" hidden>
+        <tr id="applyTr">
+            <th id="no">No</th>
+            <th id="applicant">신청자</th>
+            <th id="apply">증상</th>
+            <th id="date">신청일</th>
+        </tr>
+        <% for(int i = 0; i < list.size(); i++) { 
         		if(list.get(i).getStatus().equals("반려")) {%>
-	        <tr id="applyTr">
-	            <td id="no"><%= i + 1 %></td>
-	            <td id="applicant"><%= list.get(i).getCName() %></td>
-	            <td id="apply" align="center"><input id="check" type="checkbox"></td>
-	        </tr>
-	        <% }
-	        } %>
-            <tr id="applyTr">
-                    <th style="height: 20px;"></th>
-                    <th align="right"></th>
-                    <th></th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                    <td colspan="3" style="float: right; padding-right: 0;"><input type="button" value="승인" style="width: 70px; height:30px"></td>
-                
-            </tr>
-        </table>
+        <tr id="applyTr" class="child<%= i %>">
+            <td id="no"><%= i + 1 %> 
+            	<input type="hidden" id="cid" value="<%= list.get(i).getCNo() %>" />
+            	<input type="hidden" id="dno" value="<%= list.get(i).getDNo() %>" />
+            </td>
+            <td id="applicant"><%= list.get(i).getCName() %></td>
+            <td id="apply"><%= list.get(i).getSymptom() %></td>
+            <td id="date"><%= list.get(i).getSubmitDate() %></td>
+        </tr>
+        <% }
+        } %>
+        <tr id="applyTr">
+            <th style="height: 30px;"></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </table>
+    
         <!-- The Modal -->
-    <div id="myModal" class="modal">
+    <div id="myModal" class="modal" style="overflow-y: hidden">
  
       <!-- Modal content -->
       	<div class="modal-content">
@@ -251,17 +293,22 @@
 					</tr>
 				</table>
                 <p><br /></p>
-                <div style="display: inline-block; margin-left: 85%; width: 150px;">
-                <div class="modalBtn"style="margin-right:20px;">
-            		<span class="pop_bt" style="font-size: 13pt;" >
-                     		확인
-                	</span>
-            	</div>
-           		<div class="modalBtn" onClick="close_pop();">
-               		<span class="pop_bt" style="font-size: 13pt;" >
-                    			닫기
-               		</span>
-           		</div>
+                <div style="display: inline-block; margin-left: 75%; width: 200px;" id="btndiv">
+	                <div class="modalBtn" id="return" style="margin-right:20px;" onClick="updateStatus('반려');">
+	            		<span class="pop_bt" style="font-size: 13pt;" >
+	                     		반려
+	                	</span>
+	            	</div>
+	                <div class="modalBtn" id="check" style="margin-right:20px;" onClick="updateStatus('확인');">
+	            		<span class="pop_bt" style="font-size: 13pt;" >
+	                     		확인
+	                	</span>
+	            	</div>
+	           		<div class="modalBtn" onClick="close_pop();">
+	               		<span class="pop_bt" style="font-size: 13pt;" >
+	                    		닫기
+	               		</span>
+	           		</div>
              </div>
 	     </div>
  
@@ -282,35 +329,43 @@
                $(".topMenuLi:nth-child(2)").addClass("on");
             });
             
-            $("#allCheck").click(function() {
-                if($("#allCheck").prop("checked")) {
-                    $("#check").prop("checked", true);
-                } else {
-                    $("#check").prop("checked", false);
-                }
-            });
-            
             $("#as").change(function(){
-                 if($(this).val() == "투약 의뢰서 리스트"){
+                 if($(this).val() == "투약 리스트"){
                     $("#table2").attr("hidden", true);
                     $("#table3").attr("hidden", true);
+                    $("#table4").attr("hidden", true);
                     $("#table1").attr("hidden", false);
-                 }else if($(this).val() == "이전 신청 이력"){
+                 }else if($(this).val() == "미확인 리스트"){
                     $("#table1").attr("hidden", true);
-                    $("#table3").attr("hidden", true);
                     $("#table2").attr("hidden", false);
-                 } else if($(this).val() == "반려 이력"){
+                    $("#table3").attr("hidden", true);
+                    $("#table4").attr("hidden", true);
+                 } else if($(this).val() == "이전 신청 이력"){
                     $("#table1").attr("hidden", true);
                     $("#table2").attr("hidden", true);
                     $("#table3").attr("hidden", false);
-                 }
+                    $("#table4").attr("hidden", true);
+                 } else if($(this).val() == "반려 이력"){
+                     $("#table1").attr("hidden", true);
+                     $("#table2").attr("hidden", true);
+                     $("#table3").attr("hidden", true);
+                     $("#table4").attr("hidden", false);
+                  }
             });
             
             
         	$("td#applicant:nth-of-type(n+1)").click(function() {
-        		var dno = $(this).parent().find("#dno").val();
-        		console.log(dno)
+        		dno = $(this).parent().find("#dno").val();
         		
+        		if($("#as option:selected").val() != '미확인 리스트') {
+        			$("#return").hide();
+        			$("#check").hide();
+        			$("#btndiv").css("margin-left","95%");
+        		} else {
+        			$("#return").show();
+        			$("#check").show();
+        			$("#btndiv").css("margin-left","75%");
+        		}
         		
         		$.ajax({
         			url:"selectChildDoseReq.do",
@@ -319,8 +374,6 @@
         				dno:dno
         			},
         			success:function(data) {
-        				console.log(data)
-        				
         				$("#name").text(data.cName);
         				$("#startDate").text(changeDate(data.startDate));
         				$("#endDate").text(changeDate(data.endDate));
@@ -343,13 +396,44 @@
         function changeDate(date) {
         	date = date.split(" ");
         	date = date[2] + "년 " + date[0] + " " + date[1].substring(0, date[1].length - 1) + "일";
-        	console.log(date)
         	return date;
         }
         
         function close_pop() {
 			$("#myModal").hide();
 		};
+		
+        function updateStatus(status) {
+        	console.log(status)
+        	console.log(dno)
+        	if($("#as option:selected").val() === '미확인 리스트') {
+	        	var stat = "";
+	        	
+	        	if(status === '확인') {
+	        		stat = "수신 확인";
+	        	} else if(status === '반려') {
+	        		stat = "반려";
+	        	}
+	        	
+	        	close_pop();
+	        	
+	        	$.ajax({
+	        		url:"<%= request.getContextPath() %>/updateDoseReqStatus.do",
+	        		type:"post",
+	        		data:{
+	        			stat:stat,
+	        			dno:dno
+	        		},
+	        		success:function(data) {
+	        			location.reload();
+	        		},
+	        		error:function() {
+	        			console.log("실패");
+	        		}
+	        	});
+        	}
+        }
+        
     </script>
     <%@ include file="/views/common/footer.jsp"%>
     <%@ include file="/views/common/chat.jsp"%>

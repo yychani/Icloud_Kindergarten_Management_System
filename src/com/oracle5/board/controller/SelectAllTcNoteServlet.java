@@ -11,13 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.CommonNote;
+import com.oracle5.member.model.vo.Member;
 
 @WebServlet("/selectAllTcNote")
 public class SelectAllTcNoteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int tno = Integer.parseInt(request.getParameter("tno"));
+		Member m = (Member) request.getSession().getAttribute("loginMember");
+		int tno = m.getMemberNo();
 		ArrayList<CommonNote> list = new BoardService().selectAllTcNote(tno);
 		
 		String page = "";

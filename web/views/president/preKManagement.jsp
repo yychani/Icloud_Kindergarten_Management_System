@@ -236,7 +236,7 @@
             });
             $(".detailBtn").on("click", function(){
             	var cId = $(this).parent().siblings("input[type=hidden]").val();
-            	location.href = "<%=request.getContextPath() %>/childRecordBook.me?cId=" + cId;
+            	location.href = "<%=request.getContextPath() %>/selectChildRcBook.me?cid=" + cId;
             });
         }); 
     </script>

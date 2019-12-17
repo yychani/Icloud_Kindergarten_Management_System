@@ -3084,6 +3084,70 @@ public class MemberDao {
 
 	}
 
+
+	public int updateDoseReqStatus(Connection con, int dno, String stat) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("updateDoseReq");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, stat);
+			pstmt.setInt(2, dno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<ReturnAgree> selectBanRtnList(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<ReturnAgree> list = null;
+		ReturnAgree r = null;
+		
+		String sql = prop.getProperty("selectBanRtnList");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rset.next()) {
+				r = new ReturnAgree();
+				
+				r.setCId(rset.getInt("C_ID"));
+				r.setCName(rset.getString("C_NAME"));
+				r.setApplyDate(rset.getDate("APPLY_DATE"));
+				r.setApplyTime(rset.getString("APPLY_TIME"));
+				r.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+				r.setStatus(rset.getString("STATUS"));
+				r.setRaNo(rset.getInt("RA_NO"));
+				r.setGuideName(rset.getString("GUIDENAME"));
+				r.setGuidePhone(rset.getString("GUIDEPHONE"));
+				
+				list.add(r);
+			}
+      		
+    } catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
 	//내아이 정보 - 이름, 사진 불러오기
 	public Children selectCnamePhoto(Connection con, int cId) {
 		PreparedStatement pstmt = null;
@@ -3117,6 +3181,40 @@ public class MemberDao {
 		return c;
 	}
 
+	public ReturnAgree selectChildRtn(Connection con, int rano) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ReturnAgree r = null;
+		
+		String sql = prop.getProperty("selectChildRtn");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, rano);
+      	rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+      	r = new ReturnAgree();
+				
+				r.setCId(rset.getInt("C_ID"));
+				r.setCName(rset.getString("C_NAME"));
+				r.setApplyDate(rset.getDate("APPLY_DATE"));
+				r.setApplyTime(rset.getString("APPLY_TIME"));
+				r.setSubmitDate(rset.getDate("SUBMIT_DATE"));
+				r.setStatus(rset.getString("STATUS"));
+				r.setRaNo(rset.getInt("RA_NO"));
+				r.setGuideName(rset.getString("GUIDENAME"));
+				r.setGuidePhone(rset.getString("GUIDEPHONE"));
+      			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return r;
+	}
 	//최근 신체정보 불러오기
 	public BodyInfo selectRecentBodyInfo(Connection con, int cId) {
 		PreparedStatement pstmt = null;
@@ -3148,6 +3246,27 @@ public class MemberDao {
 		return b;
 	}
 
+	public int updateRtnStatus(Connection con, int rano, String stat) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("updateRtn");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, stat);
+			pstmt.setInt(2, rano);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 	//신체정보 리스트 불러오기
 	public ArrayList<BodyInfo> selectBodyInfoList(Connection con, int cId) {
 		PreparedStatement pstmt = null;
@@ -3174,6 +3293,7 @@ public class MemberDao {
 		
 		
 		return bList;
+
 	}
 
 }

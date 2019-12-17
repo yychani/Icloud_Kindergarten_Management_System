@@ -102,14 +102,14 @@
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcSchedule.jsp" class="submenuLink">일정표</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcMenu.jsp" class="submenuLink">식단표</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllDietTable.diet" class="submenuLink">식단표</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">업무</a>
 						<ul class="submenu">
 							<li class="li"><a href="<%= request.getContextPath() %>/selectWorkList.task" class="submenuLink">업무분장</a></li>
 							<li>|</li> 
-							<li class="li"><a href="<%= request.getContextPath() %>/selectAllTcNote?tno=<%= loginUser.getMemberNo() %>" class="submenuLink">반 공통 알림장</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllTcNote" class="submenuLink">반 공통 알림장</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcSelectNoteDate.jsp" class="submenuLink">원아별 알림장</a></li>
 							<li>|</li>
@@ -119,11 +119,11 @@
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcParentAccount.jsp" class="submenuLink">학부모 관리</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/selectBanAsList.me?tno=<%= loginUser.getMemberNo() %>" class="submenuLink">방과후 신청 관리</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectBanAsList.me" class="submenuLink">방과후 신청 관리</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/selectBanDoseList.me" class="submenuLink">투약 의뢰서 관리</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcRtnList.jsp" class="submenuLink">귀가 동의서 관리</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectBanRtnList.me" class="submenuLink">귀가 동의서 관리</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
