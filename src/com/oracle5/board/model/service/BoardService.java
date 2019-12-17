@@ -1022,15 +1022,18 @@ public class BoardService {
 		return result;
 	}
 
-	public ArrayList<Reply> insertReplyPreHBoard(Reply r) {
+	public ArrayList<Reply> insertReplyPreHBoard(Reply r, int tid) {
 		Connection con = getConnection();
 		ArrayList<Reply> replyList = null;
-		
-		int result = new BoardDao().insertReplyPreHBoard(con, r);
-		
+		int result =0;
+		if(r != null) {
+		    result = new BoardDao().insertReplyPreHBoard(con, r,tid);
+		}else {
+			result =1;
+		}
 		if(result >0) {
 			commit(con);
-			replyList = new BoardDao().selectPreHBoardReplyList(con, r.getTid());
+			replyList = new BoardDao().selectPreHBoardReplyList(con, tid);
 			System.out.println(replyList);
 		}else {
 			rollback(con);
@@ -1140,8 +1143,9 @@ public class BoardService {
 		//선생님 게시판 insert
 		int result1= new BoardDao().insertTctcBoard(con, b);
 		//선생님 게시판 이미지
-		if(result >0) {
+		if(result1 >0) {
 			tid = new BoardDao().selectTctcBoardTid(con, b);
+			System.out.println(tid);
 		}
 		int result2 = 0;
 		for(int i=0; i<fileList.size(); i++) {
@@ -1205,8 +1209,36 @@ public class BoardService {
 		
 		return list;
 	}
-	
 
+	//선생님 게시판 업데이트 용 메소드
+	public int updateTctcBoard(Board b) {
+		Connection con = getConnection();
+		int result = new BoardDao().updateTctcBoard(con, b);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	//선생님 게시판 삭제용 메소드
+	public int deleteTctcBoard(int num) {
+		Connection con = getConnection();
+		int result = new BoardDao().deleteTctcBoard(con, num);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		return result;
+	}
+  
 	//앨범 하나 수정 넣기
 	public int updateinsertChildImg(HashMap<String, Object> hmap, int fid) {
 		Connection con = getConnection();

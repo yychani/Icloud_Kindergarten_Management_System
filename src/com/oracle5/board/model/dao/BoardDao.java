@@ -23,8 +23,6 @@ import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.Parents;
 
-import lombok.Getter;
-
 public class BoardDao {
 	Properties prop = new Properties();
 
@@ -2589,7 +2587,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 	}
 
 	//유치원 운영위원회 게시판 댓글용 메소드
-	public int insertReplyPreHBoard(Connection con, Reply r) {
+	public int insertReplyPreHBoard(Connection con, Reply r, int tid) {
 		PreparedStatement pstmt = null;
 		int result =0;
 		
@@ -2599,7 +2597,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, r.getRname());
 			pstmt.setString(2, r.getRcont());
-			pstmt.setInt(3, r.getTid());
+			pstmt.setInt(3, tid);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -2792,6 +2790,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			for(int i=0; i<at.size(); i++) {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, at.get(i).getOriginName());
+			
 			pstmt.setString(2, at.get(i).getChangeName());
 			pstmt.setString(3, at.get(i).getFilePath());
 			pstmt.setInt(4, tid);
@@ -2966,6 +2965,50 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			e.printStackTrace();
 		}
 		return qnaList;
+	}
+
+	//선생님 게시판 수정용 메소드나나난
+	public int updateTctcBoard(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateTctcBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//선생님 게시판 삭제용 메소드
+	public int deleteTctcBoard(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("deleteTctcBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
 	}
 
 }
