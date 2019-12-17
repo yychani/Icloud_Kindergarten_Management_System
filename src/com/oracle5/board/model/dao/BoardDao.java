@@ -23,8 +23,6 @@ import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Children;
 import com.oracle5.member.model.vo.Parents;
 
-import lombok.Getter;
-
 public class BoardDao {
 	Properties prop = new Properties();
 
@@ -2792,6 +2790,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			for(int i=0; i<at.size(); i++) {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, at.get(i).getOriginName());
+			
 			pstmt.setString(2, at.get(i).getChangeName());
 			pstmt.setString(3, at.get(i).getFilePath());
 			pstmt.setInt(4, tid);
@@ -2909,12 +2908,9 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		
 		return list;
 	}
-
-
-		
-
-
+  
 	public int insertTcChildImgOne(Connection con, Attachment tcChildImgOne, int imgfid) {
+
 		PreparedStatement pstmt = null; 
 		int result =0;
 		ArrayList<Attachment> file = null;
@@ -2980,6 +2976,156 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		
 		return list;
 	}
+
+
+	public ArrayList<Board> selectQnA(Connection con, int tno) {
+		ArrayList<Board> qnaList = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("selectQnA");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, tno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset != null) {
+				qnaList = new ArrayList<>();
+				
+				while(rset.next()) {
+					Board board = new Board();
+					board.setTid(rset.getInt("T_ID"));
+					board.setTtitle(rset.getString("T_TITLE"));
+					board.setTcont(rset.getString("T_CONT"));
+					board.setName(rset.getString("NAME"));
+					board.setTtime(rset.getDate("T_TIME"));
+					board.setTwriter(rset.getInt("M_NO"));
+					
+					qnaList.add(board);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return qnaList;
+	}
+
+	//선생님 게시판 수정용 메소드나나난
+	public int updateTctcBoard(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateTctcBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//선생님 게시판 삭제용 메소드
+	public int deleteTctcBoard(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("deleteTctcBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//해당글의 모든 댓글 가져오기
+	public ArrayList<Reply> selectAllPreHBoardReply(Connection con,int tid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Reply> replyList = null;
+		
+		String query = prop.getProperty("selectAllPreHBoardReply");
+  	try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, tid);
+      rset = pstmt.executeQuery();
+			
+			replyList = new ArrayList<>();
+			while(rset.next()) {
+				Reply r = new Reply();
+				r.setRid(rset.getInt("R_ID"));
+				r.setRname(rset.getString("R_NAME"));
+				r.setRcont(rset.getString("R_CONT"));
+				r.setRdate(rset.getDate("R_DATE"));
+				r.setTid(rset.getInt("T_ID"));
+				r.setRstmt(rset.getString("R_STMT"));
+				
+				replyList.add(r);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+	
+		return replyList;
+	}
+      
+	public int updateQnAStatus(Connection con, int tid) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateQnAStatus");
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, tid);
+      result = pstmt.executeUpdate();
+      
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+
+	}
+
+	//댓글의 댓글 insert
+	public int insertPreHrereply(Connection con, Reply r) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertPreHrereply");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+  }
+
 
 }
 	

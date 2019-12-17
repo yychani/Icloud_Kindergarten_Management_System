@@ -1177,4 +1177,57 @@ public class MemberService {
 
 	}
 
+
+	public Teacher selectOneTeacher(int memberNo) {
+		Connection con = getConnection();
+		
+		Teacher t = new MemberDao().selectOneTeacher(con, memberNo);
+		
+		close(con);
+		
+		return t;
+  }
+  
+	public Teacher selectMyTeacher(int pno) {
+		Connection con = getConnection();
+		
+		Teacher teacher = new MemberDao().selectMyTeacher(con, pno);
+		
+		close(con);
+		return teacher;
+
+	}
+
+	public int updateTeacherInfo(int mno, Teacher t, Member m) {
+		Connection con = getConnection();
+		
+		int result = 0;
+		
+		int result1 = new MemberDao().updateTeacherInfo(con, mno, t);
+		
+		int result2 = new MemberDao().updateTeacherMInfo(con, mno, m);
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(con);
+			result = 1;
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+}
+
+	public Children selectChildren(int cId) {
+		Connection con = getConnection();
+		
+		Children c = md.selectChildren(con, cId);
+		
+		close(con);
+		
+		return c;
+
+	}
+
 }

@@ -92,11 +92,61 @@ img {
 #labelText {
    text-align: right;
 }
+#cNameSelect{
+	width:161px;
+	height:34px;
+	border-radius:4px;
+}
 </style>
 
 </head>
 <body style="overflow-x: hidden">
    <%@ include file="/views/common/parentsMenu.jsp"%>
+   
+	<script>
+      $(function() {
+    	  $(".li:nth-child(9)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(1)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(9)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(9)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
+         });
+      }); 
+      
+      $(function(){
+			cId = 0;
+			$.ajax({
+				url:"<%=request.getContextPath()%>/pCName.me",
+				type:"get",
+				success:function(data){
+
+					$select = $("#cNameSelect");
+					$select.find("option").remove();
+					
+					for(var key in data){
+						var $option = $("<option>");
+						$option.val(data[key].cId);
+						$option.text(data[key].name);
+						$select.append($option);
+						
+						$("#cNameSelect").trigger("change");
+						
+					}
+					
+				},
+				error:function(data){
+					console.log("failㅠㅠ");
+				}
+			});
+		});
+</script>
 
 
    <div class="ui olive inverted segment outBox" style="margin:5% 30%;">
@@ -109,11 +159,14 @@ img {
                   
                         <tr>
                               <td id="labelText"><label>유아명 : </label></td>
-                              <td>
-                                 <div class="ui mini icon input">
+                              <td><div align="center">
+                              <input type="hidden" name="pNo" value="<%= loginUser.getMemberNo() %>">
+	<select class="ui dropdown" id="cNameSelect" name="cName"></select>
+	</div>
+                                <%--  <div class="ui mini icon input">
                                     <input type="text" placeholder="유아명 입력" name="kidsName">
                                     <input type="hidden" name="pNo" value="<%= loginUser.getMemberNo() %>">
-                                 </div>
+                                 </div> --%>
                               </td>
                            </tr>
                            <tr>
@@ -282,29 +335,8 @@ img {
             integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
             crossorigin="anonymous"></script>
             
-            <script>
-        	//메뉴바 고정
-        	$(function() {
-        	    $(".li1").addClass("on");
-        	    $(".topMenuLi:nth-child(4)").addClass("on");
-
-        	    $(".topMenuLi").mouseover(function() {
-        	       $(".li1").removeClass("on");
-        	       $(".topMenuLi:nth-child(4)").removeClass("on");
-        	    });
-        	    $(".topMenuLi").mouseleave(function() {
-        	       $(".li1").addClass("on");
-        	       $(".topMenuLi:nth-child(4)").addClass("on");
-        	    });
-
-        	 });
-            
-            
-            
-            
-            
-            </script>
-<%@ include file="/views/common/chat.jsp"%>
+	<%@ include file="/views/common/footer.jsp"%>
+	<%@ include file="/views/common/chat.jsp"%>
          
 </body>
 </html>

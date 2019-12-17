@@ -7,6 +7,9 @@
 		int svrPort = request.getServerPort();%>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/menu.css" />
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <%
 	Member loginUser = (Member) session.getAttribute("loginMember");
 
@@ -94,7 +97,9 @@
 		</td>
 		<td id="menu">
 			<div style="float: right;">
-				<input type="button" style="margin-right: 20px;" onclick="logout();" value="로그아웃">
+				<button class="ui button" style="margin-right:20px; font-size: 8pt; font-family: 'Noto Sans KR', sans-serif; background: none;" onclick="logout();">
+  					로그아웃
+				</button>
 			</div>
 		</td>
 	</tr>
@@ -145,7 +150,7 @@
 							<li class="li11"><a href="<%=request.getContextPath()%>/selectKinderGarten.kinfo"
 									class="submenuLink">원 정보</a></li>
 							<li>|</li>
-							<li class="li12"><a href="" class="submenuLink">건의/문의 확인</a></li>
+							<li class="li12"><a href="<%=request.getContextPath()%>/selectQnA.bo?tno=<%=loginUser.getMemberNo() %>" class="submenuLink">건의/문의 확인</a></li>
 
 						</ul>
 					</li>

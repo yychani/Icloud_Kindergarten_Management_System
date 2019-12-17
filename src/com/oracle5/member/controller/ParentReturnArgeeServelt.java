@@ -32,13 +32,12 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int pNo = Integer.parseInt(request.getParameter("pNo"));
+
 		String kidsName = request.getParameter("kidsName");
 		String guideName = request.getParameter("guideName");
 		String guidePhone = request.getParameter("guidePhone");
-		
-		// 원아명과 부모 번호 일치 확인 후 cid가져오기
-		int cId = new MemberService().cNamepNoCheck(kidsName, pNo);
+		int pNo = Integer.parseInt(request.getParameter("pNo"));
+		int cId = Integer.parseInt(request.getParameter("cName"));
 		
 		String sapplyDate = request.getParameter("applyDate");
 		Date applyDate;

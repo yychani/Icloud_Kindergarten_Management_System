@@ -103,20 +103,35 @@ article section .chart {
 <body>
 
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+<script>
+      $(function() {
+    	  $(".li:nth-child(1)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(1)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(1)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(1)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
+         });
+      }); 
+</script>
+
 	<div align="center">
 		<h2 class="ui header">내 아이 정보</h2>
 		<select class="ui dropdown" id="cNameSelect"></select>
 	</div>
 		
-	
-	
-	
 
 	<div class="outBox">
 		<div class="ui olive inverted segment mykidInfo" align="center">
 			<div class="ui raised segment">
-				<br>
-				<br> <img class="ui medium circular image" id="kidImg"
+				<img class="ui medium circular image" id="kidImg"
 					src=""><br> <a class="ui yellow image label"><label id="kidName"></label>
 					<div class="detail" id="kidBan"></div>
 				</a><br>
@@ -157,7 +172,6 @@ article section .chart {
 				url:"<%=request.getContextPath()%>/pCName.me",
 				type:"get",
 				success:function(data){
-					console.log(data);
 
 					$select = $("#cNameSelect");
 					$select.find("option").remove();
@@ -167,35 +181,99 @@ article section .chart {
 						$option.val(data[key].cId);
 						$option.text(data[key].name);
 						$select.append($option);
-						
-						 $("#cNameSelect").trigger("change"); 
-						
 					}
-					
+					$("#cNameSelect").trigger("change");
 				},
 				error:function(data){
 					console.log("failㅠㅠ");
 				}
 			});
 		});
-	 
+
 	 $(function(){
 		 $(document).on("change", "#cNameSelect", function(){
+ 			$("#kidName").text("");
+ 			$("#kidAge").text("");
+ 			$("#recentHeight").text("");
+			$("#recentWeight").text("");
+			$("#desc").text("");
+			$("#kidBan").text("");
+			height = [0];
+			weight = [0];
+			date = [];
+
 			 var cId = $("#cNameSelect").val();
-			 
+			 bList = "";
+
 			 $.ajax({
 					url: "<%=request.getContextPath()%>/myKidsInfo.me",
 					data:{cId},
 					type:"get",
 					success:function(data){
-						console.log(data);
+
 						$("#kidName").text(data.c.name);
 						$("#kidImg").attr("src", '<%= request.getContextPath() %>/uploadFiles/'+ data.c.imgSrc);
 						$("#kidAge").text(data.c.cId + " 세");
-						$("#recentHeight").text(data.b.height + " cm");
-						$("#recentWeight").text(data.b.weight + " kg");
+						
+						if(Object.keys(data).length == 4){
+							$("#recentHeight").text(data.b.height + " cm");
+							$("#recentWeight").text(data.b.weight + " kg");
+						}else {
+							$("#recentHeight").text("");
+							$("#recentWeight").text("");
+						}
 						$("#desc").text(data.c.description);
 						$("#kidBan").text(data.ban.banName + "반");
+						bList = data.bList;
+						
+						
+						for(var i = 0; i < bList.length; i++){
+							height[i] = bList[i].height;
+							weight[i] = bList[i].weight;
+							date[i] = bList[i].biDate;
+						}
+						
+
+						var data1 = {
+								datasets : [ {
+									backgroundColor : "rgba(56,175,91,.1)",
+									borderColor : "rgba(56,175,91,1)",
+									pointBackgroundColor : "rgba(56,175,91,1)",
+									data : height,
+									label : "키"
+								}, {
+									backgroundColor : "rgba(234,142,57,.1)",
+									borderColor : "rgba(234,142,57,1)",
+									pointBackgroundColor : "rgba(234,142,57,1)",
+									data : weight,
+									label : "몸무게"
+								}],
+								labels : date
+								
+							}
+
+							var options1 = {
+								scaleFontColor : "rgba(255,255,255,0.7)",
+								scaleLineColor : "rgba(0,0,0,0)",
+								scaleGridLineColor : "rgba(255,255,255,0.1)",
+								scaleFontFamily : "Open Sans",
+								scaleFontSize : 14,
+								bezierCurve : true,
+								scaleShowLabels : true,
+								pointDotRadius : 6,
+								animation : true,
+								scaleShowGridLines : true,
+								datasetFill : true,
+								responsive : true
+							}
+
+							new Chart(c1.getContext("2d"), {
+								type : 'line',
+								data : data1,
+								options : options1
+							});
+						
+						
 					},
 					error:function(data){
 						console.log("내아이 정보 불러오기 실패");
@@ -206,78 +284,6 @@ article section .chart {
 	 
 	 </script>   
 	    
-	    
-	<script>
-		var data1 = {
-			datasets : [ {
-				backgroundColor : "rgba(56,175,91,.1)",
-				borderColor : "rgba(56,175,91,1)",
-				pointBackgroundColor : "rgba(56,175,91,1)",
-				data : [ 1100, 1200, 935, 990, 1050, 1030, 1040 ],
-				label : "남아 평균 키"
-			}, {
-				backgroundColor : "rgba(234,142,57,.1)",
-				borderColor : "rgba(234,142,57,1)",
-				pointBackgroundColor : "rgba(234,142,57,1)",
-				data : [ 1300, 1200, 1000, 1200, 1100, 1150, 1180 ],
-				label : "내나이 키"
-			}, {
-				backgroundColor : "rgba(236,72,127,.1)",
-				borderColor : "rgba(236,72,127,1)",
-				pointBackgroundColor : "rgba(236,72,127,1)",
-				data : [ 1400, 1350, 1250, 1250, 1350, 1500, 1550 ],
-				label : "유아 평균 몸무게"
-			}, {
-				backgroundColor : "rgba(236,72,127,.1)",
-				borderColor : "rgba(236,72,127,1)",
-				pointBackgroundColor : "rgba(236,72,127,1)",
-				data : [ 1200, 1350, 1250, 1250, 100, 1500, 1550 ],
-				label : "내 아이 몸무게"
-			} ],
-			labels : [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
-					"Saturday", "Sunday" ]
-		}
-
-		var options1 = {
-			scaleFontColor : "rgba(255,255,255,0.7)",
-			scaleLineColor : "rgba(0,0,0,0)",
-			scaleGridLineColor : "rgba(255,255,255,0.1)",
-			scaleFontFamily : "Open Sans",
-			scaleFontSize : 14,
-			bezierCurve : true,
-			scaleShowLabels : true,
-			pointDotRadius : 6,
-			animation : true,
-			scaleShowGridLines : true,
-			datasetFill : true,
-			responsive : true
-		}
-
-		// new Chart(c1.getContext("2d")).Line(data1,options1);
-		new Chart(c1.getContext("2d"), {
-			type : 'line',
-			data : data1,
-			options : options1,
-		});
-		
-		
-		
-		//메뉴바 고정
-			$(function() {
-		    $(".li1").addClass("on");
-		    $(".topMenuLi:nth-child(4)").addClass("on");
-
-		    $(".topMenuLi").mouseover(function() {
-		       $(".li1").removeClass("on");
-		       $(".topMenuLi:nth-child(4)").removeClass("on");
-		    });
-		    $(".topMenuLi").mouseleave(function() {
-		       $(".li1").addClass("on");
-		       $(".topMenuLi:nth-child(4)").addClass("on");
-		    });
-
-		 }); 
-	</script>
 
 
 

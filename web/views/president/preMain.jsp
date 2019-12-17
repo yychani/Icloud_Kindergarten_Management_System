@@ -72,7 +72,7 @@
         <tr>
             <td></td>
             <td></td>
-            <td style="float: right;"><input type="button" id="mvManagement" value="메인 화면 관리">&nbsp;&nbsp;<input type="button" id="edit" value="수정하기"><input type="hidden" id="ok" value="저장하기"></td>
+            <td style="float: right;"><input type="button" style="width: 120px;"id="mvManagement" value="메인 화면 관리">&nbsp;&nbsp;<input type="button" id="edit" value="수정하기"><input type="hidden" id="ok" value="저장하기"></td>
         </tr>
     </table>
     <script>

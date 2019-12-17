@@ -7,6 +7,8 @@
 		int svrPort = request.getServerPort();%>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/menu.css" />
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <%
 	Member loginUser = (Member) session.getAttribute("loginMember");
 %> 
@@ -31,8 +33,25 @@ table {
       font-family: 'Noto Sans KR', sans-serif;
       overflow-x:hidden;
    }
-
-
+	#logout {
+	
+	}
+	
+	input[type='button'] {
+		width: 100px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgb(63, 63, 63);
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+	}
+	
+	input[type='button']:hover {
+        background: rgb(44, 44, 44) !important;
+        color: rgb(255, 255, 255) !important;
+    }
 </style>
 <script>
 	$(function(){
@@ -49,18 +68,41 @@ table {
 		});
 	});
 </script>
+<script>
+	$(function(){
+		$.ajax({
+			url : "/main/selectMyTeacher.me",
+			data:{
+				pno:<%=loginUser.getMemberNo() %>
+			},
+			type : "post",
+			success : function(data) {
+				$select = $("#receiver");
+				$select.find("option").remove();
+				var name = decodeURIComponent(data.className);
+				$select.append("<option value='" + data.teacherNo + "'>" + name + " 선생님</option>");
+				
+				$("#receiver").trigger("change");
+			},
+			error : function(data) {
+				console.log("실패!");
+			}
+		});
+	});
+</script>
 <table style="margin-top: 10px; width:100%;">
    <tr>
       <td rowspan="2" id="menu">
          <div id="logo">
-            <a href="<%=request.getContextPath()%>"> <img src="<%=request.getContextPath()%>/images/logo.png"
+            <a href="<%=request.getContextPath()%>/views/parents/parMain.jsp"> <img src="<%=request.getContextPath()%>/images/logo.png"
                   style="width: 300px; display: inline-block;"></a>
          </div>
       </td>
       <td id="menu">
          <div style="float: right;">
-            <input type="button" style="margin-right:20px;"
-               onclick="logout();" value="로그아웃">
+         	<button class="ui button" style="margin-right:20px; font-size: 8pt; font-family: 'Noto Sans KR', sans-serif; background: none;" onclick="logout();">
+  				로그아웃
+			</button>
          </div>
       </td>
    </tr>
@@ -68,6 +110,21 @@ table {
       <td id="menu">
          <nav id="topMenu">
             <ul>
+            
+              <li class="topMenuLi"><a class="menuLink" href="">내 아이</a>
+                  <ul class="submenu">
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsInfo.jsp" class="submenuLink">내 아이 정보</a></li>
+                     <li>|</li>
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsNote.jsp" class="submenuLink">알림장</a></li>
+                     <li>|</li>
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsAttendance.jsp" class="submenuLink">출결사항</a></li>
+                     <li>|</li>
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsDose.jsp" class="submenuLink">투약의뢰서</a></li>
+                     <li>|</li>
+                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsGohome.jsp" class="submenuLink">귀가동의서</a></li>
+                  </ul>
+               </li>
+               
                <li class="topMenuLi"><a class="menuLink" href="">소식</a>
                   <ul class="submenu">
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsNotice.jsp" class="submenuLink">원 공지사항</a></li>
@@ -110,19 +167,7 @@ table {
                   </ul>
                </li>
 
-               <li class="topMenuLi"><a class="menuLink" href="">내 아이</a>
-                  <ul class="submenu">
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsInfo.jsp" class="submenuLink">내 아이 정보</a></li>
-                     <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsNote.jsp" class="submenuLink">알림장</a></li>
-                     <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsAttendance.jsp" class="submenuLink">출결사항</a></li>
-                     <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsDose.jsp" class="submenuLink">투약의뢰서</a></li>
-                     <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath()%>/views/parents/mykidsGohome.jsp" class="submenuLink">귀가동의서</a></li>
-                  </ul>
-               </li>
+             
                <li class="topMenuLi"><a class="menuLink" href="">마이페이지</a>
                   <ul class="submenu">
                      <li class="li"><a href="<%=request.getContextPath() %>/views/parents/myPagePassCheck.jsp"  class="submenuLink">내 정보</a></li>

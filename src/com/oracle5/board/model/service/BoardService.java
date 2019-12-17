@@ -1025,12 +1025,14 @@ public class BoardService {
 	public ArrayList<Reply> insertReplyPreHBoard(Reply r) {
 		Connection con = getConnection();
 		ArrayList<Reply> replyList = null;
+		int result =0;
 		
-		int result = new BoardDao().insertReplyPreHBoard(con, r);
+		result = new BoardDao().insertReplyPreHBoard(con, r);
 		
+			
 		if(result >0) {
 			commit(con);
-			replyList = new BoardDao().selectPreHBoardReplyList(con, r.getTid());
+			replyList = new BoardDao().selectPreHBoardReplyList(con,r.getTid());
 			System.out.println(replyList);
 		}else {
 			rollback(con);
@@ -1140,8 +1142,9 @@ public class BoardService {
 		//선생님 게시판 insert
 		int result1= new BoardDao().insertTctcBoard(con, b);
 		//선생님 게시판 이미지
-		if(result >0) {
+		if(result1 >0) {
 			tid = new BoardDao().selectTctcBoardTid(con, b);
+			System.out.println(tid);
 		}
 		int result2 = 0;
 		for(int i=0; i<fileList.size(); i++) {
@@ -1205,7 +1208,36 @@ public class BoardService {
 		
 		return list;
 	}
-	
+
+	//선생님 게시판 업데이트 용 메소드
+	public int updateTctcBoard(Board b) {
+		Connection con = getConnection();
+		int result = new BoardDao().updateTctcBoard(con, b);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	//선생님 게시판 삭제용 메소드
+	public int deleteTctcBoard(int num) {
+		Connection con = getConnection();
+		int result = new BoardDao().deleteTctcBoard(con, num);
+		
+		if(result >0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		return result;
+	}
+  
 	//앨범 하나 수정 넣기
 	public int updateinsertChildImg(HashMap<String, Object> hmap, int imgfid) {
 		Connection con = getConnection();
@@ -1252,6 +1284,81 @@ public class BoardService {
 
   }
 	
+
+	/** 선생 건의 문의 게시판 보기
+	 * @param tno 건의 문의 내용 보려는 교사번호
+	 * @return
+	 */
+	public ArrayList<Board> selectQnA(int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> qnaList = new BoardDao().selectQnA(con, tno);
+		
+		close(con);
+		return qnaList;
+	}
+
+
+	//해당글의 댓글 불러오기 용 메소드
+	public ArrayList<Reply> selectAllPreHBoardReply(int tid) {
+		Connection con = getConnection();
+		
+		ArrayList<Reply> replyList = new BoardDao().selectAllPreHBoardReply(con,tid);
+		
+		close(con);
+		return replyList;
+	}
+
+	public ArrayList<Reply> inserPreHtrereply(Reply r) {
+		/*Connection con = getConnection();
+		ArrayList<Reply> replyList = null;
+		int result =0;
+		
+		result = new BoardDao().insertReplyPreHBoard(con, r);
+		
+			
+		if(result >0) {
+			commit(con);
+			replyList = new BoardDao().selectPreHBoardReplyList(con,r.getTid());
+			System.out.println(replyList);
+		}else {
+			rollback(con);
+		}
+		return replyList;*/
+		Connection con =getConnection();
+		ArrayList<Reply> replyList = null;
+		int result = 0;
+		
+		result = new BoardDao().insertPreHrereply(con, r);
+		
+		if(result >0) {
+			commit(con);
+			//replyList = new BoardDao().selectPreHrereplyList(con,r.getRid());
+		}else {
+			rollback(con);
+		}
+		return replyList;
+  }
+
+	/** 건의 문의 답변 다는 메소드
+	 * @param reply
+	 * @return
+	 */
+	public int insertQnAReply(Reply reply) {
+		Connection con = getConnection();
+		
+		int result = new BoardDao().insertReplyPreHBoard(con, reply, reply.getTid());
+		
+		int result1 = new BoardDao().updateQnAStatus(con, reply.getTid());
+		
+		if(result > 0 && result1 > 0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		return result;
+
+	}
 		
 
 }

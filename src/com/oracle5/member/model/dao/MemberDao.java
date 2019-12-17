@@ -3285,15 +3285,163 @@ public class MemberDao {
 			bList = new ArrayList<BodyInfo>();
 			
 			while(rset.next()) {
+				b = new BodyInfo();
+				b.setBiDate(rset.getDate("BI_DATE"));
+				b.setHeight(rset.getDouble("HEIGHT"));
+				b.setWeight(rset.getDouble("WEIGHT"));
 				
+				bList.add(b);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
-		
 		
 		return bList;
 
 	}
+
+	public Teacher selectOneTeacher(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Teacher t = null;
+		
+		String sql = prop.getProperty("selectOneTeacher");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+      
+      rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+        	t = new Teacher();
+				
+				t.setTeacherNo(rset.getInt("T_NO"));
+				t.setTEntDate(rset.getDate("ENTDATE"));
+				t.setTDescription(rset.getString("DESCRIPTION"));
+				t.setImgSrc(rset.getString("IMGSRC"));
+				t.setClassName(rset.getString("B_NAME"));
+				t.setPId(rset.getInt("PID"));
+				t.setBcNo(rset.getInt("BC_NO"));
+        		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+  return t;
+}
+
+	public Teacher selectMyTeacher(Connection con, int pno) {
+		Teacher teacher = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("selectMyTeacher");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pno);
+      			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+
+        teacher = new Teacher();
+				teacher.setTeacherNo(rset.getInt("T_NO"));
+				teacher.setClassName(rset.getString("NAME"));
+        		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+  	return teacher;
+}
+
+	public int updateTeacherInfo(Connection con, int mno, Teacher t) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("updateTeacherInfo");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, t.getImgSrc());
+			pstmt.setString(2, t.getTDescription());
+			pstmt.setInt(3, mno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateTeacherMInfo(Connection con, int mno, Member m) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("updateTeacherMInfo");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, m.getMemberPwd());
+			pstmt.setString(2, m.getMemberRno());
+			pstmt.setString(3, m.getEmail());
+			pstmt.setString(4, m.getPhone());
+			pstmt.setInt(5, mno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+  }
+
+	public Children selectChildren(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Children c = null;
+		
+		String query = prop.getProperty("selectChildren");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				c = new Children();
+				c.setOriginAddr(rset.getString("C_OADDR"));
+				c.setBloodType(rset.getString("C_BTYPE"));
+				c.setDescription(rset.getString("C_DESC"));
+				c.setImgSrc(rset.getString("IMGSRC"));
+				c.setName(rset.getString("C_NAME"));
+				c.setRno(rset.getString("C_RNO"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return c;
+
+	}
+
 
 }

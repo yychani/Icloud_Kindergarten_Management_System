@@ -10,7 +10,7 @@
 <!-- 시멘틱ui -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-
+   
 <style>
 
 .outer {
@@ -52,6 +52,26 @@
 <body>
 
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+	
+	 <script>
+      $(function() {
+    	  $(".li:nth-child(1)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(5)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(1)").removeClass("on");
+            $(".topMenuLi:nth-child(5)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(1)").addClass("on");
+            $(".topMenuLi:nth-child(5)").addClass("on");
+         });
+      }); 
+</script>
+	<h1 align="center">방과후 프로그램</h1>
 	<div class="outer" align="center">
 		<div class="in">
 			<div class="ui orange inverted segment">
@@ -95,28 +115,7 @@
 	</div>
 	<!-- outer end -->
 	
-	<script>
-	
-	//메뉴바 고정
- 	$(function() {
-	    $(".li1").addClass("on");
-	    $(".topMenuLi:nth-child(3)").addClass("on");
 
-	    $(".topMenuLi").mouseover(function() {
-	       $(".li1").removeClass("on");
-	       $(".topMenuLi:nth-child(3)").removeClass("on");
-	    });
-	    $(".topMenuLi").mouseleave(function() {
-	       $(".li1").addClass("on");
-	       $(".topMenuLi:nth-child(3)").addClass("on");
-	    });
-
-	 }); 
-     
-     
-	
-	
-	</script>
 	<%@ include file="/views/common/chat.jsp"%>
 	<%@ include file="/views/common/footer.jsp"%>
 </body>

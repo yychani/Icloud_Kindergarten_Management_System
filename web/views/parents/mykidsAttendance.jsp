@@ -95,6 +95,25 @@ A:hover {
 </head>
 <body>
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+	<script>
+      $(function() {
+    	  $(".li:nth-child(5)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(1)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(5)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(5)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
+         });
+      }); 
+</script>
+	
 	<h1 align="center">내 아이 출결사항</h1>
 	<div align="center">
 	<select class="ui dropdown" id="cNameSelect"></select>
@@ -223,23 +242,7 @@ $(function(){
 		var date = $(this).children(".dailyDate1").val();
 		console.log(date);
 	});
-	
-	
-		//메뉴바 고정
-		$(function() {
-			$(".li1").addClass("on");
-			$(".topMenuLi:nth-child(4)").addClass("on");
 
-			$(".topMenuLi").mouseover(function() {
-				$(".li1").removeClass("on");
-				$(".topMenuLi:nth-child(4)").removeClass("on");
-			});
-			$(".topMenuLi").mouseleave(function() {
-				$(".li1").addClass("on");
-				$(".topMenuLi:nth-child(4)").addClass("on");
-			});
-
-		});
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>

@@ -9,6 +9,8 @@
 %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/menu.css" />
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <style>
 	table {
 		margin: 50px auto; 
@@ -83,8 +85,9 @@
 		</td>
 		<td id="menu">
 			<div style="float: right;">
-				<input type="button" style="margin-right:20px;"
-					onclick="logout();" value="로그아웃">
+				<button class="ui button" style="margin-right:20px; font-size: 8pt; font-family: 'Noto Sans KR', sans-serif; background: none;" onclick="logout();">
+  					로그아웃
+				</button>
 			</div>
 		</td>
 	</tr>
@@ -137,7 +140,7 @@
 					<li class="topMenuLi"><a class="menuLink" href="<%= request.getContextPath() %>/selectListChImg.tbo">아이들 사진</a></li>
 					<li class="topMenuLi"><a class="menuLink" href="">마이페이지</a>
 						<ul class="submenu">
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcMyInfo.jsp" class="submenuLink">내 정보</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectTeacherInfo.me" class="submenuLink">내 정보</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcMypageGuessMain.jsp" class="submenuLink">건의/문의 확인</a></li>
 
