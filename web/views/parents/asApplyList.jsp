@@ -23,7 +23,7 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
 	rel="stylesheet">
-
+   
 
 <style>
 .accordion {
@@ -57,17 +57,51 @@
 tr{
 	height: 30px;
 }
+#noList{
+	margin:auto auto;
+	height: 450px;
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight:bold;
+    color: rgb(209, 57, 57)
+}
 </style>
 
 </head>
 <body style="overflow-x: hidden">
 
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	 <script>
+      $(function() {
+    	  $(".li:nth-child(9)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(2)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(9)").removeClass("on");
+            $(".topMenuLi:nth-child(2)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(9)").addClass("on");
+            $(".topMenuLi:nth-child(2)").addClass("on");
+         });
+      }); 
+</script>
 	<h1 align="center">방과후 신청 이력</h1>
 
 	<div id="totalList" align="center">
+	<%
+	
+	if(((ArrayList<Children>)hmap.get("cList")).size() == 0){
+		
 
-<%
+	%>
+		<div id="noList"><label> 신청 이력이 없습니다.</label></div>
+	
+	<%} else {
 			for (int i = 0; i < ((ArrayList<Children>)hmap.get("cList")).size(); i ++) {
 				
 		%>
@@ -94,7 +128,7 @@ tr{
 		<br>
 		<%
 			
-		}
+		}}
 		%>
 
 
@@ -135,6 +169,7 @@ tr{
 		 }); 
 	</script>
 
+	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
 </body>
 </html>

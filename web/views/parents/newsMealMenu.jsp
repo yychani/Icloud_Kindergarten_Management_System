@@ -115,6 +115,25 @@
 
 <body style="overflow-x: hidden">
     <%@ include file="/views/common/parentsMenu.jsp"%>
+    
+    <script>
+      $(function() {
+    	  $(".li:nth-child(9)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(2)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(9)").removeClass("on");
+            $(".topMenuLi:nth-child(2)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(9)").addClass("on");
+            $(".topMenuLi:nth-child(2)").addClass("on");
+         });
+      }); 
+</script>
+    
     <div style="margin: 0 15%;">
         <h1 style="text-decoration: underline; text-underline-position: under;">식단표</h1>
     </div>
