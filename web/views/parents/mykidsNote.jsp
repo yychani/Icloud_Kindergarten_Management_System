@@ -92,9 +92,26 @@ $(function(){
 </head>
 <body>
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+	<script>
+      $(function() {
+    	  $(".li:nth-child(3)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(1)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(3)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(3)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
+         });
+      }); 
+</script>
+	
 	<h1 align="center">내아이 알림장</h1>
-
-
 
 	<div class="ui olive segment" id="outBox" align="center">
 		<br>

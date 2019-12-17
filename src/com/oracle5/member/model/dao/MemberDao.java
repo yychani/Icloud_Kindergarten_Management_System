@@ -3285,12 +3285,19 @@ public class MemberDao {
 			bList = new ArrayList<BodyInfo>();
 			
 			while(rset.next()) {
+				b = new BodyInfo();
+				b.setBiDate(rset.getDate("BI_DATE"));
+				b.setHeight(rset.getDouble("HEIGHT"));
+				b.setWeight(rset.getDouble("WEIGHT"));
 				
+				bList.add(b);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
-		
 		
 		return bList;
 
@@ -3306,11 +3313,11 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, memberNo);
-			
-			rset = pstmt.executeQuery();
+      
+      rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				t = new Teacher();
+        	t = new Teacher();
 				
 				t.setTeacherNo(rset.getInt("T_NO"));
 				t.setTEntDate(rset.getDate("ENTDATE"));
@@ -3319,15 +3326,43 @@ public class MemberDao {
 				t.setClassName(rset.getString("B_NAME"));
 				t.setPId(rset.getInt("PID"));
 				t.setBcNo(rset.getInt("BC_NO"));
-			}
+        		}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
 			close(pstmt);
 		}
+  return t;
+}
+
+	public Teacher selectMyTeacher(Connection con, int pno) {
+		Teacher teacher = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
 		
-		return t;
-	}
+		String query = prop.getProperty("selectMyTeacher");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pno);
+      			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+
+        teacher = new Teacher();
+				teacher.setTeacherNo(rset.getInt("T_NO"));
+				teacher.setClassName(rset.getString("NAME"));
+        		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+  	return teacher;
+}
+
 
 }

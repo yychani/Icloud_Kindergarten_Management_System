@@ -18,8 +18,8 @@
         position: fixed !important;
         bottom: 100px !important;
         right: 45px !important;
-        width: 350px !important;
-        height: 400px !important;
+        width: 370px !important;
+        height: 410px !important;
     }
 
     .sendMessage {
@@ -127,7 +127,7 @@
 </style>
 
 <div id="redCircle"></div>
-<div id="chat" class="ui avatar image" data-tooltip="Add users to your feed" data-position="top right">
+<div id="chat" class="ui avatar image" data-tooltip="채팅을 이용하시려면 클릭하세요!" data-position="top right">
     <img style="width:80px; height:80px;" src="<%=request.getContextPath()%>/images/chat.png">
 </div>
 <div class="ui custom popup top left transition hidden" style="max-width: 400px; background: seagreen; border-radius: 10px;">
