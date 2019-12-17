@@ -34,51 +34,53 @@ $(function(){
 				$select.append($option);
 				
 			}
-			
+			$("#datepicker").trigger("change");
 		},
 		error:function(data){
 			console.log("faileㅠㅠ");
 		}
 	});
-
-	$("#datepicker").change(function(){
-		var date = $(this).val();
-		console.log(date);
-		
-		var cId = $("#cNameSelect").val();
-		console.log(cId);
-
-		var cData = {"cId":cId, "date":date};
-		$.ajax({
-			url:"<%=request.getContextPath()%>/pSelectCNote.me",
-			data:{cId, date},
-			type:"get",
-			success:function(data){
-				console.log(data);
-				$("#uniqueness").text("");
-				$("#materials").text("");
-				$("#banName").text("");
-				$("#presidentNotice").text("");
-				$("#teacherNotice").text(""); 
-				
-				$("#uniqueness").text(data.cNote.unique);
-				$("#materials").text(data.cNote.materials);
-				$("input:radio[name='example2']:input[value='"+ data.cNote.health +"']").prop("checked",true);
-				$("#banName").text(data.b.banName + "반 알림장");
-				$("#presidentNotice").text(data.pNote.note);
-				$("#teacherNotice").text(data.tNote.note); 
-			},
-			error:function(data){
-				$("#uniqueness").text("");
-				$("#materials").text("");
-				$("#banName").text("");
-				$("#presidentNotice").text("");
-				$("#teacherNotice").text(""); 
-				$("input[type=radio]").prop("checked",false);
-			}
-		});
 	
+	$(function(){
+		$(document).on("change", "#datepicker", function(){
+			var date = $(this).val();
+			console.log(date);
+			
+			var cId = $("#cNameSelect").val();
+			console.log(cId);
+
+			var cData = {"cId":cId, "date":date};
+			$.ajax({
+				url:"<%=request.getContextPath()%>/pSelectCNote.me",
+				data:{cId, date},
+				type:"get",
+				success:function(data){
+
+					$("#uniqueness").text("");
+					$("#materials").text("");
+					$("#banName").text("");
+					$("#presidentNotice").text("");
+					$("#teacherNotice").text(""); 
+					
+					$("#uniqueness").text(data.cNote.unique);
+					$("#materials").text(data.cNote.materials);
+					$("input:radio[name='example2']:input[value='"+ data.cNote.health +"']").prop("checked",true);
+					$("#banName").text(data.b.banName + "반 알림장");
+					$("#presidentNotice").text(data.pNote.note);
+					$("#teacherNotice").text(data.tNote.note); 
+				},
+				error:function(data){
+					$("#uniqueness").text("");
+					$("#materials").text("");
+					$("#banName").text("");
+					$("#presidentNotice").text("");
+					$("#teacherNotice").text(""); 
+					$("input[type=radio]").prop("checked",false);
+				}
+			});
+		})
 	});
+
 });
 </script>
 
@@ -200,47 +202,7 @@ $(function(){
 
 		
 	</script>
-	<script>
-	
-	
-	//메뉴바 고정
-	$(function() {
-	    $(".li1").addClass("on");
-	    $(".topMenuLi:nth-child(4)").addClass("on");
-
-	    $(".topMenuLi").mouseover(function() {
-	       $(".li1").removeClass("on");
-	       $(".topMenuLi:nth-child(4)").removeClass("on");
-	    });
-	    $(".topMenuLi").mouseleave(function() {
-	       $(".li1").addClass("on");
-	       $(".topMenuLi:nth-child(4)").addClass("on");
-	    });
-
-	 });
-	
-
-	
-	
-
-	
-	<%-- $("#cNameSelect").change(function(){
-		var check = $(this).val();
-		console.log(check);
-		var day = $("#today").val();
-		console.log(day);
-		$.ajax({
-			url:"<%=request.getContextPath()%>/pSelectCNote.me",
-			data:{"check":check, "date":day},
-			type:"get",
-			success:function(data){
-				consol.log(data);
-			}
-		}); 
-	}); --%>
-	
-	
-	</script>
+	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
 </body>
 </html>

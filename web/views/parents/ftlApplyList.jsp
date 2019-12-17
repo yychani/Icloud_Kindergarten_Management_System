@@ -66,6 +66,26 @@ tr{
 </head>
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+		 <script>
+      $(function() {
+    	  $(".li:nth-child(3)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(4)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(3)").removeClass("on");
+            $(".topMenuLi:nth-child(4)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(3)").addClass("on");
+            $(".topMenuLi:nth-child(4)").addClass("on");
+         });
+      }); 
+</script>
+
+
 	<h1 align="center">현장체험학습 신청이력</h1>
 	<br><br>
 	<div id="totalList" align="center">

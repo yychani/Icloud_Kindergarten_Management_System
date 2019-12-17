@@ -1198,4 +1198,14 @@ public class MemberService {
 
 	}
 
+	public Children selectChildren(int cId) {
+		Connection con = getConnection();
+		
+		Children c = md.selectChildren(con, cId);
+		
+		close(con);
+		
+		return c;
+	}
+
 }
