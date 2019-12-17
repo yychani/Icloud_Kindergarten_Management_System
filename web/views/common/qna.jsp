@@ -8,8 +8,7 @@
 	ArrayList<Board> qnaList = (ArrayList<Board>) request.getAttribute("qnaList");
 %>
 <meta charset="UTF-8">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 시멘틱ui -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
@@ -20,10 +19,10 @@
 .accordion {
 	background-color: rgb(255, 255, 255);
 	color: #444;
-    border: 1.5px solid rgb(147, 196, 34);
+    border: 1.5px solid gold;
     border-radius: 10px;
 	cursor: pointer;
-	padding: 18px;
+	padding: 6px;
 	text-align: center;
 	outline: none;
 	font-size: 15px;
@@ -34,7 +33,7 @@
 }
 
 .active, .accordion:hover {
-	background-color: rgba(228, 247, 228, 0.306);
+	background-color: rgba(255, 247, 228, 0.306);
 }
 
 .panel {
@@ -48,17 +47,29 @@
 tr{
 	height: 30px;
 }
+#noList{
+	margin:auto auto;
+	height: 450px;
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight:bold;
+    color: rgb(209, 57, 57)
+}
 </style>	
 	
-	
-</head>
-<body style="overflow-x: hidden">
-	<%@ include file="/views/common/parentsMenu.jsp"%>
-	<h1 align="center">현장체험학습 신청이력</h1>
-	<br><br>
 	<div id="totalList" align="center">
 
 	<%
+	
+	if(qnaList.size() == 0){
+		
+
+	%>
+		<div id="noList"><label> 건의 문의 신청이 없습니다.</label></div>
+	
+	<%} else {
 			for (int i = 0; i < qnaList.size(); i++) {
 		%>
 
@@ -67,39 +78,49 @@ tr{
 			<table align="center" class="goHomeTable">
 				<tr>
 					<td><label>일자 : </label></td>
-					<td><label><%= ((ArrayList<FieldLearning>)hmap.get("flList")).get(i).getFtlDate() %></label></td>
+					<td colspan="2"><label><%= qnaList.get(i).getTtime() %></label></td>
 				</tr>
 				<tr>
-					<td><label>장소 : </label></td>
-					<td><label><%= ((ArrayList<FieldLearning>)hmap.get("flList")).get(i).getField() %></label></td>
+					<td><label>제목 : </label></td>
+					<td colspan="2"><label><%= qnaList.get(i).getTtitle() %></label></td>
 				</tr>
 				<tr>
-					<td><label>비용 : </label></td>
-					<td><label><%= ((ArrayList<FieldLearning>)hmap.get("flList")).get(i).getFtlPay() %></label></td>
-
+					<td><label>내용 : </label></td>
+					<td colspan="2" style="width:300px; padding: 0 10px;"><label><%= qnaList.get(i).getTcont() %></label></td>
 				</tr>
 				<tr>
-					<td><label>준비물 : </label></td>
-					<td><label><%= ((ArrayList<FieldLearning>)hmap.get("flList")).get(i).getMaterials() %></label></td>
-				</tr>
-				<tr>
-					<td><label>납부 확인 여부: </label></td>
-					<td><label><%= ((ArrayList<Participation>)hmap.get("pList")).get(i).getPayment() %></label></td>
-				</tr>
-				<tr>
-					<td><label>참석 여부 : </label></td>
-					<td><label><%= ((ArrayList<Participation>)hmap.get("pList")).get(i).getAttend()%></label></td>
+					<td colspan="3" style="vertical-align:middle; padding-top: 10px;">
+						<div class="ui form">
+						  <div class="field">
+							  <input type="hidden" class="tid" value="<%=qnaList.get(i).getTid() %>">
+							  <label style="text-align: left">답변</label>
+							  <textarea class="content" style="width: 500px; display: inline-block; vertical-align: middle; resize: none" ></textarea>
+							  <input type="button" class="reply" style="width: 80px; height: 30px; margin-left: 10px;"value="답변하기">
+						  </div>
+						</div>
+					</td>
 				</tr>
 			</table>
 		</div>
 		<br>
 		<%
 			}
+	}
 		%>
 	
 
 	</div><br><br>
 	<script>
+		$(document).on("click", ".reply", function(){
+			var check = window.confirm("이 내용으로 답변 하시겠습니까?");
+			var content = $(this).siblings(".content").val();
+			var tid = $(this).siblings(".tid").val();
+			
+			if(check){
+				alert("해당 건의/문의 내용에 대해 답변이 완료 되었습니다.");
+				location.replace("<%=request.getContextPath() %>/insertQnAReply.bo?tno=<%=loginUser.getMemberNo() %>&writer=<%=loginUser.getMemberName() %>&content=" + content + "&tid=" + tid);
+			}
+		});
 		var acc = document.getElementsByClassName("accordion");
 		var i;
 

@@ -1,8 +1,6 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,36 +8,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.board.model.service.BoardService;
-import com.oracle5.board.model.vo.Board;
+import com.oracle5.board.model.vo.Reply;
 
-@WebServlet("/selectQnA.bo")
-public class SelectQnAServlet extends HttpServlet {
+@WebServlet("/insertQnAReply.bo")
+public class InsertQnAReplyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public SelectQnAServlet() {
+    public InsertQnAReplyServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String writer = request.getParameter("writer");
+		String content = request.getParameter("content");
+		int tid = Integer.parseInt(request.getParameter("tid"));
 		int tno = Integer.parseInt(request.getParameter("tno"));
 		
-		ArrayList<Board> qnaList = new BoardService().selectQnA(tno);
+		Reply r = new Reply();
+		r.setTid(tid);
+		r.setRname(writer);
+		r.setRcont(content);
 		
-		System.out.println(qnaList);
+		int result = new BoardService().insertQnAReply(r);
 		
-		String page = "";
-		if(qnaList != null) {
-			if(tno == 1) {
-				page = "views/president/preQnA.jsp";
-			}else {
-				page = "views/"; // 님 경로 넣으세요
-			}
-			request.setAttribute("qnaList", qnaList);
+		if(result > 0) {
+			response.sendRedirect(request.getContextPath() + "/selectQnA.bo?tno=" + tno);
 		}else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "건의 문의 불러오기 실패");
+			request.setAttribute("msg", "답변 실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);;
 		}
-		request.getRequestDispatcher(page).forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

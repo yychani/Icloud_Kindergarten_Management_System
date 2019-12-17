@@ -1288,6 +1288,25 @@ public class BoardService {
 		close(con);
 		return qnaList;
 	}
+
+	/** 건의 문의 답변 다는 메소드
+	 * @param reply
+	 * @return
+	 */
+	public int insertQnAReply(Reply reply) {
+		Connection con = getConnection();
+		
+		int result = new BoardDao().insertReplyPreHBoard(con, reply, reply.getTid());
+		
+		int result1 = new BoardDao().updateQnAStatus(con, reply.getTid());
+		
+		if(result > 0 && result1 > 0) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		return result;
+	}
 		
 
 }
