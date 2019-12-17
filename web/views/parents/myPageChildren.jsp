@@ -90,23 +90,20 @@ tr{
       	<tr>
       		<td>입학전 학적사항 : </td>
       		<td colspan="3" id="scholarInfo">
-      		
-      		<div id="scholarValue" class="ui input">
+      		<!-- <div id="scholarValue" class="ui input">
       		<input type="date" value="">
       		<input type="text" placeholder="기관명 입력" value="">
-      		<input type="text" placeholder="특이사항 입력"  value=""></div>
-
+      		<input type="text" placeholder="특이사항 입력"  value=""></div> -->
       		</td>
-      		
       	</tr>
       	<tr id="plusBtn"><td colspan="4"><img id="addScholar" width="20px" src="<%=request.getContextPath() %>/images/add.png" onclick=""></td></tr>
       	<tr>
       		<td>가족 사항 : </td>
       		<td colspan="3" id="familyInfo">     		
-      		<div id="familyValue" class="ui fluid icon input">
-      		<input  name="fRelation"  type="text" placeholder="관계입력"  value="">
+      		<!-- <div id="familyValue" class="ui fluid icon input">
+      		 <input name="fRelation"  type="text" placeholder="관계입력"  value="">
       		<input name="fName" type="text" placeholder="이름 입력"  value="">
-      		<input name="fPhone" type="text" placeholder="연락처 입력"  value=""></div>
+      		<input name="fPhone" type="text" placeholder="연락처 입력"  value=""></div> -->
       		</td>
       	</tr>
 
@@ -161,8 +158,17 @@ $(function(){
 			data:{cId},
 			type:"get",
 			success:function(data){
-				console.log("원아 데이터 서블릿 갔다옴");
+
 				console.log(data);
+				/* 초기화 */
+				$("#cName").text("");
+				$("#bloodType").val("");
+				$("#originAddress").val("");
+				$("#description").val("");
+				$("#address").val("");
+				$("div").remove("#familyValue");
+				$("div").remove("#scholarValue");
+				
 				/* children 객체에서 정보 넣어주기 */
 				$("#cName").text(data.c.name);
 				$("#bloodType").val(data.c.bloodType);
@@ -171,6 +177,35 @@ $(function(){
 				
 				/* 거주지 넣어주기 */
 				$("#address").val(data.address);
+				
+				/* 학적사항 날짜 변경 */
+				for(var i = 0; i < data.sc.length; i++){
+					date = data.sc[i].sDate;
+					date = date.split(" ");
+					
+					var year = date[2];
+					var month = date[0].substring(0, date[0].length - 1);
+					var day = date[1].substring(0, date[1].length - 1) < 10 ? "0" +date[1].substring(0, date[1].length - 1) : date[1].substring(0, date[1].length - 1)
+	            	date = date[2] + "-" + date[0].substring(0, date[0].length - 1) + "-" + date[1].substring(0, date[1].length - 1) < 10 ? "0" +date[1].substring(0, date[1].length - 1) : date[1].substring(0, date[1].length - 1);
+	            	console.log(year + "-" + month + "-" + day)
+	            	date = year + "-" + month + "-" + day;
+	            	
+	            	for(var s = 0; s < data.sc.length; s++){
+						 //console.log(data.sc[i].sDate); 
+						//$("#scholarValue").append("<input type='date' value='"+data.sc[i].sDate+"'>");	
+						$("#scholarInfo").append("<div id='scholarValue' class='ui input'><input type='date' value='" + date + "'><input type='text' value='" + data.sc[s].agency + "'><input type='text' value='" + data.sc[s].uniqueness + "'></div>");
+					}  
+					
+				}
+
+				/* 학적사항 */
+				   
+				
+				/* 가족사항 */
+				 for(var f = 0; f < data.fr.length; f++){
+					// console.log(data.fr[f]); 
+					$("#familyInfo").append("<div id='familyValue' class='ui fluid icon input'><input name='fRelation'  type='text' value='" + data.fr[f].relation + "'><input name='fName' type='text' value='"+ data.fr[f].name+"'><input name='fPhone' type='text' value='"+data.fr[f].phone+"'></div>");
+				} 
 				
 			},
 			error:function(data){
