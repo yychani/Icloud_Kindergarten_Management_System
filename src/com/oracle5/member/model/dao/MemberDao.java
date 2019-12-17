@@ -3408,6 +3408,39 @@ public class MemberDao {
 		}
 		
 		return result;
+  }
+
+	public Children selectChildren(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Children c = null;
+		
+		String query = prop.getProperty("selectChildren");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				c = new Children();
+				c.setOriginAddr(rset.getString("C_OADDR"));
+				c.setBloodType(rset.getString("C_BTYPE"));
+				c.setDescription(rset.getString("C_DESC"));
+				c.setImgSrc(rset.getString("IMGSRC"));
+				c.setName(rset.getString("C_NAME"));
+				c.setRno(rset.getString("C_RNO"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return c;
+
 	}
 
 

@@ -1217,6 +1217,17 @@ public class MemberService {
 		close(con);
 		
 		return result;
+}
+
+	public Children selectChildren(int cId) {
+		Connection con = getConnection();
+		
+		Children c = md.selectChildren(con, cId);
+		
+		close(con);
+		
+		return c;
+
 	}
 
 }

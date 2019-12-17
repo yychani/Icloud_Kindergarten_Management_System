@@ -14,24 +14,6 @@
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-	
-    <script>
-      $(function() {
-    	  $(".li:nth-child(9)").addClass("on");
-    	  
-          $(".topMenuLi:nth-child(2)").addClass("on");
-         
-          $(".topMenuLi").mouseover(function() {
-            $(".li:nth-child(9)").removeClass("on");
-            $(".topMenuLi:nth-child(2)").removeClass("on");
-         });
-        
-          $(".topMenuLi").mouseleave(function() {
-            $(".li:nth-child(9)").addClass("on");
-            $(".topMenuLi:nth-child(2)").addClass("on");
-         });
-      }); 
-</script>
 
 <style>
 /* .btnArea {
@@ -64,6 +46,24 @@
 </head>
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+	 <script>
+      $(function() {
+    	  $(".li:nth-child(3)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(5)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(3)").removeClass("on");
+            $(".topMenuLi:nth-child(5)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(3)").addClass("on");
+            $(".topMenuLi:nth-child(5)").addClass("on");
+         });
+      }); 
+</script>
 
 
 <div class="outBox" align="center">
@@ -126,23 +126,6 @@
 		  .modal('show')
 		;
 	}
-	
-	//메뉴바 고정
-	$(function() {
-	    $(".li1").addClass("on");
-	    $(".topMenuLi:nth-child(3)").addClass("on");
-
-	    $(".topMenuLi").mouseover(function() {
-	       $(".li1").removeClass("on");
-	       $(".topMenuLi:nth-child(3)").removeClass("on");
-	    });
-	    $(".topMenuLi").mouseleave(function() {
-	       $(".li1").addClass("on");
-	       $(".topMenuLi:nth-child(3)").addClass("on");
-	    });
-
-	 }); 
-
 </script>
 
 
