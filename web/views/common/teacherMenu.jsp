@@ -127,7 +127,7 @@
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
 						<ul class="submenu">
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcTcBoard.jsp" class="submenuLink">선생님 게시판</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllTctc.bo" class="submenuLink">선생님 게시판</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcHBoard.jsp" class="submenuLink longLink">유치원 운영위원회 게시판</a></li>
 

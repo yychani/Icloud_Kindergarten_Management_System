@@ -1094,6 +1094,103 @@ public class BoardService {
 		return result;
 	}
 
+	//선생님 게시판 전체 리스트 카운트용 메소드
+	public int getListCountTctcBoard() {
+		Connection con = getConnection();
+		
+		int result = new BoardDao().listCountTctcBoard(con);
+		
+		close(con);
+		return result;
+	}
+
+	//선생님 게시판 전체조회용 메소드
+	public ArrayList<Board> selectAllTctcBoard(int currentPage, int limit) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectAllTctcBoard(con,currentPage,limit);
+		
+		close(con);
+		
+		return list;
+	}
+
+	//선생님 게시판 insert 메소드
+	public int insertTctcBoard(HashMap<String, Object> hmap, Board b) {
+		Connection con = getConnection();
+		
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
+		int tid = 0;
+		int result =0;
+		//선생님 게시판 insert
+		int result1= new BoardDao().insertTctcBoard(con, b);
+		//선생님 게시판 이미지
+		if(result >0) {
+			tid = new BoardDao().selectTctcBoardTid(con, b);
+		}
+		int result2 = 0;
+		for(int i=0; i<fileList.size(); i++) {
+			ArrayList<Attachment> at = new ArrayList<>();
+			Attachment tctcImg = fileList.get(i);
+			at.add(tctcImg);
+			if(tctcImg.getOriginName() != null) {
+				result2 = new BoardDao().insertTctcImg(con,at,tid);
+			}else {
+				result2 =1;
+			}
+		}
+		
+		if(result1 >0 && result2 >0) {
+			commit(con);
+			result=1;
+		}else {
+			rollback(con);
+		}
+		close(con);
+		
+		return result;
+	}
+
+	//선생님 게시판 게시글 보기
+	public Board selectOneTctcBoard(int num, String isUpdate) {
+		Connection con = getConnection();
+		
+		Board b = null;
+		int tid =0; 
+		int result = 0;
+		if(isUpdate.equals("false")) {
+			result = new BoardDao().updateTctcBoardCount(con, num);
+		}
+		
+		if(result >0) {
+			commit(con);	
+		}else {
+			rollback(con);
+		}
+		
+		b= new BoardDao().selectOneTctcBoard(con, num);
+		close(con);
+		
+		return b;
+	}
+
+	//선생님 게시판 이미지 보기
+	public ArrayList<Attachment> selectOneTctcBoardImg(int num) {
+		Connection con = getConnection();
+		ArrayList<Attachment> list = new BoardDao().selectOneTctcBoardImg(con, num);
+		
+		if(list != null) {
+			commit(con);
+			
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return list;
+	}
+
 	
 	
 		

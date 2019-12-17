@@ -2656,6 +2656,260 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		return list;
 	}
 
+	//선생님 게시판 리스트카운트용 메소드
+	public int listCountTctcBoard(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		int listCount =0;
+		
+		String query = prop.getProperty("listCountTctcBoard");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset.next()) {
+				listCount = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+			close(rset);
+		}
+		
+				
+		return listCount;
+	}
+
+	//선생님 게시판 전체 조회용 메소드
+	public ArrayList<Board> selectAllTctcBoard(Connection con, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		
+		String query = prop.getProperty("selectAllTctcBoard");
+		int startRow = (currentPage -1) * limit+1;
+		int endRow = startRow + limit -1;
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			list = new ArrayList<Board>();
+			while(rset.next()) {
+				Board b = new  Board();
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setPno(rset.getInt("RNUM"));
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
+
+	//선생님 게시판 글 insert
+	public int insertTctcBoard(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("insertTctcBoard");
+		
+		try {
+			pstmt =con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTno());
+			pstmt.setInt(4, b.getBdid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//선생님 게시판 tid 찾기
+	public int selectTctcBoardTid(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result =0;
+		
+		String query = prop.getProperty("selectTctcBoardTid");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, b.getTno());
+			pstmt.setInt(2, b.getBdid());
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return result;
+	}
+
+	//선생님 게시판 이지지 삽입
+	public int insertTctcImg(Connection con, ArrayList<Attachment> at, int tid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		ArrayList<Attachment> file = null;
+		
+		String query = prop.getProperty("insertTctcImg");
+		
+		try {
+			for(int i=0; i<at.size(); i++) {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, at.get(i).getOriginName());
+			pstmt.setString(2, at.get(i).getChangeName());
+			pstmt.setString(3, at.get(i).getFilePath());
+			pstmt.setInt(4, tid);
+			}
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	//선생님 게시판 조히수용 메소드
+	public int updateTctcBoardCount(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateTctcBoardCount");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			pstmt.setInt(2, num);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	//선생님 게시판 하나 조회용 메소드
+	public Board selectOneTctcBoard(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board b = null;
+		
+		String query = prop.getProperty("selectOneTctcBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Board();
+				
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TItle"));
+				b.setTcont(rset.getString("T_CONT"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return b;
+	}
+
+	//선생님 게시판 사진 조회용 메소드
+	public ArrayList<Attachment> selectOneTctcBoardImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ArrayList<Attachment> list = new ArrayList<>();
+		Attachment att = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOneTctcBoardImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				att = new Attachment();
+				
+				att.setFid(rset.getInt("F_ID"));
+				att.setOriginName(rset.getString("ORIGIN_NAME"));
+				att.setChangeName(rset.getString("CHANGE_NAME"));
+				att.setFilePath(rset.getString("FILE_PATH"));
+				att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+				att.setFileLevel(rset.getInt("FILE_LEVEL"));
+				att.setStatus(rset.getString("STATUS"));
+				att.setType(rset.getInt("TYPE"));
+				att.setCId(rset.getInt("C_ID"));
+				att.setFeedNo(rset.getInt("FEEDNO"));
+				att.setTId(rset.getInt("T_ID"));
+				
+				list.add(att);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
 }
 	
 
