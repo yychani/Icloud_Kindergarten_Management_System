@@ -57,6 +57,54 @@
 		</table>
 	</div>
 	
+	<div class="ui fullscreen modal" id="modal">
+  		<div class="header">필수정보입력</div>
+  		<div class="content">
+    		<table>
+    			<tr>
+    				<td>현재 비밀번호</td>
+    				<td><input type="password" id="currentPass" name="currentPass" /></td>
+    			</tr>
+    			<tr>
+    				<td>변경할 비밀번호</td>
+    				<td><input type="password" id="userPwd" name="userPwd" /></td>
+    			</tr>
+    			<tr>
+    				<td>비밀번호 확인</td>
+    				<td><input type="password" id="userPwd2" name="userPwd2" /></td>
+    			</tr>
+    			<tr>
+    				<td>주민등록번호</td>
+    				<td>
+    					<input type="text" id="userNumber1" /> - 
+    					<input type="password" id="userNumber2" />
+    				</td>
+    			</tr>
+    			<tr>
+    				<td>핸드폰번호</td>
+    				<td></td>
+    			</tr>
+    			<tr>
+    				<td>이메일</td>
+    				<td></td>
+    			</tr>
+    		</table>
+  		</div>
+  		<div class="actions">
+    		<div class="ui button">Neutral</div>
+  		</div>
+	</div>
+
+
+	<script>
+	$(function(){
+		if(<%= loginUser.getMemberRno() %> == null) {
+			console.log()
+			$('.fullscreen.modal').modal('show');
+			
+		}
+	});
+	</script>
 
     <%@ include file="/views/common/footer.jsp" %>
     <%@ include file="/views/common/chat.jsp" %>

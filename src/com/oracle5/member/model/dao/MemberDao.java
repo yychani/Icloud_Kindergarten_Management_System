@@ -3303,6 +3303,39 @@ public class MemberDao {
 
 	}
 
+	public Teacher selectOneTeacher(Connection con, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Teacher t = null;
+		
+		String sql = prop.getProperty("selectOneTeacher");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+      
+      rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+        	t = new Teacher();
+				
+				t.setTeacherNo(rset.getInt("T_NO"));
+				t.setTEntDate(rset.getDate("ENTDATE"));
+				t.setTDescription(rset.getString("DESCRIPTION"));
+				t.setImgSrc(rset.getString("IMGSRC"));
+				t.setClassName(rset.getString("B_NAME"));
+				t.setPId(rset.getInt("PID"));
+				t.setBcNo(rset.getInt("BC_NO"));
+        		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+  return t;
+}
+
 	public Teacher selectMyTeacher(Connection con, int pno) {
 		Teacher teacher = null;
 		ResultSet rset = null;
@@ -3313,22 +3346,23 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, pno);
-			
+      			
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				teacher = new Teacher();
+
+        teacher = new Teacher();
 				teacher.setTeacherNo(rset.getInt("T_NO"));
 				teacher.setClassName(rset.getString("NAME"));
-			}
+        		}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		
-		return teacher;
-	}
+  	return teacher;
+}
+
 
 }

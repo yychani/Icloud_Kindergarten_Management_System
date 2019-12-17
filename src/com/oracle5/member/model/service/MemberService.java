@@ -1177,6 +1177,17 @@ public class MemberService {
 
 	}
 
+
+	public Teacher selectOneTeacher(int memberNo) {
+		Connection con = getConnection();
+		
+		Teacher t = new MemberDao().selectOneTeacher(con, memberNo);
+		
+		close(con);
+		
+		return t;
+  }
+  
 	public Teacher selectMyTeacher(int pno) {
 		Connection con = getConnection();
 		
@@ -1184,6 +1195,7 @@ public class MemberService {
 		
 		close(con);
 		return teacher;
+
 	}
 
 }
