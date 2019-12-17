@@ -2909,6 +2909,30 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		
 		return list;
 	}
+  
+	public int insertTcChildImgOne(Connection con, Attachment tcChildImgOne, int fid) {
+		PreparedStatement pstmt = null; 
+		int result =0;
+		ArrayList<Attachment> file = null;
+		
+		String query = prop.getProperty("insertTcChildImgOne");
+									
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, tcChildImgOne.getOriginName());
+			pstmt.setString(2, tcChildImgOne.getChangeName());
+			pstmt.setString(3, tcChildImgOne.getFilePath());
+			pstmt.setInt(4, fid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 
 	public ArrayList<Board> selectQnA(Connection con, int tno) {
 		ArrayList<Board> qnaList = null;
@@ -2943,6 +2967,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		}
 		return qnaList;
 	}
+
 }
 	
 
