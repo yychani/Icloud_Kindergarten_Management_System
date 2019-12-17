@@ -1,7 +1,6 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,22 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
-import com.oracle5.board.model.vo.Reply;
 
 /**
- * Servlet implementation class InsertPerHBoardReply
+ * Servlet implementation class UpdateTctcBoardServlet
  */
-@WebServlet("/preHBoardInsertReply.bo")
-public class InsertPerHBoardReply extends HttpServlet {
+@WebServlet("/updateTctc.bo")
+public class UpdateTctcBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertPerHBoardReply() {
+    public UpdateTctcBoardServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,28 +30,26 @@ public class InsertPerHBoardReply extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String writer = request.getParameter("writer");
-		String content = request.getParameter("content");
 		int tid = Integer.parseInt(request.getParameter("tid"));
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		String filePath = request.getParameter("img");
 		
-		System.out.println("writer : "+ writer);
-		System.out.println("content : "+ content);
-		System.out.println("tid : " +tid);
+		Board b= new Board();
+		b.setTid(tid);
+		b.setTtitle(title);
+		b.setTcont(content);
 		
-		Reply r = new Reply();
-		//r.setTid(tid);
-		r.setRname(writer);
-		r.setRcont(content);
+		int result = new BoardService().updateTctcBoard(b);
 		
-		ArrayList<Reply> replyList = new BoardService().insertReplyPreHBoard(r,tid);
-		for(int i=0; i<replyList.size(); i++) {
-			System.out.println(replyList.get(i).getRname());
-			System.out.println(replyList.get(i).getRcont());
-			System.out.println(replyList.get(i).getRdate());
+		String page ="";
+		if(result >0) {
+			response.sendRedirect("/main/selectOneTctc.bo?num="+b.getTid()+"&isUpdate=true");
+		}else {
+			page="views/common/errorPage.jsp";
+			request.setAttribute("msg", "선생님 게시판 업데이트 실패");
+			request.getRequestDispatcher(page).forward(request, response);
 		}
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		new Gson().toJson(replyList, response.getWriter());
 	}
 
 	/**

@@ -65,8 +65,7 @@ textarea {
 	<%@ include file="/views/common/presidentMenu.jsp"%>
 	<div style="margin: 0 15%;">
 		<h1
-			style="text-decoration: underline; text-underline-position: under;">원
-			공지사항</h1>
+			style="text-decoration: underline; text-underline-position: under;">유치원 운영 위원회 게시판</h1>
 	</div>
 	<div id="hansol" align="right" style="margin-right: 22%;">
 		작성자
@@ -140,10 +139,8 @@ textarea {
 			</div>
 			<!-- 댓글 영역 -->
 			<div class="comment">
-				<div class="reply">
-					<div class="content" id="content">
-					
-					</div>
+				<div class="reply" id="rplycontent" onload="getReply()">
+						
 				</div>
 			</div>
 
@@ -161,12 +158,63 @@ textarea {
 </div>
 		</div>
 		<script>
+		
+			function getReply(){
+				var tid='<%=b.getTid()%>'
+				$.ajax({
+					url:"/main/preHBoardInsertReply.bo",
+					type:"post",
+					data:{tid:tid},
+					success:function(data){
+						var $content = $("#rplycontent");
+						$content.html('');
+						console.log(data);
+						for(var key in data) {
+					/* 
+						<div class="rereArea">
+							<input type="text" id="reretext">
+							<button id="rereBtn">댓글 달기</button>
+						</div> */
+						var $contentDiv = $("<div class='content'>");
+							var $a = $("<a class='author'>").text(data[key].rname);
+							var $div1 = $("<div class='metadata'>");
+							var $span = $("<span class='date'>").text(data[key].rdate);
+							var $div2 = $("<div class='text'>").text(data[key].rcont);
+							$contentDiv.append($a);
+							$contentDiv.append($div1.append($span));
+							$contentDiv.append($div2);
+							
+							$content.append($contentDiv);
+							
+							var $actionDiv = $("<div class='actions' onclick=''>");
+							var $rereply = $("<a class='rereply'>댓글달기</a>");
+							$actionDiv.append($rereply);
+							
+							$content.append($actionDiv);
+							
+							var $rereAreaDiv = $("<div class='rereArea'>");
+							var $inputText = $("<input type='text' id='reretext'>");
+							var $rereBtn = $("<button id='rereBtn'>댓글 달기</button>");
+							
+							$rereAreaDiv.append($inputText);
+							$rereAreaDiv.append($rereBtn);
+							
+							$content.append($rereAreaDiv);
+							
+							$(".rereArea").hide();
+					}},
+					error:function(data){
+						console.log("댓글 조회 실패");
+					}
+					
+				});
+				
+		
 			$(function() {
 				$(".rereArea").hide();
 
-				$(".rereply").click(function() {
-					$(".rereArea").toggle();
-
+				$(document).on("click", ".rereply", function() {
+					$(this).parent().next(".rereArea").toggle();
 				});
 
 			});
@@ -183,17 +231,43 @@ textarea {
 						tid:tid},
 						type:"post",
 						success:function(data){
-							var $content = $("#content");
-							$content.html('');<!--div 초기화-->
+							var $content = $("#rplycontent");
+							$content.html('');
 							console.log(data);
 							for(var key in data) {
+						/* 
+							<div class="rereArea">
+								<input type="text" id="reretext">
+								<button id="rereBtn">댓글 달기</button>
+							</div> */
+							var $contentDiv = $("<div class='content'>");
 								var $a = $("<a class='author'>").text(data[key].rname);
 								var $div1 = $("<div class='metadata'>");
 								var $span = $("<span class='date'>").text(data[key].rdate);
 								var $div2 = $("<div class='text'>").text(data[key].rcont);
+								$contentDiv.append($a);
+								$contentDiv.append($div1.append($span));
+								$contentDiv.append($div2);
 								
-								$content.append($a.append($div1.append($span.append($div2))));
+								$content.append($contentDiv);
 								
+								var $actionDiv = $("<div class='actions' onclick=''>");
+								var $rereply = $("<a class='rereply'>댓글달기</a>");
+								$actionDiv.append($rereply);
+								
+								$content.append($actionDiv);
+								
+								var $rereAreaDiv = $("<div class='rereArea'>");
+								var $inputText = $("<input type='text' id='reretext'>");
+								var $rereBtn = $("<button id='rereBtn'>댓글 달기</button>");
+								
+								$rereAreaDiv.append($inputText);
+								$rereAreaDiv.append($rereBtn);
+								
+								$content.append($rereAreaDiv);
+								
+								$(".rereArea").hide();
+
 							}
 						},
 						error:function(date){
