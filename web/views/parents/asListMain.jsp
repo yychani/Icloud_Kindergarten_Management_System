@@ -10,7 +10,7 @@
 <!-- 시멘틱ui -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-
+   
 <style>
 
 .outer {
@@ -52,6 +52,25 @@
 <body>
 
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+	
+	 <script>
+      $(function() {
+    	  $(".li:nth-child(9)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(2)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(9)").removeClass("on");
+            $(".topMenuLi:nth-child(2)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(9)").addClass("on");
+            $(".topMenuLi:nth-child(2)").addClass("on");
+         });
+      }); 
+</script>
 	<div class="outer" align="center">
 		<div class="in">
 			<div class="ui orange inverted segment">

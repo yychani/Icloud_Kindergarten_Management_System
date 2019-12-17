@@ -50,6 +50,16 @@
 tr{
 	height: 30px;
 }
+#noList{
+	margin:auto auto;
+	height: 450px;
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight:bold;
+    color: rgb(209, 57, 57)
+}
 </style>	
 	
 	
@@ -61,6 +71,14 @@ tr{
 	<div id="totalList" align="center">
 
 	<%
+	
+	if(((ArrayList<FieldLearning>)hmap.get("flList")).size() == 0){
+		
+
+	%>
+	<div id="noList"><label> 신청 이력이 없습니다.</label></div>
+	
+	<%} else {
 			for (int i = 0; i < ((ArrayList<FieldLearning>)hmap.get("flList")).size(); i++) {
 		%>
 
@@ -96,7 +114,7 @@ tr{
 		</div>
 		<br>
 		<%
-			}
+			}}
 		%>
 	
 

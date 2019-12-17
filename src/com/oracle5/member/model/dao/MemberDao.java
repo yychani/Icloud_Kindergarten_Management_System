@@ -3285,15 +3285,19 @@ public class MemberDao {
 			bList = new ArrayList<BodyInfo>();
 			
 			while(rset.next()) {
+				b = new BodyInfo();
+				b.setBiDate(rset.getDate("BI_DATE"));
+				b.setHeight(rset.getDouble("HEIGHT"));
+				b.setWeight(rset.getDouble("WEIGHT"));
 				
+				bList.add(b);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);
 			close(rset);
+			close(pstmt);
 		}
-		
 		
 		return bList;
 
