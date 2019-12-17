@@ -105,7 +105,24 @@ input[type='button'] {
 
 
 </style>
-<script>
+
+<style>
+ .writing > button {
+		width: 100px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgb(63, 63, 63);
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+	}
+</style>
+</head>
+<body>
+ 	<%@ include file="/views/common/parentsMenu.jsp" %>
+ 	
+ 	<script>
 $(function() {
     $(".li1").addClass("on");
     $(".topMenuLi:nth-child(2)").addClass("on");
@@ -123,21 +140,6 @@ $(function() {
           
   
 </script>
-<style>
- .writing > button {
-		width: 100px;
-		height: 40px;
-		border-radius: 10px;
-		background: rgb(63, 63, 63);
-		color: white;
-		font-weight: bold;
-		border: none;
-		cursor: pointer;
-	}
-</style>
-</head>
-<body>
- 	<%@ include file="/views/common/parentsMenu.jsp" %>
  	<div style="margin: 0 15%;">
  	<h1 style="text-decoration: underline; text-underline-position: under;">학부모 게시판</h1>
  	</div>

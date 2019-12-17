@@ -57,17 +57,54 @@
 tr{
 	height: 20px;
 }
+#noList{
+	margin:auto auto;
+	height: 450px;
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight:bold;
+    color: rgb(209, 57, 57)
+}
 </style>
 
 </head>
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+	<script>
+      $(function() {
+    	  $(".li:nth-child(7)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(1)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(7)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(7)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
+         });
+      }); 
+</script>
+	
 	<h1 align="center">투약의뢰서 신청이력</h1>
 	<br><br>
 
 	<div id="totalList" align="center">
 
 	<%
+	
+	if( list.size() == 0){
+		
+
+	%>
+	<div id="noList"><label> 신청 이력이 없습니다.</label></div>
+	
+	<%} else {
 			for (DoseRequest d : list) {
 		%>
 		<button class="accordion"> 신청 날짜 <%= d.getSubmitDate() %> <%= d.getCName() %></button>
@@ -111,7 +148,7 @@ tr{
 		</div>
 		<br>
 		<%
-			}
+			}}
 		%>
 	
 

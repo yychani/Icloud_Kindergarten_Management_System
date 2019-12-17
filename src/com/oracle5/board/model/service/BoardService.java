@@ -1206,6 +1206,7 @@ public class BoardService {
 		return list;
 	}
 	
+
 	//앨범 하나 수정 넣기
 	public int updateinsertChildImg(HashMap<String, Object> hmap, int fid) {
 		Connection con = getConnection();
@@ -1242,7 +1243,19 @@ public class BoardService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	/** 선생 건의 문의 게시판 보기
+	 * @param tno 건의 문의 내용 보려는 교사번호
+	 * @return
+	 */
+	public ArrayList<Board> selectQnA(int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> qnaList = new BoardDao().selectQnA(con, tno);
+		
+		close(con);
+		return qnaList;
+	}
 		
 
 }

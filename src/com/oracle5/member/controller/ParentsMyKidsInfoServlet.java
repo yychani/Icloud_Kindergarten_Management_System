@@ -51,11 +51,13 @@ public class ParentsMyKidsInfoServlet extends HttpServlet {
 		
 		//신체정보 리스트 불러오기
 		ArrayList<BodyInfo> bList = new MemberService().selectBodyInfoList(cId);
+		System.out.println(bList);
 		
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("c", c);
 		hmap.put("b", b);
 		hmap.put("ban", ban);
+		hmap.put("bList", bList);
 		
 		if(hmap != null) {
 			response.setContentType("application/json");

@@ -97,6 +97,24 @@ img {
 </head>
 <body style="overflow-x: hidden">
    <%@ include file="/views/common/parentsMenu.jsp"%>
+   
+	<script>
+      $(function() {
+    	  $(".li:nth-child(9)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(1)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(9)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(9)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
+         });
+      }); 
+</script>
 
 
    <div class="ui olive inverted segment outBox" style="margin:5% 30%;">
