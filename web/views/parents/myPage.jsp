@@ -50,6 +50,24 @@
 <body style="overflow-x: hidden">
 
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	
+		 <script>
+      $(function() {
+    	  $(".li:nth-child(1)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(6)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(1)").removeClass("on");
+            $(".topMenuLi:nth-child(6)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(1)").addClass("on");
+            $(".topMenuLi:nth-child(6)").addClass("on");
+         });
+      }); 
+</script>
 
 	<!-- <h1 align="center" style="margin-top: 50px;">내 정보</h1> -->
 	<div id="outBox">
@@ -91,7 +109,7 @@
 				<div class="btns" align="center">
 					<button type="button" id="kidInfoBtn"
 						class="ui yellow basic button"
-						onclick="location.href='<%=request.getContextPath()%>/cInfo.me'">아이정보</button>
+						onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageChildren.jsp'">아이정보</button>
 					<button type="button" id="psssChangeBtn"
 						class="ui positive basic button" onclick="passChangeModal();">비밀번호
 						변경</button>

@@ -36,6 +36,9 @@ public class ParentDoseRequest extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String kidsName = request.getParameter("kidsName");
+		int cId = Integer.parseInt(request.getParameter("cName"));
+
+		
 		String symptom = request.getParameter("symptom");
 		String kinds = request.getParameter("kinds");
 		String keep = request.getParameter("keep");
@@ -60,8 +63,8 @@ public class ParentDoseRequest extends HttpServlet {
 	
 		String remarks = request.getParameter("remarks");
 
-		// 원아명과 부모 번호 일치 확인 후 cid가져오기
-		int cId = new MemberService().cNamepNoCheck(kidsName, pNo);
+/*		// 원아명과 부모 번호 일치 확인 후 cid가져오기
+		int cId = new MemberService().cNamepNoCheck(kidsName, pNo);*/
 		
 		if(cId != 0) {
 			DoseRequest dr = new DoseRequest();

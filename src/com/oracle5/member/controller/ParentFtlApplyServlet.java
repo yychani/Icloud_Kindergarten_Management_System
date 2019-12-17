@@ -30,24 +30,16 @@ public class ParentFtlApplyServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String kidName = request.getParameter("kidName");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-		Member loginUser = (Member) session.getAttribute("loginMember");
-		int pNo = loginUser.getMemberNo();
-
-		// 원아명과 부모 번호 일치 확인 후 cid가져오기
-		int cId = new MemberService().cNamepNoCheck(kidName, pNo);
-		System.out.println(cId);
+		int cId = Integer.parseInt(request.getParameter("cName"));
 
 		String page = "";
 
 		if (cId != 0) {
 			// 이미 신청했는지 확인
 			int check = new MemberService().checkFtlApply(cId);
-			System.out.println(check);
+			
 			if (check == 0) {
 				// 현장학습신청서 insert
 				int result = new MemberService().insertFtlApply(cId);

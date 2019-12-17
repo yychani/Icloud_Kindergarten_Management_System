@@ -242,23 +242,7 @@ $(function(){
 		var date = $(this).children(".dailyDate1").val();
 		console.log(date);
 	});
-	
-	
-		//메뉴바 고정
-		$(function() {
-			$(".li1").addClass("on");
-			$(".topMenuLi:nth-child(4)").addClass("on");
 
-			$(".topMenuLi").mouseover(function() {
-				$(".li1").removeClass("on");
-				$(".topMenuLi:nth-child(4)").removeClass("on");
-			});
-			$(".topMenuLi").mouseleave(function() {
-				$(".li1").addClass("on");
-				$(".topMenuLi:nth-child(4)").addClass("on");
-			});
-
-		});
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
