@@ -1,15 +1,13 @@
+<%@page import="com.oracle5.board.model.vo.Board"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+    pageEncoding="UTF-8"%>
+<!DOCTYPE>
 <%
-	HashMap<String, Object> hmap = (HashMap<String, Object>) request.getAttribute("hmap");
-	
+	ArrayList<Board> qnaList = (ArrayList<Board>) request.getAttribute("qnaList");
 %>
-<!DOCTYPE html>
-<html>
-<head>
 <meta charset="UTF-8">
-<title>현장체험학습 신청이력</title>
-
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 시멘틱ui -->
@@ -50,16 +48,6 @@
 tr{
 	height: 30px;
 }
-#noList{
-	margin:auto auto;
-	height: 450px;
-    display: table-cell;
-    vertical-align: middle;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 15px;
-    font-weight:bold;
-    color: rgb(209, 57, 57)
-}
 </style>	
 	
 	
@@ -71,18 +59,10 @@ tr{
 	<div id="totalList" align="center">
 
 	<%
-	
-	if(((ArrayList<FieldLearning>)hmap.get("flList")).size() == 0){
-		
-
-	%>
-	<div id="noList"><label> 신청 이력이 없습니다.</label></div>
-	
-	<%} else {
-			for (int i = 0; i < ((ArrayList<FieldLearning>)hmap.get("flList")).size(); i++) {
+			for (int i = 0; i < qnaList.size(); i++) {
 		%>
 
-		<button class="accordion"> 일자 :  <%= ((ArrayList<FieldLearning>)hmap.get("flList")).get(i).getFtlDate() %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;원아명 : <%= ((ArrayList<Children>)hmap.get("cList")).get(i).getName() %></button>
+		<button class="accordion"> 일자 :  <%= qnaList.get(i).getTtime() %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성자 : <%= qnaList.get(i).getName() %></button>
 		<div class="panel">
 			<table align="center" class="goHomeTable">
 				<tr>
@@ -114,7 +94,7 @@ tr{
 		</div>
 		<br>
 		<%
-			}}
+			}
 		%>
 	
 
@@ -135,12 +115,3 @@ tr{
 			});
 		}
 	</script>
-
-
-
-	<%@ include file="/views/common/footer.jsp"%>
-	<%@ include file="/views/common/chat.jsp"%>
-
-
-</body>
-</html>

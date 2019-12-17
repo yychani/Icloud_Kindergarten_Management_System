@@ -136,7 +136,7 @@
 				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
 							
 							<td><input type="button" class="updateImg" onclick="updateImg();" value="수정"></td>
-							<td><input type="button" onclick="location.href='<%=request.getContextPath()%>/deleteOneChildImg.tbo'" value="삭제")></td>		
+							<td><input type="button" class="deleteImg" onclick="deleteImg();" value="삭제")></td>		
 							<td colspan="2">
 						<div id ="titleImgArea">
 						<img id="titleImg" width="120" height="100">
@@ -230,7 +230,7 @@
 			$("#updateForm").submit();
 		}
 		function updateImg(){
-			$("#updateForm").attr("action","<%=request.getContextPath()%>/UpdateImgServlet.tbo");
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/SelectUpdateOneImgServlet.tbo");
 			$("#updateForm").submit();
 		}
 		

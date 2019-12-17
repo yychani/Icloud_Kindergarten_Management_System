@@ -22,10 +22,10 @@
 	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
 	rel="stylesheet">
 
-
+   
 <style>
 .ui.card {
-	margin: 5% auto;
+	margin: 5% auto !important;
 }
 
 tr {
@@ -54,6 +54,23 @@ tr {
 
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
+	 <script>
+      $(function() {
+    	  $(".li:nth-child(9)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(5)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(9)").removeClass("on");
+            $(".topMenuLi:nth-child(5)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(9)").addClass("on");
+            $(".topMenuLi:nth-child(5)").addClass("on");
+         });
+      }); 
+</script>
 
 	<div class="ui card" align="center">
 		<div class="content">

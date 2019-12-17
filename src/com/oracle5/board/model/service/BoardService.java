@@ -1238,9 +1238,56 @@ public class BoardService {
 		}
 		return result;
 	}
+  
+	//앨범 하나 수정 넣기
+	public int updateinsertChildImg(HashMap<String, Object> hmap, int fid) {
+		Connection con = getConnection();
+		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
+		int result = 0;
+		
+		int result2 = 0;
+		for(int i=0; i<fileList.size(); i++) {
+			ArrayList<Attachment> attchment = new ArrayList<>();
+			Attachment tcChildImgOne = fileList.get(i);
+			attchment.add(tcChildImgOne);
+		if(tcChildImgOne.getOriginName() != null) {
+			result2 = new BoardDao().insertTcChildImgOne(con, tcChildImgOne ,fid);
+			
+		}else {
+			result2 = 1;
+			}
+		}
+		
+		if(result2>0) {
+			commit(con);
+			result =1;
+			
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
 
-	
-	
+	public ArrayList<Attachment> selectUpdateOneImg(int fid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/** 선생 건의 문의 게시판 보기
+	 * @param tno 건의 문의 내용 보려는 교사번호
+	 * @return
+	 */
+	public ArrayList<Board> selectQnA(int tno) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> qnaList = new BoardDao().selectQnA(con, tno);
+		
+		close(con);
+		return qnaList;
+	}
 		
 
 }

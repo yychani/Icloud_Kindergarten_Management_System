@@ -2908,6 +2908,64 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		
 		return list;
 	}
+  
+	public int insertTcChildImgOne(Connection con, Attachment tcChildImgOne, int fid) {
+		PreparedStatement pstmt = null; 
+		int result =0;
+		ArrayList<Attachment> file = null;
+		
+		String query = prop.getProperty("insertTcChildImgOne");
+									
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, tcChildImgOne.getOriginName());
+			pstmt.setString(2, tcChildImgOne.getChangeName());
+			pstmt.setString(3, tcChildImgOne.getFilePath());
+			pstmt.setInt(4, fid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Board> selectQnA(Connection con, int tno) {
+		ArrayList<Board> qnaList = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("selectQnA");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, tno);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset != null) {
+				qnaList = new ArrayList<>();
+				
+				while(rset.next()) {
+					Board board = new Board();
+					board.setTid(rset.getInt("T_ID"));
+					board.setTtitle(rset.getString("T_TITLE"));
+					board.setTcount(rset.getInt("T_COUNT"));
+					board.setName(rset.getString("NAME"));
+					board.setTtime(rset.getDate("T_TIME"));
+					board.setTwriter(rset.getInt("M_NO"));
+					
+					qnaList.add(board);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return qnaList;
+	}
 
 	//선생님 게시판 수정용 메소드나나난
 	public int updateTctcBoard(Connection con, Board b) {

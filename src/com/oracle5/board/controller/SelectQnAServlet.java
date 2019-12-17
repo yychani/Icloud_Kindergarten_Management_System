@@ -1,31 +1,31 @@
-package com.oracle5.ajax.controller;
+package com.oracle5.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.oracle5.member.model.service.MemberService;
-import com.oracle5.member.model.vo.Teacher;
+import com.oracle5.board.model.service.BoardService;
+import com.oracle5.board.model.vo.Board;
 
-@WebServlet("/selectMyTeacher.me")
-public class SelectMyTeacherServlet extends HttpServlet {
+@WebServlet("/selectQnA.bo")
+public class SelectQnAServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public SelectMyTeacherServlet() {
+    public SelectQnAServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int pno = Integer.parseInt(request.getParameter("pno"));
+		int tno = Integer.parseInt(request.getParameter("tno"));
 		
-		Teacher teacher = new MemberService().selectMyTeacher(pno);
+		ArrayList<Board> qnaList = new BoardService().selectQnA(tno);
 		
-		response.setContentType("application/json");
-		new Gson().toJson(teacher, response.getWriter());
+		System.out.println(qnaList);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
