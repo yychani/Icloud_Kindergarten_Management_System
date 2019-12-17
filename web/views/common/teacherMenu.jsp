@@ -44,17 +44,18 @@
 <script>
 	$(function(){
 		$.ajax({
-			url : "/main/selectTeacher.do",
+			url : "/main/selectBanChildList.do",
+			data:{
+				tno:<%=loginUser.getMemberNo() %>
+			},
 			type : "post",
 			success : function(data) {
 				$select = $("#receiver");
 				$select.find("option").remove();
+				$select.append("<option value='1' selected>원장 선생님</option>");
 				for (var i = 0; i < data.length; i++) {
 					var name = decodeURIComponent(data[i].name);
-					var selected = (i == 0) ? "selected" : "";
-					if(data[i].tNo == 1){
-						$select.append("<option value='" + data[i].tNo + "' " + selected + ">" + name + "선생님</option>");
-					}
+					$select.append("<option value='" + data[i].bcNo + "'>" + name + " 학부모</option>");
 				}
 				$("#receiver").trigger("change");
 			},

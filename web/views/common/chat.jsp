@@ -148,9 +148,9 @@
         position : 'top right'
     })
 	$(function(){
-		var dataValue = document.querySelectorAll('div[class="item"]');
 		$("#redCircle").hide();
 		var sendUser = <%=loginUser.getMemberNo()%>;
+		
 		$.ajax({
 			url:"/main/selectAllUnread.chat",
 			data:{
@@ -160,16 +160,7 @@
 			success:function(data){
 				if(data.length != 0){ 
 					$("#redCircle").show();
-					/* var dataValue = document.querySelectorAll('div[class="menu"] div');  
 					
-					for(var i = 0; i < data.length; i++){
-						for(var j = 0; j < dataValue.length; j++){
-							if (dataValue[j].dataset.value == data[i].mno) { 
-								var item = dataValue.item(j);
-								item.style.background = "tomato";
-							}
-						}
-					} */
 				}
 			}
 		});
@@ -209,6 +200,11 @@
 			
 			var receiver = $("#receiver").val();
 			var sendUser = <%=loginUser.getMemberNo()%>;
+			var item = [];
+			for(var i = 0; i < $(".item").length; i++){
+				item[i] = $(".item")[i];
+				/* console.log(item[i].dataset.value); */
+			}
 			$.ajax({
 				url:"/main/updateView.chat",
 				data:{
@@ -217,13 +213,9 @@
 				},
 				type:"post",
 				success:function(data){
-						
-					console.log(dataValue[0]);
-					for(var j = 0; j < dataValue.length; j++){
-						console.log(dataValue[j].dataset);
-						if (dataValue[j].dataset.value == $("#receiver").val()) { 
-							var item = dataValue.item(j);
-							item.style.background = "white";
+					for(var j = 0; j < item.length; j++){
+						if (item[j].dataset.value == $("#receiver").val()) { 
+							item[j].style.background = "white";
 						}
 					}
 				}
@@ -271,8 +263,11 @@
 		var serverMessage = event.data.split(":");
 		var recieveUser = serverMessage[0];
 		var unReadCount = parseInt(serverMessage[1]);
-		
-		
+		var item = [];
+		for(var i = 0; i < $(".item").length; i++){
+			item[i] = $(".item")[i];
+			/* console.log(item[i].dataset.value); */
+		}
 		var unread = [];
 		for(var i = 2; i < serverMessage.length; i++){
 			unread[i - 2] = parseInt(serverMessage[i]);
@@ -280,16 +275,20 @@
 		if(recieveUser == "<%=loginUser.getMemberNo() %>"){
 			if(unReadCount == "0"){
 				$("#redCircle").hide();
+				for(var j = 0; j < item.length; j++){
+					item[j].style.background = "white";
+				}
 			}else {
 				$("#redCircle").show();
 				$("#redCircle").text(unReadCount);
-				var dataValue = document.querySelectorAll('div[class="menu"] div');
 				
 				for(var k = 0; k < unread.length; k++){
-					for(var j = 0; j < dataValue.length; j++){
-						var item = dataValue.item(j);
-						if (parseInt(dataValue[j].dataset.value) == unread[k]) { 
-							item.style.background = "tomato";
+					for(var j = 0; j < item.length; j++){
+						if (parseInt(item[j].dataset.value) == unread[k]) { 
+							item[j].style.background = "tomato";
+						}
+						else {
+							item[j].style.background = "white";
 						}
 					}
 				}
