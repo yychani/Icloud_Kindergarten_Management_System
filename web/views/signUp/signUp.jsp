@@ -1,3 +1,4 @@
+<%@page import="java.net.InetAddress"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@page import="java.net.InetAddress"%>
@@ -280,7 +281,7 @@ input {
 				inval_Arr[9] = false;
 			}
 		});
-		$("#password").keydown(function(){
+		$("#password").keyup(function(){
 			if (!pattern1.test($('#password').val()) || !pattern2.test($('#password').val()) || !pattern3.test($('#password').val())) {
 				$("#pass1Check").css({"color":"tomato"});
 				$("#pass1Check").html("비밀번호는 8자리 이상 문자, 숫자, <br>특수문자로 구성하여야 합니다.");	

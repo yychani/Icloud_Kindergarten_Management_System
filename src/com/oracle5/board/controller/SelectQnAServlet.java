@@ -32,7 +32,7 @@ public class SelectQnAServlet extends HttpServlet {
 			if(tno == 1) {
 				page = "views/president/preQnA.jsp";
 			}else {
-				page = "views/"; // 님 경로 넣으세요
+				page = "views/teacher/tcMypageGuessMain.jsp"; 
 			}
 			request.setAttribute("qnaList", qnaList);
 		}else {

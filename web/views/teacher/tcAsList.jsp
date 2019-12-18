@@ -109,6 +109,9 @@
         border: 1px solid #888;
         width: 30%; /* Could be more or less, depending on screen size */                          
     }
+     td#applicant:nth-of-type(n+1) {
+    	cursor:pointer;
+    }
     </style>
     <script>
     $(document).on("click",".asTable tr>td:nth-of-type(2)", function(){

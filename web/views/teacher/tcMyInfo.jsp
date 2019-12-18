@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>내 정보 보기</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -38,8 +38,11 @@
 		left:25%;
 		top:30%;
 	}
+	#infotable {
+		height: 500px;
+	}
 	#infotable td {
-		height: 30px;
+		height: 100px;
 		max-height: 30px;
 	}
 	#infotable td>input {
@@ -73,7 +76,7 @@
 	    <button class="ui button" onclick="showModal()">수정하기</button>
 	  </div>
 	</div>
-	
+	<br /><br />
 	
 	<div class="ui basic modal" id="passmodal">
   		<div class="ui icon header">
@@ -86,33 +89,33 @@
   		<div class="actions">
     		<div class="ui red basic cancel inverted button">
 	      		<i class="remove icon"></i>
-	      		No
+	      		취소
     		</div>
 	    	<div class="ui green ok inverted button" onclick="checkpass()">
 	      		<i class="checkmark icon"></i>
-	      		Yes
+	      		확인
 	    	</div>
   		</div>
 	</div>
 	
 	
 	<div class="ui fullscreen modal" id="infomodal">
-  		<div class="header" style="text-align: center;">필수정보입력</div>
+  		<div class="header" style="text-align: center;">회원정보수정</div>
   		<div class="content">
   		<form action="" method="post" enctype="multipart/form-data" id="infoForm">
     		<table id="infotable" class="ui black table" style="width:70%; margin: 0 auto;">
     			<tr>
-    				<td>현재 비밀번호</td>
-    				<td><input type="password" id="currentPass" name="currentPass" /></td>
-    				<td rowspan="4" style="text-align:center"><img src="/main/images/nullUser.png" width="300px" /></td>
-    			</tr>
-    			<tr>
     				<td>변경할 비밀번호</td>
-    				<td><input type="password" id="password" name="userPwd" /></td>
+    				<td><input type="password" id="password" name="userPwd" /><br><span id="pass1Check"></span></td>
+    				<td rowspan="4" style="text-align:center"> <img src="<% if(t.getImgSrc() == null) { %>
+																			<%=request.getContextPath() %>/images/nullUser.png
+																		 <% } else { %>
+																			<%=t.getImgSrc()%>
+																		 <% } %>" width="300px" id="tcImg"></td>
     			</tr>
     			<tr>
     				<td>비밀번호 확인</td>
-    				<td><input type="password" id="userPwd2" name="userPwd2" /></td>
+    				<td><input type="password" id="passCheck" name="passCheck" /><br><span id="pass2Check"></span></td>
     			</tr>
     			<tr>
     				<td>핸드폰번호</td>
@@ -140,11 +143,11 @@
 						<option value="kakao.co.kr">kakao.co.kr</option>
 						</select>
 					</td>
-					<td><div align="center"><input type="file" id="teacherImg" name="ex"/></div></td>
     			</tr>
     			<tr>
     				<td>교사 한줄 소개</td>
-    				<td colspan="2"><input type="text" id="desc" name="desc" /></td>
+    				<td><input type="text" id="desc" name="desc" /></td>
+    				<td><div align="center"><input type="file" id="teacherImg" name="ex" onchange="loadImg(this)"/></div></td>
     			</tr>
     		</table>
    		</form>
@@ -157,7 +160,33 @@
 	
     <%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
     <script>
+	    var pattern1 = /[0-9]/; // 숫자 
+		var pattern2 = /[a-zA-Z]/; // 문자 
+		var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+	
+		$("#password").keyup(function(){
+			if (!pattern1.test($('#password').val()) || !pattern2.test($('#password').val()) || !pattern3.test($('#password').val()) || $("#password").val().length <= 8) {
+				$("#pass1Check").css({"color":"tomato"},{"height":"30px"});
+				$("#pass1Check").html("비밀번호는 8자리 이상 문자, 숫자, 특수문자로 구성하여야 합니다.");	
+			} else {
+				$("#pass1Check").css({"color":"green"});
+				$("#pass1Check").html("사용가능한 비밀번호 입니다.");	
+			} 
+		});
+		
+		$("#passCheck").keyup(function(){
+			if ($('#password').val() == $('#passCheck').val()) {
+				$("#pass2Check").css({"color":"green"});
+				$("#pass2Check").html("비밀번호가 일치합니다.");	
+			} else {
+				$("#pass2Check").css({"color":"tomato"});
+				$("#pass2Check").html("비밀번호가 일치하지 않습니다.");	
+			}
+		});
+		
     	function showModal() {
     		$(".basic.modal").modal('show');
     	}
@@ -169,7 +198,7 @@
     			url:"encPass.do",
     			type:"post",
     			data:{
-    				pass
+    				pass:pass
     			},
     			success:function(data) {
     				if(data == "<%= loginUser.getMemberPwd() %>") {
@@ -186,22 +215,22 @@
     		var passphrase = "1234";
     		
     	 	var tel2 = $("#tel2").val(); 
-    	    var encrypt2 = CryptoJS.AES.encrypt(tel2, passphrase);
-    	    var decrypted2 = CryptoJS.AES.decrypt(encrypt2, passphrase );
-    	 
-    	    // 암호화 이전의 문자열은 toString 함수를 사용하여 추출할 수 있다.
-    	    var tel21 = decrypted2.toString(CryptoJS.enc.Utf8);
-    	    
-    	   	$("#tel21").val(encrypt2);
+    	 	if(tel2 == "") {
+    	 		$("#tel21").val(tel2);
+    	 	} else {
+	    	    var encrypt2 = CryptoJS.AES.encrypt(tel2, passphrase);
+	    	    
+	    	   	$("#tel21").val(encrypt2);
+    	 	}
     	    
     	    var tel3 = $("#tel3").val(); 
-    	    var encrypt3 = CryptoJS.AES.encrypt(tel3, passphrase);
-    	    var decrypted3 = CryptoJS.AES.decrypt(encrypt3, passphrase );
-    	 
-    	    // 암호화 이전의 문자열은 toString 함수를 사용하여 추출할 수 있다.
-    	    var tel31 = decrypted3.toString(CryptoJS.enc.Utf8);
-    	    
-    	    $("#tel31").val(encrypt3);
+    	    if(tel3 == ""){
+    	    	$("#tel31").val(tel3);
+    	    } else {
+	    	    var encrypt3 = CryptoJS.AES.encrypt(tel3, passphrase);
+	    	    
+	    	    $("#tel31").val(encrypt3);
+    	    }
     	    
     	    var form = $("#infoForm")[0];
     	    var formdata = new FormData(form);
@@ -215,6 +244,7 @@
     	    	success:function(data) {
     	    		if(data === '성공') {
     	    			$('.fullscreen.modal').modal('hide');
+    	    			location.reload();
     	    		} else if(data === '실패') {
     	    			alert("입력값을 확인해 주세요");
     	    		} else if(data === '오류') {
@@ -226,6 +256,19 @@
     	    		console.log("실패");
     	    	}
     	    });
+    	}
+    	
+    	function loadImg(value) {
+    		if(value.files && value.files[0]) {
+    			console.log(value)
+    			var reader = new FileReader();
+    			
+    			reader.onload = function(e) {
+    				$("#tcImg").prop("src", e.target.result);
+    			}
+    			
+    			reader.readAsDataURL(value.files[0]);
+    		}
     	}
     </script>
 </body>

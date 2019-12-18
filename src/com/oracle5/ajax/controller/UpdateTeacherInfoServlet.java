@@ -29,6 +29,8 @@ public class UpdateTeacherInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
 		
+		Teacher t = new MemberService().selectOneTeacher(loginUser.getMemberNo());
+		
 		int result = 0;
 		
 		if (ServletFileUpload.isMultipartContent(request)) {
@@ -41,9 +43,6 @@ public class UpdateTeacherInfoServlet extends HttpServlet {
 
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new Oracle5FileRenamePolicy());
 	
-			String currentPass = getSha512(multiRequest.getParameter("currentPass"));
-			if(currentPass.equals(loginUser.getMemberPwd())) {
-
 				ArrayList<String> saveFiles = new ArrayList<>();
 	
 				ArrayList<String> originFiles = new ArrayList<>();
@@ -58,30 +57,65 @@ public class UpdateTeacherInfoServlet extends HttpServlet {
 	
 				} 
 				
-				String filePath = request.getContextPath() + "/uploadFiles/" + saveFiles.get(0);
-				String password = getSha512(multiRequest.getParameter("userPwd"));
-				String userNumber1 = multiRequest.getParameter("userNumber1");
-				String userNumber2 = multiRequest.getParameter("userNumber1").substring(0, 1) + getSha512(multiRequest.getParameter("userNumber1").substring(1));
-				String userNumber = userNumber1 + "-" + userNumber2;
+				String filePath = "";
+				if(saveFiles.get(0) != null) {
+					filePath = request.getContextPath() + "/uploadFiles/" + saveFiles.get(0);
+				} else {
+					filePath = t.getImgSrc();
+				}
+				
+				String password = "";
+				if(!multiRequest.getParameter("userPwd").equals("")) {
+					password = getSha512(multiRequest.getParameter("userPwd"));
+				} else {
+					password = loginUser.getMemberPwd();
+				}
+				
+				String userNumber1 = "";
+				if(multiRequest.getParameter("userNumber1") != null) {
+					userNumber1 = multiRequest.getParameter("userNumber1");
+				}
+				
+				String userNumber2 = "";
+				if(multiRequest.getParameter("userNumber2") != null) {
+					userNumber2 = multiRequest.getParameter("userNumber2").substring(0, 1) + getSha512(multiRequest.getParameter("userNumber2").substring(1));
+				}
+				
+				String userNumber = "";
+				if(!userNumber1.equals("") && !userNumber2.equals("")) {
+					userNumber = userNumber1 + "-" + userNumber2;
+				} else {
+					userNumber = loginUser.getMemberRno();
+				}
+				
 				String tel1 = multiRequest.getParameter("tel1");
 				String tel2 = multiRequest.getParameter("tel21");
 				String tel3 = multiRequest.getParameter("tel31");
 				String tel = tel1 + "-" + tel2 + "-" + tel3;
-				String firstEmail = multiRequest.getParameter("firstEmail");
-				String lastEmail = multiRequest.getParameter("lastEmail");
-				String email = firstEmail + "@" + lastEmail;
-				String desc = multiRequest.getParameter("desc");
+				if(tel.equals("010--")) {
+					tel = loginUser.getPhone();
+				}
 				
-//				System.out.println(filePath);
-//				System.out.println(password);
-//				System.out.println(userNumber);
-//				System.out.println(tel);
-//				System.out.println(email);
-//				System.out.println(desc);
+				String firstEmail = "";
+				String email = "";
+				if(!multiRequest.getParameter("firstEmail").equals("")) {
+					firstEmail = multiRequest.getParameter("firstEmail");
+					String lastEmail = multiRequest.getParameter("lastEmail");
+					email = firstEmail + "@" + lastEmail;
+				} else {
+					email = loginUser.getEmail();
+				}
 				
-				Teacher t = new Teacher();
-				t.setImgSrc(filePath);
-				t.setTDescription(desc);
+				String desc = "";
+				if(multiRequest.getParameter("desc") != null) {
+					desc = multiRequest.getParameter("desc");
+				} else {
+					desc = t.getTDescription();
+				}
+				
+				Teacher nt = new Teacher();
+				nt.setImgSrc(filePath);
+				nt.setTDescription(desc);
 				
 				Member m = new Member();
 				m.setMemberPwd(password);
@@ -89,7 +123,7 @@ public class UpdateTeacherInfoServlet extends HttpServlet {
 				m.setEmail(email);
 				m.setPhone(tel);
 				
-				result = new MemberService().updateTeacherInfo(loginUser.getMemberNo(), t, m);
+				result = new MemberService().updateTeacherInfo(loginUser.getMemberNo(), nt, m);
 				
 				if (result > 0) {
 					Member updateMember = new Member();
@@ -111,11 +145,7 @@ public class UpdateTeacherInfoServlet extends HttpServlet {
 					response.setCharacterEncoding("UTF-8");
 					new Gson().toJson("에러", response.getWriter());
 				}
-			} else {
-				response.setContentType("application/json");
-				response.setCharacterEncoding("UTF-8");
-				new Gson().toJson("실패", response.getWriter());
-			}
+			
 		} 
 	}
 

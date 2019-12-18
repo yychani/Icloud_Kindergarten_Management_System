@@ -3,6 +3,7 @@
 <%
 	String bn = (String) request.getAttribute("bn");
 	ArrayList<Children> list = (ArrayList<Children>) request.getAttribute("list");
+	Teacher t = (Teacher) request.getAttribute("t");
 %>
 <!DOCTYPE html>
 <html>
@@ -37,8 +38,11 @@
 	.ui .modal {
 		top:10%;
 	}
+	#infotable {
+		height: 500px;
+	}
 	#infotable td {
-		height: 30px;
+		height: 80px;
 		max-height: 30px;
 	}
 	#infotable td>input {
@@ -74,16 +78,20 @@
     		<table id="infotable" class="ui black table" style="width:70%; margin: 0 auto;">
     			<tr>
     				<td>현재 비밀번호</td>
-    				<td><input type="password" id="currentPass" name="currentPass" /></td>
-    				<td rowspan="5" style="text-align:center"><img src="/main/images/nullUser.png" width="300px" /></td>
+    				<td><input type="password" id="currentPass" name="currentPass" /><br /><span id="currPassCheck"></span></td>
+    				<td rowspan="5" style="text-align:center"><img src="<% if(t.getImgSrc() == null) { %>
+																			<%=request.getContextPath() %>/images/nullUser.png
+																		 <% } else { %>
+																			<%=t.getImgSrc()%>
+																		 <% } %>" width="300px" id="tcImg"/></td>
     			</tr>
     			<tr>
     				<td>변경할 비밀번호</td>
-    				<td><input type="password" id="password" name="userPwd" /></td>
+    				<td><input type="password" id="password" name="userPwd" /><br><span id="pass1Check"></span></td>
     			</tr>
     			<tr>
     				<td>비밀번호 확인</td>
-    				<td><input type="password" id="userPwd2" name="userPwd2" /></td>
+    				<td><input type="password" id="passCheck" name="passCheck" /><br><span id="pass2Check"></span></td>
     			</tr>
     			<tr>
     				<td>주민등록번호</td>
@@ -118,7 +126,7 @@
 						<option value="kakao.co.kr">kakao.co.kr</option>
 						</select>
 					</td>
-					<td><div align="center"><input type="file" id="teacherImg" name="ex"/></div></td>
+					<td><div align="center"><input type="file" id="teacherImg" name="ex" onchange="loadImg(this)"/></div></td>
     			</tr>
     			<tr>
     				<td>교사 한줄 소개</td>
@@ -140,6 +148,32 @@
 			$('.fullscreen.modal').modal('show');
 		}
 	});
+	
+	
+	var pattern1 = /[0-9]/; // 숫자 
+	var pattern2 = /[a-zA-Z]/; // 문자 
+	var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+
+	$("#password").keyup(function(){
+		if (!pattern1.test($('#password').val()) || !pattern2.test($('#password').val()) || !pattern3.test($('#password').val()) || $("#password").val().length <= 8) {
+			$("#pass1Check").css({"color":"tomato"},{"height":"30px"});
+			$("#pass1Check").html("비밀번호는 8자리 이상 문자, 숫자, 특수문자로 구성하여야 합니다.");	
+		} else {
+			$("#pass1Check").css({"color":"green"});
+			$("#pass1Check").html("사용가능한 비밀번호 입니다.");	
+		} 
+	});
+	
+	$("#passCheck").keyup(function(){
+		if ($('#password').val() == $('#passCheck').val()) {
+			$("#pass2Check").css({"color":"green"});
+			$("#pass2Check").html("비밀번호가 일치합니다.");	
+		} else {
+			$("#pass2Check").css({"color":"tomato"});
+			$("#pass2Check").html("비밀번호가 일치하지 않습니다.");	
+		}
+	});
+	
 	
 	function changeInfo() {
 		var passphrase = "1234";
@@ -186,6 +220,43 @@
 	    	}
 	    });
 	}
+	
+	function loadImg(value) {
+		if(value.files && value.files[0]) {
+			console.log(value)
+			var reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$("#tcImg").prop("src", e.target.result);
+			}
+			
+			reader.readAsDataURL(value.files[0]);
+		}
+	}
+	
+	$("#currentPass").keyup(function() {
+		var pass = $("#currentPass").val();
+		
+		$.ajax({
+			url:"encPass.do",
+			type:"post",
+			data:{
+				pass:pass
+			},
+			success:function(data) {
+				if(data == "<%= loginUser.getMemberPwd() %>") {
+					$("#currPassCheck").css({"color":"green"});
+					$("#currPassCheck").html("비밀번호가 일치합니다.");	
+				} else {
+					$("#currPassCheck").css({"color":"tomato"},{"height":"30px"});
+					$("#currPassCheck").html("비밀번호가 일치하지 않습니다.");	
+				} 
+			},
+			error:function() {
+				console.log("실패")
+			}
+		});
+	});
 	</script>
 
     <%@ include file="/views/common/footer.jsp" %>
