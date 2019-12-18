@@ -3120,7 +3120,12 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		
 		try {
 			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, r.getRname());
+			pstmt.setString(2, r.getRcont());
+			pstmt.setInt(3, r.getTid());
+			pstmt.setInt(4, r.getRefrid());
 			
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -3146,6 +3151,49 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	//댓글의 댓글 클릭할때조회용 메소드
+	public ArrayList<Reply> selectPreHrereplyList(Connection con, Reply r) {
+		PreparedStatement pstmt = null;
+		ArrayList<Reply> replyList = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectPreHrereplyList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, r.getTid());
+			pstmt.setInt(2, r.getRefrid());
+			
+			rset = pstmt.executeQuery();
+			replyList = new ArrayList<>();
+			
+			while(rset.next()) {
+				Reply re = new Reply();
+				re.setRid(rset.getInt("R_ID"));
+				re.setRname(rset.getString("R_NAME"));
+				re.setRcont(rset.getString("R_CONT"));
+				re.setRdate(rset.getDate("R_DATE"));
+				re.setTid(rset.getInt("T_ID"));
+				re.setRstmt(rset.getString("R_STMT"));
+				re.setRefrid(rset.getInt("REF_RID"));
+				
+				replyList.add(re);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+				
+		return replyList;
 	}
 }
 	
