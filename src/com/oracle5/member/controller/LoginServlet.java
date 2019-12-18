@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
 					response.sendRedirect("teacher");
 				}
 			}else if(loginMember.getUType().equals("학부모")) {
-				response.sendRedirect("views/parents/parMain.jsp");
+				response.sendRedirect(request.getContextPath() + "/selectChildCidServlet.me?pno=" + loginMember.getMemberNo());
 			}
 		}else {
 			request.setAttribute("msg", "로그인에러!!");

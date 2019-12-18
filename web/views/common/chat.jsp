@@ -226,11 +226,11 @@
     
     $(document).ready(function(){
         $("#sendMassage").keypress(function (e) {
-         if (e.which == 13){
-        	 send();
-         }
-     });
- });
+         	if (e.which == 13){
+        	 	send();
+         	}
+     	});
+ 	});
 </script>
 <script>
 	  
@@ -298,11 +298,9 @@
 	}
 		
 	function onError3(event){
-		alert(event.data);
 	}
 		
 	function onClose3(event){
-		alert(event);
 	}
 	function getConnection() {
 		
@@ -384,11 +382,9 @@
 	}
 		
 	function onError(event){
-		alert(event.data);
 	}
 		
 	function onClose(event){
-		alert(event);
 	}
 	
 </script>

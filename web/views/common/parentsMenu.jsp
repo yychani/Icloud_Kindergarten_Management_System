@@ -95,7 +95,7 @@ table {
    <tr>
       <td rowspan="2" id="menu">
          <div id="logo">
-            <a href="<%=request.getContextPath()%>/views/parents/parMain.jsp"> <img src="<%=request.getContextPath()%>/images/logo.png"
+            <a href="<%=request.getContextPath()%>/selectChildCidServlet.me?pno=<%=loginUser.getMemberNo() %>"> <img src="<%=request.getContextPath()%>/images/logo.png"
                   style="width: 300px; display: inline-block;"></a>
          </div>
       </td>
