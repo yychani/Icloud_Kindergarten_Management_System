@@ -3469,5 +3469,100 @@ public class MemberDao {
 		return birth;
 	}
 
+	//내아이 children 객체 업데이트
+	public int updateChildrenInfoC(Connection con, Children c) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateChildrenInfoC");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, c.getOriginAddr());
+			pstmt.setString(2, c.getDescription());
+			pstmt.setString(3, c.getBloodType());
+			pstmt.setInt(4, c.getCId());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//거주지 업데이트
+	public int updateAddress(Connection con, int pNo, String address) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateAddress");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, address);
+			pstmt.setInt(2, pNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//가족관계 업데이트
+	public int updateFamilyRelatioin(Connection con, FamilyRelation familyRelation) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateFamilyRelatioin");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, familyRelation.getRelation());
+			pstmt.setString(2, familyRelation.getName());
+			pstmt.setString(3, familyRelation.getPhone());
+			pstmt.setInt(4, familyRelation.getRelationId());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//학적 업데이트
+	public int updateScholarly(Connection con, Scholarly scholarly, int cId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateScholarly");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, scholarly.getAgency());
+			pstmt.setString(2, scholarly.getUniqueness());
+			pstmt.setDate(3, scholarly.getSDate());
+			pstmt.setInt(4, cId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 
 }

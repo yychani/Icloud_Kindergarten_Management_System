@@ -62,6 +62,9 @@
 		}else if(successCode == 15){
 			msg = "비밀번호 변경이 완료 되었습니다.";
 			path = "<%=request.getContextPath()%>/views/parents/myPagePassCheck.jsp";
+		}else if(successCode == 16){
+			msg = "원안 정보 수정이 완료되었습니다.";
+			path = "<%=request.getContextPath()%>/views/parents/myPageChildren.jsp";
 		}
 		
 		alert(msg);

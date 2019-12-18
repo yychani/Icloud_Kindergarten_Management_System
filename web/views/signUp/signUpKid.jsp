@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<% String userId = (String) request.getParameter("id"); %>
+	<%@page import="java.net.InetAddress"%>
+<% InetAddress inet = InetAddress.getLocalHost();
+		String svrIP = inet.getHostAddress();
+		int svrPort = request.getServerPort();%>
 <!DOCTYPE html>
 <html>
 
@@ -186,10 +190,12 @@
                         <option value="B">B</option>
                         <option value="O">O</option>
                         <option value="AB">AB</option>
-                    </select></td>
-                    <td align="center">
+                    </select>
+                 </td>
+                 <td align="center">
                     <label id="kidFaceBtn">아이사진 선택</label>
-                    <input type="file" id="kidFile" name="kidFile" style="width: 200px; border: 0;"></td>
+                    <input type="file" id="kidFile" name="kidFile" style="width: 200px; border: 0;">
+                 </td>
             </tr>
             <tr>
                 <td colspan="2" class="label"><label>해당 반 : </label></td>

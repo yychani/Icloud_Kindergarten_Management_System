@@ -91,12 +91,9 @@ h1 {
 						<td id="labelText"><label>유아명 : </label></td>
 						<td>
 						<div align="center">
-	<select class="ui dropdown" id="cNameSelect" name="cName"></select>
-	</div>
-						
-						<!-- <div class="ui mini icon input">
-								<input type="text" placeholder="유아명 입력" name="kidsName">
-							</div> --></td>
+						<select class="ui dropdown" id="cNameSelect" name="cName"></select>
+						</div>
+						</td>
 					</tr>
 					<tr>
 						<td id="labelText"><label>증상명 : </label></td>
