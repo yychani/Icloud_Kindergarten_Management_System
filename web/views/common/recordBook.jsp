@@ -83,7 +83,7 @@
 				<th>만 3세</th>
 				<th>만 4세</th>
 				<th>만 5세</th>
-				<th id="imgth" rowspan="4"><img	src="<%=request.getContextPath()%>/images/img.jpg" alt="" width="100px" /></th>
+				<th id="imgth" rowspan="4"><img	src="<%=request.getContextPath()%>/<%= c.getImgSrc().substring(c.getImgSrc().lastIndexOf("\\") + 1) %>" alt="" width="100px" /></th>
 			</tr>
 			<tr>
 				<td>수료·졸업대장번호</td>

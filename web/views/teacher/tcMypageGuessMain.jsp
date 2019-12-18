@@ -43,7 +43,7 @@
 	   <div style="margin: 0 15%;">
 		<h1 align="center" style="text-decoration: underline; text-underline-position: under;">건의/문의 확인</h1>
 	</div>
-	<%@include file="/views/common/board.jsp" %>
+	<%@include file="/views/common/qna.jsp" %>
 	<%@ include file="/views/common/chat.jsp" %>
 	<%@include file="/views/common/footer.jsp" %>
 </body>

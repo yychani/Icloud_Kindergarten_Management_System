@@ -143,7 +143,7 @@
 						<ul class="submenu">
 							<li class="li"><a href="<%= request.getContextPath() %>/selectTeacherInfo.me" class="submenuLink">내 정보</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcMypageGuessMain.jsp" class="submenuLink">건의/문의 확인</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectQnA.bo?tno=<%= loginUser.getMemberNo() %>" class="submenuLink">건의/문의 확인</a></li>
 
 						</ul>
 					</li>
