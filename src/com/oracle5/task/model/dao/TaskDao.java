@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import com.oracle5.task.model.vo.FieldTripLearning;
 import com.oracle5.task.model.vo.Meal;
+import com.oracle5.task.model.vo.Participant;
 import com.oracle5.task.model.vo.Position;
 import com.oracle5.task.model.vo.Snack;
 import com.oracle5.task.model.vo.WorkDivision;
@@ -909,6 +910,103 @@ public class TaskDao {
 		}
 		
 		return result;
+	}
+
+	public ArrayList<Participant> selectParticipant(Connection con) {
+		ArrayList<Participant> participantList = null;
+		ResultSet rset = null;
+		Statement stmt = null;
+		
+		String query = prop.getProperty("selectParticipant");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset != null) {
+				participantList = new ArrayList<>();
+				while(rset.next()) {
+					Participant p = new Participant();
+					p.setRnum(rset.getInt("RNUM"));
+					p.setParticipantNo(rset.getInt("PARTICIPANT_NO"));
+					p.setFtlId(rset.getInt("FTL_ID"));
+					p.setPayment(rset.getString("PAYMENT"));
+					p.setCid(rset.getInt("C_ID"));
+					p.setCNname(rset.getString("C_NAME"));
+					p.setAttend(rset.getString("ATTEND"));
+					p.setPName(rset.getString("NAME"));
+					p.setApplyDate(rset.getDate("APPLY_DATE"));
+					
+					participantList.add(p);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
+			close(rset);
+		}
+		return participantList;
+	}
+
+	public int updateFtlList(Connection con, int partNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("updateFtlList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, partNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Participant> selectPrevPartList(Connection con) {
+		ArrayList<Participant> prevPartList = null;
+		ResultSet rset = null;
+		Statement stmt = null;
+		
+		String query = prop.getProperty("selectPrevPartList");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset != null) {
+				prevPartList = new ArrayList<>();
+				while(rset.next()) {
+					Participant p = new Participant();
+					p.setRnum(rset.getInt("RNUM"));
+					p.setParticipantNo(rset.getInt("PARTICIPANT_NO"));
+					p.setFtlId(rset.getInt("FTL_ID"));
+					p.setField(rset.getString("FIELD"));
+					p.setPayment(rset.getString("PAYMENT"));
+					p.setCid(rset.getInt("C_ID"));
+					p.setCNname(rset.getString("C_NAME"));
+					p.setAttend(rset.getString("ATTEND"));
+					p.setPName(rset.getString("NAME"));
+					p.setAcceptDate(rset.getDate("ACCEPT_DATE"));
+					
+					prevPartList.add(p);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
+			close(rset);
+		}
+		return prevPartList;
 	}
 
 }

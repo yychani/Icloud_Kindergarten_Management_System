@@ -1,8 +1,10 @@
 package com.oracle5.task.model.service;
 
+import com.oracle5.member.model.dao.MemberDao;
 import com.oracle5.task.model.dao.TaskDao;
 import com.oracle5.task.model.vo.FieldTripLearning;
 import com.oracle5.task.model.vo.Meal;
+import com.oracle5.task.model.vo.Participant;
 import com.oracle5.task.model.vo.Position;
 import com.oracle5.task.model.vo.Snack;
 import com.oracle5.task.model.vo.WorkDivision;
@@ -11,18 +13,7 @@ import static com.oracle5.common.JDBCTemplate.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
-/**
- * @author Ungken
- *
- */
-/**
- * @author Ungken
- *
- */
-/**
- * @author Ungken
- *
- */
+
 public class TaskService {
 
 	public int insertUBusiness(WorkDivision work) {
@@ -338,5 +329,39 @@ public class TaskService {
 		return result;
 	}
 
+	public ArrayList<Participant> selectParticipant() {
+		Connection con = getConnection();
+		
+		ArrayList<Participant> participantList = new TaskDao().selectParticipant(con);
+		
+		close(con);
+		return participantList;
+	}
 
+	public int updateFtlList(String[] partNo) {
+		Connection con = getConnection();
+		
+		int result = 0;
+		for(int i = 0; i < partNo.length; i++) {
+			result += new TaskDao().updateFtlList(con, Integer.parseInt(partNo[i]));
+		}
+		
+		if(result == partNo.length) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		return result; 
+	}
+
+	public ArrayList<Participant> selectPrevPartList() {
+		Connection con = getConnection();
+		
+		ArrayList<Participant> prevPartList = new TaskDao().selectPrevPartList(con);
+		
+		close(con);
+		return prevPartList;
+	}
 }

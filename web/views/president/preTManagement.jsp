@@ -19,6 +19,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
 <style>
 table {
 	margin: 50px auto;
@@ -63,6 +65,9 @@ button {
 }
 .teacher:hover {
 	box-shadow: 3px 3px 50px 10px rgba(58, 58, 58, 0.219);
+}
+.item {
+	background: none !important;
 }
 </style>
 </head>
@@ -113,12 +118,15 @@ button {
 						<i class="calendar plus icon"></i>
 						<div class="content" id="hireDate"><%=mt.getTEntDate()%></div>
 					</div>
+					
 					<div class="item">
 						<i class="phone square icon"></i>
 						<div class="content" id="phone"><% if(mt.getPhone() == null) { %>
 							미입력
-						<% } else { %>
-						<%=mt.getPhone() %>
+						<% } else { 
+						String[] phoneArr = mt.getPhone().split("-");
+						%>
+						<span><%=phoneArr[0] %>-</span><span class="tel1"><%=phoneArr[1] %></span>-<span class="tel2"><%=phoneArr[2] %></span>
 					<% } %></div>
 					</div>
 					<div class="item">
@@ -140,7 +148,26 @@ button {
 		</tr>
 
 	</table>
-	
+	<script>
+		window.onload = function(){
+			$(".tel1").each(function(index, item){
+				var tel1 = $(item).text();
+				var passphrase = "1234";
+		    	var decrypted1 = CryptoJS.AES.decrypt(tel1, passphrase);
+		        var tel11 = decrypted1.toString(CryptoJS.enc.Utf8);
+		        $(item).text(tel11);
+			})
+			
+			$(".tel2").each(function(index, item){
+				var tel1 = $(item).text();
+				var passphrase = "1234";
+		    	var decrypted1 = CryptoJS.AES.decrypt(tel1, passphrase);
+		        var tel11 = decrypted1.toString(CryptoJS.enc.Utf8);
+		        $(item).text(tel11);
+			})
+		}
+
+	</script>
 	<%
 		}
 	%>
