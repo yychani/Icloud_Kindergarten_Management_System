@@ -44,6 +44,7 @@ public class SelectTcFamilyLetterServlet extends HttpServlet {
 		if(b != null) {
 			page="views/teacher/tcFamilyLetterUpdate.jsp";
 			request.setAttribute("b", b);
+			request.setAttribute("list", list);
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시글 수정용 상세보기 실패");

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.PageInfo;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectAllBoardParentsList
@@ -61,15 +62,24 @@ public class SelectAllBoardParentsList extends HttpServlet {
 		
 		ArrayList<Board> list = new BoardService().selectAllParentsBoard(currentPage,limit);
 		
-		String page="";
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+		
+		String page = "";
+		
 		if(list != null) {
-			page="views/parents/boardParentsBoard.jsp";
+			if((loginUser).getUType().equals("학부모")) {
+				page="views/parents/boardParentsBoard.jsp";
+				
+			}else {
+				page="views/president/prePBoard.jsp";
+				
+			}
+			
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
-		}else {
-			request.setAttribute("msg", "");
-			page="views/common/errorPage.jsp";
+		
 		}
+		
 		request.getRequestDispatcher(page).forward(request, response);
 	}
 

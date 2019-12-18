@@ -1,20 +1,20 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.oracle5.common.model.vo.Attachment"%>
-<%@page import="com.oracle5.board.model.vo.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
     <%
-    	Board b = (Board) request.getAttribute("b");
-		ArrayList<Attachment> list = new ArrayList<>();
-		if((ArrayList<Attachment>) request.getAttribute("list") != null){
+    	Board b = (Board) request.getAttribute("b"); 
+    ArrayList<Attachment> list = new ArrayList<>();
+	if((ArrayList<Attachment>) request.getAttribute("list") != null){
 		list = (ArrayList<Attachment>) request.getAttribute("list");
 	}
-    %>
+     %>
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
-<title>가정통신문 수정</title>
+<title>학부모 게시판 수정</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -34,45 +34,46 @@ input[type='submit'], input[type='reset'] {
 		border: none;
 		cursor: pointer;
 	}
+	button {
+	width: 80px;
+	height: 40px;
+	border-radius: 10px;
+	background: rgb(63, 63, 63);
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+}
 textarea {
 	border-radius: 10px;
 }
-button {
-	width: 100px;
-		height: 40px;
-		border-radius: 10px;
-		background: rgb(63, 63, 63);
-		color: white;
-		font-weight: bold;
-		border: none;
-		cursor: pointer;
-}
 </style>
-<script>
-   	$(function() {
-	 $(".li:nth-child(5)").addClass("on");
- 
-		$(".topMenuLi:nth-child(1)").addClass("on");
 
-	 $(".topMenuLi").mouseover(function() {
-			 $(".li:nth-child(5)").removeClass("on");
-			 $(".topMenuLi:nth-child(1)").removeClass("on");
-	});
-
-	 $(".topMenuLi").mouseleave(function() {
-	   $(".li:nth-child(5)").addClass("on");
-		$(".topMenuLi:nth-child(1)").addClass("on");
-	});
-}); 
-</script>
 </head>
 <body>
-	<%@ include file="/views/common/teacherMenu.jsp" %>
+	<%@ include file="/views/common/parentsMenu.jsp" %>
+	<script>
+   	$(function() {
+   	 $(".li:nth-child(5)").addClass("on");
+    
+   		$(".topMenuLi:nth-child(1)").addClass("on");
+
+   	 $(".topMenuLi").mouseover(function() {
+   			 $(".li:nth-child(5)").removeClass("on");
+   			 $(".topMenuLi:nth-child(1)").removeClass("on");
+   	});
+
+   	 $(".topMenuLi").mouseleave(function() {
+   	   $(".li:nth-child(5)").addClass("on");
+   		$(".topMenuLi:nth-child(1)").addClass("on");
+   	});
+   }); 
+</script>
 	<div style="margin: 0 15%;">
-	<h1 style="text-decoration: underline; text-underline-position: under;">가정통신문 </h1>
+	<h1 style="text-decoration: underline; text-underline-position: under;">가정통신문</h1>
  	</div>
- 	
- 	<div align="right" style="margin-right:22%;">작성자  <%=b.getName() %> 조회수  <%=b.getTcount() %> 작성일 <%=b.getTtime() %></div>
+ 	<form id="updateForm" method="post">
+ 	<div id="" align="right" style="margin-right:22%;">작성자  <%=b.getName() %> 조회수  <%=b.getTcount() %> 작성일 <%=b.getTtime() %></div>
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
@@ -90,29 +91,26 @@ button {
 			<textarea style="resize: none; width: 100%; border:0;" rows="25" id="content" name="content"
 			  ><%=b.getTcont() %></textarea>
 		</div>
-		<%for(Attachment at : list) {%>
-		<div class="Imgscr"><img name="img"alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></div>
-		<% } %>
-		
-				
 	</div>
 	<br>
 	 <div align="right">
 	 	<button onclick="complete()">작성완료</button>
 	 	<button onclick="deletePreKNotice()">삭제하기</button>
 	 </div>
-	 </div>
-	 <script>
-	 	function complete(){
-	 		$("#updateForm").attr("action","<%=request.getContextPath()%>/");
-	 	}
-	 	function deletePreKNotice(){
-	 		$("#updateForm").attr("action","<%=request.getContextPath()%>/");
-	 	}
-	 </script>
-	 <br><br>
+	
 
-	<% 
+	<script>
+		function complete(){
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/updateTFLetter.tbo");
+		}
+		function deleteParentsBoard(){
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/deleteTFLetter.tbo")
+		}
+	</script>
+		<br><br>
+	</div>
+	</form>
+		<% 
 			for(Attachment at : list){
 		%>
 		<div>
@@ -121,22 +119,72 @@ button {
 				<tr id="trArea">
 					<td><input type="hidden" name="fid" id="fid"value="<%=at.getFid()%>">
 					<input type="hidden" name="tidImg" value="<%=b.getTid()%>"></td>
-					<td colspan="2"><img alt=""  class="imgi" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
+					<td colspan="2"><img width="800" height="400" class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
 					<td><input type="button" class="updateImg" value="수정"></td>
 					<td><input type="button" class="deleteImg" value="삭제"></td>		
 					<td>
-							<input type="file" id="thumbnailImg1" name="imgfid<%=at.getFid()%>" value="사진선택">
-					</td>	
+							<input type="file" id="thumbnailImg1" name="imgcee<%=at.getFid()%>" value="사진선택">
+					</td>
 											
-				</tr>
+				 </tr>
 			</table>
 			</form>
 		</div>
-	<%} %>
+			<%} %> 
+<script>
+	$(function(){
+		
 	
+		$(document).on("click", ".updateImg", function(){
+			var writer = "<%=loginUser.getMemberName()%>";
+			var fid = $(this).parent().children("#fid").val();
+			var form = $(this).parents("form");
+		    var formdata = new FormData(form[0]);
+		    var img = $(this).parent().prev().children().eq(0);
+		    
+			$.ajax({
+				url:"/main/updateFLetterImg.tbo",
+				type:"post",
+		    	processData:false,
+		    	contentType:false,
+		    	data:formdata,
+		    	success:function(data) {
+		    		img.prop("src", "<%=request.getContextPath() %>/uploadFiles/" + data.changeName);
+		    	},
+		    	error:function() {
+		    		console.log("실패");
+		    	} 
+			});
+		});
+		$(document).on("click", ".deleteImg", function(){
+			var writer = "<%=loginUser.getMemberName()%>";
+			var fid = $(this).parent().siblings().children("#fid").val();
+		    var img = $(this).parent().prev().children().eq(0);
+		    var form = $(this).parents("form");
+		    
+			$.ajax({
+				url:"/main/deleteFLetterImg.tbo",
+				type:"post",
+		    	data:{
+		    		fid:fid
+		    	},
+		    	success:function(data) {
+		    		console.log("이미지 삭제완료")
+		    		form.remove();
+		    	},
+		    	error:function() {
+		    		console.log("실패");
+		    	} 
+			});
+		});
+	});
+
+	
+	</script>
+	 <br><br>
+
+ 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
-    <%@ include file="/views/common/chat.jsp" %>
+    
 </body>
 </html>
-
-

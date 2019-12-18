@@ -117,7 +117,7 @@
 		<% 
 			for(Attachment at : list){
 		%>
-				<td colspan="2"><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"
+				<td colspan="2" data-tooltip="사진 다운을 하시려면 클릭하세요!" ><img width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"
 									onclick="location.href='<%=request.getContextPath()%>/imgdownload.tbo?num=<%= at.getFid()%>'"></td>
 			</tr>
 

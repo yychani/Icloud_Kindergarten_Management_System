@@ -144,30 +144,40 @@ public class BoardService {
 	// 학부모 게시판 insert
 	public int inserParentsBoard(HashMap<String, Object> hmap, Board b) {
 		Connection con = getConnection();
-
 		ArrayList<Attachment> fileList = (ArrayList<Attachment>) hmap.get("fileList");
-		int pid = 0;
+		int tid = 0;
 		int result = 0;
 
 		int result1 = new BoardDao().insertParentsBoard(con, b);
 
 		if (result1 > 0) {
-			pid = new BoardDao().selectParentBoardTid(con, b);
-			System.out.println("tid" + pid);
+			tid = new BoardDao().selectParentBoardTid(con, b);
+			
 		}
-		Attachment parBImg = fileList.get(0);
+		int result2 = 0;
+		for (int i = 0; i < fileList.size(); i++) {
+			ArrayList<Attachment> attchment = new ArrayList<>();
+			Attachment tcChildImg = fileList.get(i);
+			attchment.add(tcChildImg);
+			if (tcChildImg.getOriginName() != null) {
+				result2 = new BoardDao().insertParentBoardImg(con, tcChildImg, tid);
 
-		int result2 = new BoardDao().insertParentBoardImg(con, parBImg, pid);
+			} else {
+				result2 = 1;
+			}
+		}
 
 		if (result1 > 0 && result2 > 0) {
 			commit(con);
 			result = 1;
+
 		} else {
 			rollback(con);
 		}
 
-		return result;
+		close(con);
 
+		return result;
 	}
 
 	// 반 공지사항 등록용 메소드
@@ -380,9 +390,9 @@ public class BoardService {
 	}
 
 	// 학부모 게시판 이미지 select
-	public Attachment selectOneParentBoardImg(int num) {
+	public ArrayList<Attachment> selectOneParentBoardImg(int num) {
 		Connection con = getConnection();
-		Attachment att = new BoardDao().selectOneParentBoardImg(con, num);
+		ArrayList<Attachment> att = new BoardDao().selectOneParentBoardImg(con, num);
 
 		if (att != null) {
 			commit(con);
@@ -1330,11 +1340,75 @@ public class BoardService {
 		return result;
 
 	}
-
+	
 	public int deleteChildImg(int fid) {
 		Connection con = getConnection();
 
 		int result = new BoardDao().deleteChildImg(con, fid);
+
+		if (result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		return result;
+	}
+	//학부모 게시판 이미지 수정
+	public int updateinsertPBoardImg(Attachment attachment) {
+		Connection con = getConnection();
+
+		int result = 0;
+
+		if(attachment.getOriginName() != null) {
+			result = new BoardDao().updateinsertPBoardImg(con, attachment);
+		}
+
+		if (result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+
+		close(con);
+		return result;
+	}
+	//학부모 게시판 이미지 삭제
+	public int deletePBoradImg(int fid) {
+		Connection con = getConnection();
+
+		int result = new BoardDao().deletePBoradImg(con, fid);
+
+		if (result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		return result;
+	}
+	
+	//가정통신문 이미지 하나 수정
+	public int updateFLetterImg(Attachment attachment) {
+		Connection con = getConnection();
+		int result = 0;
+
+		if(attachment.getOriginName() != null) {
+			result = new BoardDao().updateFLetterImg(con, attachment);
+		}
+
+		if (result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+
+		close(con);
+		return result;
+	}
+	//가정통신문 이미지 하나 삭제
+	public int deleteFLetterImg(int fid) {
+		Connection con = getConnection();
+
+		int result = new BoardDao().deleteFLetterImg(con, fid);
 
 		if (result > 0) {
 			commit(con);

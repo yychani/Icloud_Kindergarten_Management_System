@@ -974,42 +974,47 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 	}
 	
 	//학부모 게시판 이미지 보기
-	public Attachment selectOneParentBoardImg(Connection con, int num) {
+	public ArrayList<Attachment> selectOneParentBoardImg(Connection con, int num) {
 		PreparedStatement pstmt = null;
-		Attachment at = null;
+		ArrayList<Attachment> list = new ArrayList<>();
+		Attachment att = null;
 		ResultSet rset = null;
 		
-		String query = prop.getProperty("selectOneParentBoardImg");
+		String query = prop.getProperty("selectOneFLetterImg");
 		
 		try {
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, num);
-			
-			
-			rset = pstmt.executeQuery();
-			if(rset.next()) {
-				at = new Attachment();
-				
-				at.setFid(rset.getInt("F_ID"));
-				at.setOriginName(rset.getString("ORIGIN_NAME"));
-				at.setChangeName(rset.getString("CHANGE_NAME"));
-				at.setFilePath(rset.getString("FILE_PATH"));
-				at.setUploadDate(rset.getDate("UPLOAD_DATE"));
-				at.setFileLevel(rset.getInt("FILE_LEVEL"));
-				at.setStatus(rset.getString("STATUS"));
-				at.setType(rset.getInt("TYPE"));
-				at.setCId(rset.getInt("C_ID"));
-				at.setFeedNo(rset.getInt("FEEDNO"));
-				at.setTId(rset.getInt("T_ID"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			close(rset);
-			close(pstmt);
-		}
-		return at;
-	}
+	         pstmt = con.prepareStatement(query);
+	         pstmt.setInt(1, num);
+	         
+	         rset = pstmt.executeQuery();
+	         while(rset.next()) {
+	            att = new Attachment();
+	            
+	            att.setFid(rset.getInt("F_ID"));
+	            att.setOriginName(rset.getString("ORIGIN_NAME"));
+	            att.setChangeName(rset.getString("CHANGE_NAME"));
+	            att.setFilePath(rset.getString("FILE_PATH"));
+	            att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+	            att.setFileLevel(rset.getInt("FILE_LEVEL"));
+	            att.setStatus(rset.getString("STATUS"));
+	            att.setType(rset.getInt("TYPE"));
+	            att.setCId(rset.getInt("C_ID"));
+	            att.setFeedNo(rset.getInt("FEEDNO"));
+	            att.setTId(rset.getInt("T_ID"));
+	            
+	            list.add(att);
+	         }
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      }finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return list;
+	   }
+  
 	
 	//앨범 게시판 리스트 카운트
 	public int getChildImgListCount(Connection con) {
@@ -1114,7 +1119,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		ResultSet rset = null;
 		ArrayList<Board> list = null;
 		
-		String query = prop.getProperty("selectAllParentsBoard");
+		String query = prop.getProperty("selectAllpreNoticeList");
 		int startRow = (currentPage -1) * limit +1;
 		int endRow = startRow + limit -1;
 		
@@ -3194,6 +3199,98 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		
 				
 		return replyList;
+	}
+	
+	
+	//학부모 게시판 이미지 하나 수정
+	public int updateinsertPBoardImg(Connection con, Attachment attachment) {
+		PreparedStatement pstmt = null; 
+		int result =0;
+		ArrayList<Attachment> file = null;
+		
+		String query = prop.getProperty("updateinsertPBoardImg");
+									
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, attachment.getOriginName());
+			pstmt.setString(2, attachment.getChangeName());
+			pstmt.setString(3, attachment.getFilePath());
+			pstmt.setInt(4, attachment.getFid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	//학부모 게시판 이미지 하나 삭제
+	public int deletePBoradImg(Connection con, int fid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("deletePBoradImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, fid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	
+	//가정통신문 이미지 하나 수정
+	public int updateFLetterImg(Connection con, Attachment attachment) {
+		PreparedStatement pstmt = null; 
+		int result =0;
+		ArrayList<Attachment> file = null;
+		
+		String query = prop.getProperty("updateFLetterImg");
+									
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, attachment.getOriginName());
+			pstmt.setString(2, attachment.getChangeName());
+			pstmt.setString(3, attachment.getFilePath());
+			pstmt.setInt(4, attachment.getFid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	//가정통신문 이미지 하나 삭제
+	public int deleteFLetterImg(Connection con, int fid) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("deleteFLetterImg");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, fid);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
 	}
 }
 	

@@ -187,8 +187,8 @@
 
 	 <br><br>
 	 <div align="right">
-		<input type="button" onclick="complete()" value="작성완료">
-		<input type="button" onclick="deleteimg()" value="삭제하기">
+		<input type="button" onclick="location.href='<%=request.getContextPath()%>/updateChildImg.tbo'" value="작성완료">
+		<input type="button" onclick="location.href='<%=request.getContextPath()%>/deletechildImgBoard.tbo'" value="삭제하기">
 	</div>
 	</form> 
 	
