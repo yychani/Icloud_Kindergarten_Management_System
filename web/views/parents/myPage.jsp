@@ -16,7 +16,10 @@
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-
+<link
+	href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding&display=swap"
+	rel="stylesheet">
+	
 <style>
 #outBox {
 	width: 800px;
@@ -43,6 +46,10 @@
 
 .ui.pointing.label {
 	color: rgb(209, 57, 57);
+}
+tr{
+	font-family: 'Noto Sans KR', sans-serif;
+	height:30px;
 }
 </style>
 </head>

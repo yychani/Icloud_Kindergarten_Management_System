@@ -24,7 +24,7 @@
 .ui.raised.card {
 	margin: auto auto;
 	width: 1000px;
-	font-family: 'Nanum Gothic Coding', monospace;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-weight: bold;
 	color: black;
 }
@@ -80,6 +80,7 @@ tr {
 						<td colspan="3" style="text-align: left;">
 							<div class="ui radio checkbox">
 								<div style="display: inline-block;">
+								<input type="hidden" name="cId" id="cId">
 									<input type="radio" name="gender" value="2" checked="checked"><label>여</label>
 								</div>
 								<div style="display: inline-block;">
@@ -90,8 +91,8 @@ tr {
 					</tr>
 					<tr>
 						<td>혈액형 :</td>
-						<td><div class="ui input">
-								<input type="text" id="bloodType" readonly>
+						<td style="float:left"><div class="ui input">
+								<input type="text" name="bloodType" id="bloodType" readonly>
 							</div></td>
 					</tr>
 					<tr>
@@ -109,16 +110,16 @@ tr {
 					<tr>
 						<td>입학전 학적사항 :</td>
 						<td colspan="3" id="scholarInfo">
-							<!-- <div id="scholarValue" class="ui input">
-      		<input type="date" value="">
-      		<input type="text" placeholder="기관명 입력" value="">
-      		<input type="text" placeholder="특이사항 입력"  value=""></div> -->
+						<!-- <div id="scholarValueNone" class="ui input" style="display:none;">
+      						<input type="date" value="">
+      						<input type="text" placeholder="기관명 입력" value="">
+      						<input type="text" placeholder="특이사항 입력"  value=""></div> -->
 						</td>
 					</tr>
-					<tr id="plusBtn">
+					<%-- <tr id="plusBtn">
 						<td colspan="4"><img id="addScholar" width="20px"
 							src="<%=request.getContextPath()%>/images/add.png" onclick=""></td>
-					</tr>
+					</tr> --%>
 					<tr>
 						<td>가족 사항 :</td>
 						<td colspan="3" id="familyInfo">
@@ -129,10 +130,10 @@ tr {
 						</td>
 					</tr>
 
-					<tr id="plusBtn">
+					<%-- <tr id="plusBtn">
 						<td colspan="4"><img id="addFamily" width="20px"
 							src="<%=request.getContextPath()%>/images/add.png" onclick=""></td>
-					</tr>
+					</tr> --%>
 					<tr>
 						<td>특이사항 :</td>
 						<td colspan="3"><div class="ui fluid icon input">
@@ -149,7 +150,7 @@ tr {
 		</div>
 		<div class="extra content">
 			<div class="right floated author">
-				<button class="ui green basic button">아이 추가하기</button>
+				<button class="ui green basic button" onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageAddChildren.jsp'">아이 추가하기</button>
 				<button class="ui teal basic button" id="cInfoChangeBtn"
 					onclick="childInfoChange();">아이정보 변경</button>
 
@@ -256,7 +257,7 @@ $(function(){
 	            	for(var s = 0; s < data.sc.length; s++){
 						 //console.log(data.sc[i].sDate); 
 						//$("#scholarValue").append("<input type='date' value='"+data.sc[i].sDate+"'>");	
-						$("#scholarInfo").append("<div id='scholarValue' class='ui input'><input type='date' readonly value='" + date + "'><input type='text' readonly value='" + data.sc[s].agency + "'><input type='text' readonly value='" + data.sc[s].uniqueness + "'></div>");
+						$("#scholarInfo").append("<div id='scholarValue' class='ui input'><input type='date' name='sDate' readonly value='" + date + "'><input type='text' name='sAgency' readonly value='" + data.sc[s].agency + "'><input type='text' name='sUnique' readonly value='" + data.sc[s].uniqueness + "'></div>");
 					}  
 					
 				}
@@ -267,7 +268,7 @@ $(function(){
 				/* 가족사항 */
 				 for(var f = 0; f < data.fr.length; f++){
 					// console.log(data.fr[f]); 
-					$("#familyInfo").append("<div id='familyValue' class='ui fluid icon input'><input name='fRelation' readonly type='text' value='" + data.fr[f].relation + "'><input name='fName' readonly type='text' value='"+ data.fr[f].name+"'><input name='fPhone' readonly type='text' value='"+data.fr[f].phone+"'></div>");
+					$("#familyInfo").append("<div id='familyValue' class='ui fluid icon input'><input name='fRelation' readonly type='text' value='" + data.fr[f].relation + "'><input name='fName' readonly type='text' value='"+ data.fr[f].name+"'><input name='fPhone' readonly type='text' value='"+data.fr[f].phone+"'><input type='hidden' name='relationId' value='" + data.fr[f].relationId + "'</div>");
 				} 
 				
 			},
@@ -286,8 +287,8 @@ function childInfoChange(){
 	$('input').css("border-color","rgb(140, 201, 240)");
 	
 	$("#divSubmitBtn").show();
-	
-	
+	console.log($("#cNameSelect").val());
+	$("#cId").val($("#cNameSelect").val());
 	
 }
 
@@ -326,8 +327,9 @@ function encryption(){
 	}) */
 	
 	/* 학적사항 추가 버튼 */
-		$("#addScholar").click(function(){
-			$("#scholarValue").clone(true).appendTo($("#scholarInfo:last-child"));
+		$(document).on("click","#addScholar", function(){
+			$("#scholarValueNone").show();
+			$("#scholarValueNone").clone(true).appendTo($("#scholarInfo:last-child"));
 			return false;
 		});
 	
