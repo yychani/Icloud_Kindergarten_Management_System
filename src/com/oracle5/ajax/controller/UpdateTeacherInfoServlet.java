@@ -58,7 +58,7 @@ public class UpdateTeacherInfoServlet extends HttpServlet {
 	
 				} 
 				
-				String filePath = savePath + saveFiles.get(0);
+				String filePath = request.getContextPath() + "/uploadFiles/" + saveFiles.get(0);
 				String password = getSha512(multiRequest.getParameter("userPwd"));
 				String userNumber1 = multiRequest.getParameter("userNumber1");
 				String userNumber2 = multiRequest.getParameter("userNumber1").substring(0, 1) + getSha512(multiRequest.getParameter("userNumber1").substring(1));
