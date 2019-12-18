@@ -3083,6 +3083,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				r.setRdate(rset.getDate("R_DATE"));
 				r.setTid(rset.getInt("T_ID"));
 				r.setRstmt(rset.getString("R_STMT"));
+				r.setRefrid(rset.getInt("REF_RID"));
 				
 				replyList.add(r);
 			}

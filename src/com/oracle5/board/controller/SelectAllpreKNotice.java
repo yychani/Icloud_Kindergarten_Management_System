@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.PageInfo;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectAllpreKNotice
@@ -61,15 +62,20 @@ public class SelectAllpreKNotice extends HttpServlet {
 		
 		ArrayList<Board> list = new BoardService().selectAllpreNoticeList(currentPage,limit);
 		
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
 		
 		String page = "";
 		if(list != null) {
-			page="views/president/preKNotice.jsp";
+			if((loginUser).getUType().equals("admin")) {
+				page="views/president/preKNotice.jsp";
+			}else if((loginUser).getUType().equals("교사")){
+				page="";
+			}else {
+				
+			}
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
-		}else {
-			request.setAttribute("msg", "원 공지사항 실패");
-			page="views/common/errorPage.jsp";
+	
 			
 		}
 		request.getRequestDispatcher(page).forward(request, response);

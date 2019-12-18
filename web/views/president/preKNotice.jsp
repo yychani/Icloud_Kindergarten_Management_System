@@ -127,7 +127,9 @@ input[type='button'] {
 </style>
 </head>
 <body style="overflow-x: hidden">
+
 	<%@ include file="/views/common/presidentMenu.jsp"%>
+
 	<div style="margin: 0 15%;">
 		<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항</h1>
     </div>

@@ -142,9 +142,6 @@ textarea {
 				<div class="reply" id="rplycontent" onload="getReply()">
 						
 				</div>
-				<div class="rereply" id="rereplycontent">
-				
-				</div>
 			</div>
 
 				<!-- 댓글 영역 -->
@@ -170,20 +167,22 @@ textarea {
 					type:"post",
 					success:function(data){
 						var $content = $("#rplycontent");
-						$content.html('');
-						console.log(data);
+						
+						var rid = 0;
 						for(var key in data) {
+							if(data[key].refrid == 0){
 							var $contentDiv = $("<div class='content'>");
 							var $a = $("<a class='author'>").text(data[key].rname);
 							var $div1 = $("<div class='metadata'>");
 							var $span = $("<span class='date'>").text(data[key].rdate);
 							var $div2 = $("<div class='text'>").text(data[key].rcont);
-							rid = data[key].rid;
-							console.log(rid);
+							var $inputRid = $("<input type='hidden'>").val(data[key].rid);
+							
+							
 							$contentDiv.append($a);
 							$contentDiv.append($div1.append($span));
 							$contentDiv.append($div2);
-							
+							$contentDiv.append($inputRid);
 							$content.append($contentDiv);
 							
 							var $actionDiv = $("<div class='actions' onclick=''>");
@@ -203,7 +202,34 @@ textarea {
 							$content.append($rereAreaDiv);
 							
 							$(".rereArea").hide();
-					}},
+							rid = data[key].rid;
+							}
+							for(var key2 in data){
+								//console.log(rid);
+								if(rid == data[key2].refrid){
+									if(rid == 148){
+										console.log("하하0");
+									}
+									var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+									
+									var $contentDiv2 = $("<div class='content'>");
+										var $a1 = $("<a class='author'>").text(data[key2].rname);
+										var $div11 = $("<div class='metadata'>");
+											var $span1 = $("<span class='date'>").text(data[key2].rdate);
+										var $div21 = $("<div class='text'>").text(data[key2].rcont);
+									
+									$contentDiv2.append($a1);
+									$contentDiv2.append($div11.append($span1));
+									$contentDiv2.append($div21);
+									
+									$rereplyArea.append($contentDiv2);
+									
+									$content.append($rereplyArea);
+								}
+							} 
+							
+						}
+					},
 					error:function(data){
 						console.log("댓글 조회 실패");
 					}
@@ -224,8 +250,9 @@ textarea {
 
 			});
 			
+			
 			$("#btn").click(function(){
-				var writer = '<%= loginUser.getMemberNo()%>'
+				var writer = '<%= loginUser.getMemberName()%>'
 				var tid ='<%=b.getTid()%>'
 				var content = $("#textAreaRe").val();
 				console.log("1")
@@ -242,17 +269,18 @@ textarea {
 							console.log(data);
 							for(var key in data) {
 					
+								var $replyArea = $("#replycontent");
 								var $contentDiv = $("<div class='content'>");
 								var $a = $("<a class='author'>").text(data[key].rname);
 								var $div1 = $("<div class='metadata'>");
 								var $span = $("<span class='date'>").text(data[key].rdate);
 								var $div2 = $("<div class='text'>").text(data[key].rcont);
-								rid = data[key].rid;
-								console.log(rid);
+								var $inputRid = $("<input type='hidden'>").val(data[key].rid);
 								
 								$contentDiv.append($a);
 								$contentDiv.append($div1.append($span));
 								$contentDiv.append($div2);
+								$contentDiv.append($inputRid);
 								
 								$content.append($contentDiv);
 								
@@ -269,12 +297,14 @@ textarea {
 								$rereAreaDiv.append($inputText);
 								$rereAreaDiv.append($rereBtn);
 								
-								$content.append($rereAreaDiv);
+								$replyArea.append($rereAreaDiv);
 								
 								$(".rereArea").hide();
 								
 								for(var key2 in data){
 									if(rid == data[key2].refrid){
+										var  $rereplyArea = $("#rereplycontent");
+										$rereplyArea.html('');
 										var $recontent = $("#rereplycontent");
 										var $contentDiv = $("<div class='content'>");
 										var $a = $("<a class='author'>").text(data[key2].rname);
@@ -290,11 +320,12 @@ textarea {
 										
 										$recontent.append($contentDiv);
 										
-										
+										$rereplyArea.append($recontent);
+										$content.append($rereplyArea);
 									}
 								}
-
-							}
+								
+							} $("#textAreaRe").val('');
 						},
 						error:function(date){
 							console.log("댓글달기 실패");
@@ -309,13 +340,14 @@ textarea {
 				<input type="text" id="reretext">
 				<button id="rereBtn">댓글 달기</button>
 			</div> */
-			$("#rereBtn").click(function(){
-				var writer = '<%= loginUser.getMemberNo()%>'
+			$(document).on("click", "#rereBtn", function() {
+				
+				
+				var writer = '<%= loginUser.getMemberName()%>'
 				var tid ='<%=b.getTid()%>'
-				var content = $("#rertext").val();
-				var refrid = $("#rplycontent").rid;
-				alert("버튼은 클릭됨");
-				console.log("di");
+				var content = $(this).parent().find("input").val();
+				var refrid = $(this).parent().prev().prev().find("input").val();
+				console.log(refrid);
 				
 				$.ajax({
 						url:"/main/preHBoardInsertReReply.bo",
@@ -326,7 +358,10 @@ textarea {
 						type:"post",
 						success:function(data){
 							for(var key2 in data){
-								if(rid == data[key2].refrid){
+								if(refrid == data[key2].refrid){
+									var $reridArea = $(this).parent().prev().prev().find("input");
+									var $rereplyArea = $("#rereplycontent");
+									$rereplyArea.html('');
 									var $recontent = $("#rereplycontent");
 									var $contentDiv = $("<div class='content'>");
 									var $a = $("<a class='author'>").text(data[key2].rname);
@@ -342,7 +377,8 @@ textarea {
 									
 									$recontent.append($contentDiv);
 									
-									
+									$rereplyArea.appned($recontent);
+									$reridArea.apeend($rereplyArea);
 								}
 							}
 						},
@@ -350,7 +386,7 @@ textarea {
 							console.log("댓글의 댓글 실패");
 						}
 						});
-				
+				 
 				
 				
 				
