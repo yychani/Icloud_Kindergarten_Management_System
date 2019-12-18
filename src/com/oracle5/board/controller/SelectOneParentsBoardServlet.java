@@ -1,6 +1,8 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectOneParentsBoard
@@ -32,27 +35,33 @@ public class SelectOneParentsBoardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			int num = Integer.parseInt(request.getParameter("num"));
 			
-			System.out.println(num);
 			String isUpdate = "false";
+			
 			if(request.getParameter("isUpdate") != null) {
 				isUpdate = request.getParameter("isUpdate");
 			}
 			Board b = new BoardService().selectOneParentsBoard(num, isUpdate);
-			Attachment a = new BoardService().selectOneParentBoardImg(num);
+			ArrayList<Attachment> list = new BoardService().selectOneParentBoardImg(num);
+			Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+			
 			String page = "";
 			
-			if(b != null) {
-				page="views/parents/boardParentsBoardDe.jsp";
+			if(list != null) {
+				if((loginUser).getUType().equals("학부모")) {
+					page="views/parents/boardParentsBoardDe.jsp";
+					
+				}else {
+					page = "views/president/prePBoardDetail.jsp";
+					
+				}
+				
+				request.setAttribute("list", list);
 				request.setAttribute("b", b);
-				request.setAttribute("a", a);
-			}else {
-				page="views/common/errorPage.jsp";
-				request.setAttribute("msg", "게시글 상세보기 실패");
+			
 			}
 			
 			request.getRequestDispatcher(page).forward(request, response);
-	
-	}
+		}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

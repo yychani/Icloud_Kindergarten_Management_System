@@ -87,6 +87,9 @@ public class InsertParentsBoardServlet extends HttpServlet {
 				
 				fileList.add(att);
 			}
+			for(int i=0; i<fileList.size(); i++) {
+				String at = fileList.get(i).getOriginName();
+			}
 			
 			HashMap<String, Object> hmap = new HashMap<>();
 			hmap.put("fileList", fileList);

@@ -1,8 +1,5 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"  import="java.util.ArrayList, com.oracle5.board.model.vo.Board"%>
-
-    
+    pageEncoding="UTF-8"  import="java.util.ArrayList, com.oracle5.board.model.vo.Board"%> 
  <%@ page import="com.oracle5.common.model.vo.PageInfo" %>
     <%
     	ArrayList<Board> list = (ArrayList<Board>) request.getAttribute("list");
@@ -24,20 +21,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 <script>
+
 $(function() {
-    $(".li1").addClass("on");
-    $(".topMenuLi:nth-child(2)").addClass("on");
-
+	  $(".li:nth-child(3)").addClass("on");
+	  
+    $(".topMenuLi:nth-child(3)").addClass("on");
+   
     $(".topMenuLi").mouseover(function() {
-       $(".li1").removeClass("on");
-       $(".topMenuLi:nth-child(2)").removeClass("on");
-    });
+      $(".li:nth-child(3)").removeClass("on");
+      $(".topMenuLi:nth-child(3)").removeClass("on");
+   });
+  
     $(".topMenuLi").mouseleave(function() {
-       $(".li1").addClass("on");
-       $(".topMenuLi:nth-child(2)").addClass("on");
-    });
-
- }); 
+      $(".li:nth-child(3)").addClass("on");
+      $(".topMenuLi:nth-child(3)").addClass("on");
+   });
+}); 
 </script>
 <style>
  .writing > button {
@@ -196,7 +195,7 @@ input[type='button'] {
               <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
                       color: rgba(0,0,0,.6); ">Search</button>
               
-              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
+              <button style="float:right; width:100px; height:30px;" class="writing">글쓰기</button>
               
         </div> 
 	</div>
@@ -206,7 +205,7 @@ input[type='button'] {
     <script>
     $(function(){
     	$(".writing").click(function(){
-    		location.href="./views/parents/tcWriteFamilyLetter.jsp";
+    		location.href="./views/parents/boardParentsBoardWriter.jsp";
     	});
     });
     
@@ -214,7 +213,7 @@ input[type='button'] {
     	$("#tableArea td").click(function(){
     		var num = $(this).parent().children().eq(0).children().val();
     		console.log(num)
-    		location.href="<%=request.getContextPath()%>/selectOneFLetter.tbo?num=" + num;
+    		location.href="<%=request.getContextPath()%>/selectOne.pbo?num=" + num;
     		
     	});
     	

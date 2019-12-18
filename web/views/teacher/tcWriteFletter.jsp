@@ -52,7 +52,9 @@ textarea {
 	<div style="margin: 0 15%; padding-top:50px; padding-bottom:10px;">
  	<h1 style="text-decoration: underline; text-underline-position: under;">가정통신문 작성</h1>
  	</div>
+ 	<form action="<%= request.getContextPath() %>/insertFLetter.tbo" method="post" encType="multipart/form-data">
  	<%@ include file="/views/common/boardWrite.jsp" %>
+ 	</form>
  	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
 </body>
