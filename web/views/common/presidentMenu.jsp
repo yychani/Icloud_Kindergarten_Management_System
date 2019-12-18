@@ -131,7 +131,7 @@
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
 						<ul class="submenu">
-							<li class="li9"><a href="<%=request.getContextPath()%>/views/president/prePBoard.jsp"
+							<li class="li9"><a href="<%=request.getContextPath()%>/selectAll.pbo"
 									class="submenuLink">학부모 게시판</a></li>
 							<li>|</li>
 							<li class="li10"><a href="<%=request.getContextPath()%>/selectAllPreHBoard.bo"
@@ -159,6 +159,7 @@
 							<i class="bell outline icon"></i>
 						</div>
 					</li> 
+					
 					<script>
 						var alarm = '<dl><dt>새소식</dt><a href="#"><dd>내용</dd></a><a href="#"><dd>내용</dd></a><a href="#"><dd>내용</dd></a></ul>';
 						$('.ui.button').popup({

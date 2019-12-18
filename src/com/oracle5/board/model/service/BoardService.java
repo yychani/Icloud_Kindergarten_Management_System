@@ -1293,17 +1293,7 @@ public class BoardService {
 	}
 
 	public ArrayList<Reply> inserPreHtrereply(Reply r) {
-		/*
-		 * Connection con = getConnection(); ArrayList<Reply> replyList = null; int
-		 * result =0;
-		 * 
-		 * result = new BoardDao().insertReplyPreHBoard(con, r);
-		 * 
-		 * 
-		 * if(result >0) { commit(con); replyList = new
-		 * BoardDao().selectPreHBoardReplyList(con,r.getTid());
-		 * System.out.println(replyList); }else { rollback(con); } return replyList;
-		 */
+		
 		Connection con = getConnection();
 		ArrayList<Reply> replyList = null;
 		int result = 0;
@@ -1312,7 +1302,7 @@ public class BoardService {
 
 		if (result > 0) {
 			commit(con);
-			// replyList = new BoardDao().selectPreHrereplyList(con,r.getRid());
+		    replyList = new BoardDao().selectPreHrereplyList(con, r);
 		} else {
 			rollback(con);
 		}

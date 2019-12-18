@@ -35,15 +35,18 @@ public class InsertPreHBoardReReply extends HttpServlet {
 		String writer = request.getParameter("writer");
 		String content = request.getParameter("content");
 		int tid = Integer.parseInt(request.getParameter("tid"));
+		int refrid = Integer.parseInt(request.getParameter("refrid"));
 		
 		System.out.println(writer);
 		System.out.println(content);
 		System.out.println(tid);
+		System.out.println(refrid);
 		
 		Reply r = new Reply();
 		r.setRname(writer);
 		r.setRcont(content);
 		r.setTid(tid);
+		r.setRefrid(refrid);
 		
 		ArrayList<Reply> replyList = new BoardService().inserPreHtrereply(r);
 		

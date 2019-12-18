@@ -142,6 +142,9 @@ textarea {
 				<div class="reply" id="rplycontent" onload="getReply()">
 						
 				</div>
+				<div class="rereply" id="rereplycontent">
+				
+				</div>
 			</div>
 
 				<!-- 댓글 영역 -->
@@ -175,6 +178,8 @@ textarea {
 							var $div1 = $("<div class='metadata'>");
 							var $span = $("<span class='date'>").text(data[key].rdate);
 							var $div2 = $("<div class='text'>").text(data[key].rcont);
+							rid = data[key].rid;
+							console.log(rid);
 							$contentDiv.append($a);
 							$contentDiv.append($div1.append($span));
 							$contentDiv.append($div2);
@@ -189,7 +194,8 @@ textarea {
 							
 							var $rereAreaDiv = $("<div class='rereArea'>");
 							var $inputText = $("<input type='text' id='reretext'>");
-							var $rereBtn = $("<button id='rereBtn'>댓글 달기</button>");
+							var $rereBtn = $("<button id='rereBtn'>댓글달기</button>");
+							
 							
 							$rereAreaDiv.append($inputText);
 							$rereAreaDiv.append($rereBtn);
@@ -212,6 +218,8 @@ textarea {
 					$(this).parent().next(".rereArea").toggle();
 				});
 				
+				
+				
 				getReply();
 
 			});
@@ -221,7 +229,7 @@ textarea {
 				var tid ='<%=b.getTid()%>'
 				var content = $("#textAreaRe").val();
 				console.log("1")
-				
+				var rid = 0;
 				$.ajax({
 					url:"/main/preHBoardInsertReply.bo",
 					data : {writer:writer,
@@ -239,6 +247,9 @@ textarea {
 								var $div1 = $("<div class='metadata'>");
 								var $span = $("<span class='date'>").text(data[key].rdate);
 								var $div2 = $("<div class='text'>").text(data[key].rcont);
+								rid = data[key].rid;
+								console.log(rid);
+								
 								$contentDiv.append($a);
 								$contentDiv.append($div1.append($span));
 								$contentDiv.append($div2);
@@ -261,6 +272,27 @@ textarea {
 								$content.append($rereAreaDiv);
 								
 								$(".rereArea").hide();
+								
+								for(var key2 in data){
+									if(rid == data[key2].refrid){
+										var $recontent = $("#rereplycontent");
+										var $contentDiv = $("<div class='content'>");
+										var $a = $("<a class='author'>").text(data[key2].rname);
+										var $div1 = $("<div class='metadata'>");
+										var $span = $("<span class='date'>").text(data[key2].rdate);
+										var $div2 = $("<div class='text'>").text(data[key2].rcont);
+										rid = data[key].rid;
+										console.log(rid);
+										
+										$contentDiv.append($a);
+										$contentDiv.append($div1.append($span));
+										$contentDiv.append($div2);
+										
+										$recontent.append($contentDiv);
+										
+										
+									}
+								}
 
 							}
 						},
@@ -281,24 +313,45 @@ textarea {
 				var writer = '<%= loginUser.getMemberNo()%>'
 				var tid ='<%=b.getTid()%>'
 				var content = $("#rertext").val();
+				var refrid = $("#rplycontent").rid;
+				alert("버튼은 클릭됨");
+				console.log("di");
 				
 				$.ajax({
 						url:"/main/preHBoardInsertReReply.bo",
 						data : {writer:writer,
 								content:content,
-								tid:tid},
+ 								tid:tid,
+								refrid:refrid},
 						type:"post",
 						success:function(data){
-							console.log(data);
+							for(var key2 in data){
+								if(rid == data[key2].refrid){
+									var $recontent = $("#rereplycontent");
+									var $contentDiv = $("<div class='content'>");
+									var $a = $("<a class='author'>").text(data[key2].rname);
+									var $div1 = $("<div class='metadata'>");
+									var $span = $("<span class='date'>").text(data[key2].rdate);
+									var $div2 = $("<div class='text'>").text(data[key2].rcont);
+									rid = data[key].rid;
+									console.log(rid);
+									
+									$contentDiv.append($a);
+									$contentDiv.append($div1.append($span));
+									$contentDiv.append($div2);
+									
+									$recontent.append($contentDiv);
+									
+									
+								}
+							}
 						},
 						error:function(data){
 							console.log("댓글의 댓글 실패");
 						}
 						});
 				
-				var writer 
-				var $replyContent = $("#replyContent");
-				var $div1 = $("<div id='rereply'>");
+				
 				
 				
 			});

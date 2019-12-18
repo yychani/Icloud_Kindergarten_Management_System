@@ -127,9 +127,9 @@ table {
                
                <li class="topMenuLi"><a class="menuLink" href="">소식</a>
                   <ul class="submenu">
-                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsNotice.jsp" class="submenuLink">원 공지사항</a></li>
+                     <li class="li"><a href="<%=request.getContextPath() %>/selectAllPreNotice.bo" class="submenuLink">원 공지사항</a></li>
                      <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsClassNotice.jsp" class="submenuLink">반 공지사항</a></li>
+                     <li class="li"><a href="<%=request.getContextPath() %>/selectAllBanList" class="submenuLink">반 공지사항</a></li>
                      <li>|</li>
                      <li class="li"><a href="<%=request.getContextPath() %>/selectFLetterList.tbo" class="submenuLink">가정통신문</a></li>
                      <li>|</li>
@@ -144,7 +144,7 @@ table {
                      <li>|</li>
                      <li class="li"><a href="<%=request.getContextPath() %>/selectAll.pbo" class="submenuLink">학부모 게시판</a></li>
                      <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/boardCommittee.jsp" class="submenuLink longLink">유치원 운영위원회
+                     <li class="li"><a href="<%=request.getContextPath() %>/selectAllPreHBoard.bo" class="submenuLink longLink">유치원 운영위원회
                            게시판</a></li>
                   </ul>
                </li>

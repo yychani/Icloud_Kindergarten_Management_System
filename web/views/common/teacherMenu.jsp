@@ -97,7 +97,7 @@
 				<ul>
 					<li class="topMenuLi"><a class="menuLink" href="">소식</a>
 						<ul class="submenu">
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcPreNotice.jsp" class="submenuLink">원 공지사항</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllPreNotice.bo" class="submenuLink">원 공지사항</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/selectAllBanList" class="submenuLink">반 공지사항</a></li>
 							<li>|</li>
