@@ -1303,4 +1303,14 @@ public class MemberService {
 		return result;
 	}
 
+	public MemberAndTeacher selectTeacherName(int cId, int pNo) {
+		Connection con = getConnection();
+		
+		MemberAndTeacher mt = md.selectTeacherName(con, cId, pNo);
+		
+		close(con);
+		
+		return mt;
+	}
+
 }
