@@ -3544,5 +3544,38 @@ public class MemberDao {
 		return result;
 	}
 
+	//선생님 가져오기
+	public MemberAndTeacher selectTeacherName(Connection con, int cId, int pNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		MemberAndTeacher mt = null;
+		
+		String query = prop.getProperty("selectTeacherName");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pNo);
+			pstmt.setInt(2, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mt = new MemberAndTeacher();
+				mt.setMemberNo(rset.getInt("T_NO"));
+				mt.setMemberName(rset.getString("NAME"));
+				mt.setBNo(rset.getInt("B_NO"));
+				
+				rset = pstmt.executeQuery();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mt;
+	}
+
 
 }

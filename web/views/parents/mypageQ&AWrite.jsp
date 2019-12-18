@@ -5,6 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- 시멘틱ui -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script
@@ -33,6 +36,11 @@ textarea {
 h2 {
 	padding-left:30px;
 }
+#cNameSelect {
+	width: 161px;
+	height: 34px;
+	border-radius: 4px;
+}
 </style>
 </head>
 <body style="overflow-x:hidden">
@@ -40,21 +48,19 @@ h2 {
 
 <div style="margin: 50px 25%; margin-bottom: 20px;">
 <h2>건의 문의 작성</h2>
-<form action="<">
+<form action="<%=request.getContextPath()%>/pQnAwrite.me" method="post" onsubmit="return inputValue();">
+<h3 style="text-underline-position: under; width: 100%;">원아 선택</h3>
+<select class="ui dropdown" id="cNameSelect" name="cName"></select>
+	<h3 style="text-underline-position: under; width: 100%;">문의 대상</h3>
+	<select class="ui dropdown" id="toSomeone" name="toSomeone"></select>
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
-		<input type="text" id="title" name="title" placeholder="제목을 입력하세요">
+		<input type="text" name="title" placeholder="제목을 입력하세요">
 	</div>
 	
 	<br />
-	
-	<div>
-		<select>
-			
-			<option>담임 선생님</option>
-			<option>원장 선생님</option>
-		</select>
-	</div>
+	<input type="hidden" id="cId" name="cId">
+	<input type="hidden" id="tNo" name="tNo">
 	
 	<br />
 	<div class="ui form">
@@ -65,13 +71,77 @@ h2 {
 		</div>
 		
 	</div>
-	<br>  <input type="submit" id="boardWrite"
-		value="완료" style="float: right" />
+	<div id="divSubmitBtn">
+					<button class="ui pink  basic button" type="submit" id="submit">완료</button>
+				</div>
+	<br><input type="submit" id="boardWrite" value="완료" style="float: right" />
 		<br /><br/>
 		</form>
 		
 		
 </div>
+<script>
+$(function(){
+	cId = 0;
+	$.ajax({
+		url:"<%=request.getContextPath()%>/pCName.me",
+		type:"get",
+		success:function(data){
+			console.log(data);
+			$select = $("#cNameSelect");
+			$select.find("option").remove();
+			
+			for(var key in data){
+				var $option = $("<option>");
+				$option.val(data[key].cId);
+				$option.text(data[key].name);
+				$select.append($option);	
+			}
+			$("#cNameSelect").trigger("change");
+
+		},
+		error:function(data){
+			console.log("failㅠㅠ");
+		}
+	});
+});
+$(function(){
+	$(document).on("change", "#cNameSelect", function(){
+		var cId = $("#cNameSelect").val();
+		
+		$.ajax({
+			url:"<%=request.getContextPath()%>/selectTname.me",
+			data:{cId},
+			type:"get",
+			success:function(data){
+				console.log(data);
+				$select2 = $("#toSomeone");
+				$select2.find("option").remove();
+				
+				for(var key in data){
+					var $optiont = $("<option>");
+					$optiont.val(data.memberNo);
+					$optiont.text(data.memberName + "선생님");
+					$select2.append($optiont);
+					
+				}
+				
+			},
+			error:function(data){
+				console.log("담임선생님 이름 불러오기 실패")
+			}
+		});
+	});
+});
+
+function inputValue(){
+	var cId = $("#cNameSelect").val();
+	var tNo = $("#toSomeone").val();
+	
+	$("#cId").val(cId);
+	$("#tNo").val(tNo);
+}
+</script>
 <%@ include file="/views/common/chat.jsp"%>
 <%@include file="/views/common/footer.jsp" %>
 </body>

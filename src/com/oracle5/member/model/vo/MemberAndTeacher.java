@@ -22,5 +22,6 @@ public class MemberAndTeacher implements Serializable{
 	private String className;
 	private int pId; 
 	private String pName;
+	private int bNo;
 	 
 }
