@@ -270,11 +270,11 @@
 			   for(int i = 0; i < 3; i++) { %>
 			<tr>
 				<td>만 <%= i+3 %> 세</td>
-				<% if(bi.size() != 0) { %>
+				<% if(bi.size() != 0 && j < 6) { %>
 						<td><%= bi.get(j).getBiDate() %></td>
 						<td><%= bi.get(j).getHeight() %></td>
 						<td><%= bi.get(j).getWeight() %></td>
-						<% if(bi.get(j+1) != null) { %>
+						<% if(bi.size() % 2 == 0) { %>
 							<td><%= bi.get(j+1).getBiDate() %></td>
 							<td><%= bi.get(j+1).getHeight() %></td>
 							<td><%= bi.get(j+1).getWeight() %></td>
@@ -293,7 +293,11 @@
 				<% } %>
 				<td></td>
 			</tr>
-			<% j+=2; 
+			<% if(bi.size() > 2 || bi.size() > 4) {
+				j+=2; 
+			} else {
+				j = 10;
+			}
 			} %>
 		</table>
 	</div>
