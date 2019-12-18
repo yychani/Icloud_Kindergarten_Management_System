@@ -135,7 +135,7 @@
    	</select>
     <div style="border: 1px solid black; width: 100%; height: 295px; margin-bottom: 10px; margin-top: 10px;"id="chatContext">
     </div>
-    <input type="text" style="width: 73%; height: 30px; border: 1px solid rgba(211, 211, 211, 0.842)" name="sendMassage" id="sendMassage">
+    <input type="text" style="border-radius: 10px; background: white; width: 73%; height: 30px; border: 1px solid rgba(211, 211, 211, 0.842)" name="sendMassage" id="sendMassage">
     &nbsp;&nbsp;<input type="button" name="sendBtn" onclick="send()" id="sendBtn" style="width: 79px; height: 30px;" value="보내기">
     
 </div>

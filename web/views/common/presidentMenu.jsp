@@ -10,6 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <%
 	Member loginUser = (Member) session.getAttribute("loginMember");
 
@@ -125,7 +126,7 @@
 							<li>|</li>
 							<li class="li7"><a href="<%=request.getContextPath()%>/selectAllDietTable.diet" class="submenuLink">식단표</a></li>
 							<li>|</li>
-							<li class="li8"><a href="<%=request.getContextPath()%>/views/president/preFTL.jsp"
+							<li class="li8"><a href="<%=request.getContextPath()%>/selectParticipant.ftl"
 									class="submenuLink">현장체험학습</a></li>
 						</ul>
 					</li>

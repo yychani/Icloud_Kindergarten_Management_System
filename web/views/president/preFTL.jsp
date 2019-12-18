@@ -1,6 +1,11 @@
+<%@page import="com.oracle5.task.model.vo.Participant"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%
+	ArrayList<Participant> participantList = (ArrayList<Participant>)request.getAttribute("participantList");
+	ArrayList<Participant> prevPartList = (ArrayList<Participant>)request.getAttribute("prevPartList");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -33,7 +38,7 @@
         input[type=checkbox] {
             width: 15px;
             height: 15px;
-            vertical-align: center;
+            vertical-align: middle;
         }
 
         button {
@@ -58,8 +63,8 @@
             padding-right: 0;
         }
 
-        th[id="applicant"] {
-            width: 500px;
+        th[id="applicantKid"], th[id="applicantP"] {
+            width: 250px;
             height: 50px;
         }
 
@@ -76,6 +81,7 @@
         }
 
         td[id="apply"] {
+        
             padding-right: 0;
         }
         #address:focus{
@@ -88,7 +94,7 @@
 				url:"/main/selectFieldTrip.ftl",
 				type:"post",
 				success:function(data){
-					console.log(data);
+					
 					$("#paymentStart").val(data.date);
     				$("#address").val(data.field);
     				$("#materials").val(data.materials);
@@ -294,53 +300,90 @@
 		</script>
     </div>
     <table id="table1" hidden>
-        <tr id="applyTr">
+        <tr id="applyTH">
             <th id="no">No</th>
-            <th id="applicant">신청자</th>
-            <th id="apply">선택</th>
+            <th id="applicantKid">신청 아이</th>
+            <th id="applicantP">신청 학부모</th>
+            <th id="applyDate">신청 날짜</th>
+            <th id="apply" style="width:60px;">납부 확인</th>
         </tr>
+        <% for(int i = 0; i < participantList.size(); i++){ %>
         <tr id="applyTr">
-            <td id="no"></td>
-            <td id="applicant"></td>
+            <td id="no"><%=participantList.get(i).getRnum() %>
+            <input type="hidden" id="partNo" value="<%=participantList.get(i).getParticipantNo() %>"></td>
+            <td id="applicantKid"><%=participantList.get(i).getCNname() %></td>
+            <td id="applicantP"><%=participantList.get(i).getPName() %></td>
+            <td id="applyDate"><%=participantList.get(i).getApplyDate() %></td>
             <td id="apply" align="center"><input class="check" type="checkbox"></td>
         </tr>
-        <tr id="applyTr">
-            <th style="height: 30px;"></th>
+        <% } %>
+        <tr id="applyTrCheck">
+            <th colspan="3" style="height: 30px;"></th>
             <th align="right">전체선택</th>
             <th><input id="allCheck" type="checkbox"></th>
-
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td colspan="3" style="float: right; padding-right: 0; padding-top: 5px;"><input type="button" value="승인"
-                    style="width: 70px; height:30px"></td>
+            <td colspan="4"></td>
+            <td style="float: right; padding-right: 0; padding-top: 5px;">
+            <input type="button" id="accept" value="승인" style="width: 70px; height:30px"></td>
 
         </tr>
     </table>
+    <script>
+	    $("#accept").click(function() {
+			var partNo = [];
+			var cnt = 0;
+			$('#table1 tbody').children().find("input[type=checkbox]:not('#allCheck')").each(function(index, value) {
+				if($(this).is(':checked') == true) {
+					partNo[cnt++] = $(this).parent().parent().find("#partNo").val();
+					//console.log($(this).parent().parent().find("#partNo").val());
+				}
+			});
+				$.ajax({
+				url:"updateftlList.do",
+				type:"post",
+				data:{
+					partNo:partNo
+				},
+				success:function(data) {
+					alert(data +"명 납부 확인 완료되었습니다.");
+					location.reload();
+				},
+				error:function() {
+					console.log("실패")
+				}
+			});
+		});
+    </script>
     <table id="table2" hidden>
         <tr id="applyTr">
             <th id="no">No</th>
-            <th id="place">장소</th>
+            <th id="place" style="width: 350px;">장소</th>
             <th id="applicant">신청자</th>
-            <th id="apply">승인 날짜</th>
+            <th id="applicant">참여 여부</th>
+            <th id="apply" style="width: 150px;">승인 날짜</th>
         </tr>
+        <% for(int i = 0; i < prevPartList.size(); i++){ %>
         <tr id="applyTr">
-            <td id="no"></td>
-            <td id="place"></td>
-            <td id="applicant"></td>
-            <td id="apply" align="center"></td>
+            <td id="no"><%=prevPartList.get(i).getRnum() %></td>
+            <td id="place"><%=prevPartList.get(i).getField() %></td>
+            <td id="applicant"><%=prevPartList.get(i).getCNname() %>&nbsp;학부모</td>
+            <td id="apply" align="center"><% if(prevPartList.get(i).getAttend().equals("Y")){ %>
+            							참여
+            							<% } else { %>
+            							미참여
+            							<% } %></td>
+			<td id="acceptDate" align="center"><% if(prevPartList.get(i).getAcceptDate() != null){ %>
+            							<%=prevPartList.get(i).getAcceptDate() %>
+            							<% } else { %>
+            							미납
+            							<% } %></td>
         </tr>
+        <% } %>
         <tr id="applyTr">
-            <th style="height: 20px;" colspan="2"></th>
+            <th style="height: 20px;" colspan="3"></th>
             <th align="right"></th>
             <th></th>
-        </tr>
-        <tr>
-            <td colspan="3"></td>
-            <td colspan="3" style="float: right; padding-right: 0; padding-top: 5px;"><input type="button" value="승인"
-                    style="width: 70px; height:30px"></td>
-
         </tr>
     </table>
     <script>
