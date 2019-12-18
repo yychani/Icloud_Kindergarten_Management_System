@@ -1240,4 +1240,67 @@ public class MemberService {
 		return birth;
 	}
 
+	//내아이 children 객체 업데이트
+	public int updateChildrenInfoC(Children c) {
+		Connection con = getConnection();
+		
+		int result = md.updateChildrenInfoC(con, c);
+		
+		close(con);
+		
+		return result;
+	}
+
+	//거주지 업데이트
+	public int updateAddress(int pNo, String address) {
+		Connection con = getConnection();
+		
+		int result = md.updateAddress(con, pNo, address);
+		
+		close(con);
+		
+		return result;
+	}
+
+	//가족관계 업데이트
+	public int updateFamilyRelatioin(ArrayList<FamilyRelation> frList) {
+		Connection con = getConnection();
+		int result = 0;
+		
+		for(int i = 0; i < frList.size(); i++) {
+			result += md.updateFamilyRelatioin(con, frList.get(i));
+		}
+		
+		if(result == frList.size()) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	//학적 업데이트
+	public int updateScholarly(ArrayList<Scholarly> sList, int cId) {
+		Connection con = getConnection();
+		int result = 0;
+		
+		for(int i = 0; i < sList.size(); i++) {
+			result += md.updateScholarly(con, sList.get(i), cId);
+			
+		}
+		
+		if(result == sList.size()) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
 }
