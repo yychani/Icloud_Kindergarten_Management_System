@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+	pageEncoding="UTF-8"
+	import="java.util.*, com.oracle5.member.model.vo.*"%>
 
 <!DOCTYPE html>
 <html>
@@ -14,116 +15,158 @@
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-	
-	
-<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+
+
+<link
+	href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding&display=swap"
+	rel="stylesheet">
 <style>
-.ui.raised.card{
+.ui.raised.card {
 	margin: auto auto;
 	width: 1000px;
 	font-family: 'Nanum Gothic Coding', monospace;
-	font-weight:bold;
-	color:black;
+	font-weight: bold;
+	color: black;
 }
-tr{
-	height:50px;
+
+tr {
+	height: 50px;
 }
-#plusBtn{
-	height:20px;
+
+#plusBtn {
+	height: 20px;
 }
-#cNameSelect{
-	width:161px;
-	height:34px;
-	border-radius:4px;
+
+#cNameSelect {
+	width: 161px;
+	height: 34px;
+	border-radius: 4px;
+}
+
+#submit {
+	float: right;
 }
 </style>
 
 </head>
 
 
-<body  style="overflow-x: hidden">
-<%@ include file="/views/common/parentsMenu.jsp"%>
+<body style="overflow-x: hidden">
+	<%@ include file="/views/common/parentsMenu.jsp"%>
 
 
-<h1 align="center">아이정보</h1>
+	<h1 align="center">아이정보</h1>
 	<br>
 	<div align="center">
-	<select class="ui dropdown" id="cNameSelect" name="cName"></select>
+		<select class="ui dropdown" id="cNameSelect" name="cName"></select>
 	</div>
 	<br>
-<div class="ui raised card" id="cDiv1">
+	<div class="ui raised card" id="cDiv1">
 
-  <div class="content">
-    <div class="header" align="center"> <img class="ui avatar image" src="<%= request.getContextPath() %>/uploadFiles/5racle_2019121016462761291.jpg"><label id="cName"> </label></div>
-    <div class="meta" align="center">
-      <span class="category" id="birth"></span>
-    </div>
-    <div class="description">
-      <table>
-      	<tr>
-      		<td>성별 : </td>
-      		<td colspan="3" style="text-align: left;">
-	      		<div class="ui radio checkbox">
-		      		<div style="display:inline-block;">
-		      			 <input type="radio" name="gender" value="f" checked="checked"><label>여</label>
-		      		</div>
-		      		<div style="display:inline-block;">
-		      			<input type="radio" name="gender" value="m"><label>남</label>
-		      		</div>
-	  			 </div>
-			</td>
-      	</tr>
-      	<tr>
-      		<td>혈액형 : </td>
-      		<td><div class="ui input"><input type="text" id="bloodType" value=""></div></td>
-      	</tr>
-      	<tr>
-      		<td>거주지 : </td>
-      		<td colspan="3"><div class="ui fluid icon input">
-  			<input type="text" value="" id="address"></div> </td>
-      	</tr>
-      	<tr>
-      		<td>본적 : </td>
-      		<td colspan="3"><div class="ui fluid icon input">
-  			<input type="text" value="" id="originAddress"></div> </td>
-      	</tr>
-      	<tr>
-      		<td>입학전 학적사항 : </td>
-      		<td colspan="3" id="scholarInfo">
-      		<!-- <div id="scholarValue" class="ui input">
+		<div class="content">
+		<form id="passChangeForm" action="<%=request.getContextPath()%>/kidInfoChange.me" method="post"  onsubmit="return encryption()">
+			<div class="header" align="center">
+				<img id="kidImg" class="ui avatar image"
+					src="<%=request.getContextPath()%>/uploadFiles/5racle_2019121016462761291.jpg"><label
+					id="cName"> </label>
+			</div>
+			<div class="meta" align="center">
+				<span class="category" id="birth"></span>
+			</div>
+			<div class="description">
+				<table>
+					<tr>
+						<td>성별 :</td>
+						<td colspan="3" style="text-align: left;">
+							<div class="ui radio checkbox">
+								<div style="display: inline-block;">
+									<input type="radio" name="gender" value="2" checked="checked"><label>여</label>
+								</div>
+								<div style="display: inline-block;">
+									<input type="radio" name="gender" value="1"><label>남</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>혈액형 :</td>
+						<td><div class="ui input">
+								<input type="text" id="bloodType" readonly>
+							</div></td>
+					</tr>
+					<tr>
+						<td>거주지 :</td>
+						<td colspan="3"><div class="ui fluid icon input">
+								<input type="text" name="address" id="address" readonly>
+							</div></td>
+					</tr>
+					<tr>
+						<td>본적 :</td>
+						<td colspan="3"><div class="ui fluid icon input">
+								<input type="text" name="originAddress" id="originAddress" readonly>
+							</div></td>
+					</tr>
+					<tr>
+						<td>입학전 학적사항 :</td>
+						<td colspan="3" id="scholarInfo">
+							<!-- <div id="scholarValue" class="ui input">
       		<input type="date" value="">
       		<input type="text" placeholder="기관명 입력" value="">
       		<input type="text" placeholder="특이사항 입력"  value=""></div> -->
-      		</td>
-      	</tr>
-      	<tr id="plusBtn"><td colspan="4"><img id="addScholar" width="20px" src="<%=request.getContextPath() %>/images/add.png" onclick=""></td></tr>
-      	<tr>
-      		<td>가족 사항 : </td>
-      		<td colspan="3" id="familyInfo">     		
-      		<!-- <div id="familyValue" class="ui fluid icon input">
+						</td>
+					</tr>
+					<tr id="plusBtn">
+						<td colspan="4"><img id="addScholar" width="20px"
+							src="<%=request.getContextPath()%>/images/add.png" onclick=""></td>
+					</tr>
+					<tr>
+						<td>가족 사항 :</td>
+						<td colspan="3" id="familyInfo">
+							<!-- <div id="familyValue" class="ui fluid icon input">
       		 <input name="fRelation"  type="text" placeholder="관계입력"  value="">
       		<input name="fName" type="text" placeholder="이름 입력"  value="">
       		<input name="fPhone" type="text" placeholder="연락처 입력"  value=""></div> -->
-      		</td>
-      	</tr>
+						</td>
+					</tr>
 
-      	<tr id="plusBtn"><td colspan="4"><img id="addFamily" width="20px" src="<%=request.getContextPath() %>/images/add.png" onclick=""></td></tr>
-      	<tr>
-      		<td>특이사항 : </td>
-      		<td colspan="3"><div class="ui fluid icon input">
-  			<input type="text" placeholder="아이 특이사항 입력란" value="" id="description"></div></td>
-      	</tr>
-      </table>
-    </div>
-  </div>
-  <div class="extra content">
-    <div class="right floated author">
-    <button class="ui teal basic button">아이 추가하기</button>
-    <button class="ui green basic button">아이정보 변경</button>
-    </div>
-  </div>
-</div>
-<script>
+					<tr id="plusBtn">
+						<td colspan="4"><img id="addFamily" width="20px"
+							src="<%=request.getContextPath()%>/images/add.png" onclick=""></td>
+					</tr>
+					<tr>
+						<td>특이사항 :</td>
+						<td colspan="3"><div class="ui fluid icon input">
+								<input type="text" name="description" id="description"
+									readonly>
+							</div></td>
+					</tr>
+				</table>
+				<div id="divSubmitBtn" style="display: none;">
+					<button class="ui pink  basic button" type="submit" id="submit">완료</button>
+				</div>
+			</div>
+			</form>
+		</div>
+		<div class="extra content">
+			<div class="right floated author">
+				<button class="ui green basic button">아이 추가하기</button>
+				<button class="ui teal basic button" id="cInfoChangeBtn"
+					onclick="childInfoChange();">아이정보 변경</button>
+
+			</div>
+		
+		</div>
+		
+	</div>
+
+	<!-- 암호화 -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
+
+
+	<script>
 $(function(){
 	cId = 0;
 	$.ajax({
@@ -169,14 +212,34 @@ $(function(){
 				$("div").remove("#familyValue");
 				$("div").remove("#scholarValue");
 				
+				/* 사진 넣어주기 */
+				$("#kidImg").attr("src", '<%=request.getContextPath()%>/uploadFiles/' + data.c.imgSrc);
+				
 				/* children 객체에서 정보 넣어주기 */
 				$("#cName").text(data.c.name);
 				$("#bloodType").val(data.c.bloodType);
 				$("#originAddress").val(data.c.originAddr);
+				var originAdd = $("#originAddress").val();
+				var passphrase = "1234";
+				var decrypted1 = CryptoJS.AES.decrypt(originAdd, passphrase);
+				var originAdd1 = decrypted1.toString(CryptoJS.enc.Utf8);
+				$("#originAddress").val(originAdd1);
+				
 				$("#description").val(data.c.description);
+				$("#birth").text(data.birth);
+				
+				/* 성별 체크 */
+				var rno = data.c.rno;
+				var test = rno.split('-');
+				var gender = test[0].charAt(0);
+				$("input:radio[name=gender]:input[value='" + gender + "']").prop("checked", true);
 				
 				/* 거주지 넣어주기 */
 				$("#address").val(data.address);
+				var address = $("#address").val();
+				var decrypted2 = CryptoJS.AES.decrypt(address, passphrase);
+				var address1 = decrypted2.toString(CryptoJS.enc.Utf8);
+				$("#address").val(address1);
 				
 				/* 학적사항 날짜 변경 */
 				for(var i = 0; i < data.sc.length; i++){
@@ -193,7 +256,7 @@ $(function(){
 	            	for(var s = 0; s < data.sc.length; s++){
 						 //console.log(data.sc[i].sDate); 
 						//$("#scholarValue").append("<input type='date' value='"+data.sc[i].sDate+"'>");	
-						$("#scholarInfo").append("<div id='scholarValue' class='ui input'><input type='date' value='" + date + "'><input type='text' value='" + data.sc[s].agency + "'><input type='text' value='" + data.sc[s].uniqueness + "'></div>");
+						$("#scholarInfo").append("<div id='scholarValue' class='ui input'><input type='date' readonly value='" + date + "'><input type='text' readonly value='" + data.sc[s].agency + "'><input type='text' readonly value='" + data.sc[s].uniqueness + "'></div>");
 					}  
 					
 				}
@@ -204,7 +267,7 @@ $(function(){
 				/* 가족사항 */
 				 for(var f = 0; f < data.fr.length; f++){
 					// console.log(data.fr[f]); 
-					$("#familyInfo").append("<div id='familyValue' class='ui fluid icon input'><input name='fRelation'  type='text' value='" + data.fr[f].relation + "'><input name='fName' type='text' value='"+ data.fr[f].name+"'><input name='fPhone' type='text' value='"+data.fr[f].phone+"'></div>");
+					$("#familyInfo").append("<div id='familyValue' class='ui fluid icon input'><input name='fRelation' readonly type='text' value='" + data.fr[f].relation + "'><input name='fName' readonly type='text' value='"+ data.fr[f].name+"'><input name='fPhone' readonly type='text' value='"+data.fr[f].phone+"'></div>");
 				} 
 				
 			},
@@ -214,10 +277,36 @@ $(function(){
 		});
 	});
 }); 
+
+/* 아이정보 변경 버튼 클릭시  */
+function childInfoChange(){
+	console.log("아이정보 변경 버튼 클릭");
+	/* readonly 해제 */
+	$('input').removeAttr("readonly");
+	$('input').css("border-color","rgb(140, 201, 240)");
+	
+	$("#divSubmitBtn").show();
+	
+	
+	
+}
+
+function encryption(){
+	/* 거주지 암호화 */
+	var address = $("#address").val();
+	var passphrase = "1234";
+	var encrypt1 = CryptoJS.AES.encrypt(address, passphrase);
+	$("#address").val(encrypt1);
+	
+	/* 본적 암호화 */
+	var originAdd = $("#originAddress").val();
+	var encrypt2 = CryptoJS.AES.encrypt(originAdd, passphrase); 
+	$("#originAddress").val(encrypt2);
+}
 </script>
 
 
-<script>
+	<script>
 	
 
 	/* select 값 가져오기 */

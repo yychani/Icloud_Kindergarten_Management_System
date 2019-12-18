@@ -3443,5 +3443,31 @@ public class MemberDao {
 
 	}
 
+	public String selectBirth(Connection con, int cId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String birth = null;
+		
+		String query = prop.getProperty("selectBirth");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt .setInt(1, cId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				birth = rset.getString("BIRTH");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return birth;
+	}
+
 
 }

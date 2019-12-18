@@ -50,11 +50,14 @@ public class ChildrenInfoServlet extends HttpServlet {
 		ArrayList<Scholarly> sc = new MemberService().selectScholarly(cId);
 		String address = new MemberService().selectParentsAddress(cId);
 		
+		String birth = new MemberService().selectBirth(cId);
+		
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("c", c);
 		hmap.put("fr", fr);
 		hmap.put("sc", sc);
 		hmap.put("address", address);
+		hmap.put("birth", birth);
 		
 		if(hmap != null) {
 			response.setContentType("application/json");

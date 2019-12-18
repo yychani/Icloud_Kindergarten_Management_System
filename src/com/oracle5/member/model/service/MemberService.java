@@ -1230,4 +1230,14 @@ public class MemberService {
 
 	}
 
+	public String selectBirth(int cId) {
+		Connection con = getConnection();
+		
+		String birth = md.selectBirth(con, cId);
+		
+		close(con);
+		
+		return birth;
+	}
+
 }
