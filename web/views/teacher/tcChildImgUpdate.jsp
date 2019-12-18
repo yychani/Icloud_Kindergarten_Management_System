@@ -112,6 +112,10 @@
 	cursor: pointer;
 }
 	
+	#trArea1{
+	text-align: center;
+	
+	}
 
 		
 </style>
@@ -120,12 +124,14 @@
 
 	<%@ include file="/views/common/teacherMenu.jsp"%>
 	<h1 style="margin: 0 15%; text-decoration: underline; text-underline-position: under;" >아이들 사진 갤러리 수정</h1>
-	
+	<div>
+	<form id="updateForm" method="post">
 	<div align="center"><input type="text" id="title" name="title" value="<%=b.getTtitle()%>"></div>
 	<div class="ui dividing header" align="center"></div>
 	<label id="textArea"><%=b.getTtime()%></label>
-
-	<div align="center">
+	</form>
+	</div>
+	
 		<% 
 			for(Attachment at : list){
 		%>
@@ -139,14 +145,11 @@
 					<td><input type="button" class="updateImg" value="수정"></td>
 					<td><input type="button" class="deleteImg" value="삭제"></td>		
 					<td>
-						<div id="titleImgArea" style="width: 200px; height:180px; border: 1px solid black;">
-						</div>
-						<div id="fileArea">
-							<input type="file" id="thumbnailImg1" name="imgfid<%=at.getFid()%>" onchange="loadImg(this, 1)">
-						</div>
-					</td>							
+							<input type="file" id="thumbnailImg1" name="imgfid<%=at.getFid()%>" value="사진선택">
+					</td>	
+											
 				</tr>
-					
+				
 					
 			
 				<tr>
@@ -161,7 +164,7 @@
 		</div>
 			<%} %>
 			<div>
-			<!-- <form id="updateForm" method="post"> -->
+			<form id="updateForm1" method="post">
 			<table align="center" id="tableArea2">
 			<tr>
 				<td rowspan="4" id="content"><textarea style="resize: none; width: 100%;" rows="15" id="content" name="content"
@@ -169,6 +172,7 @@
 			</tr>
 
 			</table>
+	
 			<br>
 					<div  class="ui dividing header"></div>
 		</div>
@@ -186,7 +190,7 @@
 		<input type="button" onclick="complete()" value="작성완료">
 		<input type="button" onclick="deleteimg()" value="삭제하기">
 	</div>
-	<!-- </form> -->
+	</form> 
 	
 	<script>
 		function loadImg(value, num){
@@ -218,8 +222,8 @@
 			$("#updateForm").submit();
 		}
 		function deleteimg(){
-			$("#updateForm").attr("action","<%=request.getContextPath()%>/deletechildImgBoard.tbo");
-			$("#updateForm").submit();
+			$("#updateForm1").attr("action","<%=request.getContextPath()%>/deletechildImgBoard.tbo");
+			$("#updateForm1").submit();
 		}
 		function updateImg(){
 			$("#imgUpdateForm").attr("action","<%=request.getContextPath()%>/");

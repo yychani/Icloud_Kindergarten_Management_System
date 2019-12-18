@@ -1,4 +1,3 @@
-
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.oracle5.common.model.vo.Attachment"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -82,7 +81,7 @@ textarea {
 		<% 
 			for(Attachment at : list){
 		%>
-		<div class="Imgscr"><img alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></div>
+		<div class="Imgscr"><img alt=""  class="img" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></div>
 		<%} %>
 	
 	</div>

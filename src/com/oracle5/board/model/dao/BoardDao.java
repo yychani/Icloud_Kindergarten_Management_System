@@ -698,6 +698,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 					b.setName(rset.getString("NAME"));
 					b.setTcount(rset.getInt("T_COUNT"));
 					b.setTtime(rset.getDate("T_TIME"));
+					b.setPno(rset.getInt("RNUM"));
 					
 			
 			
