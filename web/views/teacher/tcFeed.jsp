@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
 <%
 	int cid = Integer.parseInt(request.getParameter("cid"));
+	int pno = 0;
+	if(request.getAttribute("pno") != null){
+		pno = Integer.parseInt(request.getParameter("pno"));
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -15,6 +19,8 @@
 <body>
  	<%@ include file="/views/common/teacherMenu.jsp" %>
  	<h1><%= cid %></h1>
+ 	<%@ include file="/views/common/feed.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
+    <%@ include file="/views/common/chat.jsp" %>
 </body>
 </html>

@@ -77,7 +77,7 @@ input[type=submit]:hover, input[type=button]:hover {
 										'<%=request.getContextPath()%>/teacher'
 									<%}
 				} else if (loginUser.getUType().equals("학부모")) {%>
-										'<%=request.getContextPath()%>/views/parents/parMain.jsp'
+										'<%=request.getContextPath()%>/selectChildCidServlet.me?pno=<%=loginUser.getMemberNo() %>'
 							<%}%>">메인으로
 			이동하기</button>
 	</div>

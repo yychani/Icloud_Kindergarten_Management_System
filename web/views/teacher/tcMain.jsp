@@ -65,7 +65,7 @@
 			<% for(int i = 0; i < list.size(); i++) { %>
 			<tr>
 				<td class="no"><%= i + 1 %> <input type="hidden" id="cid" value="<%= list.get(i).getCId() %>" /></td>
-				<td class="name"><a href="<%= request.getContextPath() %>/views/teacher/tcFeed.jsp?cid=<%= list.get(i).getCId() %>"><%= list.get(i).getName() %></a></td> 
+				<td class="name"><a href="<%= request.getContextPath() %>/views/teacher/tcFeed.jsp?cid=<%= list.get(i).getCId() %>&pno=<%= list.get(i).getPno() %>"><%= list.get(i).getName() %></a></td> 
 			</tr>
 			<% } %>
 		</table>

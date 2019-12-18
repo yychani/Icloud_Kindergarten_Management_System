@@ -52,10 +52,8 @@
 	}
 		
 	function onError2(event){
-		alert(event.data);
 	}
 		
 	function onClose2(event){
-		alert(event);
 	}
 </script>

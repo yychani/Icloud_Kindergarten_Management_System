@@ -40,26 +40,6 @@ import com.oracle5.member.model.vo.ReturnAgree;
 import com.oracle5.member.model.vo.Scholarly;
 import com.oracle5.member.model.vo.Teacher;
 
-/**
- * @author wonky
- *
- */
-/**
- * @author wonky
- *
- */
-/**
- * @author wonky
- *
- */
-/**
- * @author wonky
- *
- */
-/**
- * @author wonky
- *
- */
 public class MemberDao {
 	Properties prop = new Properties();
 
