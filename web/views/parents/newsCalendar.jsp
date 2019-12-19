@@ -25,7 +25,6 @@ input[type=text] {
 }
 
 td {
-	padding: 10px 30px;
 	padding-left: 0;
 }
 
