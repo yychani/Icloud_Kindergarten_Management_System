@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
 			
 			if(loginMember.getUType().equals("교사")) {
 				if(loginMember.getMemberId().equals("admin")) {
-					response.sendRedirect("views/president/preMain.jsp");
+					response.sendRedirect(request.getContextPath() + "/selectTodoList.todo");
 				}else {
 					response.sendRedirect("teacher");
 				}

@@ -16,6 +16,7 @@ import com.oracle5.task.model.vo.Meal;
 import com.oracle5.task.model.vo.Participant;
 import com.oracle5.task.model.vo.Position;
 import com.oracle5.task.model.vo.Snack;
+import com.oracle5.task.model.vo.TodoList;
 import com.oracle5.task.model.vo.WorkDivision;
 
 import static com.oracle5.common.JDBCTemplate.*;
@@ -1007,6 +1008,72 @@ public class TaskDao {
 			close(rset);
 		}
 		return prevPartList;
+	}
+
+	/** todoList 업데이트
+	 * @param con
+	 * @param todoList 
+	 * @param i
+	 * @return
+	 */
+	public int insertTodoList(Connection con, TodoList todoList, int i) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("insertTodoList");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, todoList.getListCheck());
+			pstmt.setString(2, todoList.getTodayList());
+			pstmt.setString(3, todoList.getTomorrowList());
+			pstmt.setInt(4, i + 1);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	/** TodoList 조회
+	 * @param con
+	 * @return
+	 */
+	public ArrayList<TodoList> selectTodoList(Connection con) {
+		ArrayList<TodoList> todoList = null;
+		Statement stmt = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectTodoList");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(query);
+			
+			if(rset != null) {
+				todoList = new ArrayList<>();
+				while(rset.next()) {
+					TodoList todo = new TodoList();
+					todo.setListCheck(rset.getString("LISTCHECK"));
+					todo.setTodayList(rset.getString("TODAYLIST"));
+					todo.setTomorrowList(rset.getString("TOMORROWLIST"));
+					
+					todoList.add(todo);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
+			close(rset);
+		}
+		
+		return todoList;
 	}
 
 }
