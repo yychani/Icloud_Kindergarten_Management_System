@@ -193,7 +193,7 @@
                     </select>
                  </td>
                  <td align="center">
-                    <label id="kidFaceBtn">아이사진 선택</label>
+                    <label id="kidFaceBtn">아이사진 선택</label><br>
                     <input type="file" id="kidFile" name="kidFile" style="width: 200px; border: 0;">
                  </td>
             </tr>
@@ -220,7 +220,7 @@
                 <td colspan="2" class="input"><input type="radio" id="agree" name="emergency" value="Y" checked><label
                         for="agree" style="vertical-align: center;">동의</label><input type="radio" id="disemergency" name="emergency"
                         value="N" style="vertical-align: center; margin-left: 36px;"><label
-                        for="disagree">미동의</label>
+                        for="disemergency">미동의</label>
                 </td>
             </tr>
             <tr>

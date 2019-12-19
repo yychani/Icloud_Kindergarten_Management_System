@@ -106,13 +106,8 @@
     <div style="margin: 0 15%;">
         <h1 style="text-decoration: underline; text-underline-position: under;">일정표</h1>
     </div>
-    <%@ include file="/views/common/calendar.jsp" %>
-    <div style="margin: 5px auto; width: fit-content; min-width: 712px;">
-        <label>날짜 : </label><span id="dateOutput"></span><br><br>
-        <label>내용</label><br>
-        <textarea name="dateCont" id="dateCont" cols="100" rows="5" readonly></textarea><br>
-    </div>
-    <br /><br />
+    <%@ include file="/views/common/schedule.jsp" %>
+    
     
     <script>
         $(function () {

@@ -45,7 +45,7 @@ public class UpdateAsListServlet extends HttpServlet {
 		
 		
 		int	result = new MemberService().updateAsList(cid, endDate);
-		
+		System.out.println(result);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		new Gson().toJson(result, response.getWriter());

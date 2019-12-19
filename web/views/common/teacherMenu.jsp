@@ -104,7 +104,7 @@
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/selectFLetterList.tbo" class="submenuLink">가정통신문</a></li>
 							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/views/teacher/tcSchedule.jsp" class="submenuLink">일정표</a></li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllSchedule.sch" class="submenuLink">일정표</a></li>
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/selectAllDietTable.diet" class="submenuLink">식단표</a></li>
 						</ul>
