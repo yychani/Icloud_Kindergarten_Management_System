@@ -1312,7 +1312,7 @@ public class BoardService {
 
 		if (result > 0) {
 			commit(con);
-		    replyList = new BoardDao().selectPreHrereplyList(con, r);
+		    replyList = new BoardDao().selectAllPreHBoardReply(con, r.getTid());
 		} else {
 			rollback(con);
 		}
@@ -1441,6 +1441,21 @@ public class BoardService {
 		close(con);
 		
 		return hmap;
+	}
+	
+	//앨범 제목 내용 수정 
+	public int updateChildImgBoard(Board b) {
+		Connection con = getConnection();
+		int result = new BoardDao().updateChildImgBoard(con, b);
+
+		if (result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+
+		close(con);
+		return result;
 	}
 
 	//게시판 글 검색용 메소드

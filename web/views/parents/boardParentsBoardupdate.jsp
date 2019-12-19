@@ -77,7 +77,7 @@ textarea {
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
-		<input type="text" id="title" name="title" style="border:0;" value="<%=b.getTtitle()%>" >
+		<input type="text" id="title" name="title" style="border:1;" value="<%=b.getTtitle()%>" >
 	</div>
 	
 	<br />
@@ -88,14 +88,14 @@ textarea {
 	<div class="ui form">
 		<div class="field">
 			<h3 style="text-underline-position: under;">내용</h3>
-			<textarea style="resize: none; width: 100%; border:0;" rows="25" id="content" name="content"
+			<textarea style="resize: none; width: 100%; border:1;" rows="25" id="content" name="content"
 			  ><%=b.getTcont() %></textarea>
 		</div>
 	</div>
 	<br>
 	 <div align="right">
 	 	<button onclick="complete()">작성완료</button>
-	 	<button onclick="deletePreKNotice()">삭제하기</button>
+	 	<button onclick="deleteParentsBoard()">삭제하기</button>
 	 </div>
 	
 

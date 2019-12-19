@@ -3318,10 +3318,11 @@ public class MemberDao {
   return t;
 }
 
-	public Teacher selectMyTeacher(Connection con, int pno) {
-		Teacher teacher = null;
+	public ArrayList<Teacher> selectMyTeacher(Connection con, int pno) {
 		ResultSet rset = null;
 		PreparedStatement pstmt = null;
+		ArrayList<Teacher> teacher = null;
+		Teacher t = null;
 		
 		String query = prop.getProperty("selectMyTeacher");
 		
@@ -3331,12 +3332,16 @@ public class MemberDao {
       			
 			rset = pstmt.executeQuery();
 			
-			if(rset.next()) {
-
-        teacher = new Teacher();
-				teacher.setTeacherNo(rset.getInt("T_NO"));
-				teacher.setClassName(rset.getString("NAME"));
-        		}
+			teacher = new ArrayList<Teacher>();
+			
+			while(rset.next()) {
+				
+				t = new Teacher();
+				t.setTeacherNo(rset.getInt("T_NO"));
+				t.setClassName(rset.getString("NAME"));
+				
+				teacher.add(t);
+        	}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

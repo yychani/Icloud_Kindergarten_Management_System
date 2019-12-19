@@ -201,8 +201,9 @@ input[type='button'] {
   					<div class="ui button" id="search">찾기</div>
 				</div>
               
-              <button style="float:right; width:100px; height:30px;" class="writing">글쓰기</button>
-              
+               <%if(loginUser != null && loginUser.getUType().equals("학부모")) {%>
+              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
+			  <%} %>
         </div> 
 	</div>
 	

@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>학부모 게시판 수정</title>
+<title>가정통신문 수정</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -51,23 +51,23 @@ textarea {
 
 </head>
 <body>
-	<%@ include file="/views/common/parentsMenu.jsp" %>
+	<%@ include file="/views/common/teacherMenu.jsp" %>
 	<script>
-   	$(function() {
-   	 $(".li:nth-child(5)").addClass("on");
-    
-   		$(".topMenuLi:nth-child(1)").addClass("on");
-
-   	 $(".topMenuLi").mouseover(function() {
-   			 $(".li:nth-child(5)").removeClass("on");
-   			 $(".topMenuLi:nth-child(1)").removeClass("on");
-   	});
-
-   	 $(".topMenuLi").mouseleave(function() {
-   	   $(".li:nth-child(5)").addClass("on");
-   		$(".topMenuLi:nth-child(1)").addClass("on");
-   	});
-   }); 
+	$(function() {
+		  $(".li:nth-child(5)").addClass("on");
+		  
+	    $(".topMenuLi:nth-child(1)").addClass("on");
+	   
+	    $(".topMenuLi").mouseover(function() {
+	      $(".li:nth-child(5)").removeClass("on");
+	      $(".topMenuLi:nth-child(1)").removeClass("on");
+	   });
+	  
+	    $(".topMenuLi").mouseleave(function() {
+	      $(".li:nth-child(5)").addClass("on");
+	      $(".topMenuLi:nth-child(1)").addClass("on");
+	   });
+	});  
 </script>
 	<div style="margin: 0 15%;">
 	<h1 style="text-decoration: underline; text-underline-position: under;">가정통신문</h1>
@@ -77,7 +77,7 @@ textarea {
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
-		<input type="text" id="title" name="title" style="border:0;" value="<%=b.getTtitle()%>" >
+		<input type="text" id="title" name="title" style="border:1;" value="<%=b.getTtitle()%>" >
 	</div>
 	
 	<br />
@@ -88,14 +88,14 @@ textarea {
 	<div class="ui form">
 		<div class="field">
 			<h3 style="text-underline-position: under;">내용</h3>
-			<textarea style="resize: none; width: 100%; border:0;" rows="25" id="content" name="content"
+			<textarea style="resize: none; width: 100%; border:1;" rows="25" id="content" name="content"
 			  ><%=b.getTcont() %></textarea>
 		</div>
 	</div>
 	<br>
 	 <div align="right">
 	 	<button onclick="complete()">작성완료</button>
-	 	<button onclick="deletePreKNotice()">삭제하기</button>
+	 	<button onclick="deletetcFL()">삭제하기</button>
 	 </div>
 	
 
@@ -103,7 +103,7 @@ textarea {
 		function complete(){
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/updateTFLetter.tbo");
 		}
-		function deleteParentsBoard(){
+		function deletetcFL(){
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/deleteTFLetter.tbo")
 		}
 	</script>
@@ -119,14 +119,17 @@ textarea {
 				<tr id="trArea">
 					<td><input type="hidden" name="fid" id="fid"value="<%=at.getFid()%>">
 					<input type="hidden" name="tidImg" value="<%=b.getTid()%>"></td>
-					<td colspan="2"><img width="800" height="400" class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
+					<td colspan="2"><img width="500" height="400" class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
 					<td><input type="button" class="updateImg" value="수정"></td>
-					<td><input type="button" class="deleteImg" value="삭제"></td>		
+					<td	colspan="2">&nbsp;</td>	
+					<td><input type="button" class="deleteImg" value="삭제"></td>	
+					<tr>
+					<td	colspan="2">&nbsp;</td>	
 					<td>
-							<input type="file" id="thumbnailImg1" name="imgcee<%=at.getFid()%>" value="사진선택">
+					<input type="file" id="thumbnailImg1" name="imgcee<%=at.getFid()%>" value="사진선택">
 					</td>
-											
-				 </tr>
+				</tr>	
+							
 			</table>
 			</form>
 		</div>

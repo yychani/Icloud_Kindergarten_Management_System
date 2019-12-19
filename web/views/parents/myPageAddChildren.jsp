@@ -5,9 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>아이 추가하기</title>
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <!-- 시멘틱ui -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
@@ -37,10 +37,7 @@ var selFile;
 $(document).ready(function () {
     $("#kidFile").on("change", handleImgFileSelect);
 
-    $("#datepicker").datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
+   
 });
 
 function handleImgFileSelect(e) {
@@ -92,30 +89,31 @@ $(function() {
 	<div class="ui card" id="card">
   <div class="content">
     <div class="header">아이 추가하기</div>
+    <form action="<%=request.getContextPath() %>/childrenInsert.me?add=1" method="post" encType="multipart/form-data" id="addChild" onsubmit="return encryption()">
     <div class="description">
-    <form id="passChangeForm" action="<%=request.getContextPath()%>/kidAdd.me" method="post"  onsubmit="return encryption()">
       <table>
       	<tr>
       		<td colspan="2">이름 : </td>
       		<td colspan="2"><div class="ui input">
-  			<input type="text" placeholder="원아 이름" name="kidName"></div>
+  			<input type="text" placeholder="원아 이름" name="name" id="name"></div>
 			</td>
 			<td rowspan="3">
 			<div class="kidFace" style="vertical-align: middle;"><img class="kidFace" id="kidFace" name="kidFace" src="<%=request.getContextPath() %>/images/noImages.png"
                             style="width: 119px; height: 157px; margin: 23px 40px;"></div>
+                            <input type="hidden" value="<%=loginUser.getMemberId() %>" name="userId" id="userId">
 			</td>
       	</tr>
       	<tr>
       		<td colspan="2" >주민등록 번호 : </td>
       		<td colspan="2" ><div class="ui input">
-  			<input type="text" name="rno1"> - <input type="password"  name="rno2"></div></td>
+  			<input type="text" name="userNumber1"> - <input type="password"  name="userNumber2"></div></td>
       	</tr>
       	<tr>
       		<td colspan="2" >본적 : </td>
       		<td colspan="2" >
 	      		<div class="ui input">
-	  			<input type="text" placeholder="본적 입력" name="originAdd" id="originAdd">
-	  			<input type="text" placeholder="본적 입력" name="originAdd1" id="originAdd1">
+	  			<input type="text" placeholder="본적 입력" name="address" id="address">
+	  			<input type="hidden" name="address1" id="address1">
 	  			</div>
   			</td>
       	</tr>
@@ -138,13 +136,26 @@ $(function() {
       		<td colspan="2" >해당 반 : </td>
       		<td colspan="2" ><select id="className" name="className"></select></td>
       	</tr>
+      	<script>
+            $(function() {
+            	$("#kidFile").hide();
+    			$("#kidFaceBtn").click(function(){
+    				$("#kidFile").click();
+    			});
+    		});
+            $(function() {
+            	$("#className").change(function() {
+					console.log($(this).val());
+				});
+            })
+            </script>
       	<tr>
       		<td colspan="2" >응급 처치 동의 : </td>
       		<td colspan="2" >
       			<input type="radio" id="agree" name="emergency" value="Y" checked>
       			<label for="agree" style="vertical-align: center;">동의</label>
       			<input type="radio" id="disemergency" name="emergency" value="N" style="vertical-align: center; margin-left: 36px;">
-           	 	<label for="disagree">미동의</label>
+           	 	<label for="disemergency">미동의</label>
         	</td>
       	</tr>
       	<tr>
@@ -152,7 +163,7 @@ $(function() {
       		<td colspan="3"  id="dateTd">
 	      		<div id="dateclone">
 		      		<div class="ui input">
-		  				<input type="text" id="datepicker" class="datepicker" style="width: 20%;" placeholder="날짜 입력" name="date">
+		  				<input type="text" id="datepicker" class="datepicker" style="width: 20%;" placeholder="날짜 입력" name="date" autocomplete="off">
 		                <input type="text" placeholder="XX유치원" style="margin-left: 20px; width:20%;" name="agency"> 
 		                <input type="text" placeholder="특이사항" style="margin-left: 20px; width:30%;" name="uniqueness">
 		                <button id="add" class="compact ui button">추가</button>
@@ -179,25 +190,33 @@ $(function() {
       		</td>
       	</tr>
       	<tr>
-      		<td colspan="2">특이사항 : </td>
-      		<td colspan="3">
-      			<div class="ui form">
-				  <div class="field">
-				    <textarea rows="2" name="kidUnique"></textarea>
-				  </div>
-				</div>
-      		</td>
-      	</tr>
+                <td colspan="2" class="label"><label>특이사항 : </label></td>
+                <td colspan="3" class="input">
+                <div class="ui form">
+                	<div class="field">
+                    	<textarea cols="90" rows="10" name="kidUnique" id="kidUnique"></textarea>
+                	</div>
+                </div>
+                </td>
+            </tr>
       </table>
-      </form>
     </div>
-  </div>
   <div class="extra content" align="center">
 	<button class="ui grey basic button" onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageChildren.jsp'">취소</button>
 	<button class="ui blue basic button" type="submit">완료</button>
   </div>
+      </form>
+  </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
 	<script>
+	
+	 $("#datepicker").datepicker({
+	        changeMonth: true,
+	        changeYear: true
+	    });
+	 
             $("#add").on("click", function() {
                 $("#dateclone").clone(true).appendTo($("#dateTd:last-child"));
                 return false;
@@ -212,8 +231,10 @@ $(function() {
             	var address = $("#address").val();
         	    var passphrase = "1234";
         	    var encrypt1 = CryptoJS.AES.encrypt(address, passphrase);
-        	    var address1 = decrypted1.toString(CryptoJS.enc.Utf8);
-        	    $("#address1").val(decrypted1);
+        	    $("#address1").val(encrypt1);
+        	    
+        	
+        	    return true;
             }
       </script>
 	

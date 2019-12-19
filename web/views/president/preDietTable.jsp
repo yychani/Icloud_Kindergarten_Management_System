@@ -211,7 +211,7 @@ input[type='text'] {
 			style="text-decoration: underline; text-underline-position: under;">식단표</h1>
 	</div>
 	<%@ include file="/views/common/dietTable.jsp"%>
-	<div class="ui modal">
+	<div class="ui modal" style="top: 17%; left: 21%;">
 		<i class="close icon"></i>
 		<div class="header"></div>
 		<div class="image content">

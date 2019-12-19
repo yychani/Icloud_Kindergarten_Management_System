@@ -152,11 +152,18 @@ public class ChildrenInsertServlet extends HttpServlet {
 			hmap.put("fileList", fileList);
 			hmap.put("Ban", b);
 			
+			int add = 0;
+			if(request.getParameter("add") != null) {
+				add = Integer.parseInt(request.getParameter("add"));
+			}
+			
 			int result = new MemberService().insertChildren(hmap, userId);
 			int result1 = new MemberService().updateChildBcno(hmap, userId);
 			
-			if (result > 0) {
+			if (result > 0 && add == 0) {
 				response.sendRedirect(request.getContextPath() + "/views/signUp/login.jsp");
+			} else if (result > 0 && add == 1) {
+				response.sendRedirect(request.getContextPath() + "/views/parents/myPageChildren.jsp");
 			} else {
 				for (int i = 0; i < saveFiles.size(); i++) {
 					File failedFile = new File(savePath + saveFiles.get(i));

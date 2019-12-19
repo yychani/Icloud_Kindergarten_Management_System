@@ -8,18 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.board.model.service.BoardService;
+import com.oracle5.board.model.vo.Board;
 
 /**
- * Servlet implementation class DeleteChildImgBoardServlet
+ * Servlet implementation class UpdateChildImgBoardServlet
  */
-@WebServlet("/deletechildImgBoard.tbo")
-public class DeleteChildImgBoardServlet extends HttpServlet {
+@WebServlet("/updateChildImg.tbo")
+public class UpdateChildImgBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteChildImgBoardServlet() {
+    public UpdateChildImgBoardServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,18 +29,24 @@ public class DeleteChildImgBoardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int num = Integer.parseInt(request.getParameter("tId"));
-		System.out.println("tid :" + num);
+		int tid = Integer.parseInt(request.getParameter("tid"));
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
 		
-		int result = new BoardService().deleteChildImgBoard(num);
 		
-		String page = "";
+		Board b = new Board();
+		b.setTid(tid);
+		b.setTtitle(title);
+		b.setTcont(content);
 		
-		if(result>0) {
-			response.sendRedirect("selectListChImg.tbo");
+		int result = new BoardService().updateChildImgBoard(b);
+		
+		String page="";
+		if(result >0) {
+			response.sendRedirect("/main/selectOneTcChildImg.pbo?num="+b.getTid() + "&isUpdate=true");
 		}else {
 			page="views/common/errorPage.jsp";
-			request.setAttribute("msg", "앨범 게시판 삭제 실패");
+			request.setAttribute("msg", "가정통신문 수정 실패");
 			request.getRequestDispatcher(page).forward(request, response);
 		}
 		

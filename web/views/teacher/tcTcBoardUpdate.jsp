@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>원 공지사항 detail</title>
+<title>선생님 게시판</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -78,7 +78,7 @@ $(function() {
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
-		<input type="text" id="title" name="title" style="border:0;" value="<%=b.getTtitle()%>" >
+		<input type="text" id="title" name="title" style="border:1;" value="<%=b.getTtitle()%>" >
 	</div>
 	
 	<br />
@@ -89,7 +89,7 @@ $(function() {
 	<div class="ui form">
 		<div class="field">
 			<h3 style="text-underline-position: under;">내용</h3>
-			<textarea style="resize: none; width: 100%; border:0;" rows="25" id="content" name="content"
+			<textarea style="resize: none; width: 100%; border:1;" rows="25" id="content" name="content"
 			  ><%=b.getTcont() %></textarea>
 		</div>
 	
@@ -121,9 +121,12 @@ $(function() {
 					<input type="hidden" name="tidImg" value="<%=b.getTid()%>"></td>
 					<td colspan="2"><img width="500" height="400" class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
 					<td><input type="button" class="updateImg" value="수정"></td>
-					<td><input type="button" class="deleteImg" value="삭제"></td>		
+					<td	colspan="2">&nbsp;</td>	
+					<td><input type="button" class="deleteImg" value="삭제"></td>	
+					<tr>
+					<td	colspan="2">&nbsp;</td>	
 					<td>
-							<input type="file" id="thumbnailImg1" name="img12<%=at.getFid()%>" value="사진선택">
+					<input type="file" id="thumbnailImg1" name="imgcee<%=at.getFid()%>" value="사진선택">
 					</td>
 											
 				 </tr>

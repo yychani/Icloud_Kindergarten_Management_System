@@ -80,8 +80,13 @@ table {
 			success : function(data) {
 				$select = $("#receiver");
 				$select.find("option").remove();
-				var name = decodeURIComponent(data.className);
-				$select.append("<option value='" + data.teacherNo + "'>" + name + " 선생님</option>");
+				console.log(data);
+				for(var key in data){
+					var name = decodeURIComponent(data[key].className);
+					$select.append("<option value='" + data[key].teacherNo + "'>" + name + " 선생님</option>");
+					
+				}
+				
 				
 				$("#receiver").trigger("change");
 			},
@@ -136,7 +141,7 @@ table {
                      <li>|</li>
                      <li class="li"><a href="<%=request.getContextPath() %>/selectAllSchedule.sch" class="submenuLink">원 일정</a></li>
                      <li>|</li>
-                     <li class="li"><a href="<%=request.getContextPath() %>/views/parents/newsMealMenu.jsp" class="submenuLink">식단표</a></li>
+                     <li class="li"><a href="<%=request.getContextPath() %>/selectAllDietTable.diet" class="submenuLink">식단표</a></li>
                   </ul>
                </li>
                <li class="topMenuLi"><a class="menuLink" href="">게시판</a>

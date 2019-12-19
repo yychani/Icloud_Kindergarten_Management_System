@@ -3395,6 +3395,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 
 	}
 
+
 	//모든걸로 글 찾기
 	public ArrayList<Board> searchAll(Connection con, String text1, String selected, int bdid, int currentPage, int limit) {
 		PreparedStatement pstmt= null;
@@ -3651,6 +3652,30 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		
 		
 		return list;
+  }
+
+	//앨범 제목 내용 수정 
+	public int updateChildImgBoard(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result =0;
+		
+		String query = prop.getProperty("updateChildImgBoard");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getTid());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+
 	}
 }
 	

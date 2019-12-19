@@ -194,6 +194,7 @@ input[type='button'] {
 				onclick="location.href='<%=request.getContextPath()%>/selectListChImg.tbo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
 		 <div id="searchArea">
+
                 <div class="ui action input">
   					<input type="text" id="text1" placeholder="Search..." style="width:170px; height:45px;">
  				    <select class="ui compact selection dropdown" id="select" style="height:45px;">
@@ -203,9 +204,10 @@ input[type='button'] {
   					</select>
   					<div class="ui button" id="search">찾기</div>
 				</div>
-              
+          
+        <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
-              
+			  <%} %>
         </div> 
 	</div>
 	
