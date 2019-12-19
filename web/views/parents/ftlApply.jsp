@@ -48,6 +48,11 @@ tr {
 	text-align: center;
 	margin: auto auto;
 }
+#cNameSelect{
+	width:100px;
+	height:34px;
+	border-radius:4px;
+}
 </style>
 
 </head>

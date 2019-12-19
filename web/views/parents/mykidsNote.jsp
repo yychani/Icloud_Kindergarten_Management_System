@@ -88,6 +88,11 @@ $(function(){
 #outBox {
 	margin: 0 20%;
 }
+#cNameSelect{
+	width:80px;
+	height:34px;
+	border-radius:4px;
+}
 </style>
 
 

@@ -84,7 +84,9 @@ A:hover {
 	width: 500px;
 }
 #cNameSelect{
-	margin:0 auto;
+	width:80px;
+	height:34px;
+	border-radius:4px;
 }
 </style>
 
@@ -122,10 +124,10 @@ A:hover {
 
 	<%@ include file="/views/common/calendar.jsp"%>
 
+	<!-- <div class="ui segment attendanceType"
+		style="margin: 0 auto; width: 500px;">출석 결석 지각 조퇴</div> -->
 	<div class="ui segment attendanceType"
-		style="margin: 0 auto; width: 500px;">출석 결석 지각 조퇴</div>
-	<div class="ui segment attendanceType"
-		style="margin: 0 auto; width: 500px;">
+		style="margin: 0 auto; width: 500px;" align="center">
 		<label><%=year%>년 <%=month + 1%>월</label>&nbsp;&nbsp;<label id="cName"></label>&nbsp;&nbsp;어린이
 		출결사항<br> 
 		<label>출석 : </label><label id="chul"></label><br> 

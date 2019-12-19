@@ -20,6 +20,7 @@ import java.util.Properties;
 
 import javax.naming.PartialResultException;
 
+import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.AsList;
 import com.oracle5.member.model.vo.Attend;
@@ -3578,6 +3579,34 @@ public class MemberDao {
 		return mt;
 	}
 
+
+	//학부모 건의문의 글쓰기
+	public int insertParentQnA(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		Board board = null;
+		
+		String query = prop.getProperty("insertParentQnA");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getPno());
+			pstmt.setInt(4, b.getTno());
+			pstmt.setInt(5, b.getPno());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+}
+
 	public ArrayList<ObservationItem> selectAgeObItem(Connection con, int age) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -3611,6 +3640,7 @@ public class MemberDao {
 		}
 				
 		return itemList;
+
 	}
 
 

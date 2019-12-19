@@ -41,6 +41,9 @@ h2 {
 	height: 34px;
 	border-radius: 4px;
 }
+body{
+font-family: 'Noto Sans KR', sans-serif;
+}
 </style>
 </head>
 <body style="overflow-x:hidden">
@@ -48,11 +51,19 @@ h2 {
 
 <div style="margin: 50px 25%; margin-bottom: 20px;">
 <h2>건의 문의 작성</h2>
+
 <form action="<%=request.getContextPath()%>/pQnAwrite.me" method="post" onsubmit="return inputValue();">
-<h3 style="text-underline-position: under; width: 100%;">원아 선택</h3>
-<select class="ui dropdown" id="cNameSelect" name="cName"></select>
-	<h3 style="text-underline-position: under; width: 100%;">문의 대상</h3>
-	<select class="ui dropdown" id="toSomeone" name="toSomeone"></select>
+<table align="left">
+	<tr>
+		<td><h4 style="text-underline-position: under; width: 100%;">원아 선택</h4></td>
+		<td><select class="ui dropdown" id="cNameSelect" name="cName"></select></td>
+		<td><h4 style="text-underline-position: under; width: 100%;">문의 대상</h4></td>
+		<td><select class="ui dropdown" id="toSomeone" name="toSomeone"></select></td>
+		<Td></Td>
+		<Td></Td>
+	</tr>
+</table>
+<br><div>
 	<h3 style="text-underline-position: under; width: 100%;">제목</h3>
 	<div class="ui fluid icon input">
 		<input type="text" name="title" placeholder="제목을 입력하세요">
@@ -63,22 +74,20 @@ h2 {
 	<input type="hidden" id="tNo" name="tNo">
 	
 	<br />
+	
 	<div class="ui form">
 		<div class="field">
 			<h3 style="text-underline-position: under;">내용</h3>
 			<textarea style="resize: none; width: 100%; height:250px;" rows="25" id="content" name="content"
 			placeholder="내용을 입력하세요"></textarea>
 		</div>
-		
 	</div>
-	<div id="divSubmitBtn">
-					<button class="ui pink  basic button" type="submit" id="submit">완료</button>
-				</div>
-	<br><input type="submit" id="boardWrite" value="완료" style="float: right" />
-		<br /><br/>
-		</form>
-		
-		
+	<br>
+	<div id="divSubmitBtn" align="right">
+		<button class="ui pink  basic button" type="submit" id="submit">완료</button>
+	</div>
+	</div>
+</form>
 </div>
 <script>
 $(function(){
@@ -117,14 +126,12 @@ $(function(){
 				console.log(data);
 				$select2 = $("#toSomeone");
 				$select2.find("option").remove();
-				
-				for(var key in data){
+
 					var $optiont = $("<option>");
 					$optiont.val(data.memberNo);
 					$optiont.text(data.memberName + "선생님");
 					$select2.append($optiont);
-					
-				}
+
 				
 			},
 			error:function(data){
@@ -141,6 +148,24 @@ function inputValue(){
 	$("#cId").val(cId);
 	$("#tNo").val(tNo);
 }
+</script>
+
+<script>
+      $(function() {
+    	  $(".li:nth-child(3)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(6)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(3)").removeClass("on");
+            $(".topMenuLi:nth-child(6)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(3)").addClass("on");
+            $(".topMenuLi:nth-child(6)").addClass("on");
+         });
+      }); 
 </script>
 <%@ include file="/views/common/chat.jsp"%>
 <%@include file="/views/common/footer.jsp" %>

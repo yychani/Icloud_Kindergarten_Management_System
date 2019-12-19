@@ -351,6 +351,24 @@ function encryption(){
 	
 </script>
 
+		 <script>
+      $(function() {
+    	  $(".li:nth-child(1)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(6)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(1)").removeClass("on");
+            $(".topMenuLi:nth-child(6)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(1)").addClass("on");
+            $(".topMenuLi:nth-child(6)").addClass("on");
+         });
+      }); 
+</script>
+
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
 </body>
