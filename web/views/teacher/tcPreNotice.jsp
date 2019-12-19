@@ -32,7 +32,7 @@
  	<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항</h1>
  	</div>
  	<%@ include file="/views/common/board.jsp" %>
- 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>
+ 	<%@ include file="/views/common/chat.jsp" %>
 </body>
 </html>

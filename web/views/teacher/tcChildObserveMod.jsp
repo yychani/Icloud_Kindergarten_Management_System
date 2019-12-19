@@ -39,6 +39,9 @@
 	#ftotal, #stotal {
 		text-align:center;
 	}
+	.obContent {
+		word-spacing: 0 !important;
+	}
 </style>
 <script>
  	var now = new Date();
@@ -93,18 +96,22 @@
 				age:<%= request.getParameter("age") %>
 			},
 			success:function(data) {
-				$("h1").text(data[0].c.name + " 관찰척도");
+				$(".obContent").each(function(index, value) {
+					value.innerText = data.itemList[index].content;
+				})
 				
-				$("#cname").text(data[0].c.name);
+				$("h1").text(data.list[0].c.name + " 관찰척도");
 				
-				if(Object.keys(data[0]).length == 3){
-					var date = data[0].ob.eDate;
+				$("#cname").text(data.list[0].c.name);
+				
+				if(Object.keys(data.list[0]).length == 3){
+					var date = data.list[0].ob.eDate;
 					date = date.split(" ");
 					date = date[2] + "년 " + date[0] + " " + date[1].substring(0,2) + "일"
 					$("#fdate").val(date);
-					$("#obname").text(data[0].m.memberName);
+					$("#obname").text(data.list[0].m.memberName);
 					
-					var score = data[0].ob.escore.split("/");
+					var score = data.list[0].ob.escore.split("/");
 					var first = $(".childOb tbody tr:nth-of-type(n+4) td").find('input').parent();
 					for(var i = 0, k = 0; i < first.length - 2; i+=2, k++) {
 						for(var j = 0; j < 5; j+=2) {
@@ -114,15 +121,15 @@
 						}
 					}
 					
-					$("#ftotal").val(data[0].ob.eval);
+					$("#ftotal").val(data.list[0].ob.eval);
 					
-					if(data.length == 2) {
-						var date2 = data[1].ob.eDate;
+					if(data.list.length == 2) {
+						var date2 = data.list[1].ob.eDate;
 						date2 = date2.split(" ");
 						date2 = date2[2] + "년 " + date2[0] + " " + date2[1].substring(0,2) + "일"
 						$("#sdate").val(date2);
 
-						var score2 = data[1].ob.escore.split("/");
+						var score2 = data.list[1].ob.escore.split("/");
 						var first = $(".childOb tbody tr:nth-of-type(n+4) td").find('input').parent();
 						for(var i = 1, k = 0; i < first.length - 2; i+=2, k++) {
 							for(var j = 0; j < 5; j+=2) {
@@ -133,7 +140,7 @@
 						}
 						
 						
-						$("#stotal").val(data[1].ob.eval);
+						$("#stotal").val(data.list[1].ob.eval);
 					}
 				}
 			},
@@ -185,7 +192,7 @@
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">신체운동·건강영역</span></td>
- 				<td colspan="5" style="font-weight:normal">TEST</td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f1" value="3" /><label>3</label>
  					<input type="radio" name="f1" value="2" /><label>2</label>
@@ -198,7 +205,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f2" value="3" /><label>3</label>
  					<input type="radio" name="f2" value="2" /><label>2</label>
@@ -211,7 +218,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f3" value="3" /><label>3</label>
  					<input type="radio" name="f3" value="2" /><label>2</label>
@@ -224,7 +231,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f4" value="3" /><label>3</label>
  					<input type="radio" name="f4" value="2" /><label>2</label>
@@ -237,7 +244,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f5" value="3" /><label>3</label>
  					<input type="radio" name="f5" value="2" /><label>2</label>
@@ -251,7 +258,7 @@
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">의사소통영역</span></td>
- 				<td colspan="5" style="font-weight:normal">TEST</td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f6" value="3" /><label>3</label>
  					<input type="radio" name="f6" value="2" /><label>2</label>
@@ -264,7 +271,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f7" value="3" /><label>3</label>
  					<input type="radio" name="f7" value="2" /><label>2</label>
@@ -277,7 +284,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f8" value="3" /><label>3</label>
  					<input type="radio" name="f8" value="2" /><label>2</label>
@@ -290,7 +297,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f9" value="3" /><label>3</label>
  					<input type="radio" name="f9" value="2" /><label>2</label>
@@ -303,7 +310,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f10" value="3" /><label>3</label>
  					<input type="radio" name="f10" value="2" /><label>2</label>
@@ -317,7 +324,7 @@
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">사회관계영역</span></td>
- 				<td colspan="5" style="font-weight:normal">TEST</td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f11" value="3" /><label>3</label>
  					<input type="radio" name="f11" value="2" /><label>2</label>
@@ -330,7 +337,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f12" value="3" /><label>3</label>
  					<input type="radio" name="f12" value="2" /><label>2</label>
@@ -343,7 +350,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f13" value="3" /><label>3</label>
  					<input type="radio" name="f13" value="2" /><label>2</label>
@@ -356,7 +363,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f14" value="3" /><label>3</label>
  					<input type="radio" name="f14" value="2" /><label>2</label>
@@ -369,7 +376,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f15" value="3" /><label>3</label>
  					<input type="radio" name="f15" value="2" /><label>2</label>
@@ -383,7 +390,7 @@
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">예술경험영역</span></td>
- 				<td colspan="5" style="font-weight:normal">TEST</td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f16" value="3" /><label>3</label>
  					<input type="radio" name="f16" value="2" /><label>2</label>
@@ -396,7 +403,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f17" value="3" /><label>3</label>
  					<input type="radio" name="f17" value="2" /><label>2</label>
@@ -409,7 +416,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f18" value="3" /><label>3</label>
  					<input type="radio" name="f18" value="2" /><label>2</label>
@@ -422,7 +429,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f19" value="3" /><label>3</label>
  					<input type="radio" name="f19" value="2" /><label>2</label>
@@ -435,7 +442,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f20" value="3" /><label>3</label>
  					<input type="radio" name="f20" value="2" /><label>2</label>
@@ -449,7 +456,7 @@
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">자연탐구영역</span></td>
- 				<td colspan="5" style="font-weight:normal">TEST</td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f21" value="3" /><label>3</label>
  					<input type="radio" name="f21" value="2" /><label>2</label>
@@ -462,7 +469,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f22" value="3" /><label>3</label>
  					<input type="radio" name="f22" value="2" /><label>2</label>
@@ -475,7 +482,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f23" value="3" /><label>3</label>
  					<input type="radio" name="f23" value="2" /><label>2</label>
@@ -488,7 +495,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f24" value="3" /><label>3</label>
  					<input type="radio" name="f24" value="2" /><label>2</label>
@@ -501,7 +508,7 @@
 				</td>
  			</tr>
  			<tr>
- 				<td colspan="5">TEST</td>
+ 				<td colspan="5" class="obContent">TEST</td>
  				<td colspan="2">
  					<input type="radio" name="f25" value="3" /><label>3</label>
  					<input type="radio" name="f25" value="2" /><label>2</label>

@@ -59,7 +59,7 @@ h1 {
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/parentsMenu.jsp"%>
 	
-	<script>
+<script>
       $(function() {
     	  $(".li:nth-child(7)").addClass("on");
     	  
@@ -174,7 +174,7 @@ h1 {
 			</form>
 
 			<script>
-         $('.timepicker').timepicker({
+  			$('.timepicker').timepicker({
                timeFormat: 'h:mm p',
                interval: 10,
                minTime: '10',
@@ -184,35 +184,20 @@ h1 {
                dynamic: true,
                dropdown: true,
                scrollbar: true
-           });
+           	});
          
             function insertDosingRequest(){
                location.href="<%=request.getContextPath()%>/views/parents/mykidsDoseList.jsp";
            }
             
 			function addtimepicker() {
-					
-					$("#dosingTimeArea")
-							.append($('#dosingTime').clone())
-							.append(
-									"<div style='display:inline-block; width:43px;'>")
-							.append('<br>');
-					return false;
-				};
+				$("#dosingTimeArea")
+						.prepend("<div style='display:inline-block; width:43px;'>")
+						.prepend($('.timepicker:last').clone());
+				return false;
+			};
 				
-				$(document).on("click", "#dosingTime", function() {
-					$('.timepicker').timepicker({
-						timeFormat : 'h:mm p',
-						interval : 10,
-						minTime : '10',
-						maxTime : '6:00pm',
-						defaultTime : '11',
-						startTime : '10:00',
-						dynamic : true,
-						dropdown : true,
-						scrollbar : true
-					});
-				});
+				
 
 				//투약시간 합치고 form 제출
 				function doseSubmit() {
