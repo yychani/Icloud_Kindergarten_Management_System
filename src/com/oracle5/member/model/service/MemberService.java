@@ -1190,10 +1190,10 @@ public class MemberService {
 		return t;
   }
   
-	public Teacher selectMyTeacher(int pno) {
+	public ArrayList<Teacher> selectMyTeacher(int pno) {
 		Connection con = getConnection();
 		
-		Teacher teacher = new MemberDao().selectMyTeacher(con, pno);
+		ArrayList<Teacher> teacher = new MemberDao().selectMyTeacher(con, pno);
 		
 		close(con);
 		return teacher;
