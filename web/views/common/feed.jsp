@@ -222,8 +222,16 @@
 		cursor: pointer;
 		background-color: rgba(0,0,0,0.2);
 	}
+	#imgDiv{
+		top: 217px;
+		height: 200px;
+    	width: 100%;
+    	position: absolute;
+    	background: rgba(0, 0, 0, 0.369);
+    	z-index: 10000;
+	}
 </style>
-<div class="col-md-12 col-xl-8 chat">
+<div class="col-md-12 col-xl-8 chat" style="width: 60%;">
 	<div class="card">
 		<div class="card-header msg_head">
 			<div class="d-flex bd-highlight">
@@ -247,28 +255,65 @@
 				</div>
 			</div> -->
 		</div>
-		
+		<div id="imgDiv" style="display:none;">
+			<i class="close icon" id="closeImgDiv" style="float:right; width: 30px; height: 30px; margin-top: 10px; font-size: 1.5em;"></i>
+			<img src="" id="imgArea" name="imgArea" style="width: auto; margin: 10px 10px; max-height: 180px;float: right;">
+			
+		</div>
 		<div class="card-footer">
+			<form id="feedSendForm" method="post" enctype="multipart/form-data">
 			<% if(loginUser.getUType().equals("교사")) {%>
-			<form id="feedSendForm" action="" method="post" enctype="multipart/form-data">
 				<div class="input-group">
 					<div class="input-group-append">
 						<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+						<input type="file" id="file" name="file" style="display:none" onchange="loadImg(this)">
+						<img src="" id="imgArea2" name="imgArea" style="display:none">
+						<input type="hidden" id="reciever" name="reciever" value="">
+						<input type="hidden" id="sendUser" name="sendUser" value="<%=loginUser.getMemberNo() %>">
+						<script>
+							$(".input-group-text.attach_btn").click(function(){
+								$("#file").click();
+								$("#imgDiv").css("display", "block");
+								$("#sendMassage2").prop("readonly", "readonly");
+								$("#sendMassage2").prop("placeholder", "사진과 글은 한번에 전송이 불가합니다.");
+								$("#sendMassage2").val("");
+							})
+							$("#closeImgDiv").click(function(){
+								$("#imgDiv").css("display", "none");
+								$("#sendMassage2").prop("readonly", false);
+								$("#sendMassage2").prop("placeholder", "아이 피드를 입력하세요");
+								$("#sendMassage2").val("");
+								$("#imgArea").attr("src", "");
+								$("#imgArea2").attr("src", "");
+							})
+						</script>
+						<script>
+							function loadImg(value) {
+								if(value.files && value.files[0]){
+									var reader = new FileReader();
+									
+									reader.onload = function(e) {
+										$("#imgArea").attr("src", e.target.result);
+										$("#imgArea2").attr("src", e.target.result);
+									}
+									reader.readAsDataURL(value.files[0]);
+								}
+							}
+						</script>
 					</div>
-					<input type="text" name="" id="sendMassage2" class="form-control type_msg" placeholder="아이 피드를 입력하세요">
+					<input type="text" name="sendMassage2" id="sendMassage2" class="form-control type_msg" value="" placeholder="아이 피드를 입력하세요">
 					<div class="input-group-append">
 						<input type="hidden">
 						<span onclick="send2()" class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
 					</div>
 				</div>
-			</form>
 			<% } %>
+			</form>
 		</div>
 	</div>
 </div>
 <script>
 	$(function(){
-		
 		$.ajax({
 			url:"/main/selectModalChild.do",
 			data:{
@@ -280,6 +325,7 @@
 				$("#childrenName").text(data.name);
 				$("#mainChildImg").prop("src", img);
 				$("#childNo").val(data.cId);
+				$("#reciever").val(data.cId);
 			}
 		});
 		getConnection4();
@@ -288,6 +334,9 @@
         $("#sendMassage2").keypress(function (e) {
          	if (e.which == 13){
         	 	send2();
+        	 	$("#feedSendForm").on("submit", function(event) {
+        	        event.preventDefault();
+        	     });
          	}
      	});
         $.ajax({
@@ -295,9 +344,36 @@
         	data:{
         		cid:<%=cid %>
         	},
-        	type="post",
+        	type:"post",
         	success:function(data){
         		
+        		var img2 = $("#mainChildImg").prop("src");
+        		console.log(img2);
+        		var $feedContext = $("#feedContext");
+        		for(var key in data){
+        			var date = data[key].fdate;
+            		var time = data[key].time;
+            		var fileP = "";
+            		var message = "";
+            		if(data[key].changeName == null){
+            			message = data[key].content;
+            		}else {
+            			fileP = "<img src='<%=request.getContextPath() %>/uploadFiles/" + data[key].changeName + "' style='max-width: 300px; max-height: 200px;'>";
+            		}
+	    			if(<%=pno %> == <%=loginUser.getMemberNo() %>){
+		   				$feedContext.append("<div class='d-flex justify-content-start mb-4'>"
+		   						+ "<div class='img_cont_msg'>" + "<img src='" + img2 + "' class='rounded-circle user_img_msg'></div>" + "<div class='msg_cotainer'>" + message + fileP +"<span class='msg_time'>" + date + " " + time + "</span></div></div>");
+	        		}else {
+	        			var $div1 = $('<div class="d-flex justify-content-end mb-4">')
+	        			var $div2 = $('<div class="msg_cotainer_send">').html(message + fileP);
+	        			var $span = $('<span class="msg_time_send">').text(date + "년    " + time);
+	        			$div2.append($span);
+	        			
+	        			$div1.append($div2);
+	        			$feedContext.append($div1);
+	        		}
+	    			$("#feedContext").scrollTop($("#feedContext")[0].scrollHeight);
+        		}
         	}
         });
 	});
@@ -326,60 +402,84 @@
 		var reciever = $("#childNo").val();
 		var sendUser = "<%=loginUser.getMemberNo() %>";
 		var message = $("#sendMassage2").val();
-		
+		var fileP = "";
+		if(message == ""){
+			fileP = $("#imgArea").prop("src");
+		}
 		$("#sendMassage2").val("");
 		
 		var curTime = $("#serverTime").text();
 		
-		var sendMessage = sendUser + ":" + reciever + ":" + message + ":" + curTime;
-		ws4.send(sendMessage);
+		if(message != ""){
+			var $feedContext = $("#feedContext");
+			var $div1 = $('<div class="d-flex justify-content-end mb-4">')
+			var $div2 = $('<div class="msg_cotainer_send">').text(message);
+			var $span = $('<span class="msg_time_send">').text(curTime);
+			$div2.append($span);
+			
+			$div1.append($div2);
+			$feedContext.append($div1);
+			$("#feedContext").scrollTop($("#feedContext")[0].scrollHeight);
+		}
 		
-		var $feedContext = $("#feedContext");
-		var $div1 = $('<div class="d-flex justify-content-end mb-4">')
-		var $div2 = $('<div class="msg_cotainer_send">').text(message);
-		var $span = $('<span class="msg_time_send">').text(curTime);
-		$div2.append($span);
-		
-		$div1.append($div2);
-		$feedContext.append($div1);
-		$("#feedContext").scrollTop($("#feedContext")[0].scrollHeight);
-		
+		var form = $("#feedSendForm")[0];
+	    var formdata = new FormData(form);
+	    formdata.append("message", message);
 		$.ajax({
 			url:"/main/saveFeed.feed",
-			data:{
-				reciever:reciever,
-				sendUser:sendUser,
-				message:message
-			},
+			data:formdata,
+			processData:false,
+	    	contentType:false,
 			type:"post",
 			success:function(data){
-				
+				if(message == ""){
+					var filePath = data.filePath;
+					var $feedContext = $("#feedContext");
+					var $div1 = $('<div class="d-flex justify-content-end mb-4">')
+					var $div2 = $('<div class="msg_cotainer_send">').html("<img src='" + filePath + "' style='max-width: 300px; max-height: 200px;'>");
+					var $span = $('<span class="msg_time_send">').text(curTime);
+					$div2.append($span);
+					
+					$div1.append($div2);
+					$feedContext.append($div1);
+					$("#feedContext").scrollTop($("#feedContext")[0].scrollHeight);
+					$("#imgDiv").css("display", "none");
+					$("#childNo").val(data.cId);
+					$("#reciever").val(data.cId);
+					$("#sendMassage2").prop("readonly", false);
+					$("#sendMassage2").prop("placeholder", "아이 피드를 입력하세요");
+					$("#imgArea").attr("src", "");
+					$("#imgArea2").attr("src", "");
+					
+					var sendMessage = sendUser + ", " + reciever + ", " + message + ", " + filePath + ", " + curTime;
+					ws4.send(sendMessage); 
+					
+				}else {
+					var sendMessage = sendUser + ", " + reciever + ", " + message + ", " + "" + ", " + curTime;
+					ws4.send(sendMessage); 
+				}
 			}
 		});
 	}
 		
 	function onMessage4(event){
-		var serverMessage = event.data.split(":");
+		var serverMessage = event.data.split(", ");
 		
 		var recieveUser = serverMessage[0];
 		var sendUser = serverMessage[1];
 		var message = serverMessage[2];
-		var remainHour = serverMessage[3];
-		var remainMin = serverMessage[4];
-		var remainSec = serverMessage[5];
+		var fileP = serverMessage[3];
+		var time = serverMessage[4];
+
 		var img = $("#mainChildImg").prop("src");
-		var time = remainHour + ":" + remainMin + ":" + remainSec;
 		$feedContext = $("#feedContext");
 		if(recieveUser == "<%=cid %>"){
 			if(<%=pno %> == <%=loginUser.getMemberNo() %>){
 				$feedContext.append("<div class='d-flex justify-content-start mb-4'>"
-						+ "<div class='img_cont_msg'>" + "<img src='" + img + "' class='rounded-circle user_img_msg'></div>" + "<div class='msg_cotainer'>" + message + "<span class='msg_time'>" + time + "</span></div></div>");
+						+ "<div class='img_cont_msg'>" + "<img src='" + img + "' class='rounded-circle user_img_msg'></div>" + "<div class='msg_cotainer'>" + message + "<img src='" + fileP + "' style='max-width: 300px; max-height: 200px;'>"+ "<span class='msg_time'>" + time + "</span></div></div>");
 				$("#feedContext").scrollTop($("#feedContext")[0].scrollHeight);
 			}
-			//$("#receiver").val(sendUser).prop("selected", true);
-			//$("#receiver").trigger("change");
 		}		
-			
 	}
 		
 	function onError4(event){

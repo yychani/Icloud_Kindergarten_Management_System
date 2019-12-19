@@ -26,17 +26,16 @@ public class Feed {
 	@OnMessage
 	public void onMessage(String msg, Session session) throws IOException {
 		// 서버로부터 테이터를 전송받을 시점
-		//System.out.println(msg);
-		String[] srr = msg.split(":");
+		System.out.println(msg);
+		String[] srr = msg.split(", ");
 		
 		String userName = srr[0];
 		String recieveUser = srr[1];
 		String message = srr[2];
-		String hour = srr[3];
-		String min = srr[4];
-		String sec = srr[5];
+		String filePath = srr[3];
+		String curTime = srr[4];
 		
-		String sendMessage = recieveUser + ":" + userName+ ":" + message + ":" + hour + ":" + min + ":" + sec;
+		String sendMessage = recieveUser + ", " + userName+ ", " + message + ", " + filePath + ", " + curTime;
 		System.out.println(sendMessage);
 		// 하나의 일 처리를 수행하는동안 사용자의 변경이 일어나면 안된다.
 		// 즉 NullPointer를 방지하기 위해 동기화 처리를 해준다.
