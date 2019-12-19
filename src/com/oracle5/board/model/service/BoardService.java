@@ -1443,4 +1443,51 @@ public class BoardService {
 		return hmap;
 	}
 
+	//게시판 글 검색용 메소드
+	public ArrayList<Board> searchTextServlet(String text1, String selected, int bdid, int currentPage, int limit) {
+		Connection con = getConnection();
+		ArrayList<Board> list =null;
+		if(selected.equals("all")) {
+			
+			list = new BoardDao().searchAll(con,text1,selected,bdid, currentPage,limit);
+			
+		}else if(selected.equals("title1")) {
+			
+			list = new BoardDao().searchTitle(con,text1,bdid, currentPage,limit);
+			
+		}else if(selected.equals("name1")){
+			
+			list = new BoardDao().searchName(text1,con,selected,bdid, currentPage,limit);
+		}
+		
+		close(con);
+		
+		return list;
+	}
+
+	//학부모작성자용 조회용 메소드
+	public ArrayList<Board> searchTextParents(String text1, String selected, int bdid, int currentPage, int limit) {
+		Connection con = getConnection();
+		
+		ArrayList<Board> list =null;
+		if(selected.equals("all")) {
+			
+			list = new BoardDao().searchAllPar(con,text1,selected,bdid,currentPage,limit);
+			
+		}else if(selected.equals("title1")) {
+			
+			list = new BoardDao().searchTitlePar(con,text1,bdid,currentPage,limit);
+			
+		}else if(selected.equals("name1")){
+			
+			list = new BoardDao().searchNamepar(text1,con,selected,bdid,currentPage, limit);
+		}
+		
+		close(con);
+		
+		return list;
+		
+		
+	}
+
 }

@@ -151,14 +151,14 @@ input[type='button'] {
 					<td id="title"><%=b.getTtitle() %></td>
                     <td id="writer"><%=b.getName() %></td>
                     <td id="count"><%=b.getTcount() %></td>
-					<td id="date"><%=b.getTtime() %></td>
+					<td id="date"><%=b.getTtime() %><input type="hidden" id="bdid" value="<%=b.getBdid() %>"></td>
 				</tr>
 				<%} %>
 				
 			</tbody>
 		</table>
 		
-		<div style="width:fit-content; margin: auto">
+		<div style="width:fit-content; margin: auto" id="paging">
 		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=startPage%>">처음</button>
 		<%
 			if(currentPage <= 1){
@@ -204,9 +204,15 @@ input[type='button'] {
 		</div>
 		<br>
         <div id="searchArea">
-                <input type="text" placeholder="Search" style="width:150px; height:30px;">
-              <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
-                      color: rgba(0,0,0,.6); ">Search</button>
+               <div class="ui action input">
+  					<input type="text" id="text1" placeholder="Search..." style="width:170px; height:45px;">
+ 				    <select class="ui compact selection dropdown" id="select" style="height:45px;">
+    				<option selected="" value="all">전체</option>
+   				 	<option value="title1">제목</option>
+    				<option value="name1">작성자</option>
+  					</select>
+  					<div class="ui button" id="search">찾기</div>
+				</div>
               
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
               
@@ -246,6 +252,98 @@ input[type='button'] {
 				location.href="<%=request.getContextPath()%>/selectOnePreKNotice.bo?num="+num;
 			});
 		});
+		
+		$(function(){
+			$("#search").click(function(){
+				var text1 = $("#text1").val();
+				var selected = $("#select").find(":selected").val();
+				var bdid = 3;
+				console.log(text1);
+				console.log(bdid);
+				console.log(selected);
+				 $.ajax({
+					url:"/main/searchText",
+					data : {
+						text1:text1,
+						selected:selected,
+						bdid:bdid
+					},
+					type:"post",
+					success:function(data){
+						console.log(data);
+						var $tbody = $("#tbodyArea");
+						$tbody.html('');
+						for(var key in data){
+							$tr = $("<tr>");
+							$no = $("<td id='no'>").text(data.list[key].pno);
+							$tid = $("<input type='hidden' name='tid' id='tid' value='data.list[key].tid'>");
+							$no.append($tid);
+							$title1 = $("<td id='title'>").text(data.list[key].ttitle);
+							$writer = $("<td id='writer'>").text(data.list[key].name);
+							$count = $("<td id='count'>").text(data.list[key].tcount);
+							$date = $("<td id='date'>").text(data.list[key].ttime);
+							
+							$tr.append($no);
+							$tr.append($title1);
+							$tr.append($writer);
+							$tr.append($count);
+							$tr.append($date);
+							
+							$tbody.append($tr);
+							
+							$pagingArea = $("#paging");
+							$pagingArea.html('');
+							$startBtn = $("<button style='width:50px; height:30px;' id='startBtn'>처음</button>");
+							<div style="width:fit-content; margin: auto" id="paging">
+							<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=startPage%>">처음</button>
+							<%
+								if(currentPage <= 1){
+							%>
+							<button style="width:50px; height:30px;" disabled>이전</button>
+							<%
+								}else { 
+							%>
+							<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=currentPage -1%>'">이전</button>
+							<%
+								} 
+							%>
+							<%
+								for(int p = startPage; p <= endPage; p++){
+									if(p == currentPage){
+								
+							%> 
+							<button disabled class="curent" style="width:30px; height:30px;"><%=p %></button>
+							<%
+								}else{
+							%>
+							<button class="other" style="width:30px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=p%>'"><%=p %></button>
+							<%
+								}
+							%>
+							<%
+								}
+							%>
+							
+							<%
+								if(currentPage >= maxPage) {
+							%>
+							<button style="width:50px; height:30px;" disabled>다음</button>
+							<%
+								} else { 
+							%>
+							<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=currentPage +1%>'">다음</button>
+							<%
+								} 
+							%>
+							<button style="width: 60px; height:30px;"
+									onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=maxPage%>'">마지막</button>
+							</div>
+						}
+						
+					}
+				});  
+			});
+		}); 
 	</script>
 	
 	
