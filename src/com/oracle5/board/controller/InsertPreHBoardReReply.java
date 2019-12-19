@@ -50,6 +50,7 @@ public class InsertPreHBoardReReply extends HttpServlet {
 		
 		ArrayList<Reply> replyList = new BoardService().inserPreHtrereply(r);
 		
+		System.out.println(replyList);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		new Gson().toJson(replyList, response.getWriter());

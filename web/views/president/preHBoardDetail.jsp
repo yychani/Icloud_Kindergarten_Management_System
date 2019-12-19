@@ -119,24 +119,6 @@ $(".topMenuLi").mouseleave(function() {
 		<div class="ui comments">
 			<h3 class="ui dividing header">댓글</h3>
 
-			<div class="comment">
-				<div class="reply">
-					<div class="content">
-						<a class="author">채성아</a>
-						<div class="metadata">
-							<span class="date">Today at 5:42PM</span>
-						</div>
-						<div class="text">조용히해!</div>
-					</div>
-					<div class="actions" onclick="">
-						<a class="rereply">댓글달기</a>
-					</div>
-					<div class="rereArea">
-						<input type="text" id="reretext">
-						<button id="rereBtn">댓글 달기</button>
-					</div>
-				</div>
-			</div>
 			<!-- 댓글 영역 -->
 			<div class="comment">
 				<div class="reply" id="rplycontent" onload="getReply()">
@@ -192,7 +174,7 @@ $(".topMenuLi").mouseleave(function() {
 							$content.append($actionDiv);
 							
 							var $rereAreaDiv = $("<div class='rereArea'>");
-							var $inputText = $("<input type='text' id='reretext'>");
+							var $inputText = $("<input type='text' class='reretext'>");
 							var $rereBtn = $("<button id='rereBtn'>댓글달기</button>");
 							
 							
@@ -291,7 +273,7 @@ $(".topMenuLi").mouseleave(function() {
 								$content.append($actionDiv);
 								
 								var $rereAreaDiv = $("<div class='rereArea'>");
-								var $inputText = $("<input type='text' id='reretext'>");
+								var $inputText = $("<input type='text' class='reretext'>");
 								var $rereBtn = $("<button id='rereBtn'>댓글 달기</button>");
 								
 								$rereAreaDiv.append($inputText);
@@ -359,83 +341,75 @@ $(".topMenuLi").mouseleave(function() {
 								refrid:refrid},
 						type:"post",
 						success:function(data){
-						console.log(data);
-								for(var key2 in data){
-									
-									var $content = $("#rplycontent");
-									
-									var rid = 0;
-									for(var key in data) {
-										if(data[key].refrid == 0){
-										var $contentDiv = $("<div class='content'>");
-										var $a = $("<a class='author'>").text(data[key].rname);
-										var $div1 = $("<div class='metadata'>");
-										var $span = $("<span class='date'>").text(data[key].rdate);
-										var $div2 = $("<div class='text'>").text(data[key].rcont);
-										var $inputRid = $("<input type='hidden'>").val(data[key].rid);
-										
-										
-										$contentDiv.append($a);
-										$contentDiv.append($div1.append($span));
-										$contentDiv.append($div2);
-										$contentDiv.append($inputRid);
-										$content.append($contentDiv);
-										
-										var $actionDiv = $("<div class='actions' onclick=''>");
-										var $rereply = $("<a class='rereply'>댓글달기</a>");
-										$actionDiv.append($rereply);
-										
-										$content.append($actionDiv);
-										
-										var $rereAreaDiv = $("<div class='rereArea'>");
-										var $inputText = $("<input type='text' id='reretext'>");
-										var $rereBtn = $("<button id='rereBtn'>댓글달기</button>");
-										
-										
-										$rereAreaDiv.append($inputText);
-										$rereAreaDiv.append($rereBtn);
-										
-										$content.append($rereAreaDiv);
-										
-										$(".rereArea").hide();
-										rid = data[key].rid;
-										}
-										for(var key2 in data){
-											//console.log(rid);
-											if(rid == data[key2].refrid){
-												
-												var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
-												
-												var $contentDiv2 = $("<div class='content'>");
-													var $a1 = $("<a class='author'>").text(data[key2].rname);
-													var $div11 = $("<div class='metadata'>");
-														var $span1 = $("<span class='date'>").text(data[key2].rdate);
-													var $div21 = $("<div class='text'>").text(data[key2].rcont);
-												
-												$contentDiv2.append($a1);
-												$contentDiv2.append($div11.append($span1));
-												$contentDiv2.append($div21);
-												
-												$rereplyArea.append($contentDiv2);
-												
-												$content.append($rereplyArea);
-											}
-										} 
-										$("#rereBtn").trigger("#click");
-									}
-									$(".rereArea").hide();
-									$(".rereArea").val('');
-						
+							var $content = $("#rplycontent");
+							$content.text("");
+							
+							var rid = 0;
+							for(var key in data) {
+								if(data[key].refrid == 0){
+								var $contentDiv = $("<div class='content'>");
+								var $a = $("<a class='author'>").text(data[key].rname);
+								var $div1 = $("<div class='metadata'>");
+								var $span = $("<span class='date'>").text(data[key].rdate);
+								var $div2 = $("<div class='text'>").text(data[key].rcont);
+								var $inputRid = $("<input type='hidden'>").val(data[key].rid);
+								
+								
+								$contentDiv.append($a);
+								$contentDiv.append($div1.append($span));
+								$contentDiv.append($div2);
+								$contentDiv.append($inputRid);
+								$content.append($contentDiv);
+								
+								var $actionDiv = $("<div class='actions' onclick=''>");
+								var $rereply = $("<a class='rereply'>댓글달기</a>");
+								$actionDiv.append($rereply);
+								
+								$content.append($actionDiv);
+								
+								var $rereAreaDiv = $("<div class='rereArea'>");
+								var $inputText = $("<input type='text' class='reretext'>");
+								var $rereBtn = $("<button id='rereBtn'>댓글달기</button>");
+								
+								
+								$rereAreaDiv.append($inputText);
+								$rereAreaDiv.append($rereBtn);
+								
+								$content.append($rereAreaDiv);
+								
+								$(".rereArea").hide();
+								rid = data[key].rid;
 								}
-							},
+								for(var key2 in data){
+									//console.log(rid);
+									if(rid == data[key2].refrid){
+										if(rid == 148){
+											console.log("하하0");
+										}
+										var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+										
+										var $contentDiv2 = $("<div class='content'>");
+											var $a1 = $("<a class='author'>").text(data[key2].rname);
+											var $div11 = $("<div class='metadata'>");
+												var $span1 = $("<span class='date'>").text(data[key2].rdate);
+											var $div21 = $("<div class='text'>").text(data[key2].rcont);
+										
+										$contentDiv2.append($a1);
+										$contentDiv2.append($div11.append($span1));
+										$contentDiv2.append($div21);
+										
+										$rereplyArea.append($contentDiv2);
+										
+										$content.append($rereplyArea);
+									}
+								} 
+								$("#rereBtn").trigger("#click");
+							}
+						},
 						error:function(data){
-							console.log("댓글의 댓글 실패");
+							console.log("댓글 조회 실패");
 						}
-						});
-				 
-				
-				
-				
+					});
 			});
 		</script>
 		<!-- replyArea end -->

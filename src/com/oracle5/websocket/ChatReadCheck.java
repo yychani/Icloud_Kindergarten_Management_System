@@ -51,7 +51,7 @@ public class ChatReadCheck {
 						if(unReadCount > 0) {
 							synchronized(clients) {
 								for(Session client : clients) {
-									client.getBasicRemote().sendText(userNo + ":" + unReadCount + sendMessage);								
+									client.getBasicRemote().sendText(userNo + ":" + unReadCount + sendMessage);
 								}
 							}
 						}else {
@@ -76,7 +76,7 @@ public class ChatReadCheck {
 
 	@OnError
 	public void onError(Throwable e) {
-		e.printStackTrace();
+		//e.printStackTrace();
 	}
 
 	@OnClose
