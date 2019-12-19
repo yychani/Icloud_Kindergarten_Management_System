@@ -144,10 +144,14 @@ h1 {
 						<td width="340px">
 							<div id="dosingTimeArea" class="ui mini icon input"
 								style="display: inline-block">
-								<input class="timepicker" id='dosingTime' name='dosingTime'>
+								<input class="timepicker" id='dosingTime0' name='dosingTime'>
 								<button class="ui icon button timeplus"
 									onclick="return addtimepicker()">
 									<i class="plus icon"></i>
+								</button>
+								<button class="ui icon button timeplus"
+									onclick="return removetimepicker()">
+									<i class="minus icon"></i>
 								</button>
 								<input type="hidden" id="dosingTimeSum" name="dosingTimeSum">
 								<input type="hidden" name="pNo"
@@ -174,6 +178,9 @@ h1 {
 			</form>
 
 			<script>
+			
+			var test = 1;
+			
   			$('.timepicker').timepicker({
                timeFormat: 'h:mm p',
                interval: 10,
@@ -190,12 +197,20 @@ h1 {
                location.href="<%=request.getContextPath()%>/views/parents/mykidsDoseList.jsp";
            }
             
+            function removetimepicker() {
+            	$("#dosingTime0").prev().prev().remove();
+            	$("#dosingTime0").prev().remove();
+            	return false;
+            }
+            
 			function addtimepicker() {
-				$("#dosingTimeArea")
-						.prepend("<div style='display:inline-block; width:43px;'>")
-						.prepend($('.timepicker:last').clone());
-				return false;
-			};
+					
+					$("#dosingTime0")
+							.before($('.timepicker:last').clone().prop("id", "dosingTime" + test).prop("readonly","readonly"))
+							.before("<div style='display:inline-block; width:88px;'>");
+					test++;
+					return false;
+				};
 				
 				
 
