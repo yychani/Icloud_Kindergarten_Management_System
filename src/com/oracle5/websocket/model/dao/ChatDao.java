@@ -163,7 +163,7 @@ public class ChatDao {
 				chat = new Chat();
 				chat.setCtype(rset.getInt("C_TYPE"));
 				chat.setChatNo(rset.getInt("CHAT_NO"));
-				chat.setDate(rset.getDate("C_DATE"));
+				chat.setSdate(rset.getString("CDATE"));
 				chat.setTime(rset.getString("TIME"));
 				chat.setCont(rset.getString("C_CONT"));
 				chat.setMno(sendUser);
@@ -201,7 +201,7 @@ public class ChatDao {
 					
 					chat.setCtype(rset.getInt("C_TYPE"));
 					chat.setChatNo(rset.getInt("CHAT_NO"));
-					chat.setDate(rset.getDate("C_DATE"));
+					chat.setSdate(rset.getString("CDATE"));
 					chat.setTime(rset.getString("TIME"));
 					chat.setCont(rset.getString("C_CONT"));
 					chat.setMno(rset.getInt("M_NO"));

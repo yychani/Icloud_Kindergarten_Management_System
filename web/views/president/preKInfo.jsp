@@ -103,7 +103,7 @@
     </div>
     <div style="width: 70%; margin: 20px auto">
         <hr>
-        <div class="ui four statistics" align="center" style="width: fit-content; margin: 50px auto;">
+        <div class="ui four statistics" align="center" style="margin: 50px auto;">
             <div class="statistic">
                 <div class="text value">
                     떡잎<br>

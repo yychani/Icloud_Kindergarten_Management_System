@@ -9,6 +9,7 @@ import lombok.Data;
 public class Chat implements Serializable{
 	private int ctype;
 	private Date date;
+	private String sdate;
 	private String time;
 	private String cont;
 	private int mno;

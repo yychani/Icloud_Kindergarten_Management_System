@@ -179,13 +179,27 @@
 				},
 				success:function(data){
 					$chatContext.append("<input type='hidden' id='chatRoomNo' val='" + data[0].chatNo + "'>");
+					var origindate = "";
+					var newdate = "";
 					for(var i = 0; i < data.length; i++){
 						var time = data[i].time;
+						if(origindate == data[i].sdate){
+							newdate = "";
+							origindate = data[i].sdate;
+						}else {
+							newdate = "<small>-----------" + data[i].sdate.split('/')[0] + "년 " + data[i].sdate.split('/')[1] + "월 " + data[i].sdate.split('/')[2] + "일" + "-----------</small>";
+							origindate = data[i].sdate;
+						}
 						var mno = data[i].mno;
 						var message = data[i].cont;
+						var viewCheck = data[i].viewCheck;
+						var view = "";
+						if(viewCheck == "Y"){
+							view = "읽음";
+						}
 						if(mno == sendUser){
-							$chatContext.append("<div class='clear'></div>"
-									+ "<div class='sendMessage'>" + message + "</div><small class='sendTime'>" + time + "</small>");
+							$chatContext.append("<div class='clear' style='width: 100%; max-width: 500px; text-align:center; margin: 0 auto;'>"+ newdate +"</div>"
+									+ "<div class='sendMessage'>" + message + "</div><small class='sendTime'>" + time + "</small><br><small class='sendTime'>" + view + "</small>");
 						}else {
 							$chatContext.append("<div class='clear'></div>"
 			 						+ "<div class='message'>" + message + "</div><small class='recieveTime'>" + time + "</small>");
