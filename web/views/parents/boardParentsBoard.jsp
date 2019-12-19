@@ -195,8 +195,9 @@ input[type='button'] {
               <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
                       color: rgba(0,0,0,.6); ">Search</button>
               
-              <button style="float:right; width:100px; height:30px;" class="writing">글쓰기</button>
-              
+               <%if(loginUser != null && loginUser.getUType().equals("학부모")) {%>
+              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
+			  <%} %>
         </div> 
 	</div>
 	

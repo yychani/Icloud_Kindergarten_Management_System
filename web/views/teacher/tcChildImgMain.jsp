@@ -197,9 +197,10 @@ input[type='button'] {
                 <input type="text" placeholder="Search" style="width:150px; height:30px;">
               <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
                       color: rgba(0,0,0,.6); ">Search</button>
-              
+                      
+              <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
-              
+			  <%} %>
         </div> 
 	</div>
 	

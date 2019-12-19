@@ -14,7 +14,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>아이들 사진 갤러리</title>
+<title>아이들 사진 게시판</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 시멘틱ui -->
 <link rel="stylesheet"
@@ -128,7 +128,8 @@ $(function() {
 	<h1 style="margin: 0 15%; text-decoration: underline; text-underline-position: under;" >아이들 사진 갤러리</h1>
 	<h2 align="center"><%=b.getTtitle()%></h2>
 	<div class="ui dividing header" align="center"></div>
-	<label id="textArea"><%=b.getTtime()%></label>
+	<label id="textArea">작성일 : <%=b.getTtime()%></label>
+	<label id="textArea">조회수 : <%=b.getTcount() %></label>
 	<form>
 		<div align="center">
 			<table id="tableArea">
@@ -136,7 +137,7 @@ $(function() {
 		<% 
 			for(Attachment at : list){
 		%>
-				<td colspan="2" data-tooltip="사진 다운을 하시려면 클릭하세요!"><img  width="800" height="400" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"
+				<td colspan="2" data-tooltip="사진 다운을 하시려면 클릭하세요!"><img  width="800" height="430" class="imgi"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"
 									onclick="location.href='<%=request.getContextPath()%>/imgdownload.tbo?num=<%= at.getFid()%>'"></td>
 			</tr>
 
@@ -170,158 +171,19 @@ $(function() {
 	
 	
 	</table>
-	<div class="ui comments">
-  <h3 class="ui dividing header">댓글</h3>
- 
-  <div class="comment">
-   <div class="reply">
-    <div class="content">
-      <a class="author">채성아</a>
-      <div class="metadata">
-        <span class="date">Today at 5:42PM</span>
-      </div>
-      <div class="text">
-           조용히해!
-      </div>
-       </div>
-      <div class="actions" onclick="">
-        <a class="rereply">댓글달기</a>
-      </div>
-      <div class="rereArea">
-      <input type="text" id="reretext">
-      <button id="rereBtn">댓글 달기</button>
-    	</div>
-    </div>
-  </div>
- 
-  <div class="comment">
-    <div class="content">
-      <a class="author">나미리</a>
-      <div class="metadata">
-        <span class="date">Yesterday at 12:30AM</span>
-      </div>
-      <div class="text">
-        <p>역시 해바라기반은 조용한날이 없다니깐~</p>
-      </div>
-      <div class="actions">
-        <a class="rereply">댓글달기</a>
-      </div>
-    </div>
-    <div class="comments">
-      <div class="comment">
-        <div class="content">
-          <a class="author">권연주</a>
-          <div class="metadata">
-            <span class="date">Just now</span>
-          </div>
-          <div class="text">
-            한솔지금 몇시야
-          </div>
-          <div class="actions">
-            <a class="rereply">댓글달기</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="comment">
-    <div class="content">
-      <a class="author">한솔 임</a>
-      <div class="metadata">
-        <span class="date">5 days ago</span>
-      </div>
-      <div class="text">
-           죄송합니다.
-      </div>
-      <div class="actions">
-        <a class="rereply">댓글달기</a>
-      </div>
-    </div>
-  </div>
-  <form class="ui reply form" action="">
-    <div class="field">
-      <textarea id="textAreaRe"></textarea>
-    </div>
-    <div class="ui blue labeled submit icon button">
-      <i class="icon edit"></i> 등록하기
-    </div>
-  </form>
-  
-   <h3 class="ui dividing header">댓글</h3>
-  	<div>
-		<table id="replySelectTable" border="1" align="center">
-			
-		</table>
-		
-	</div>
-  <div class="replyArea">
-		<div class="replyWriteArea">
-		<table align="center">
-		
-				<tr>
-					<td>댓글작성</td>
-					<td><textarea rows="3" cols="80" id="replyContent"></textarea></td>
-					<td><button id="addReply">댓글 작성</button></td>
-				</tr>
-			</table>
-		</div>
-			
-		</div><!-- replyArea end -->
-</div>
+	<%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
+	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectChildImg2.tbo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
+	 <%} %>
 	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectListChImg.tbo'" style="float: right" />
 	 
 	 <br><br>
 	
 	
-	
+
 	
 	
 	<script>
-	$(function(){
-		$("#addReply").click(function(){
-			var writer = <%=loginUser.getMemberNo()%>
-			var tid = <%=b.getTid()%>
-			var content = $("#replyContent").val();
-			
-			$.ajax({
-				url:"/jsp/insertReply.bo",
-				data:{
-					writer:writer,
-					content:content,
-					tid:tid,
-					
-				},
-				type:"post",
-				success:function(data){
-					//console.log(data);
-					var $replySelectTable = $("#replySelectTable");
-					$replySelectTable.html('');
-					
-					for(var key in data){
-						var $tr = $("<tr>");
-						var $writerTd = $("<td>").text(data[key].bWriter).css("width","100px");
-						var $contentTd = $("<td>").text(data[key].bContent).css("width","400px");
-						var $dateTd = $("<td>").text(data[key].bDate).css("width","200px");
-						
-						$tr.append($writerTd);
-						$tr.append($contentTd);
-						$tr.append($dateTd);  
-						
-						$replySelectTable.append($tr);
-					}
-				},
-				error:function(){
-					console.log("에러!");
-				}
-				
-				
-			})
-			
-		})
-		
-		
-		
-	})
+
 	
 	
 	
