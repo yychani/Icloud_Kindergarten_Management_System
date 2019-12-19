@@ -47,7 +47,7 @@ public class Feed {
 	}
 	@OnError
 	public void onError(Throwable e) {
-		e.printStackTrace();
+		//e.printStackTrace();
 	}
 	
 	@OnClose

@@ -1312,7 +1312,7 @@ public class BoardService {
 
 		if (result > 0) {
 			commit(con);
-		    replyList = new BoardDao().selectPreHrereplyList(con, r);
+		    replyList = new BoardDao().selectAllPreHBoardReply(con, r.getTid());
 		} else {
 			rollback(con);
 		}
