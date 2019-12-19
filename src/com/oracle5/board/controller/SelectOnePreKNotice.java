@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectOnePreKNotice
@@ -42,10 +43,19 @@ public class SelectOnePreKNotice extends HttpServlet {
 		Board b = new BoardService().selectOnePreKNotice(num, isUpdate);
 		ArrayList<Attachment> list = new BoardService().selectOnePreKNoticeImg(num);
 		
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+		
 		String page ="";
 		
 		if(b != null) {
-			page="views/president/preKNoticeDetail.jsp";
+			if((loginUser).getMemberId().equals("admin")) {
+				page="views/president/preKNoticeDetail.jsp";	
+			}else if(loginUser.getUType().equals("교사")) {
+				page="views/teacher/tcKBoardDetail.jsp";
+			}else {
+				page="views/parents/parKBoardDetail.jsp";
+			}
+			
 			request.setAttribute("b", b);
 			request.setAttribute("list", list);
 		}else {

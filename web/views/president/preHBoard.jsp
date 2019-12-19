@@ -124,7 +124,26 @@ input[type='button'] {
       cursor: pointer;
      background: rgba(245, 245, 245, 0.802);
      }
+     
 </style>
+<script>
+$(function() {
+	  $(".li10").addClass("on");
+	  
+  $(".topMenuLi:nth-child(3)").addClass("on");
+ 
+  $(".topMenuLi").mouseover(function() {
+    $(".li10").removeClass("on");
+    $(".topMenuLi:nth-child(3)").removeClass("on");
+ });
+
+  $(".topMenuLi").mouseleave(function() {
+    $(".li10").addClass("on");
+    $(".topMenuLi:nth-child(3)").addClass("on");
+ });
+}); 
+
+</script>
 </head>
 <body style="overflow-x: hidden">
 	<%@ include file="/views/common/presidentMenu.jsp"%>
@@ -216,20 +235,7 @@ input[type='button'] {
 	<%@ include file="/views/common/chat.jsp"%>
 	
 	<script>
-		$(function() {
-			$(".li1").addClass("on");
-			$(".topMenuLi:nth-child(1)").addClass("on");
-
-			$(".topMenuLi").mouseover(function() {
-				$(".li1").removeClass("on");
-				$(".topMenuLi:nth-child(1)").removeClass("on");
-			});
-			$(".topMenuLi").mouseleave(function() {
-				$(".li1").addClass("on");
-				$(".topMenuLi:nth-child(1)").addClass("on");
-			});
-		}); 
-		
+	
 		$(function(){
 			$(".writing").click(function(){
 				location.href="./views/president/preHBoardWrite.jsp";

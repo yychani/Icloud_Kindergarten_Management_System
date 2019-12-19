@@ -49,21 +49,21 @@ button {
 }
 </style>
 <script>
-      $(function() {
-    	  $(".li:nth-child(3)").addClass("on");
-    	  
-          $(".topMenuLi:nth-child(1)").addClass("on");
-         
-          $(".topMenuLi").mouseover(function() {
-            $(".li:nth-child(3)").removeClass("on");
-            $(".topMenuLi:nth-child(1)").removeClass("on");
-         });
-        
-          $(".topMenuLi").mouseleave(function() {
-            $(".li:nth-child(3)").addClass("on");
-            $(".topMenuLi:nth-child(1)").addClass("on");
-         });
-      }); 
+$(function() {
+	  $(".li10").addClass("on");
+	  
+$(".topMenuLi:nth-child(3)").addClass("on");
+
+$(".topMenuLi").mouseover(function() {
+$(".li10").removeClass("on");
+$(".topMenuLi:nth-child(3)").removeClass("on");
+});
+
+$(".topMenuLi").mouseleave(function() {
+$(".li10").addClass("on");
+$(".topMenuLi:nth-child(3)").addClass("on");
+});
+}); 
 </script>
 </head>
 <body>

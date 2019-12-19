@@ -29,21 +29,19 @@ textarea {
 }
 </style>
 <script>
-      $(function() {
-    	  $(".li:nth-child(3)").addClass("on");
-    	  
-          $(".topMenuLi:nth-child(1)").addClass("on");
-         
-          $(".topMenuLi").mouseover(function() {
-            $(".li:nth-child(3)").removeClass("on");
-            $(".topMenuLi:nth-child(1)").removeClass("on");
-         });
-        
-          $(".topMenuLi").mouseleave(function() {
-            $(".li:nth-child(3)").addClass("on");
-            $(".topMenuLi:nth-child(1)").addClass("on");
-         });
-      }); 
+$(function() {
+	$(".li1").addClass("on");
+	$(".topMenuLi:nth-child(1)").addClass("on");
+
+	$(".topMenuLi").mouseover(function() {
+		$(".li1").removeClass("on");
+		$(".topMenuLi:nth-child(1)").removeClass("on");
+	});
+	$(".topMenuLi").mouseleave(function() {
+		$(".li1").addClass("on");
+		$(".topMenuLi:nth-child(1)").addClass("on");
+	});
+}); 
 </script>
 </head>
 <body>

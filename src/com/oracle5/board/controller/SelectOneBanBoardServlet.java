@@ -2,7 +2,6 @@ package com.oracle5.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectBoardServlet
@@ -43,10 +43,17 @@ public class SelectOneBanBoardServlet extends HttpServlet {
 		
 		Board b = new BoardService().selectOneBoard(num, isUpdate);
 		ArrayList<Attachment> list = new BoardService().selectOneImg(num);
+		
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
 		String page = "";
 		
 		if(b != null) {
-			page="views/teacher/tcClassNoticeDetail.jsp";
+			if((loginUser).getUType().equals("교사")) {
+				page="views/teacher/tcClassNoticeDetail.jsp";
+			}else {
+				page="views/parents/newsClassNoticeDetail.jsp";
+			}
+			
 			request.setAttribute("b", b);
 			request.setAttribute("list", list);
 			
