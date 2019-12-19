@@ -19,7 +19,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>아이들 사진</title>
+<title>아이들 사진 게시판</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -193,9 +193,13 @@ input[type='button'] {
 				onclick="location.href='<%=request.getContextPath()%>/selectListChImg.tbo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
 		 <div id="searchArea">
-                <input type="text" placeholder="Search" style="width:150px; height:30px;">
+               <input type="text" placeholder="Search" style="width:150px; height:30px;">
               <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
                       color: rgba(0,0,0,.6); ">Search</button>
+                      
+               <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
+              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
+			  <%} %>
               
               
         </div> 

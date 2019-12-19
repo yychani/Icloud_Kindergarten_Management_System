@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 detail</title>
+<title>반 공지사항</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -104,12 +104,6 @@ $(function() {
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/deleteBanBoard.bo")
 		}
 	</script>
-	
-	<%--   <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
-	 <input type="submit" id="boardReWrite" value="수정완료하기" onclick="location.href='<%=request.getContextPath() %>/updateBoard.bo?num=<%=b.getTid() %>'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
-	 <%} %>
-	 <input type="reset" id="return" value="취소하기" onclick="location.href='<%= request.getContextPath() %>/selectAllBanList'" style="float: right" />
-	  --%>
 
 </div>
 </form>
@@ -124,9 +118,12 @@ $(function() {
 					<input type="hidden" name="tidImg" value="<%=b.getTid()%>"></td>
 					<td colspan="2"><img width="500" height="400" class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
 					<td><input type="button" class="updateImg" value="수정"></td>
-					<td><input type="button" class="deleteImg" value="삭제"></td>		
+					<td	colspan="2">&nbsp;</td>	
+					<td><input type="button" class="deleteImg" value="삭제"></td>	
+					<tr>
+					<td	colspan="2">&nbsp;</td>	
 					<td>
-							<input type="file" id="thumbnailImg1" name="img12<%=at.getFid()%>" value="사진선택">
+					<input type="file" id="thumbnailImg1" name="imgcee<%=at.getFid()%>" value="사진선택">
 					</td>
 											
 				 </tr>

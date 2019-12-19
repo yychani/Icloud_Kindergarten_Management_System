@@ -1442,5 +1442,20 @@ public class BoardService {
 		
 		return hmap;
 	}
+	
+	//앨범 제목 내용 수정 
+	public int updateChildImgBoard(Board b) {
+		Connection con = getConnection();
+		int result = new BoardDao().updateChildImgBoard(con, b);
+
+		if (result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+
+		close(con);
+		return result;
+	}
 
 }
