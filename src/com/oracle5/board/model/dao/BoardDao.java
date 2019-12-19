@@ -3293,6 +3293,47 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		}
 		return result;
 	}
+		
+	//반 공지사항 수정 페이지 이미지 select
+	public ArrayList<Attachment> selectBanImg(Connection con, int num) {
+		PreparedStatement pstmt = null;
+		ArrayList<Attachment> list = new ArrayList<>();
+		Attachment att = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectBanImg");
+		
+		 try {
+	         pstmt = con.prepareStatement(query);
+	         pstmt.setInt(1, num);
+	         
+	         rset = pstmt.executeQuery();
+	         while(rset.next()) {
+	            att = new Attachment();
+	            
+	            att.setFid(rset.getInt("F_ID"));
+	            att.setOriginName(rset.getString("ORIGIN_NAME"));
+	            att.setChangeName(rset.getString("CHANGE_NAME"));
+	            att.setFilePath(rset.getString("FILE_PATH"));
+	            att.setUploadDate(rset.getDate("UPLOAD_DATE"));
+	            att.setFileLevel(rset.getInt("FILE_LEVEL"));
+	            att.setStatus(rset.getString("STATUS"));
+	            att.setType(rset.getInt("TYPE"));
+	            att.setCId(rset.getInt("C_ID"));
+	            att.setFeedNo(rset.getInt("FEEDNO"));
+	            att.setTId(rset.getInt("T_ID"));
+	            
+	            list.add(att);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         close(rset);
+	         close(pstmt);
+	      }
+	      
+	      return list;
+	}
 }
 	
 

@@ -53,20 +53,21 @@ textarea {
 <body>
 	<%@ include file="/views/common/parentsMenu.jsp" %>
 	<script>
-$(function() {
-    $(".li1").addClass("on");
-    $(".topMenuLi:nth-child(3)").addClass("on");
-
-    $(".topMenuLi").mouseover(function() {
-       $(".li1").removeClass("on");
-       $(".topMenuLi:nth-child(3)").removeClass("on");
-    });
-    $(".topMenuLi").mouseleave(function() {
-       $(".li1").addClass("on");
-       $(".topMenuLi:nth-child(3)").addClass("on");
-    });
-
- }); 
+	$(function() {
+		  $(".li:nth-child(3)").addClass("on");
+		  
+	    $(".topMenuLi:nth-child(3)").addClass("on");
+	   
+	    $(".topMenuLi").mouseover(function() {
+	      $(".li:nth-child(3)").removeClass("on");
+	      $(".topMenuLi:nth-child(3)").removeClass("on");
+	   });
+	  
+	    $(".topMenuLi").mouseleave(function() {
+	      $(".li:nth-child(3)").addClass("on");
+	      $(".topMenuLi:nth-child(3)").addClass("on");
+	   });
+	}); 
 </script>
 	<div style="margin: 0 15%;">
 	<h1 style="text-decoration: underline; text-underline-position: under;">학부모 게시판</h1>
@@ -118,7 +119,7 @@ $(function() {
 				<tr id="trArea">
 					<td><input type="hidden" name="fid" id="fid"value="<%=at.getFid()%>">
 					<input type="hidden" name="tidImg" value="<%=b.getTid()%>"></td>
-					<td colspan="2"><img width="800" height="400" class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
+					<td colspan="2"><img width="500" height="400" class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
 					<td><input type="button" class="updateImg" value="수정"></td>
 					<td><input type="button" class="deleteImg" value="삭제"></td>		
 					<td>
