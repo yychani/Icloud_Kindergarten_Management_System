@@ -49,21 +49,21 @@ button {
 }
 </style>
 <script>
-      $(function() {
-    	  $(".li:nth-child(3)").addClass("on");
-    	  
-          $(".topMenuLi:nth-child(1)").addClass("on");
-         
-          $(".topMenuLi").mouseover(function() {
-            $(".li:nth-child(3)").removeClass("on");
-            $(".topMenuLi:nth-child(1)").removeClass("on");
-         });
-        
-          $(".topMenuLi").mouseleave(function() {
-            $(".li:nth-child(3)").addClass("on");
-            $(".topMenuLi:nth-child(1)").addClass("on");
-         });
-      }); 
+$(function() {
+	  $(".li:nth-child(1)").addClass("on");
+	  
+    $(".topMenuLi:nth-child(3)").addClass("on");
+   
+    $(".topMenuLi").mouseover(function() {
+      $(".li:nth-child(1)").removeClass("on");
+      $(".topMenuLi:nth-child(3)").removeClass("on");
+   });
+  
+    $(".topMenuLi").mouseleave(function() {
+      $(".li:nth-child(1)").addClass("on");
+      $(".topMenuLi:nth-child(3)").addClass("on");
+   });
+}); 
 </script>
 </head>
 <body>
@@ -90,9 +90,7 @@ button {
 			<textarea style="resize: none; width: 100%; border:0;" rows="25" id="content" name="content"
 			  ><%=b.getTcont() %></textarea>
 		</div>
-		<%for(Attachment at : list) {%>
-		<div class="Imgscr"><img name="img"alt="" style="width: 100%;"src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></div>
-		<% } %>
+	
 	</div>
 	<br>
 	 <div align="right">
@@ -107,10 +105,81 @@ button {
 	 		$("#updateForm").attr("action","<%=request.getContextPath()%>/deleteTctc.bo");
 	 	}
 	 </script>
-	 <br><br>
+	
 	</div>
 	</form>
+		<% 
+			for(Attachment at : list){
+		%>
+		<div>
+			<form action="" method="post" enctype="multipart/form-data" id="imgUpdateForm">
+				<table id="tableArea">
+				<tr id="trArea">
+					<td><input type="hidden" name="fid" id="fid"value="<%=at.getFid()%>">
+					<input type="hidden" name="tidImg" value="<%=b.getTid()%>"></td>
+					<td colspan="2"><img width="500" height="400" class="imgi" src="<%=request.getContextPath() %>/uploadFiles/<%=at.getChangeName() %>"></td>
+					<td><input type="button" class="updateImg" value="수정"></td>
+					<td><input type="button" class="deleteImg" value="삭제"></td>		
+					<td>
+							<input type="file" id="thumbnailImg1" name="img12<%=at.getFid()%>" value="사진선택">
+					</td>
+											
+				 </tr>
+			</table>
+			</form>
+		</div>
+			<%} %>
+					<script>
+		$(function(){
+		
 	
+		$(document).on("click", ".updateImg", function(){
+			var writer = "<%=loginUser.getMemberName()%>";
+			var fid = $(this).parent().children("#fid").val();
+			var form = $(this).parents("form");
+		    var formdata = new FormData(form[0]);
+		    var img = $(this).parent().prev().children().eq(0);
+		    
+			$.ajax({
+				url:"/main/updatePImg.pbo",
+				type:"post",
+		    	processData:false,
+		    	contentType:false,
+		    	data:formdata,
+		    	success:function(data) {
+		    		img.prop("src", "<%=request.getContextPath() %>/uploadFiles/" + data.changeName);
+		    	},
+		    	error:function() {
+		    		console.log("실패");
+		    	} 
+			});
+		});
+		$(document).on("click", ".deleteImg", function(){
+			var writer = "<%=loginUser.getMemberName()%>";
+			var fid = $(this).parent().siblings().children("#fid").val();
+		    var img = $(this).parent().prev().children().eq(0);
+		    var form = $(this).parents("form");
+		    
+			$.ajax({
+				url:"/main/deletePbImg.pbo",
+				type:"post",
+		    	data:{
+		    		fid:fid
+		    	},
+		    	success:function(data) {
+		    		console.log("이미지 삭제완료")
+		    		form.remove();
+		    	},
+		    	error:function() {
+		    		console.log("실패");
+		    	} 
+			});
+		});
+	});
+
+	
+	</script> 
+			 <br><br>
     <%@ include file="/views/common/footer.jsp" %>
     <%@ include file="/views/common/chat.jsp" %>
 </body>

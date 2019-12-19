@@ -45,20 +45,18 @@ textarea {
 	
 	<script>
 	$(function() {
-		  $(".li:nth-child(3)").addClass("on");
-		  
-	    $(".topMenuLi:nth-child(3)").addClass("on");
-	   
-	    $(".topMenuLi").mouseover(function() {
-	      $(".li:nth-child(3)").removeClass("on");
-	      $(".topMenuLi:nth-child(3)").removeClass("on");
-	   });
-	  
-	    $(".topMenuLi").mouseleave(function() {
-	      $(".li:nth-child(3)").addClass("on");
-	      $(".topMenuLi:nth-child(3)").addClass("on");
-	   });
-	}); 
+		$(".li9").addClass("on");
+		$(".topMenuLi:nth-child(3)").addClass("on");
+
+		$(".topMenuLi").mouseover(function() {
+			$(".li9").removeClass("on");
+			$(".topMenuLi:nth-child(3)").removeClass("on");
+		});
+		$(".topMenuLi").mouseleave(function() {
+			$(".li9").addClass("on");
+			$(".topMenuLi:nth-child(3)").addClass("on");
+		});
+	});
            
 </script>
 	<div style="margin: 0 15%;">

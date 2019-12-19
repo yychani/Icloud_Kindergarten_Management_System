@@ -34,6 +34,7 @@ public class UpdateBanBoardServlet extends HttpServlet {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		
+		
 		/*System.out.println("tId : "+ tId);
 		System.out.println("title : " + title);
 		System.out.println("content : "+ content);*/

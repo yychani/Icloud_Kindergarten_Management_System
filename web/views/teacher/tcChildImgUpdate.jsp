@@ -165,6 +165,7 @@
 			<%} %>
 			<div>
 			<form id="updateForm1" method="post">
+			
 			<table align="center" id="tableArea2">
 			<tr>
 				<td rowspan="4" id="content"><textarea style="resize: none; width: 100%;" rows="15" id="content" name="content"
@@ -172,10 +173,10 @@
 			</tr>
 
 			</table>
-	
+			</table>
 			<br>
 					<div  class="ui dividing header"></div>
-		</div>
+		
 		<br><br>
 		
 		<input type="hidden" name="userNo" value="<%=loginUser.getMemberNo()%>">
@@ -187,50 +188,25 @@
 
 	 <br><br>
 	 <div align="right">
+	 
 		<input type="button" onclick="location.href='<%=request.getContextPath()%>/updateChildImg.tbo'" value="작성완료">
 		<input type="button" onclick="location.href='<%=request.getContextPath()%>/deletechildImgBoard.tbo'" value="삭제하기">
 	</div>
-	</form> 
+	
+	 
+	
 	
 	<script>
-		function loadImg(value, num){
-			if(value.files && value.files[0]){
-				var reader = new FileReader();
-				
-				reader.onload = function(e){
-					switch(num){
-					case 1 : $("#titleImg").attr("src",e.target.result);break;
-					}
-				}
-				reader.readAsDataURL(value.file[0]);
-			}
-		}
-		$(function(){
-			/* $("#fileArea").hide();
-			
-			$("#titleImgArea").click(function(){
-				$("#thumbnailImg1").click();
-			}) */
-		})
-		
 	
-	</script>
-	<script>
-	
-		function complete(){
+ 		function complete(){
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/updateChildImg.tbo");
 			$("#updateForm").submit();
 		}
 		function deleteimg(){
 			$("#updateForm1").attr("action","<%=request.getContextPath()%>/deletechildImgBoard.tbo");
 			$("#updateForm1").submit();
-		}
-		function updateImg(){
-			$("#imgUpdateForm").attr("action","<%=request.getContextPath()%>/");
-			$("#imgUpdateForm").submit();
-		}
-		
-		
+		} 
+			
     $(function() {
     	$(".li:nth-child(1)").addClass("on");
 
@@ -250,6 +226,8 @@
     
     
 	</script>
+	</form>
+	</div>
 	<script>
 		$(function(){
 			
