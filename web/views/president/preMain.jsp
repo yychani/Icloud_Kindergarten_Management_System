@@ -274,7 +274,7 @@
 				$("input[name='today']").eq(i).val($("input[name='tomorrow']").eq(i).val());
 				$("input[name='tomorrow']").eq(i).val("")
 				$("input[name='todaycheck']")[i].checked = false;
-				
+				 
 			}
 			var todoCheck = new Array(tomorrow);
 			for(var i = 0; i < 6; i++){
