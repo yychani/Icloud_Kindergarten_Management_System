@@ -14,7 +14,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>아이들 사진 </title>
+<title>아이들 사진 갤러리</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- 시멘틱ui -->
 <link rel="stylesheet"
@@ -105,19 +105,20 @@
 </style>
 <script>
 $(function() {
-    $(".li1").addClass("on");
-    $(".topMenuLi:nth-child(2)").addClass("on");
+	 $(".li:nth-child(1)").addClass("on");
+	  
+		$(".topMenuLi:nth-child(3)").addClass("on");
 
-    $(".topMenuLi").mouseover(function() {
-       $(".li1").removeClass("on");
-       $(".topMenuLi:nth-child(2)").removeClass("on");
-    });
-    $(".topMenuLi").mouseleave(function() {
-       $(".li1").addClass("on");
-       $(".topMenuLi:nth-child(2)").addClass("on");
-    });
+	$(".topMenuLi").mouseover(function() {
+		 $(".li:nth-child(1)").removeClass("on");
+	 $(".topMenuLi:nth-child(3)").removeClass("on");
+	});
 
- }); 
+	$(".topMenuLi").mouseleave(function() {
+ 		$(".li:nth-child(1)").addClass("on");
+	 $(".topMenuLi:nth-child(3)").addClass("on");
+	});
+}); 
           
   
 </script>

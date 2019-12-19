@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.dao.MemberDao;
 import com.oracle5.member.model.vo.AsList;
@@ -22,6 +23,7 @@ import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Note;
 import com.oracle5.member.model.vo.Observation;
+import com.oracle5.member.model.vo.ObservationItem;
 import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.ReturnAgree;
 import com.oracle5.member.model.vo.Scholarly;
@@ -1311,6 +1313,34 @@ public class MemberService {
 		close(con);
 		
 		return mt;
+	}
+
+	//학부모 건의문의 글쓰기
+	public int insertParentQnA(Board b) {
+		Connection con = getConnection();
+		
+		int result = md.insertParentQnA(con, b);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+}
+
+	public ArrayList<ObservationItem> selectAgeObItem(int age) {
+		Connection con = getConnection();
+		
+		ArrayList<ObservationItem> itemList = new MemberDao().selectAgeObItem(con, age);
+		
+		close(con);
+		
+		return itemList;
+
 	}
 
 }

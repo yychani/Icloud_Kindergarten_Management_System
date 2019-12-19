@@ -20,6 +20,7 @@ import java.util.Properties;
 
 import javax.naming.PartialResultException;
 
+import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.AsList;
 import com.oracle5.member.model.vo.Attend;
@@ -34,6 +35,7 @@ import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Note;
 import com.oracle5.member.model.vo.Observation;
+import com.oracle5.member.model.vo.ObservationItem;
 import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.Participation;
 import com.oracle5.member.model.vo.ReturnAgree;
@@ -3575,6 +3577,70 @@ public class MemberDao {
 		}
 		
 		return mt;
+	}
+
+
+	//학부모 건의문의 글쓰기
+	public int insertParentQnA(Connection con, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		Board board = null;
+		
+		String query = prop.getProperty("insertParentQnA");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, b.getTtitle());
+			pstmt.setString(2, b.getTcont());
+			pstmt.setInt(3, b.getPno());
+			pstmt.setInt(4, b.getTno());
+			pstmt.setInt(5, b.getPno());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+}
+
+	public ArrayList<ObservationItem> selectAgeObItem(Connection con, int age) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<ObservationItem> itemList = null;
+		ObservationItem oi = null;
+		
+		String sql = prop.getProperty("selectAgeObItem");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, age);
+			
+			rset = pstmt.executeQuery();
+			
+			itemList = new ArrayList<>();
+			
+			while(rset.next()) {
+				oi = new ObservationItem();
+				
+				oi.setObId(rset.getInt("OB_ID"));
+				oi.setAge(rset.getInt("AGE"));
+				oi.setContent(rset.getString("CONTENT"));
+				
+				itemList.add(oi);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+				
+		return itemList;
+
 	}
 
 

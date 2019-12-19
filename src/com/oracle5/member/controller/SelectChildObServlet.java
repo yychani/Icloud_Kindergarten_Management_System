@@ -2,6 +2,7 @@ package com.oracle5.member.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.oracle5.member.model.service.MemberService;
+import com.oracle5.member.model.vo.ObservationItem;
 
 @WebServlet("/selectChildOb.me")
 public class SelectChildObServlet extends HttpServlet {
@@ -24,9 +26,16 @@ public class SelectChildObServlet extends HttpServlet {
 		
 		ArrayList<Map<String, Object>> list = new MemberService().selectChildObservation(cid, age);
 		
+		ArrayList<ObservationItem> itemList = new MemberService().selectAgeObItem(age);
+		
+		Map<String, Object> hmap = new HashMap<>();
+		
+		hmap.put("list", list);
+		hmap.put("itemList", itemList);
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		new Gson().toJson(list, response.getWriter());
+		new Gson().toJson(hmap, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -40,6 +40,11 @@
 	width:200px;
 	margin: 0 auto;
 }
+#cNameSelect{
+	width:161px;
+	height:34px;
+	border-radius:4px;
+}
 
 </style>
 
@@ -63,6 +68,33 @@
             $(".topMenuLi:nth-child(5)").addClass("on");
          });
       }); 
+      
+      $(function(){
+			cId = 0;
+			$.ajax({
+				url:"<%=request.getContextPath()%>/pCName.me",
+				type:"get",
+				success:function(data){
+
+					$select = $("#cNameSelect");
+					$select.find("option").remove();
+					
+					for(var key in data){
+						var $option = $("<option>");
+						$option.val(data[key].cId);
+						$option.text(data[key].name);
+						$select.append($option);
+						
+						$("#cNameSelect").trigger("change");
+						
+					}
+					
+				},
+				error:function(data){
+					console.log("failㅠㅠ");
+				}
+			});
+		});
 </script>
 
 
@@ -102,13 +134,15 @@
   <div class="ui icon header">
     <i class="hand point right outline icon"></i>
    		 다음 달 방과 후 신청을 하시겠습니까?
-    <p id="writeCName">원아명을 입력해주세요</p>
+    <p id="writeCName">신청할원아를 선택해주세요</p>
+  
   </div>
   
   <form action="<%=request.getContextPath()%>/asRequest.me" method="post">
   <input type="hidden" value="<%=loginUser.getMemberNo()%>" name="userNo">
 	<div align="center"><div class="ui input">
-  	<input type="text" id="kidName" name="kidName">
+	  <select class="ui dropdown" id="cNameSelect" name="cName"></select>
+  	<!-- <input type="text" id="kidName" name="kidName"> -->
 	</div></div><br><br>
   <div class="actions" align="center">
     <div class="ui red basic cancel inverted button">

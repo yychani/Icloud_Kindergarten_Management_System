@@ -25,19 +25,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 <script>
 $(function() {
-    $(".li1").addClass("on");
-    $(".topMenuLi:nth-child(1)").addClass("on");
-
+	  $(".li:nth-child(5)").addClass("on");
+	  
+    $(".topMenuLi:nth-child(2)").addClass("on");
+   
     $(".topMenuLi").mouseover(function() {
-       $(".li1").removeClass("on");
-       $(".topMenuLi:nth-child(1)").removeClass("on");
-    });
+      $(".li:nth-child(5)").removeClass("on");
+      $(".topMenuLi:nth-child(2)").removeClass("on");
+   });
+  
     $(".topMenuLi").mouseleave(function() {
-       $(".li1").addClass("on");
-       $(".topMenuLi:nth-child(1)").addClass("on");
-    });
-
- }); 
+      $(".li:nth-child(5)").addClass("on");
+      $(".topMenuLi:nth-child(2)").addClass("on");
+   });
+}); 
 
 </script>
 <style>

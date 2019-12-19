@@ -1417,5 +1417,30 @@ public class BoardService {
 		}
 		return result;
 	}
+	//반 공지사항 수정 페이지 이미지 select
+	public ArrayList<Attachment> selectBanImg(int num) {
+		Connection con = getConnection();
+		ArrayList<Attachment> attachment = new BoardDao().selectBanImg(con, num);
+
+		if (attachment != null) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		close(con);
+		return attachment;
+
+	}
+
+	//학부모 건의문의 리스트 불러오기
+	public HashMap<String, Object> selectParentQnA(int pNo) {
+		Connection con = getConnection();
+		
+		HashMap<String, Object> hmap = new BoardDao().selectParentQnA(con,pNo);
+		
+		close(con);
+		
+		return hmap;
+	}
 
 }

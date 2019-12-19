@@ -42,6 +42,7 @@ textarea {
 $(function() {
 	  $(".li:nth-child(1)").addClass("on");
 	  
+
   $(".topMenuLi:nth-child(3)").addClass("on");
  
   $(".topMenuLi").mouseover(function() {
@@ -54,6 +55,7 @@ $(function() {
     $(".topMenuLi:nth-child(3)").addClass("on");
  });
 });
+
 </script>
 </head>
 <body>

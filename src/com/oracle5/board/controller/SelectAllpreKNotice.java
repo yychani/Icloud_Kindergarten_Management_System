@@ -19,7 +19,7 @@ import com.oracle5.member.model.vo.Member;
  */
 @WebServlet(name = "SelectAllPreKNotice", urlPatterns = { "/selectAllPreNotice.bo" })
 public class SelectAllpreKNotice extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -28,6 +28,7 @@ public class SelectAllpreKNotice extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -93,8 +94,9 @@ public class SelectAllpreKNotice extends HttpServlet {
 		doGet(request, response);
 	}
 
-}
+   
 
+}
 
 
 
