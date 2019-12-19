@@ -22,6 +22,7 @@ import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Note;
 import com.oracle5.member.model.vo.Observation;
+import com.oracle5.member.model.vo.ObservationItem;
 import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.ReturnAgree;
 import com.oracle5.member.model.vo.Scholarly;
@@ -1311,6 +1312,16 @@ public class MemberService {
 		close(con);
 		
 		return mt;
+	}
+
+	public ArrayList<ObservationItem> selectAgeObItem(int age) {
+		Connection con = getConnection();
+		
+		ArrayList<ObservationItem> itemList = new MemberDao().selectAgeObItem(con, age);
+		
+		close(con);
+		
+		return itemList;
 	}
 
 }

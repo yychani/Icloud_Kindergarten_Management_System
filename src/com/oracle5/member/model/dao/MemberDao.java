@@ -34,6 +34,7 @@ import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.MemberAndTeacher;
 import com.oracle5.member.model.vo.Note;
 import com.oracle5.member.model.vo.Observation;
+import com.oracle5.member.model.vo.ObservationItem;
 import com.oracle5.member.model.vo.Parents;
 import com.oracle5.member.model.vo.Participation;
 import com.oracle5.member.model.vo.ReturnAgree;
@@ -3575,6 +3576,41 @@ public class MemberDao {
 		}
 		
 		return mt;
+	}
+
+	public ArrayList<ObservationItem> selectAgeObItem(Connection con, int age) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<ObservationItem> itemList = null;
+		ObservationItem oi = null;
+		
+		String sql = prop.getProperty("selectAgeObItem");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, age);
+			
+			rset = pstmt.executeQuery();
+			
+			itemList = new ArrayList<>();
+			
+			while(rset.next()) {
+				oi = new ObservationItem();
+				
+				oi.setObId(rset.getInt("OB_ID"));
+				oi.setAge(rset.getInt("AGE"));
+				oi.setContent(rset.getString("CONTENT"));
+				
+				itemList.add(oi);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+				
+		return itemList;
 	}
 
 

@@ -27,7 +27,19 @@ public class InsertChildObservationServlet extends HttpServlet {
 		int cid = Integer.parseInt(request.getParameter("cid"));
 		
 		String fdate = request.getParameter("fdate");
+		String[] testArr;
+		
+		if((testArr = fdate.split(" ")).length != 1) {
+			testArr = fdate.split(" ");
+			fdate = testArr[0].substring(0, testArr[0].length() - 1) + "-" + testArr[1].substring(0, testArr[1].length() - 1) + "-" + testArr[2].substring(0, testArr[2].length() - 1);
+		}
+		
 		String sdate = request.getParameter("sdate");
+		
+		if((testArr = sdate.split(" ")).length != 1) {
+			testArr = sdate.split(" ");
+			sdate = testArr[0].substring(0, testArr[0].length() - 1) + "-" + testArr[1].substring(0, testArr[1].length() - 1) + "-" + testArr[2].substring(0, testArr[2].length() - 1);
+		}
 		
 		if(!fdate.equals("") && sdate.equals("")) {
 			int round1 = 1;
