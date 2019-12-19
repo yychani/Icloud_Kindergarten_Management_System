@@ -1,6 +1,7 @@
 package com.oracle5.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
+import com.oracle5.common.model.vo.Attachment;
 
 /**
  * Servlet implementation class SelectBoardServlet
@@ -36,12 +38,14 @@ public class SelectBanBoardServlet extends HttpServlet {
 			isUpdate = request.getParameter("isUpdate");
 		}
 		Board b = new BoardService().selectOneBoard(num, isUpdate);
+		ArrayList<Attachment> list = new BoardService().selectBanImg(num);
 		
 		String page ="";
 		
 		if(b != null) {
 			page="views/teacher/tcClassNoticeUpdate.jsp";
 			request.setAttribute("b", b);
+			request.setAttribute("list", list);
 		}else {
 			page="views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시글 수정용 상세보기 실패");

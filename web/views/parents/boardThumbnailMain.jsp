@@ -25,20 +25,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 <script>
 $(function() {
-    $(function() {
-        $(".li1").addClass("on");
-        $(".topMenuLi:nth-child(2)").addClass("on");
+	 $(".li:nth-child(1)").addClass("on");
+	  
+		$(".topMenuLi:nth-child(3)").addClass("on");
 
-        $(".topMenuLi").mouseover(function() {
-           $(".li1").removeClass("on");
-           $(".topMenuLi:nth-child(2)").removeClass("on");
-        });
-        $(".topMenuLi").mouseleave(function() {
-           $(".li1").addClass("on");
-           $(".topMenuLi:nth-child(2)").addClass("on");
-        });
+	$(".topMenuLi").mouseover(function() {
+ 		 $(".li:nth-child(1)").removeClass("on");
+ 	 $(".topMenuLi:nth-child(3)").removeClass("on");
+	});
 
-     });  
+	$(".topMenuLi").mouseleave(function() {
+  		$(".li:nth-child(1)").addClass("on");
+ 	 $(".topMenuLi:nth-child(3)").addClass("on");
+	});
+}); 
 </script>
 <style>
  .writing > button {
@@ -120,24 +120,6 @@ input[type='button'] {
      background: rgba(245, 245, 245, 0.802);
      }
 </style>
-<script>
-$(function() {
-    $(".li1").addClass("on");
-    $(".topMenuLi:nth-child(2)").addClass("on");
-
-    $(".topMenuLi").mouseover(function() {
-       $(".li1").removeClass("on");
-       $(".topMenuLi:nth-child(2)").removeClass("on");
-    });
-    $(".topMenuLi").mouseleave(function() {
-       $(".li1").addClass("on");
-       $(".topMenuLi:nth-child(2)").addClass("on");
-    });
-
- }); 
-          
-  
-</script>
 </head>
 <body>
  	<%@ include file="/views/common/parentsMenu.jsp" %>

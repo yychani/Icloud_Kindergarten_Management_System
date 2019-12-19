@@ -30,19 +30,20 @@ textarea {
 </style>
 <script>
 $(function() {
-    $(".li1").addClass("on");
-    $(".topMenuLi:nth-child(2)").addClass("on");
+	  $(".li:nth-child(3)").addClass("on");
+	  
+  $(".topMenuLi:nth-child(3)").addClass("on");
+ 
+  $(".topMenuLi").mouseover(function() {
+    $(".li:nth-child(3)").removeClass("on");
+    $(".topMenuLi:nth-child(3)").removeClass("on");
+ });
 
-    $(".topMenuLi").mouseover(function() {
-       $(".li1").removeClass("on");
-       $(".topMenuLi:nth-child(2)").removeClass("on");
-    });
-    $(".topMenuLi").mouseleave(function() {
-       $(".li1").addClass("on");
-       $(".topMenuLi:nth-child(2)").addClass("on");
-    });
-
- }); 
+  $(".topMenuLi").mouseleave(function() {
+    $(".li:nth-child(3)").addClass("on");
+    $(".topMenuLi:nth-child(3)").addClass("on");
+ });
+}); 
 </script>
 
 </head>

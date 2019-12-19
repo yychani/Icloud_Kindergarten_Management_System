@@ -228,27 +228,9 @@
     </div>
   </form>
   
-   <h3 class="ui dividing header">댓글</h3>
-  	<div>
-		<table id="replySelectTable" border="1" align="center">
-			
-		</table>
-		
-	</div>
-  <div class="replyArea">
-		<div class="replyWriteArea">
-		<table align="center">
-		
-				<tr>
-					<td>댓글작성</td>
-					<td><textarea rows="3" cols="80" id="replyContent"></textarea></td>
-					<td><button id="addReply">댓글 작성</button></td>
-				</tr>
-			</table>
-		</div>
+  
 			
 		</div><!-- replyArea end -->
-</div>
 	<%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
 	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectChildImg2.tbo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
 	 <%} %>
