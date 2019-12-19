@@ -45,24 +45,24 @@ textarea {
 </style>
 <script>
 $(function() {
-	  $(".li10").addClass("on");
-	  
-$(".topMenuLi:nth-child(3)").addClass("on");
-
-$(".topMenuLi").mouseover(function() {
-  $(".li10").removeClass("on");
-  $(".topMenuLi:nth-child(3)").removeClass("on");
-});
-
-$(".topMenuLi").mouseleave(function() {
-  $(".li10").addClass("on");
-  $(".topMenuLi:nth-child(3)").addClass("on");
-});
-}); 
+ 	  $(".li:nth-child(5)").addClass("on");
+ 	  
+       $(".topMenuLi:nth-child(3)").addClass("on");
+      
+       $(".topMenuLi").mouseover(function() {
+         $(".li:nth-child(5)").removeClass("on");
+         $(".topMenuLi:nth-child(3)").removeClass("on");
+      });
+     
+       $(".topMenuLi").mouseleave(function() {
+         $(".li:nth-child(5)").addClass("on");
+         $(".topMenuLi:nth-child(3)").addClass("on");
+      });
+   });
 </script>
 </head>
 <body>
-	<%@ include file="/views/common/presidentMenu.jsp"%>
+	<%@ include file="/views/common/parentsMenu.jsp"%>
 	<div style="margin: 0 15%;">
 		<h1
 			style="text-decoration: underline; text-underline-position: under;">유치원 운영 위원회 게시판</h1>
@@ -227,7 +227,7 @@ $(".topMenuLi").mouseleave(function() {
 									$content.append($rereplyArea);
 								}
 							} 
-							$("#rereBtn").trigger("#click");
+							
 						}
 					},
 					error:function(data){
@@ -249,7 +249,7 @@ $(".topMenuLi").mouseleave(function() {
 				getReply();
 
 			});
-
+			
 			
 			$("#btn").click(function(){
 				var writer = '<%= loginUser.getMemberName()%>'
@@ -268,7 +268,7 @@ $(".topMenuLi").mouseleave(function() {
 							$content.html('');
 							console.log(data);
 							for(var key in data) {
-								if(data[key].refrid == 0){
+					
 								var $replyArea = $("#replycontent");
 								var $contentDiv = $("<div class='content'>");
 								var $a = $("<a class='author'>").text(data[key].rname);
@@ -300,27 +300,27 @@ $(".topMenuLi").mouseleave(function() {
 								$replyArea.append($rereAreaDiv);
 								
 								$(".rereArea").hide();
-								rid = data[key].rid;
-								}
+								
 								for(var key2 in data){
 									if(rid == data[key2].refrid){
-										if(rid == 148){
-											console.log("하하0");
-										}
-										var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+										var  $rereplyArea = $("#rereplycontent");
+										$rereplyArea.html('');
+										var $recontent = $("#rereplycontent");
+										var $contentDiv = $("<div class='content'>");
+										var $a = $("<a class='author'>").text(data[key2].rname);
+										var $div1 = $("<div class='metadata'>");
+										var $span = $("<span class='date'>").text(data[key2].rdate);
+										var $div2 = $("<div class='text'>").text(data[key2].rcont);
+										rid = data[key].rid;
+										console.log(rid);
 										
-										var $contentDiv2 = $("<div class='content'>");
-											var $a1 = $("<a class='author'>").text(data[key2].rname);
-											var $div11 = $("<div class='metadata'>");
-												var $span1 = $("<span class='date'>").text(data[key2].rdate);
-											var $div21 = $("<div class='text'>").text(data[key2].rcont);
+										$contentDiv.append($a);
+										$contentDiv.append($div1.append($span));
+										$contentDiv.append($div2);
 										
-										$contentDiv2.append($a1);
-										$contentDiv2.append($div11.append($span1));
-										$contentDiv2.append($div21);
+										$recontent.append($contentDiv);
 										
-										$rereplyArea.append($contentDiv2);
-										
+										$rereplyArea.append($recontent);
 										$content.append($rereplyArea);
 									}
 								}
@@ -340,14 +340,12 @@ $(".topMenuLi").mouseleave(function() {
 				<input type="text" id="reretext">
 				<button id="rereBtn">댓글 달기</button>
 			</div> */
-			//일단 이것은 미완성
 			$(document).on("click", "#rereBtn", function() {
 				
 				
 				var writer = '<%= loginUser.getMemberName()%>'
 				var tid ='<%=b.getTid()%>'
 				var content = $(this).parent().find("input").val();
-			
 				var refrid = $(this).parent().prev().prev().find("input").val();
 				console.log(refrid);
 				
@@ -359,75 +357,31 @@ $(".topMenuLi").mouseleave(function() {
 								refrid:refrid},
 						type:"post",
 						success:function(data){
-						console.log(data);
-								for(var key2 in data){
+							for(var key2 in data){
+								if(refrid == data[key2].refrid){
+									var $reridArea = $(this).parent().prev().prev().find("input");
+									var $rereplyArea = $("#rereplycontent");
+									$rereplyArea.html('');
+									var $recontent = $("#rereplycontent");
+									var $contentDiv = $("<div class='content'>");
+									var $a = $("<a class='author'>").text(data[key2].rname);
+									var $div1 = $("<div class='metadata'>");
+									var $span = $("<span class='date'>").text(data[key2].rdate);
+									var $div2 = $("<div class='text'>").text(data[key2].rcont);
+									rid = data[key].rid;
+									console.log(rid);
 									
-									var $content = $("#rplycontent");
+									$contentDiv.append($a);
+									$contentDiv.append($div1.append($span));
+									$contentDiv.append($div2);
 									
-									var rid = 0;
-									for(var key in data) {
-										if(data[key].refrid == 0){
-										var $contentDiv = $("<div class='content'>");
-										var $a = $("<a class='author'>").text(data[key].rname);
-										var $div1 = $("<div class='metadata'>");
-										var $span = $("<span class='date'>").text(data[key].rdate);
-										var $div2 = $("<div class='text'>").text(data[key].rcont);
-										var $inputRid = $("<input type='hidden'>").val(data[key].rid);
-										
-										
-										$contentDiv.append($a);
-										$contentDiv.append($div1.append($span));
-										$contentDiv.append($div2);
-										$contentDiv.append($inputRid);
-										$content.append($contentDiv);
-										
-										var $actionDiv = $("<div class='actions' onclick=''>");
-										var $rereply = $("<a class='rereply'>댓글달기</a>");
-										$actionDiv.append($rereply);
-										
-										$content.append($actionDiv);
-										
-										var $rereAreaDiv = $("<div class='rereArea'>");
-										var $inputText = $("<input type='text' id='reretext'>");
-										var $rereBtn = $("<button id='rereBtn'>댓글달기</button>");
-										
-										
-										$rereAreaDiv.append($inputText);
-										$rereAreaDiv.append($rereBtn);
-										
-										$content.append($rereAreaDiv);
-										
-										$(".rereArea").hide();
-										rid = data[key].rid;
-										}
-										for(var key2 in data){
-											//console.log(rid);
-											if(rid == data[key2].refrid){
-												
-												var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
-												
-												var $contentDiv2 = $("<div class='content'>");
-													var $a1 = $("<a class='author'>").text(data[key2].rname);
-													var $div11 = $("<div class='metadata'>");
-														var $span1 = $("<span class='date'>").text(data[key2].rdate);
-													var $div21 = $("<div class='text'>").text(data[key2].rcont);
-												
-												$contentDiv2.append($a1);
-												$contentDiv2.append($div11.append($span1));
-												$contentDiv2.append($div21);
-												
-												$rereplyArea.append($contentDiv2);
-												
-												$content.append($rereplyArea);
-											}
-										} 
-										$("#rereBtn").trigger("#click");
-									}
-									$(".rereArea").hide();
-									$(".rereArea").val('');
-						
+									$recontent.append($contentDiv);
+									
+									$rereplyArea.appned($recontent);
+									$reridArea.apeend($rereplyArea);
 								}
-							},
+							}
+						},
 						error:function(data){
 							console.log("댓글의 댓글 실패");
 						}

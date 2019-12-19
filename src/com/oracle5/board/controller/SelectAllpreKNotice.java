@@ -62,17 +62,20 @@ public class SelectAllpreKNotice extends HttpServlet {
 		
 		ArrayList<Board> list = new BoardService().selectAllpreNoticeList(currentPage,limit);
 		
-		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+		
+		System.out.println((loginUser).getMemberName());
 		
 		String page = "";
 		if(list != null) {
-			if((loginUser).getUType().equals("admin")) {
-				page="views/president/preKNotice.jsp";
-			}else if((loginUser).getUType().equals("교사")){
-				page="";
-			}else {
-				
-			}
+			
+				if((loginUser).getMemberId().equals("admin")) {
+					page="views/president/preKNotice.jsp";
+				}else if((loginUser).getUType().equals("교사")) {
+					page="views/teacher/tcKBoard.jsp";
+				}else {
+				page="views/parents/parKBoard.jsp";
+				}
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
 	

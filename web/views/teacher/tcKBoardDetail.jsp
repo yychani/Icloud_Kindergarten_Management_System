@@ -42,24 +42,24 @@ textarea {
 $(function() {
 	  $(".li:nth-child(1)").addClass("on");
 	  
-  $(".topMenuLi:nth-child(3)").addClass("on");
+  $(".topMenuLi:nth-child(1)").addClass("on");
  
   $(".topMenuLi").mouseover(function() {
     $(".li:nth-child(1)").removeClass("on");
-    $(".topMenuLi:nth-child(3)").removeClass("on");
+    $(".topMenuLi:nth-child(1)").removeClass("on");
  });
 
   $(".topMenuLi").mouseleave(function() {
     $(".li:nth-child(1)").addClass("on");
-    $(".topMenuLi:nth-child(3)").addClass("on");
+    $(".topMenuLi:nth-child(1)").addClass("on");
  });
-});
+}); 
 </script>
 </head>
 <body>
 	<%@ include file="/views/common/teacherMenu.jsp" %>
 	<div style="margin: 0 15%;">
-	<h1 style="text-decoration: underline; text-underline-position: under;">선생님 게시판 </h1>
+	<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항 </h1>
  	</div>
  	<div id="hansol" align="right" style="margin-right:22%;">작성자  <%=b.getName() %> 조회수  <%=b.getTcount() %> 작성일 <%=b.getTtime() %></div>
  	<div style="margin: 50px 25%; margin-bottom: 20px;">
@@ -86,10 +86,10 @@ $(function() {
 		<%} %>
 	</div>
 	<br>
-	 <%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
-	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectTctc.bo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
+	 <%if(loginUser != null && loginUser.getMemberId().equals("admin")) {%>
+	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectPreKNotice.bo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
 	 <%} %>
-	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectAllTctc.bo'" style="float: right" />
+	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectAllPreNotice.bo'" style="float: right" />
 	 
 	 <br><br>
 	</div>

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.PageInfo;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectAllBanNoticeListServlet
@@ -63,11 +64,16 @@ public class SelectAllBanNoticeListServlet extends HttpServlet {
 		
 		ArrayList<Board> list = new BoardService().selectAllBanNoticeList(currentPage,limit);
 		
-		
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
 		//System.out.println("list : "+list);
 		String page="";
 		if(list != null) {
-			page="views/teacher/tcClassNotice.jsp";
+			if((loginUser).getUType().equals("교사")) {
+				page="views/teacher/tcClassNotice.jsp";
+			}else {
+				page="views/parents/newsClassNotice.jsp";
+			}
+			
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
 		}else {

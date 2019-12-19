@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectOnePreHBoardServlet
@@ -41,11 +42,18 @@ public class SelectOnePreHBoardServlet extends HttpServlet {
 		
 		Board b = new BoardService().selectOnePreHBoard(num, isUpdate);
 		ArrayList<Attachment> list = new BoardService().selectOnePreHBoardImg(num);
-		
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
 		String page ="";
 		
 		if(b != null) {
-			page="views/president/preHBoardDetail.jsp";
+			if(loginUser.getMemberId().equals("admin")) {
+				page="views/president/preHBoardDetail.jsp";	
+			}else if(loginUser.getUType().equals("교사")) {
+				page="views/teacher/tcHBoardDetail.jsp";
+			}else {
+				page="views/parents/boardCommitteDetail.jsp";
+			}
+			
 			request.setAttribute("b", b);
 			request.setAttribute("list", list);
 		}else {

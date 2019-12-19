@@ -1,8 +1,6 @@
-<%@page import="com.oracle5.board.model.vo.Board"%>
 <%@page import="com.oracle5.common.model.vo.PageInfo"%>
-<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.ArrayList, com.oracle5.board.model.vo.Board"%>
 	<%
 		ArrayList<Board> list = (ArrayList<Board>) request.getAttribute("list");
 		PageInfo pi = (PageInfo) request.getAttribute("pi");
@@ -12,6 +10,7 @@
 		int maxPage = pi.getMaxPage();
 		int startPage = pi.getStartPage();
 		int endPage = pi.getEndPage();
+		
 	%>
 <!DOCTYPE html>
 <html>
@@ -26,7 +25,18 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 <style>
-button {
+input[type=text] {
+	border-radius: 10px;
+	width: 300px;
+	height: 30px;
+}
+
+input[type=checkbox] {
+	width: 15px;
+	height: 15px;
+	vertical-align: center;
+}
+	button {
 		width: 80px;
 		height: 40px;
 		border-radius: 10px;
@@ -114,39 +124,14 @@ input[type='button'] {
       cursor: pointer;
      background: rgba(245, 245, 245, 0.802);
      }
-
-input[type=text] {
-	border-radius: 10px;
-	width: 300px;
-	height: 30px;
-}
-
-td {
-	padding: 0px 0px;
-	padding-left: 0;
-}
-
-input[type=checkbox] {
-	width: 15px;
-	height: 15px;
-	vertical-align: center;
-}
-	button {
-		width: 80px;
-		height: 40px;
-		border-radius: 10px;
-		background: rgb(63, 63, 63);
-		color: white;
-		font-weight: bold;
-		border: none;
-		cursor: pointer;
-	}
 </style>
 </head>
 <body style="overflow-x: hidden">
-	<%@ include file="/views/common/teacherMenu.jsp"%>
+
+	<%@ include file="/views/common/parentsMenu.jsp"%>
+
 	<div style="margin: 0 15%;">
-		<h1 style="text-decoration: underline; text-underline-position: under;">선생님 게시판</h1>
+		<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항</h1>
     </div>
     <div id="outBox">
 		<table class="ui celled table boardTable" id="tableArea">
@@ -174,7 +159,7 @@ input[type=checkbox] {
 		</table>
 		
 		<div style="width:fit-content; margin: auto">
-		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=startPage%>">처음</button>
+		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=startPage%>">처음</button>
 		<%
 			if(currentPage <= 1){
 		%>
@@ -182,7 +167,7 @@ input[type=checkbox] {
 		<%
 			}else { 
 		%>
-		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=currentPage -1%>'">이전</button>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=currentPage -1%>'">이전</button>
 		<%
 			} 
 		%>
@@ -195,7 +180,7 @@ input[type=checkbox] {
 		<%
 			}else{
 		%>
-		<button class="other" style="width:30px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=p%>'"><%=p %></button>
+		<button class="other" style="width:30px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=p%>'"><%=p %></button>
 		<%
 			}
 		%>
@@ -210,57 +195,75 @@ input[type=checkbox] {
 		<%
 			} else { 
 		%>
-		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=currentPage +1%>'">다음</button>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=currentPage +1%>'">다음</button>
 		<%
 			} 
 		%>
 		<button style="width: 60px; height:30px;"
-				onclick="location.href='<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=maxPage%>'">마지막</button>
+				onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
 		<br>
         <div id="searchArea">
                 <input type="text" placeholder="Search" style="width:150px; height:30px;">
               <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
                       color: rgba(0,0,0,.6); ">Search</button>
-              
+              <%if((loginUser.getMemberId()).equals("admin")) {%>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
-              
+              <%} %>
         </div> 
 	</div>
-	<script>
-	$(function() {
-		  $(".li:nth-child(1)").addClass("on");
-		  
-	    $(".topMenuLi:nth-child(3)").addClass("on");
-	   
-	    $(".topMenuLi").mouseover(function() {
-	      $(".li:nth-child(1)").removeClass("on");
-	      $(".topMenuLi:nth-child(3)").removeClass("on");
-	   });
-	  
-	    $(".topMenuLi").mouseleave(function() {
-	      $(".li:nth-child(1)").addClass("on");
-	      $(".topMenuLi:nth-child(3)").addClass("on");
-	   });
-	});  
-	      
-	      $(function(){
-				$(".writing").click(function(){
-					location.href="./views/teacher/tcTcBoardWrite.jsp";
-				});
-			});
-			
-			$(function(){
-				$("#tableArea td").click(function(){
-					var num = $(this).parent().children().eq(0).children().val();
-					
-					console.log(num);
-					location.href="<%=request.getContextPath()%>/selectOneTctc.bo?num="+num;
-				});
-			});
-	</script>
+	
+	
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
+	
+	<script>
+	$(function() {
+	   	  $(".li:nth-child(1)").addClass("on");
+	   	  
+	         $(".topMenuLi:nth-child(2)").addClass("on");
+	        
+	         $(".topMenuLi").mouseover(function() {
+	           $(".li:nth-child(1)").removeClass("on");
+	           $(".topMenuLi:nth-child(2)").removeClass("on");
+	        });
+	       
+	         $(".topMenuLi").mouseleave(function() {
+	           $(".li:nth-child(1)").addClass("on");
+	           $(".topMenuLi:nth-child(2)").addClass("on");
+	        });
+	     });
+		
+		$(function(){
+			$(".writing").click(function(){
+				location.href="./views/president/preKNoticeWrite.jsp";
+			});
+		});
+		
+		$(function(){
+			$("#tableArea td").click(function(){
+				var num = $(this).parent().children().eq(0).children().val();
+				
+				console.log(num);
+				location.href="<%=request.getContextPath()%>/selectOnePreKNotice.bo?num="+num;
+			});
+		});
+	</script>
+	
+	
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

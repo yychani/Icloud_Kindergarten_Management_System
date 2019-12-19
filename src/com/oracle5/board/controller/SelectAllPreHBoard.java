@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.PageInfo;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectAllPreHBoard
@@ -61,9 +62,18 @@ public class SelectAllPreHBoard extends HttpServlet {
 		
 		ArrayList<Board> list = new BoardService().selectAllPreHBoard(currentPage,limit);
 		
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+		
 		String page="";
 		if(list != null) {
-			page="views/president/preHBoard.jsp";
+			if((loginUser).getMemberId().equals("admin")) {
+				page="views/president/preHBoard.jsp";	
+			}else if((loginUser).getUType().equals("교사")){
+				page="views/teacher/tcHBoard.jsp";
+			}else {
+				page="views/parents/boardCommittee.jsp";
+			}
+			
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
 		}else {
