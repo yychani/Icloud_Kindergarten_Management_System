@@ -89,7 +89,7 @@ $(function() {
 	<div class="ui card" id="card">
   <div class="content">
     <div class="header">아이 추가하기</div>
-    <form action="<%=request.getContextPath() %>/childrenInsert.me" method="post" encType="multipart/form-data" id="addChild" onsubmit="return encryption()">
+    <form action="<%=request.getContextPath() %>/childrenInsert.me?add=1" method="post" encType="multipart/form-data" id="addChild" onsubmit="return encryption()">
     <div class="description">
       <table>
       	<tr>
