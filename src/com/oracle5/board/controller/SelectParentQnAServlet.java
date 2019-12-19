@@ -1,6 +1,9 @@
-package com.oracle5.member.controller;
+package com.oracle5.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,21 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
-import com.oracle5.member.model.service.MemberService;
 import com.oracle5.member.model.vo.Member;
 
 /**
- * Servlet implementation class ParentQnAwriteServlet
+ * Servlet implementation class SelectParentQnAServlet
  */
-@WebServlet("/pQnAwrite.me")
-public class ParentQnAwriteServlet extends HttpServlet {
+@WebServlet("/parentQnAList.bo")
+public class SelectParentQnAServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ParentQnAwriteServlet() {
+    public SelectParentQnAServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,28 +38,19 @@ public class ParentQnAwriteServlet extends HttpServlet {
 		Member loginUser = (Member) session.getAttribute("loginMember");
 		int pNo = loginUser.getMemberNo();
 		
-		int cId = Integer.parseInt(request.getParameter("cId"));
-		String stNo = request.getParameter("tNo");
-		int tNo = Integer.parseInt(stNo);
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
+		HashMap<String, Object> hmap = new BoardService().selectParentQnA(pNo);
 		
-		Board b = new Board();
-		b.setTtitle(title);
-		b.setTcont(content);
-		b.setTwriter(pNo);
-		b.setPno(pNo);
-		b.setTno(tNo);
+		//선생님 이름 가져오기
 
-		int result = new MemberService().insertParentQnA(b);
-		
-		if(result > 0) {
-			response.sendRedirect("views/common/successPage.jsp?successCode=17");
-		} else {
-			request.setAttribute("msg", "건의&문의 작성에 실패하셨습니다.");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		String page = "";
+		if(hmap != null) {
+			page = "views/parents/mypageQ&Alist.jsp";
+			request.setAttribute("hmap", hmap);
+		}else {
+			page = "views/common/errorPage.jsp";
+			request.setAttribute("msg", "건의 문의 불러오기 실패");
 		}
-		
+		request.getRequestDispatcher(page).forward(request, response);
 	}
 
 	/**

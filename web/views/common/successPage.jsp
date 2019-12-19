@@ -65,6 +65,9 @@
 		}else if(successCode == 16){
 			msg = "원안 정보 수정이 완료되었습니다.";
 			path = "<%=request.getContextPath()%>/views/parents/myPageChildren.jsp";
+		}else if(successCode == 17){
+			msg = "건의&문의 작성이 완료되었습니다.";
+			path = "<%=request.getContextPath()%>/views/parents/mypageQ&Alist.jsp";
 		}
 		
 		alert(msg);

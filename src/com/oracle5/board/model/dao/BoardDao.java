@@ -21,6 +21,7 @@ import com.oracle5.board.model.vo.Schedule;
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.vo.Ban;
 import com.oracle5.member.model.vo.Children;
+import com.oracle5.member.model.vo.Member;
 import com.oracle5.member.model.vo.Parents;
 
 public class BoardDao {
@@ -3292,6 +3293,63 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	//학부모 건의문의 리스트 불러오기
+	public HashMap<String, Object> selectParentQnA(Connection con, int pNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		HashMap<String, Object> hmap = null;
+		 
+		String query = prop.getProperty("selectParentQnA");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, pNo);
+			
+			rset = pstmt.executeQuery();
+			
+			hmap = new HashMap<>();
+			
+			ArrayList<Board> bList = new ArrayList<Board>();
+			ArrayList<Reply> rList = new ArrayList<Reply>();
+			ArrayList<Member> mList = new ArrayList<Member>();
+			
+			while(rset.next()) {
+				Board b = new Board();
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setTcont(rset.getString("T_CONT"));
+				b.setTwriter(rset.getInt("T_WRITER"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setTno(rset.getInt("T_NO"));
+				
+				bList.add(b);
+				
+				Reply r = new Reply();
+				r.setRdate(rset.getDate("R_DATE"));
+				r.setRname(rset.getString("R_NAME"));
+				r.setRcont(rset.getString("R_CONT"));
+				r.setTid(rset.getInt("T_ID"));
+				
+				rList.add(r);
+				
+				Member m = new Member();
+				m.setMemberName(rset.getString("NAME"));
+				
+				mList.add(m);
+			}
+			hmap.put("bList", bList);
+			hmap.put("rList", rList);
+			hmap.put("mList", mList);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}  finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return hmap;
 	}
 }
 	

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.Attachment;
 import com.oracle5.member.model.dao.MemberDao;
 import com.oracle5.member.model.vo.AsList;
@@ -1311,6 +1312,23 @@ public class MemberService {
 		close(con);
 		
 		return mt;
+	}
+
+	//학부모 건의문의 글쓰기
+	public int insertParentQnA(Board b) {
+		Connection con = getConnection();
+		
+		int result = md.insertParentQnA(con, b);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
 	}
 
 }

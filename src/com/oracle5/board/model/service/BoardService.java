@@ -1418,4 +1418,15 @@ public class BoardService {
 		return result;
 	}
 
+	//학부모 건의문의 리스트 불러오기
+	public HashMap<String, Object> selectParentQnA(int pNo) {
+		Connection con = getConnection();
+		
+		HashMap<String, Object> hmap = new BoardDao().selectParentQnA(con,pNo);
+		
+		close(con);
+		
+		return hmap;
+	}
+
 }

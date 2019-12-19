@@ -94,6 +94,11 @@ article>header .title {
 article section .chart {
 	height: 400px;
 }
+#cNameSelect{
+	width:80px;
+	height:34px;
+	border-radius:4px;
+}
 </style>
 
 
