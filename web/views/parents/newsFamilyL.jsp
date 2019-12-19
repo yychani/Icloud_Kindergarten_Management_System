@@ -218,6 +218,49 @@ input[type='button'] {
     	
     });
     
+    $(function(){
+		$("#search").click(function(){
+			var text1 = $("#text1").val();
+			var selected = $("#select").find(":selected").val();
+			var bdid = 2;
+			console.log(text1);
+			console.log(bdid);
+			console.log(selected);
+			 $.ajax({
+				url:"/main/searchText",
+				data : {
+					text1:text1,
+					selected:selected,
+					bdid:bdid
+				},
+				type:"post",
+				success:function(data){
+					console.log(data);
+					var $tbody = $("#tbodyArea");
+					$tbody.html('');
+					for(var key in data){
+						$tr = $("<tr>");
+						$no = $("<td id='no'>").text(data[key].pno);
+						$tid = $("<input type='hidden' name='tid' id='tid' value='data[key].tid'>");
+						$no.append($tid);
+						$title1 = $("<td id='title'>").text(data[key].ttitle);
+						$writer = $("<td id='writer'>").text(data[key].name);
+						$count = $("<td id='count'>").text(data[key].tcount);
+						$date = $("<td id='date'>").text(data[key].ttime);
+						
+						$tr.append($no);
+						$tr.append($title1);
+						$tr.append($writer);
+						$tr.append($count);
+						$tr.append($date);
+						
+						$tbody.append($tr);
+					}
+					
+				}
+			});  
+		});
+	}); 
     </script>
      	<%@ include file="/views/common/footer.jsp" %>
  	<%@ include file="/views/common/chat.jsp" %>

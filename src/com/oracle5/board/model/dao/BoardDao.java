@@ -3394,7 +3394,266 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 	      return list;
 
 	}
-	
+
+
+	//모든걸로 글 찾기
+	public ArrayList<Board> searchAll(Connection con, String text1, String selected, int bdid, int currentPage, int limit) {
+		PreparedStatement pstmt= null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		int startRow = (currentPage -1) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		
+		String query = prop.getProperty("selectAll");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, bdid);
+			pstmt.setString(2, text1);
+			pstmt.setString(3, text1);
+			pstmt.setInt(4, startRow);
+			pstmt.setInt(5, endRow);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Board b = new Board();
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setPno(rset.getInt("ROWNUM"));
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return list;
+	}
+
+	//제목으로 글찾기
+	public ArrayList<Board> searchTitle(Connection con, String text1, int bdid, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ArrayList<Board> list = null;
+		ResultSet rset = null;
+		int startRow = (currentPage -1) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		String query = prop.getProperty("searchTitle");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, bdid);
+			pstmt.setString(2, text1);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Board b = new Board();
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setPno(rset.getInt("ROWNUM"));
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
+
+	//이름으로 글찾기
+	public ArrayList<Board> searchName(String text1,Connection con, String selected, int bdid, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		int startRow = (currentPage -1) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		String query = prop.getProperty("searchName");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, bdid);
+			pstmt.setString(2, text1);
+			pstmt.setInt(4, startRow);
+			pstmt.setInt(5, endRow);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Board b = new Board();
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setPno(rset.getInt("ROWNUM"));
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return list;
+	}
+
+	//모두 조회 학부모
+	public ArrayList<Board> searchAllPar(Connection con, String text1, String selected, int bdid, int currentPage, int limit) {
+		PreparedStatement pstmt= null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		int startRow = (currentPage -1) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		
+			
+		
+		String query = prop.getProperty("selectAllPar");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, bdid);
+			pstmt.setString(2, text1);
+			pstmt.setString(3, text1);
+			pstmt.setInt(4, startRow);
+			pstmt.setInt(5, endRow);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Board b = new Board();
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setTno(rset.getInt("ROWNUM"));
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return list;
+	}
+
+	//제목조회 학부모
+	public ArrayList<Board> searchTitlePar(Connection con, String text1, int bdid , int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ArrayList<Board> list = null;
+		ResultSet rset = null;
+		int startRow = (currentPage -1) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		String query = prop.getProperty("searchTitlePar");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, bdid);
+			pstmt.setString(2, text1);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Board b = new Board();
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setTno(rset.getInt("ROWNUM"));
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return list;
+	}
+
+	//이름조회 학부모
+	public ArrayList<Board> searchNamepar(String text1, Connection con, String selected, int bdid , int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Board> list = null;
+		int startRow = (currentPage -1) * limit +1;
+		int endRow = startRow + limit -1;
+		
+		String query = prop.getProperty("searchNamePar");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, bdid);
+			pstmt.setString(2, text1);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<>();
+			while(rset.next()) {
+				Board b = new Board();
+				b.setTid(rset.getInt("T_ID"));
+				b.setTtitle(rset.getString("T_TITLE"));
+				b.setName(rset.getString("NAME"));
+				b.setTcount(rset.getInt("T_COUNT"));
+				b.setTtime(rset.getDate("T_TIME"));
+				b.setTno(rset.getInt("ROWNUM"));
+				
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return list;
+  }
+
 	//앨범 제목 내용 수정 
 	public int updateChildImgBoard(Connection con, Board b) {
 		PreparedStatement pstmt = null;
@@ -3416,6 +3675,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 		}
 		
 		return result;
+
 	}
 }
 	
