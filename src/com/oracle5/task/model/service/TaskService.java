@@ -7,6 +7,7 @@ import com.oracle5.task.model.vo.Meal;
 import com.oracle5.task.model.vo.Participant;
 import com.oracle5.task.model.vo.Position;
 import com.oracle5.task.model.vo.Snack;
+import com.oracle5.task.model.vo.TodoList;
 import com.oracle5.task.model.vo.WorkDivision;
 import static com.oracle5.common.JDBCTemplate.*;
 
@@ -363,5 +364,30 @@ public class TaskService {
 		
 		close(con);
 		return prevPartList;
+	}
+
+	public int insertTodoList(ArrayList<TodoList> todoList) {
+		Connection con = getConnection();
+		
+		int result = 0;
+		
+		for(int i = 0; i < todoList.size(); i++) {
+			result += new TaskDao().insertTodoList(con, todoList.get(i), i);
+		}
+		if(result > todoList.size() - 1) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		return result;
+	}
+
+	public ArrayList<TodoList> selectTodoList() {
+		Connection con = getConnection();
+		
+		ArrayList<TodoList> todoList = new TaskDao().selectTodoList(con);
+		
+		close(con);
+		return todoList;
 	}
 }

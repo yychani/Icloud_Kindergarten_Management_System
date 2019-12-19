@@ -46,9 +46,10 @@
 			$("#chat").hide();
 		}else {
 			$("#chat").show();
-		}*/
+		}*/ // 채팅 비활성화
 		
 		$("#serverTime").text(serverMessage);
+		$("#todoListTime").val(serverMessage);
 	}
 		
 	function onError2(event){

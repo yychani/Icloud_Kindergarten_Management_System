@@ -72,7 +72,7 @@ input[type=submit]:hover, input[type=button]:hover {
 		<button
 			onclick="location.href=<%if (loginUser.getUType().equals("교사")) {
 					if (loginUser.getMemberId().equals("admin")) {%>
-										'<%=request.getContextPath()%>/views/president/preMain.jsp'
+										'<%=request.getContextPath()%>/selectTodoList.todo'
 									<%} else {%>
 										'<%=request.getContextPath()%>/teacher'
 									<%}

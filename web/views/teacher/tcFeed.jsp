@@ -19,7 +19,7 @@
 <body>
  	<%@ include file="/views/common/teacherMenu.jsp" %>
  	<div style="margin: 0 15%;">
- 	<h1 style="text-decoration: underline; text-underline-position: under;">피드 관리</h1>
+ 	<h1 style="text-decoration: underline; text-underline-position: under; font-family: 'Noto Sans KR', sans-serif;">피드 관리</h1>
  	</div>
  	<%@ include file="/views/common/feed.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>

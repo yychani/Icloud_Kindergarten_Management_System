@@ -147,18 +147,18 @@
 
 						</ul>
 					</li>
-					<li style="float: right;" class="topMenuLi">
+					<!-- <li style="float: right;" class="topMenuLi">
 						<div class="ui button" data-position="bottom right" style="background:none"><i
 								class="bell outline icon"></i></div>
-					</li>
+					</li> -->
 					<script>
-						var alarm = '<dl><dt>새소식</dt><a href="#"><dd>내용</dd></a><a href="#"><dd>내용</dd></a><a href="#"><dd>내용</dd></a></ul>';
+						/* var alarm = '<dl><dt>새소식</dt><a href="#"><dd>내용</dd></a><a href="#"><dd>내용</dd></a><a href="#"><dd>내용</dd></a></ul>';
 						$('.ui.button').popup({
 							on: 'click',
 							position: 'data-position',
 							target: '.bell.outline.icon',
 							html: alarm
-						});
+						}); */
 
 						function logout() {
                         	var check = window.confirm("로그아웃 하시겠습니까?");
