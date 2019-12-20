@@ -116,30 +116,9 @@ $(".topMenuLi").mouseleave(function() {
 		<input type="reset" id="return" value="목록으로"
 			onclick="location.href='<%=request.getContextPath()%>/selectAllPreHBoard.bo'"
 			style="float: right" /> <br> <br>
-		<div class="ui comments">
-			<h3 class="ui dividing header">댓글</h3>
-
-			<!-- 댓글 영역 -->
-			<div class="comment">
-				<div class="reply" id="rplycontent" onload="getReply()">
-						
-				</div>
-			</div>
-
-				<!-- 댓글 영역 -->
-				<form class="ui reply form" action="">
-					<div class="field">
-						<textarea id="textAreaRe"></textarea>
-					</div>
-					<div class="ui blue labeled submit icon button" id="btn">
-						<i class="icon edit"></i> 등록하기
-					</div>
-				</form>
-
-			
-</div>
+		
 		</div>
-		<script>
+		<%-- <script>
 		
 			function getReply(){
 				var tid='<%=b.getTid()%>'
@@ -411,7 +390,7 @@ $(".topMenuLi").mouseleave(function() {
 						}
 					});
 			});
-		</script>
+		</script> --%>
 		<!-- replyArea end -->
 
 		<%@ include file="/views/common/footer.jsp"%>
