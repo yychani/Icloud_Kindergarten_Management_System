@@ -1704,7 +1704,8 @@ public class MemberDao {
 	public int insertFtlApply(Connection con, int cId, int ftlMax) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		
+		System.out.println("dao : " + cId);
+		System.out.println("dao : " + ftlMax);
 		String query = prop.getProperty("insertFtlApply");
 		
 		try {
