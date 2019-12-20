@@ -293,7 +293,7 @@ input[type='button'] {
 							
 							$pagingArea = $("#paging");
 							$pagingArea.html('');
-							$startBtn = $("<button style='width:50px; height:30px;' id='startBtn'>처음</button>");
+							$startBtn = $("<button style='width:50px; height:30px;' id='startBtn'>처음</button>").data.pi[key].currentPage=;
 							<div style="width:fit-content; margin: auto" id="paging">
 							<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=startPage%>">처음</button>
 							<%

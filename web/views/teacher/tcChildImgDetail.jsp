@@ -144,103 +144,34 @@
 		
 	</form>
 	
-	<table>
-		<tr>
-			<td></td>
-		</tr>
 	
-	
-	</table>
-	<div class="ui comments">
-  <h3 class="ui dividing header">댓글</h3>
- 
-  <div class="comment">
-   <div class="reply">
-    <div class="content">
-      <a class="author">채성아</a>
-      <div class="metadata">
-        <span class="date">Today at 5:42PM</span>
-      </div>
-      <div class="text">
-           조용히해!
-      </div>
-       </div>
-      <div class="actions" onclick="">
-        <a class="rereply">댓글달기</a>
-      </div>
-      <div class="rereArea">
-      <input type="text" id="reretext">
-      <button id="rereBtn">댓글 달기</button>
-    	</div>
-    </div>
-  </div>
- 
-  <div class="comment">
-    <div class="content">
-      <a class="author">나미리</a>
-      <div class="metadata">
-        <span class="date">Yesterday at 12:30AM</span>
-      </div>
-      <div class="text">
-        <p>역시 해바라기반은 조용한날이 없다니깐~</p>
-      </div>
-      <div class="actions">
-        <a class="rereply">댓글달기</a>
-      </div>
-    </div>
-    <div class="comments">
-      <div class="comment">
-        <div class="content">
-          <a class="author">권연주</a>
-          <div class="metadata">
-            <span class="date">Just now</span>
-          </div>
-          <div class="text">
-            한솔지금 몇시야
-          </div>
-          <div class="actions">
-            <a class="rereply">댓글달기</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="comment">
-    <div class="content">
-      <a class="author">한솔 임</a>
-      <div class="metadata">
-        <span class="date">5 days ago</span>
-      </div>
-      <div class="text">
-           죄송합니다.
-      </div>
-      <div class="actions">
-        <a class="rereply">댓글달기</a>
-      </div>
-    </div>
-  </div>
-  <form class="ui reply form" action="">
-    <div class="field">
-      <textarea id="textAreaRe"></textarea>
-    </div>
-    <div class="ui blue labeled submit icon button">
-      <i class="icon edit"></i> 등록하기
-    </div>
-  </form>
-  
-  
-			
-		</div><!-- replyArea end -->
 	<%if(loginUser != null && loginUser.getUType().equals("교사")) {%>
 	 <input type="submit" id="boardReWrite" value="수정하기" onclick="location.href='<%=request.getContextPath() %>/selectChildImg2.tbo?num=<%=b.getTid() %>&isUpdate=true'" style="float: right" /><span style="float: right">&nbsp;&nbsp;</span> 
 	 <%} %>
 	 <input type="reset" id="return" value="목록으로" onclick="location.href='<%= request.getContextPath() %>/selectListChImg.tbo'" style="float: right" />
 	 
 	 <br><br>
+	<div class="ui comments">
+			<h3 class="ui dividing header">댓글</h3>
+	<!-- 댓글 영역 -->
+			<div class="comment">
+				<div class="reply" id="rplycontent" onload="getReply()">
+						
+				</div>
+			</div>
+
+				<!-- 댓글 영역 -->
+				<form class="ui reply form" action="">
+					<div class="field">
+						<textarea id="textAreaRe"></textarea>
+					</div>
+					<div class="ui blue labeled submit icon button" id="btn">
+						<i class="icon edit"></i> 등록하기
+					</div>
+				</form>
 	
 	
-	
-	
+	</div>
 	
 	<script>
     $(function() {
@@ -308,7 +239,276 @@
 		
 	})
 	
-	
+	function getReply(){
+				var tid='<%=b.getTid()%>'
+				$.ajax({
+					url:"/main/selectAllPreH.re",
+					data:{tid:tid},
+					type:"post",
+					success:function(data){
+						var $content = $("#rplycontent");
+						
+						var rid = 0;
+						for(var key in data) {
+							if(data[key].refrid == 0){
+							var $contentDiv = $("<div class='content'>");
+							var $a = $("<a class='author'>").text(data[key].rname);
+							var $div1 = $("<div class='metadata'>");
+							var $span = $("<span class='date'>").text(data[key].rdate);
+							var $div2 = $("<div class='text'>").text(data[key].rcont);
+							var $inputRid = $("<input type='hidden'>").val(data[key].rid);
+							
+							
+							$contentDiv.append($a);
+							$contentDiv.append($div1.append($span));
+							$contentDiv.append($div2);
+							$contentDiv.append($inputRid);
+							$content.append($contentDiv);
+							
+							var $actionDiv = $("<div class='actions' onclick=''>");
+							var $rereply = $("<a class='rereply'>댓글달기</a>");
+							$actionDiv.append($rereply);
+							
+							$content.append($actionDiv);
+							
+							var $rereAreaDiv = $("<div class='rereArea'>");
+							var $inputText = $("<input type='text' class='reretext'>");
+							var $rereBtn = $("<button id='rereBtn'>댓글달기</button>");
+							
+							
+							$rereAreaDiv.append($inputText);
+							$rereAreaDiv.append($rereBtn);
+							
+							$content.append($rereAreaDiv);
+							
+							$(".rereArea").hide();
+							rid = data[key].rid;
+							}
+							for(var key2 in data){
+								//console.log(rid);
+								if(rid == data[key2].refrid){
+									if(rid == 148){
+										console.log("하하0");
+									}
+									var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+									
+									var $contentDiv2 = $("<div class='content'>");
+										var $a1 = $("<a class='author'>").text(data[key2].rname);
+										var $div11 = $("<div class='metadata'>");
+											var $span1 = $("<span class='date'>").text(data[key2].rdate);
+										var $div21 = $("<div class='text'>").text(data[key2].rcont);
+									
+									$contentDiv2.append($a1);
+									$contentDiv2.append($div11.append($span1));
+									$contentDiv2.append($div21);
+									
+									$rereplyArea.append($contentDiv2);
+									
+									$content.append($rereplyArea);
+								}
+							} 
+							$("#rereBtn").trigger("#click");
+						}
+					},
+					error:function(data){
+						console.log("댓글 조회 실패");
+					}
+					
+				});
+			}
+		
+			$(function() {
+				$(".rereArea").hide();
+
+				$(document).on("click", ".rereply", function() {
+					$(this).parent().next(".rereArea").toggle();
+				});
+				
+				
+				
+				getReply();
+
+			});
+
+			
+			$("#btn").click(function(){
+				var writer = '<%= loginUser.getMemberName()%>'
+				var tid ='<%=b.getTid()%>'
+				var content = $("#textAreaRe").val();
+				console.log("1")
+				var rid = 0;
+				$.ajax({
+					url:"/main/preHBoardInsertReply.bo",
+					data : {writer:writer,
+						content:content,
+						tid:tid},
+						type:"post",
+						success:function(data){
+							var $content = $("#rplycontent");
+							$content.html('');
+							console.log(data);
+							for(var key in data) {
+								if(data[key].refrid == 0){
+								var $replyArea = $("#replycontent");
+								var $contentDiv = $("<div class='content'>");
+								var $a = $("<a class='author'>").text(data[key].rname);
+								var $div1 = $("<div class='metadata'>");
+								var $span = $("<span class='date'>").text(data[key].rdate);
+								var $div2 = $("<div class='text'>").text(data[key].rcont);
+								var $inputRid = $("<input type='hidden'>").val(data[key].rid);
+								
+								$contentDiv.append($a);
+								$contentDiv.append($div1.append($span));
+								$contentDiv.append($div2);
+								$contentDiv.append($inputRid);
+								
+								$content.append($contentDiv);
+								
+								var $actionDiv = $("<div class='actions' onclick=''>");
+								var $rereply = $("<a class='rereply'>댓글달기</a>");
+								$actionDiv.append($rereply);
+								
+								$content.append($actionDiv);
+								
+								var $rereAreaDiv = $("<div class='rereArea'>");
+								var $inputText = $("<input type='text' class='reretext'>");
+								var $rereBtn = $("<button id='rereBtn'>댓글 달기</button>");
+								
+								$rereAreaDiv.append($inputText);
+								$rereAreaDiv.append($rereBtn);
+								
+								$replyArea.append($rereAreaDiv);
+								
+								$(".rereArea").hide();
+								rid = data[key].rid;
+								}
+								for(var key2 in data){
+									if(rid == data[key2].refrid){
+										if(rid == 148){
+											console.log("하하0");
+										}
+										var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+										
+										var $contentDiv2 = $("<div class='content'>");
+											var $a1 = $("<a class='author'>").text(data[key2].rname);
+											var $div11 = $("<div class='metadata'>");
+												var $span1 = $("<span class='date'>").text(data[key2].rdate);
+											var $div21 = $("<div class='text'>").text(data[key2].rcont);
+										
+										$contentDiv2.append($a1);
+										$contentDiv2.append($div11.append($span1));
+										$contentDiv2.append($div21);
+										
+										$rereplyArea.append($contentDiv2);
+										
+										$content.append($rereplyArea);
+									}
+								}
+								
+							} $("#textAreaRe").val('');
+						},
+						error:function(date){
+							console.log("댓글달기 실패");
+						}
+				});
+			});
+			
+			/* <div class="actions" onclick="">
+				<a class="rereply">댓글달기</a>
+			</div>
+			<div class="rereArea">
+				<input type="text" id="reretext">
+				<button id="rereBtn">댓글 달기</button>
+			</div> */
+			//일단 이것은 미완성
+			$(document).on("click", "#rereBtn", function() {
+				
+				
+				var writer = '<%= loginUser.getMemberName()%>'
+				var tid ='<%=b.getTid()%>'
+				var content = $(this).parent().find("input").val();
+			
+				var refrid = $(this).parent().prev().prev().find("input").val();
+				console.log(refrid);
+				
+				$.ajax({
+						url:"/main/preHBoardInsertReReply.bo",
+						data : {writer:writer,
+								content:content,
+ 								tid:tid,
+								refrid:refrid},
+						type:"post",
+						success:function(data){
+							var $content = $("#rplycontent");
+							$content.text("");
+							
+							var rid = 0;
+							for(var key in data) {
+								if(data[key].refrid == 0){
+								var $contentDiv = $("<div class='content'>");
+								var $a = $("<a class='author'>").text(data[key].rname);
+								var $div1 = $("<div class='metadata'>");
+								var $span = $("<span class='date'>").text(data[key].rdate);
+								var $div2 = $("<div class='text'>").text(data[key].rcont);
+								var $inputRid = $("<input type='hidden'>").val(data[key].rid);
+								
+								
+								$contentDiv.append($a);
+								$contentDiv.append($div1.append($span));
+								$contentDiv.append($div2);
+								$contentDiv.append($inputRid);
+								$content.append($contentDiv);
+								
+								var $actionDiv = $("<div class='actions' onclick=''>");
+								var $rereply = $("<a class='rereply'>댓글달기</a>");
+								$actionDiv.append($rereply);
+								
+								$content.append($actionDiv);
+								
+								var $rereAreaDiv = $("<div class='rereArea'>");
+								var $inputText = $("<input type='text' class='reretext'>");
+								var $rereBtn = $("<button id='rereBtn'>댓글달기</button>");
+								
+								
+								$rereAreaDiv.append($inputText);
+								$rereAreaDiv.append($rereBtn);
+								
+								$content.append($rereAreaDiv);
+								
+								$(".rereArea").hide();
+								rid = data[key].rid;
+								}
+								for(var key2 in data){
+									//console.log(rid);
+									if(rid == data[key2].refrid){
+										if(rid == 148){
+											console.log("하하0");
+										}
+										var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+										
+										var $contentDiv2 = $("<div class='content'>");
+											var $a1 = $("<a class='author'>").text(data[key2].rname);
+											var $div11 = $("<div class='metadata'>");
+												var $span1 = $("<span class='date'>").text(data[key2].rdate);
+											var $div21 = $("<div class='text'>").text(data[key2].rcont);
+										
+										$contentDiv2.append($a1);
+										$contentDiv2.append($div11.append($span1));
+										$contentDiv2.append($div21);
+										
+										$rereplyArea.append($contentDiv2);
+										
+										$content.append($rereplyArea);
+									}
+								} 
+								$("#rereBtn").trigger("#click");
+							}
+						},
+						error:function(data){
+							console.log("댓글 조회 실패");
+						}
+					});
+			});
 	
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
