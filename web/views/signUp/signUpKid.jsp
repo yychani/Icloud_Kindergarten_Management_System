@@ -277,7 +277,7 @@
             <tr></tr>
         </table>
         <div style="margin-left: 36%; margin-bottom: 50px;">
-            <input type="button" value="아이추가" class="submit"><input type="submit" value="완료" class="submit" onclick="location.href='<%=request.getContextPath()%>/index.jsp'" style="margin-left: 50px;"> <input type="button" class="cancel" value="취소" style="margin-left: 50px;"
+            <input type="submit" value="완료" class="submit" onclick="location.href='<%=request.getContextPath()%>/index.jsp'" style="margin-left: 50px;"> <input type="button" class="cancel" value="취소" style="margin-left: 50px;"
                 class="cancel">
         </div>
     </form>
