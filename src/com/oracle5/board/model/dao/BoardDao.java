@@ -3424,7 +3424,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				b.setName(rset.getString("NAME"));
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
-				b.setPno(rset.getInt("ROWNUM"));
+				b.setPno(rset.getInt("RNUM1"));
 				
 				list.add(b);
 			}
@@ -3466,7 +3466,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				b.setName(rset.getString("NAME"));
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
-				b.setPno(rset.getInt("ROWNUM"));
+				b.setPno(rset.getInt("RNUM1"));
 				
 				list.add(b);
 			}
@@ -3508,7 +3508,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				b.setName(rset.getString("NAME"));
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
-				b.setPno(rset.getInt("ROWNUM"));
+				b.setPno(rset.getInt("RNUM1"));
 				
 				list.add(b);
 			}
@@ -3554,7 +3554,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				b.setName(rset.getString("NAME"));
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
-				b.setTno(rset.getInt("ROWNUM"));
+				b.setTno(rset.getInt("RNUM1"));
 				
 				list.add(b);
 			}
@@ -3596,7 +3596,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				b.setName(rset.getString("NAME"));
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
-				b.setTno(rset.getInt("ROWNUM"));
+				b.setTno(rset.getInt("RNUM1"));
 				
 				list.add(b);
 			}
@@ -3638,7 +3638,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				b.setName(rset.getString("NAME"));
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
-				b.setTno(rset.getInt("ROWNUM"));
+				b.setTno(rset.getInt("RNUM1"));
 				
 				list.add(b);
 			}
