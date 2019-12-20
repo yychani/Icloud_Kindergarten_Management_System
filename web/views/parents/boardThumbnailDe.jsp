@@ -142,7 +142,7 @@ $(function() {
 	<form>
 		<div>
 			<table id="tableArea">
-			<tr id="trArea">
+			<tr id="trArea"> 
 		<% 
 			for(Attachment at : list){
 		%>

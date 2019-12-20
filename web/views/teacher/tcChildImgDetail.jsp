@@ -132,7 +132,7 @@
 									onclick="location.href='<%=request.getContextPath()%>/imgdownload.tbo?num=<%= at.getFid()%>'"></td>
 			</tr>
 
-		
+		  
 			<tr>
 				<td	colspan="2">&nbsp;</td>	
 			</tr>
