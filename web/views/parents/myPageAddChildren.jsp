@@ -202,7 +202,7 @@ $(function() {
       </table>
     </div>
   <div class="extra content" align="center">
-	<button class="ui grey basic button" onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageChildren.jsp'">취소</button>
+	<button type="button" class="ui grey basic button" onclick="location.href='<%=request.getContextPath()%>/views/parents/myPageChildren.jsp'">취소</button>
 	<button class="ui blue basic button" type="submit">완료</button>
   </div>
       </form>

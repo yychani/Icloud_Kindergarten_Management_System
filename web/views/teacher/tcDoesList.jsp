@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8" import="java.util.*, java.sql.Date, com.oracle5.member.model.vo.*"%>
 <%
 	ArrayList<DoseRequest> list = (ArrayList<DoseRequest>) request.getAttribute("list");
-	System.out.println(list.get(1).getEndDate());
 	
 	java.sql.Date d = new Date(new java.util.Date().getTime());
 %>
