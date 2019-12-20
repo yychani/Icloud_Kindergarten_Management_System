@@ -46,8 +46,9 @@
 
 		.ui.dividing.header{
 			width: 1000px;
-			margin: 0 auto;
+			margin-left:300px;
 		}
+		
 		.TBtn{
 			width: 80px;
 			height:40px;
@@ -101,6 +102,15 @@
 		border: none;
 		cursor: pointer;
 	}
+	.ui.reply.form{
+		width: 1000px;
+		margin-left:300px;
+	}
+	.reply{
+		width: 1000px;
+		margin-left:300px;
+	}
+
 		
 </style>
 </head>
@@ -109,9 +119,10 @@
 	<h1 style="margin: 0 15%; text-decoration: underline; text-underline-position: under;" >아이들 사진 갤러리</h1>
 	<h2 align="center"><%=b.getTtitle()%></h2>
 	<div class="ui dividing header" align="center"></div>
-	<label id="textArea"><%=b.getTtime()%></label>
+	<label id="textArea">작성일 : <%=b.getTtime()%></label>
+	<label id="textArea">조회수 : <%=b.getTcount() %></label>
 	<form>
-		<div align="center">
+		<div>
 			<table id="tableArea">
 			<tr id="trArea">
 		<% 
