@@ -125,8 +125,9 @@ $(function() {
 					type:"post",
 					success:function(data){
 						var $content = $("#rplycontent");
-						
+						var index = 0;
 						var rid = 0;
+						
 						for(var key in data) {
 							if(data[key].refrid == 0){
 							var $contentDiv = $("<div class='content'>");
@@ -161,13 +162,17 @@ $(function() {
 							
 							$(".rereArea").hide();
 							rid = data[key].rid;
+							console.log("rid123 : " + rid);
 							}
+							
 							for(var key2 in data){
 								//console.log(rid);
+								console.log(data);
 								if(rid == data[key2].refrid){
-									if(rid == 148){
-										console.log("하하0");
-									}
+									
+									console.log(index++);
+									console.log("rid : " + rid);
+									console.log("refrid : " + data[key2].refrid)
 									var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
 									
 									var $contentDiv2 = $("<div class='content'>");
@@ -183,9 +188,11 @@ $(function() {
 									$rereplyArea.append($contentDiv2);
 									
 									$content.append($rereplyArea);
+									if(index == data.length){
+										break;
+									};
 								}
 							} 
-							$("#rereBtn").trigger("#click");
 						}
 					},
 					error:function(data){
@@ -389,7 +396,7 @@ $(function() {
 			});
 		</script>
 		<!-- replyArea end -->
-	
+	</div>
     <%@ include file="/views/common/footer.jsp" %>
     <%@ include file="/views/common/chat.jsp" %>
 </body>
