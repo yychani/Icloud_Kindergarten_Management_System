@@ -203,20 +203,24 @@ input[type='button'] {
 				onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
 		<br>
+		<form name="search" action="<%=request.getContextPath()%>/searchPreKNotice.bo" method="post">
         <div id="searchArea">
                <div class="ui action input">
-  					<input type="text" id="text1" placeholder="Search..." style="width:170px; height:45px;">
- 				    <select class="ui compact selection dropdown" id="select" style="height:45px;">
+  					<input type="text" name="text1" placeholder="Search..." style="width:170px; height:45px;">
+  					<input type="hidden" name="bdid" value="3">
+ 				    <select class="ui compact selection dropdown" name="select" style="height:45px;">
     				<option selected="" value="all">전체</option>
    				 	<option value="title1">제목</option>
     				<option value="name1">작성자</option>
   					</select>
-  					<div class="ui button" id="search">찾기</div>
+  					<!-- <div class="ui button" id="search">찾기</div> -->
+  					<button class="ui button" type="submit">찾기</button>
 				</div>
               <%if(loginUser.getMemberId().equals("admin")){ %>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
               <%} %>
         </div> 
+        </form>
 	</div>
 	
 	
@@ -293,8 +297,12 @@ input[type='button'] {
 							
 							$pagingArea = $("#paging");
 							$pagingArea.html('');
-							<%-- $startBtn = $("<button style='width:50px; height:30px;' id='startBtn'>처음</button>").data.pi[key].currentPage=;
-							<div style="width:fit-content; margin: auto" id="paging">
+							$startBtn = $("<button style='width:50px; height:30px;' id='startBtn'>처음</button>").data.pi[key].startPage;
+							//ajax를 적용한 버튼 양식
+							$(document).on("click", "#startBtn", function() {
+								<%=request.getContextPath()%>/searchTextParents?currentPage=<%=startPage%>
+							});
+							//ajax하기 전의 버튼 양식
 							<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=startPage%>">처음</button>
 							<%
 								if(currentPage <= 1){
