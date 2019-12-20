@@ -75,20 +75,20 @@ tr {
 			</div>
 			<div class="description">
 				<table>
-					<tr>
+					<!-- <tr>
 						<td>성별 :</td>
 						<td colspan="3" style="text-align: left;">
 							<div class="ui radio checkbox">
 								<div style="display: inline-block;">
 								<input type="hidden" name="cId" id="cId">
-									<input type="radio" name="gender" value="2" checked="checked"><label>여</label>
+									<input type="radio" name="gender" value="2"><label>여</label>
 								</div>
 								<div style="display: inline-block;">
 									<input type="radio" name="gender" value="1"><label>남</label>
 								</div>
 							</div>
 						</td>
-					</tr>
+					</tr> -->
 					<tr>
 						<td>혈액형 :</td>
 						<td style="float:left"><div class="ui input">
@@ -225,6 +225,7 @@ $(function(){
 				var decrypted1 = CryptoJS.AES.decrypt(originAdd, passphrase);
 				var originAdd1 = decrypted1.toString(CryptoJS.enc.Utf8);
 				$("#originAddress").val(originAdd1);
+				console.log(originAdd1);
 				
 				$("#description").val(data.c.description);
 				$("#birth").text(data.birth);
