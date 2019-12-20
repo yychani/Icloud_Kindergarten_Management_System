@@ -107,10 +107,10 @@ public class UpdateTeacherInfoServlet extends HttpServlet {
 				}
 				
 				String desc = "";
-				if(multiRequest.getParameter("desc") != null) {
-					desc = multiRequest.getParameter("desc");
-				} else {
+				if(multiRequest.getParameter("desc").equals("")) {
 					desc = t.getTDescription();
+				} else {
+					desc = multiRequest.getParameter("desc");
 				}
 				
 				Teacher nt = new Teacher();

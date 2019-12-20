@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.oracle5.member.model.service.MemberService;
 import com.oracle5.member.model.vo.Attend;
+import com.oracle5.member.model.vo.Member;
 
 @WebServlet("/selectChildAttend.do")
 public class SelectChildAttendServlet extends HttpServlet {
@@ -20,7 +21,7 @@ public class SelectChildAttendServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String date = request.getParameter("date");
-		int tno = Integer.parseInt(request.getParameter("tno"));
+		int tno = ((Member) request.getSession().getAttribute("loginMember")).getMemberNo();
 		Date nDate = Date.valueOf(date);
 		
 		ArrayList<Attend> list = new MemberService().selectBanChildAttend(nDate, tno);
