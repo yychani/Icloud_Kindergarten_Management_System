@@ -213,9 +213,9 @@ input[type='button'] {
   					</select>
   					<div class="ui button" id="search">찾기</div>
 				</div>
-              
+              <%if(loginUser.getMemberId().equals("admin")){ %>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
-              
+              <%} %>
         </div> 
 	</div>
 	
@@ -293,7 +293,7 @@ input[type='button'] {
 							
 							$pagingArea = $("#paging");
 							$pagingArea.html('');
-							$startBtn = $("<button style='width:50px; height:30px;' id='startBtn'>처음</button>").data.pi[key].currentPage=;
+							<%-- $startBtn = $("<button style='width:50px; height:30px;' id='startBtn'>처음</button>").data.pi[key].currentPage=;
 							<div style="width:fit-content; margin: auto" id="paging">
 							<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=startPage%>">처음</button>
 							<%
@@ -337,7 +337,7 @@ input[type='button'] {
 							%>
 							<button style="width: 60px; height:30px;"
 									onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=maxPage%>'">마지막</button>
-							</div>
+							</div> --%>
 						}
 						
 					}
