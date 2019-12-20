@@ -127,7 +127,9 @@ $(function() {
 						var $content = $("#rplycontent");
 						var index = 0;
 						var rid = 0;
+						var rid2 = 0;
 						
+						console.log(data);
 						for(var key in data) {
 							if(data[key].refrid == 0){
 								var $contentDiv = $("<div class='content'>");
@@ -165,29 +167,29 @@ $(function() {
 								console.log("rid123 : " + rid);
 							}
 							else {
-								for(var key2 in data){
-									if(rid == data[key2].refrid){
-										var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
-										
-										var $contentDiv2 = $("<div class='content'>");
-											var $a1 = $("<a class='author'>").text(data[key2].rname);
-											var $div11 = $("<div class='metadata'>");
-												var $span1 = $("<span class='date'>").text(data[key2].rdate);
-											var $div21 = $("<div class='text'>").text(data[key2].rcont);
-										
-										$contentDiv2.append($a1);
-										$contentDiv2.append($div11.append($span1));
-										$contentDiv2.append($div21);
-										
-										$rereplyArea.append($contentDiv2);
-										
-										$content.append($rereplyArea);
-									}
-									index++;
-									if(index == data.length){
-										break;
-									}
-								} 
+								//for(var key2 in data){
+									//console.log(index++);
+								console.log(data[key].rid);
+								if(rid == data[key].refrid && rid != rid2){
+									var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+									
+									var $contentDiv2 = $("<div class='content'>");
+									var $a1 = $("<a class='author'>").text(data[key].rname);
+									var $div11 = $("<div class='metadata'>");
+									var $span1 = $("<span class='date'>").text(data[key].rdate);
+									var $div21 = $("<div class='text'>").text(data[key].rcont);
+									
+									$contentDiv2.append($a1);
+									$contentDiv2.append($div11.append($span1));
+									$contentDiv2.append($div21);
+									
+									$rereplyArea.append($contentDiv2);
+									
+									$content.append($rereplyArea);
+									rid2 = data[key].rid;
+								}
+								//console.log(key2);
+								//}
 							}
 						}
 					},
@@ -317,6 +319,7 @@ $(function() {
 						type:"post",
 						success:function(data){
 							var $content = $("#rplycontent");
+							var rid2 = 0;
 							$content.text("");
 							var index = 0;
 							var rid = 0;
@@ -354,33 +357,34 @@ $(function() {
 									
 									$(".rereArea").hide();
 									rid = data[key].rid;
-								}else {
-									for(var key2 in data){
-										if(rid == data[key2].refrid){
-											var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
-											
-											var $contentDiv2 = $("<div class='content'>");
-												var $a1 = $("<a class='author'>").text(data[key2].rname);
-												var $div11 = $("<div class='metadata'>");
-													var $span1 = $("<span class='date'>").text(data[key2].rdate);
-												var $div21 = $("<div class='text'>").text(data[key2].rcont);
-											
-											$contentDiv2.append($a1);
-											$contentDiv2.append($div11.append($span1));
-											$contentDiv2.append($div21);
-											
-											$rereplyArea.append($contentDiv2);
-											
-											$content.append($rereplyArea);
-											
-										}
-										index++;
-										if(index == data.length){
-											break;
-										}
-									} 
-								$("#rereBtn").trigger("#click");
+									console.log("rid123 : " + rid);
 								}
+								else {
+									//for(var key2 in data){
+										//console.log(index++);
+									console.log(data[key].rid);
+									if(rid == data[key].refrid && rid != rid2){
+										var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+										
+										var $contentDiv2 = $("<div class='content'>");
+										var $a1 = $("<a class='author'>").text(data[key].rname);
+										var $div11 = $("<div class='metadata'>");
+										var $span1 = $("<span class='date'>").text(data[key].rdate);
+										var $div21 = $("<div class='text'>").text(data[key].rcont);
+										
+										$contentDiv2.append($a1);
+										$contentDiv2.append($div11.append($span1));
+										$contentDiv2.append($div21);
+										
+										$rereplyArea.append($contentDiv2);
+										
+										$content.append($rereplyArea);
+										rid2 = data[key].rid;
+									}
+									//console.log(key2);
+									//}
+								}
+								//$("#rereBtn").trigger("#click");
 							}
 						},
 						error:function(data){
