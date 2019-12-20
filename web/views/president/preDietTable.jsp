@@ -86,19 +86,22 @@ input[type='text'] {
 	border-radius: 5px;
 }
 
-.menu {
+#dietmenu {
 	width: 1000px;
+	font-family: 'Noto Sans KR', sans-serif;
+	margin: 50px; auto;
 }
 
-.menu td {
+#dietmenu td {
 	width: 14%;
+	text-align: center;
 }
 
-.menu tr:nth-of-type(2n+3) {
+#dietmenu tr:nth-of-type(2n+3) {
 	height: 120px;
 }
 
-.menu tr:nth-of-type(2n+4) {
+#dietmenu tr:nth-of-type(2n+4) {
 	height: 60px;
 }
 .label {

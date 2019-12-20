@@ -202,7 +202,7 @@ input {
 		</table>
 		<div style="width: 60%; margin: 50px auto;">
 			<div class="terms">
-				<label><i class="check icon"></i> 회원 약관</label>
+				<label><i class="caret right icon"></i> 회원 약관</label>
 			</div>
 			<%@ include file="/views/common/terms1.jsp"%>
 			<div style="margin-top: 5px;">
@@ -210,7 +210,7 @@ input {
 					동의합니다.(필수)</label>
 			</div>
 			<div class="terms">
-				<label><i class="check icon" style="margin-top: 50px;"></i>
+				<label><i class="caret right icon" style="margin-top: 50px;"></i>
 					개인정보 수집 및 이용동의</label>
 			</div>
 			<%@ include file="/views/common/terms2.jsp"%>
@@ -219,7 +219,7 @@ input {
 					수집·이용에 동의합니다.(필수)</label>
 			</div>
 			<div class="terms">
-				<label><i class="check icon" style="margin-top: 50px;"></i>
+				<label><i class="caret right icon" style="margin-top: 50px;"></i>
 					유치원 정부 지원금 및 결제 고지</label>
 			</div>
 			<%@ include file="/views/common/terms3.jsp"%>
