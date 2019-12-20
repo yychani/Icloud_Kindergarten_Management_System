@@ -21,6 +21,7 @@
         }
         #table1, #table2, #table3, #table4 {
             margin: 10px auto;
+            width: 60%;
         }
 
         input[type=text] {
@@ -66,9 +67,6 @@
         th[id="date"] {
         	width: 100px;
         	height: 50px;
-        }
-        th {
-            background: lightgrey;
         }
         #applyTr{
             border-bottom: 1px solid black;
@@ -130,6 +128,11 @@
     td#applicant:nth-of-type(n+1) {
     	cursor:pointer;
     }
+    #as{
+	   width:161px;
+	   height:34px;
+	   border-radius:4px;
+	}
     </style>
 </head>
 
@@ -146,8 +149,8 @@
 	        <option value="반려 이력">반려 이력</option>
 	    </select>
     </div>
-    <table id="table1" >
-        <tr id="applyTr">
+    <table id="table1" class="asTable ui celled table" >
+        <tr id="applyTr" style="background: #e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">증상</th>
@@ -170,7 +173,6 @@
         } %>
         <tr id="applyTr">
             <th style="height: 30px;"></th>
-            <th></th>
             <th></th>
             <th></th>
             <th></th>

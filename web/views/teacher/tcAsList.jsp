@@ -20,8 +20,9 @@
         }
         #table1, #table2 {
             margin: 10px auto;
+            width: 60%;
+            text-align: center;
         }
-
         input[type=text] {
             border-radius: 10px;
             width: 300px;
@@ -61,12 +62,6 @@
         th[id="applicant"] {
             width: 500px;
             height: 50px;
-        }
-        th {
-            background: lightgrey;
-        }
-        #applyTr{
-            border-bottom: 1px solid black;
         }
         td[id="applicant"]{
             height: 30px;
@@ -112,6 +107,11 @@
      td#applicant:nth-of-type(n+1) {
     	cursor:pointer;
     }
+    #as{
+	   width:161px;
+	   height:34px;
+	   border-radius:4px;
+	}
     </style>
     <script>
     $(document).on("click",".asTable tr>td:nth-of-type(2)", function(){
@@ -162,37 +162,32 @@
 	        <option value="이전 신청 이력">이전 신청 이력</option>
 	    </select>
     </div>
-    <table id="table1" class="asTable" >
-        <tr id="applyTr">
+    <table id="table1" class="asTable ui celled table" >
+        <tr id="applyTr" style="background:#e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">선택</th>
         </tr>
         <% for(int i = 0; i < nolist.size(); i++) { %>
         <tr id="applyTr">
-            <td id="no"><%= i + 1 %><input type="hidden" name="cid" id="cid" value="<%= nolist.get(i).getCId() %>" /></td>
-            <td id="applicant"><%= nolist.get(i).getName() %></td>
-            <td id="apply" align="center"><input id="check" class="asCheck" type="checkbox"></td>
+            <td id="no" style="border-bottom: 1px solid rgba(34,36,38,.1);"><%= i + 1 %><input type="hidden" name="cid" id="cid" value="<%= nolist.get(i).getCId() %>" /></td>
+            <td id="applicant" style="border-bottom: 1px solid rgba(34,36,38,.1);"><%= nolist.get(i).getName() %></td>
+            <td id="apply" align="center" style="border-bottom: 1px solid rgba(34,36,38,.1);"><input id="check" class="asCheck" type="checkbox"></td>
         </tr>
         <% } %>
         <tr id="applyTr">
                 <th style="height: 30px;"></th>
-                <th align="right">전체선택</th>
-                <th><input id="allCheck" type="checkbox"></th>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-                <td colspan="3" style="float: right; padding-right: 0;"><input type="button" id="accept" value="승인" style="width: 70px; height:30px"></td>
-            
+                <th align="right" style="border-left:none;">전체선택</th>
+                <th style="border-left:none;"><input id="allCheck" type="checkbox"></th>
         </tr>
     </table>
-    <table id="table2" class="asTable" hidden>
-            <tr id="applyTr">
-                <th id="no">No</th>
-                <th id="applicant">신청자</th>
-                <th id="apply">승인 날짜</th>
-            </tr>
+    
+    <table id="table2" class="asTable ui celled table" hidden>
+        <tr id="applyTr">
+            <th id="no" style="background: #e3fad0">No</th>
+            <th id="applicant" style="background: #e3fad0">신청자</th>
+            <th id="apply" style="background: #e3fad0">선택</th>
+        </tr>
             <% for(int i = 0; i < oklist.size(); i++) { %>
             <tr id="applyTr">
                 <td id="no"><%= i + 1 %><input type="hidden" name="cid" id="cid" value="<%= oklist.get(i).getCId() %>" /></td>
@@ -200,19 +195,10 @@
                 <td id="apply" align="center"><%= oklist.get(i).getEntDate() %></td>
             </tr>
             <% } %>
-            <tr id="applyTr">
-                    <th style="height: 20px;"></th>
-                    <th align="right"></th>
-                    <th></th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                    <td colspan="3" style="float: right; padding-right: 0;"><input type="button" value="승인" style="width: 70px; height:30px"></td>
-                
-            </tr>
         </table>
-        
+    <div style="margin: 0 20%" align="right">
+    	<input type="button" id="accept" value="승인" style="width: 70px; height:30px">
+    </div>
         <!-- The Modal -->
     <div id="myModal" class="modal">
  

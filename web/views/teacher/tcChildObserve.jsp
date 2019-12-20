@@ -37,6 +37,11 @@
 	.obContent {
 		word-spacing: 0 !important;
 	}
+	.first, .second {
+		display: inline-block;
+		width:24px;
+		height:24px;
+	}
 </style>
 <script>
 	$(function() {
@@ -73,7 +78,7 @@
 					for(var i = 0, k = 0; i < first.length; i+=3,k++){
 						for(var j = 0; j < 3; j++) {
 							if(score[k] == first[i+j].innerText){
-								$(first[i+j]).css("background-color","gray");
+								$(first[i+j]).addClass("ui olive circular label");
 								break;
 							}
 							
@@ -150,133 +155,133 @@
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">신체운동 건강영역</span></td>
- 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">의사소통영역</span></td>
- 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">사회관계영역</span></td>
- 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">예술경험영역</span></td>
- 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
  				<td colspan="2" rowspan="5" style="height:10em"><span style="writing-mode: tb-rl;">자연탐구영역</span></td>
- 				<td colspan="5" style="font-weight:normal" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" style="font-weight:normal" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
- 				<td colspan="5" class="obContent">TEST</td>
- 				<td colspan="2"><label class="first">3</label> <label class="first">2</label> <label class="first">1</label></td>
- 				<td colspan="2"><label class="second">3</label> <label class="second">2</label> <label class="second">1</label></td>
+ 				<td colspan="5" class="obContent">&nbsp;</td>
+ 				<td colspan="2"><div class="first">3</div> <div class="first">2</div> <div class="first">1</div></td>
+ 				<td colspan="2"><div class="second">3</div> <div class="second">2</div> <div class="second">1</div></td>
  			</tr>
  			<tr>
  				<td rowspan="2" style="width:3%; height:10em"><span style="writing-mode: tb-rl;">총평</span></td>
