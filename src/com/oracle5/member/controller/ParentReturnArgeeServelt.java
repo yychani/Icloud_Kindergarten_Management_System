@@ -33,11 +33,11 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String kidsName = request.getParameter("kidsName");
 		String guideName = request.getParameter("guideName");
 		String guidePhone = request.getParameter("guidePhone");
+
 		int pNo = Integer.parseInt(request.getParameter("pNo"));
-		int cId = Integer.parseInt(request.getParameter("cName"));
+		String cId =request.getParameter("cName");
 		
 		String sapplyDate = request.getParameter("applyDate");
 		Date applyDate;
@@ -49,6 +49,75 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 		
 		String applyTime = request.getParameter("applyTime");
 		
+		//전체 원아인이 확인
+		if(cId.contains("/")) {
+			System.out.println("문자열에 /있음");
+			String[] split = cId.split("/");
+			String[] splitl = new String[split.length];
+			for(int i = 0; i < split.length ; i++) {
+				splitl[i] = split[i];
+			}
+			for(int i = 0; i < splitl.length; i++) {
+				int acId = Integer.parseInt(splitl[i]);
+				if(acId != 0) {
+					ReturnAgree ra = new ReturnAgree();
+					ra.setPNo(pNo);
+					ra.setApplyDate(applyDate);
+					ra.setApplyTime(applyTime);
+					ra.setGuideName(guideName);
+					ra.setGuidePhone(guidePhone);
+					ra.setCId(acId);
+					
+					int result = new MemberService().returnApply(ra);
+					
+					if(result > 0) {
+						response.sendRedirect("views/common/successPage.jsp?successCode=12");
+					} else {
+						request.setAttribute("msg", "귀가동의서 신청 실패");
+						
+						request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+					}
+				} else {
+					request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
+					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				}
+			}
+
+
+		} else {
+			int icId = Integer.parseInt(cId);
+			System.out.println("문자열에 / 없음 : " + icId);
+			
+			if(icId != 0) {
+				ReturnAgree ra = new ReturnAgree();
+				ra.setPNo(pNo);
+				ra.setApplyDate(applyDate);
+				ra.setApplyTime(applyTime);
+				ra.setGuideName(guideName);
+				ra.setGuidePhone(guidePhone);
+				ra.setCId(icId);
+				
+				int result = new MemberService().returnApply(ra);
+				
+				if(result > 0) {
+					response.sendRedirect("views/common/successPage.jsp?successCode=12");
+				} else {
+					request.setAttribute("msg", "귀가동의서 신청 실패");
+					
+					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				}
+			} else {
+				request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			}
+			
+		}
+		
+		
+		
+		
+		
+		/*
 		if(cId != 0) {
 			ReturnAgree ra = new ReturnAgree();
 			ra.setPNo(pNo);
@@ -70,7 +139,7 @@ public class ParentReturnArgeeServelt extends HttpServlet {
 		} else {
 			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		}*/
 		
 		
 	}

@@ -24,34 +24,6 @@
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
 <style>
-/* #outBox {
-	width: 800px;
-	margin: 0 auto;
-} */
-/* 
-#tableArea {
-	width: 100%;
-}
-
-#no {
-	width: 20px;
-	text-align: center;
-}
-
-#title {
-	width: 500px;
-	text-align: center;
-}
-
-#writer {
-	width: 120px;
-	text-align: center;
-}
-
-#date {
-	width: 100px;
-	text-align: center;
-}  */
 #requestBtn {
 	float: right;
 }
@@ -94,6 +66,16 @@ tr {
 }
 #requestBtn{
 	margin-right:400px;
+}
+#noList{
+	margin:auto auto;
+	height: 450px;
+    display: table-cell;
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight:bold;
+    color: rgb(209, 57, 57)
 }
 </style>
 </head>
