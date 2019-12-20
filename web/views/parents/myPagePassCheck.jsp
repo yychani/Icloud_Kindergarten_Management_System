@@ -26,6 +26,9 @@
 	margin: 15% auto;
 	align:center;
 }
+#note{
+	 font-family: 'Noto Sans KR', sans-serif;
+}
 
 </style>
 
@@ -52,7 +55,7 @@
 	
 	<div id="outBox" align="center">
 		<form action="<%=request.getContextPath()%>/passcheck.me" method="post" onsubmit="return true">
-			<label>비밀번호 확인이 필요합니다.</label><br><br>
+			<label id="note">비밀번호 확인이 필요합니다.</label><br><br>
 			<div class="ui left corner labeled input">
 				 <input type="password"
 					placeholder="PASSWORD" name="userPwd">

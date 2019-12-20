@@ -117,11 +117,23 @@ tr{
 				</tr>
 				<tr>
 					<td><label>승인 일자 : </label></td>
-					<td><label><%= ((ArrayList<AsList>)hmap.get("aList")).get(i).getApprovalDate() %></label></td>
+					<td>
+					<% if(((ArrayList<AsList>)hmap.get("aList")).get(i).getApprovalDate() == null) { %>
+					<label>미승인</label>
+					<% }else { %>
+					<label><%= ((ArrayList<AsList>)hmap.get("aList")).get(i).getApprovalDate() %></label>
+					<% } %>
+					</td>
 				</tr>
 				<tr>
 					<td><label>종료 일자 : </label></td>
-					<td><label><%=  ((ArrayList<AsList>)hmap.get("aList")).get(i).getEndDate() %></label></td>
+					<td>
+					<% if(((ArrayList<AsList>)hmap.get("aList")).get(i).getEndDate() == null ) {%>
+					<label>미지정</label>
+					<% }else { %>
+					<label><%=  ((ArrayList<AsList>)hmap.get("aList")).get(i).getEndDate() %></label>
+					<% } %>
+					</td>
 
 				</tr>
 				

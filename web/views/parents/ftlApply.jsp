@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>현장체험학습 신청</title>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -113,7 +113,7 @@ tr {
 			</div>
 		</div>
 		<div class="extra content">
-			<button class="ui button" onclick="modalPop();">신청하기</button>
+			<button class="ui inverted green button" onclick="modalPop();">신청하기</button>
 		</div>
 	</div>
 
