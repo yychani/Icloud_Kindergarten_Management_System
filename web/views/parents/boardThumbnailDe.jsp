@@ -46,7 +46,7 @@
 
 		.ui.dividing.header{
 			width: 1000px;
-			margin: 0 auto;
+			margin-left:300px;
 		}
 		.TBtn{
 			width: 80px;
@@ -101,6 +101,15 @@
 		border: none;
 		cursor: pointer;
 	}
+	.ui.reply.form{
+		width: 1000px;
+		margin-left:300px;
+	}
+	.reply{
+		width: 1000px;
+		margin-left:300px;
+	}
+	
 		
 </style>
 <script>
@@ -131,9 +140,9 @@ $(function() {
 	<label id="textArea">작성일 : <%=b.getTtime()%></label>
 	<label id="textArea">조회수 : <%=b.getTcount() %></label>
 	<form>
-		<div align="center">
+		<div>
 			<table id="tableArea">
-			<tr id="trArea">
+			<tr id="trArea">  
 		<% 
 			for(Attachment at : list){
 		%>
