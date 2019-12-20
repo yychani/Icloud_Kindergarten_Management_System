@@ -258,7 +258,7 @@
 	function onMessage6(event){
 		var serverMessage = event.data;
 		
-		if(serverMessage == "04:09:30"){
+		if(serverMessage == "12:42:00"){
 			var today = $("input[name='today']").length;
 			var todayList = new Array(today);
 			for(var i = 0; i < today; i++){                          
@@ -267,9 +267,12 @@
 			
 			var tomorrow = $("input[name='tomorrow']").length;
 			var tomorrowList = new Array(tomorrow);
+			var totomorrowList = new Array(tomorrow);
 			for(var i = 0; i < tomorrow; i++){                          
 				tomorrowList[i] = $("input[name='tomorrow']").eq(i).val();
+				totomorrowList[i] = "";
 			}
+		
 			for(var i = 0; i < 6; i++){                          
 				$("input[name='today']").eq(i).val($("input[name='tomorrow']").eq(i).val());
 				$("input[name='tomorrow']").eq(i).val("")
@@ -285,7 +288,7 @@
 				data: {
 					todoCheck:todoCheck,
 					todayList:tomorrowList,
-					tomorrowList:tomorrowList
+					tomorrowList:totomorrowList
 				},
 				type:"post",
 				success:function(data){

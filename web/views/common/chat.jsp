@@ -201,7 +201,7 @@
 							$chatContext.append("<div class='clear' style='width: 100%; max-width: 500px; text-align:center; margin: 0 auto;'>"+ newdate +"</div>"
 									+ "<div class='sendMessage'>" + message + "</div><small class='sendTime'>" + time + "</small><br><small class='sendTime'>" + view + "</small>");
 						}else {
-							$chatContext.append("<div class='clear'></div>"
+							$chatContext.append("<div class='clear' style='width: 100%; max-width: 500px; text-align:center; margin: 0 auto;'>"+ newdate +"</div>"
 			 						+ "<div class='message'>" + message + "</div><small class='recieveTime'>" + time + "</small>");
 						}
 						$("#chatContext").scrollTop($("#chatContext")[0].scrollHeight);
