@@ -133,6 +133,7 @@ $(function() {
 			</form>
 		</div>
 			<%} %>
+			
 			<script>
 	$(function(){
 		
