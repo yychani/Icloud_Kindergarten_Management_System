@@ -27,8 +27,12 @@
         #table1,
         #table2 {
             margin: 10px auto;
+            width: 911px;
+            text-align: center;
         }
-
+		#table2 {
+			margin-bottom: 50px;
+		}
         input[type=text] {
             border-radius: 10px;
             width: 300px;
@@ -87,6 +91,14 @@
         #address:focus{
         	outline: none;
         }
+		#as{
+		   width:161px;
+		   height:34px;
+		   border-radius:4px;
+		}
+		#as:focus { 
+			outline: none; 
+		}
     </style>
     <script>
     	$(function(){
@@ -299,36 +311,36 @@
     		
 		</script>
     </div>
-    <table id="table1" hidden>
-        <tr id="applyTH">
-            <th id="no">No</th>
-            <th id="applicantKid">신청 아이</th>
-            <th id="applicantP">신청 학부모</th>
-            <th id="applyDate">신청 날짜</th>
-            <th id="apply" style="width:60px;">납부 확인</th>
-        </tr>
-        <% for(int i = 0; i < participantList.size(); i++){ %>
-        <tr id="applyTr">
-            <td id="no"><%=participantList.get(i).getRnum() %>
-            <input type="hidden" id="partNo" value="<%=participantList.get(i).getParticipantNo() %>"></td>
-            <td id="applicantKid"><%=participantList.get(i).getCNname() %></td>
-            <td id="applicantP"><%=participantList.get(i).getPName() %></td>
-            <td id="applyDate"><%=participantList.get(i).getApplyDate() %></td>
-            <td id="apply" align="center"><input class="check" type="checkbox"></td>
-        </tr>
+	<table class="ui celled table" table id="table1" hidden>
+		<thead>
+			<tr id="applyTH" style="background: #e3fad0 !important">
+	            <th id="no" style="background: #e3fad0 !important">No</th>
+	            <th id="applicantKid" style="background: #e3fad0 !important">신청 아이</th>
+	            <th id="applicantP" style="background: #e3fad0 !important">신청 학부모</th>
+	            <th id="applyDate" style="background: #e3fad0 !important">신청 날짜</th>
+	            <th id="apply" style="width: 82px; background: #e3fad0 !important">납부 확인</th>
+	        </tr>
+		</thead>
+	 	<tbody>
+		<% for(int i = 0; i < participantList.size(); i++){ %>
+	        <tr id="applyTr">
+	            <td id="no"><%=participantList.get(i).getRnum() %>
+	            <input type="hidden" id="partNo" value="<%=participantList.get(i).getParticipantNo() %>"></td>
+	            <td id="applicantKid"><%=participantList.get(i).getCNname() %></td>
+	            <td id="applicantP"><%=participantList.get(i).getPName() %></td>
+	            <td id="applyDate"><%=participantList.get(i).getApplyDate() %></td>
+	            <td id="apply"><input class="check" type="checkbox"></td>
+	        </tr>
         <% } %>
-        <tr id="applyTrCheck">
-            <th colspan="3" style="height: 30px;"></th>
-            <th align="right">전체선택</th>
-            <th><input id="allCheck" type="checkbox"></th>
-        </tr>
-        <tr>
-            <td colspan="4"></td>
-            <td style="float: right; padding-right: 0; padding-top: 5px;">
-            <input type="button" id="accept" value="승인" style="width: 70px; height:30px"></td>
+        	<tr id="applyTrCheck">
+	            <th colspan="3" style="height: 30px; background: #fff !important; border-top: 1px solid rgba(34,36,38,.1);"></th>
+	            <th align="right" style="border: 0; background: #fff !important; border-top: 1px solid rgba(34,36,38,.1);">전체선택</th>
+	            <th style="border: 0; background: #fff !important; border-top: 1px solid rgba(34,36,38,.1);"><input id="allCheck" type="checkbox" align = center;></th>
+	        </tr>
+		</tbody>											
+	</table>
+	<div hidden id="acceptBtnArea" style="width: 911px; margin: 5px auto; margin-bottom: 100px;"><button class="ui inverted olive button" id="accept" style="width: 70px; height:30px; float:right;">승인</button></div>
 
-        </tr>
-    </table>
     <script>
 	    $("#accept").click(function() {
 			var partNo = [];
@@ -355,37 +367,41 @@
 			});
 		});
     </script>
-    <table id="table2" hidden>
-        <tr id="applyTr">
-            <th id="no">No</th>
-            <th id="place" style="width: 350px;">장소</th>
-            <th id="applicant">신청자</th>
-            <th id="applicant">참여 여부</th>
-            <th id="apply" style="width: 150px;">승인 날짜</th>
-        </tr>
-        <% for(int i = 0; i < prevPartList.size(); i++){ %>
-        <tr id="applyTr">
-            <td id="no"><%=prevPartList.get(i).getRnum() %></td>
-            <td id="place"><%=prevPartList.get(i).getField() %></td>
-            <td id="applicant"><%=prevPartList.get(i).getCNname() %>&nbsp;학부모</td>
-            <td id="apply" align="center"><% if(prevPartList.get(i).getAttend().equals("Y")){ %>
-            							참여
-            							<% } else { %>
-            							미참여
-            							<% } %></td>
-			<td id="acceptDate" align="center"><% if(prevPartList.get(i).getAcceptDate() != null){ %>
-            							<%=prevPartList.get(i).getAcceptDate() %>
-            							<% } else { %>
-            							미납
-            							<% } %></td>
-        </tr>
+    <table class="ui celled table" table id="table2" hidden>
+		<thead>
+			<tr id="applyTr">
+            	<th id="no" style="background: #e3fad0 !important">No</th>
+	            <th id="place" style="width: 350px; background: #e3fad0 !important">장소</th>
+	            <th id="applicant" style="background: #e3fad0 !important">신청자</th>
+	            <th id="applicant" style="background: #e3fad0 !important">참여 여부</th>
+	            <th id="apply" style="background: #e3fad0 !important; width: 150px;">납부 확인 날짜</th>
+	        </tr>
+		</thead>
+	 	<tbody>
+		<% for(int i = 0; i < prevPartList.size(); i++){ %>
+	        <tr id="applyTr">
+	            <td id="no"><%=prevPartList.get(i).getRnum() %></td>
+	            <td id="place"><%=prevPartList.get(i).getField() %></td>
+	            <td id="applicant"><%=prevPartList.get(i).getCNname() %>&nbsp;학부모</td>
+	            <td id="apply" align="center"><% if(prevPartList.get(i).getAttend().equals("Y")){ %>
+	            							참여
+	            							<% } else { %>
+	            							미참여
+	            							<% } %></td>
+				<td id="acceptDate" align="center"><% if(prevPartList.get(i).getAcceptDate() != null){ %>
+	            							<%=prevPartList.get(i).getAcceptDate() %>
+	            							<% } else { %>
+	            							미납
+	            							<% } %></td>
+	        </tr>
         <% } %>
-        <tr id="applyTr">
-            <th style="height: 20px;" colspan="3"></th>
-            <th align="right"></th>
-            <th></th>
-        </tr>
-    </table>
+        	<tr id="applyTr">
+	            <th style="border: 0; background: #fff !important; border-top: 1px solid rgba(34,36,38,.1); height: 20px;" colspan="3"></th>
+	            <th align="right" style="border: 0; background: #fff !important; border-top: 1px solid rgba(34,36,38,.1);"></th>
+	            <th style="border: 0; background: #fff !important; border-top: 1px solid rgba(34,36,38,.1);"></th>
+	        </tr>
+		</tbody>											
+	</table>
     <script>
         $(function () {
             $(".li8").addClass("on");
@@ -412,14 +428,17 @@
             		$("#table0").attr("hidden", false);
                     $("#table1").attr("hidden", true);
                     $("#table2").attr("hidden", true);
+                    $("#acceptBtnArea").attr("hidden", true);
             	}else if ($(this).val() == "신청자 리스트") {
             		$("#table0").attr("hidden", true);
                     $("#table1").attr("hidden", false);
                     $("#table2").attr("hidden", true);
+                    $("#acceptBtnArea").attr("hidden", false);
                 } else if ($(this).val() == "이전 신청 이력") {
                 	$("#table0").attr("hidden", true);
                     $("#table2").attr("hidden", false);
                     $("#table1").attr("hidden", true);
+                    $("#acceptBtnArea").attr("hidden", true);
                 }
             });
         }); 

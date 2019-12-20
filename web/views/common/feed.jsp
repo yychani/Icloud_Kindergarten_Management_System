@@ -320,6 +320,7 @@
 				cid:<%=cid %>
 			},
 			type:"post",
+			async: false,
 			success:function(data){
 				var img = "<%=request.getContextPath() %>/" + data.imgSrc.substring(data.imgSrc.lastIndexOf("\\") + 1)
 				$("#childrenName").text(data.name);
@@ -345,6 +346,7 @@
         		cid:<%=cid %>
         	},
         	type:"post",
+        	async: false,
         	success:function(data){
         		
         		var img2 = $("#mainChildImg").prop("src");
