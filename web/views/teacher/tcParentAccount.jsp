@@ -293,6 +293,11 @@
  .pagination li:hover{
 	 cursor:pointer;
  }
+ #selectList{
+   width:161px;
+   height:34px;
+   border-radius:4px;
+}
 </style>
 
 </head>
@@ -308,12 +313,12 @@
 			<option value="이전요청내역">이전요청내역</option>
 		</select>
 		
-		<table class="pAccountList">
-			<tr style="background:lightgray">
+		<table class="pAccountList ui celled table" style="text-align:center">
+			<tr style="background:#e3fad0">
 				<th style="width:10%">번호</th>
 				<th style="width:30%">원아명</th>
 				<th style="width:30%">학부모 성함</th>
-				<th style="width:10%">승인</th>
+				<th style="width:20%">승인</th>
 			</tr>
 		</table>
 		

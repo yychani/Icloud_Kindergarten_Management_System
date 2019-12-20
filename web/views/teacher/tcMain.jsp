@@ -71,54 +71,48 @@
 		</table>
 	</div>
 	
-	<div class="ui fullscreen modal">
-  		<div class="header" style="text-align: center;">필수정보입력</div>
+	<div class="ui fullscreen modal" id="infomodal">
+  		<div class="header" style="text-align: center;">필수 정보 입력</div>
   		<div class="content">
   		<form action="" method="post" enctype="multipart/form-data" id="infoForm">
-    		<table id="infotable" class="ui black table" style="width:70%; margin: 0 auto;">
+    		<table id="infotable" class="ui black table" style="width:1200px; margin: 0 auto;">
     			<tr>
-    				<td>현재 비밀번호</td>
-    				<td><input type="password" id="currentPass" name="currentPass" /><br /><span id="currPassCheck"></span></td>
-    				<td rowspan="5" style="text-align:center"><img src="<% if(t.getImgSrc() == null) { %>
+    				<td>변경할 비밀번호</td>
+    				<td style="width:720px"><div class="ui input"><input type="password" id="password" name="userPwd" /><span id="pass1Check" style="line-height: 2.5em; margin-left:20px"></span></div></td>
+    				<td rowspan="4" style="text-align:center"> <img src="<% if(t.getImgSrc() == null) { %>
 																			<%=request.getContextPath() %>/images/nullUser.png
 																		 <% } else { %>
 																			<%=t.getImgSrc()%>
-																		 <% } %>" width="300px" id="tcImg"/></td>
-    			</tr>
-    			<tr>
-    				<td>변경할 비밀번호</td>
-    				<td><input type="password" id="password" name="userPwd" /><br><span id="pass1Check"></span></td>
+																		 <% } %>" width="300px" id="tcImg"></td>
     			</tr>
     			<tr>
     				<td>비밀번호 확인</td>
-    				<td><input type="password" id="passCheck" name="passCheck" /><br><span id="pass2Check"></span></td>
-    			</tr>
-    			<tr>
-    				<td>주민등록번호</td>
-    				<td>
-    					<input type="text" id="userNumber1" name="userNumber1" maxlength=6 /> - 
-    					<input type="password" id="userNumber2" name="userNumber2" maxlength=7 />
-    				</td>
+    				<td><div class="ui input"><input type="password" id="passCheck" name="passCheck" /><span id="pass2Check" style="line-height: 2.5em; margin-left:20px"></span></div></td>
     			</tr>
     			<tr>
     				<td>핸드폰번호</td>
     				<td>
-    					<select style="width: 20%; height:30px;" id="tel1" name="tel1">
-						<option value="010" selected>010</option>
-						<option value="011">011</option>
-						<option value="016">016</option>
-						<option value="017">017</option>
-						<option value="019">019</option>
-						</select> - <input type="text" id="tel2" name="tel2" maxlength="4" style="width: 30%">
-				 - <input type="text" id="tel3" name="tel3" maxlength="4" style="width: 30%">
+    					<div class="ui input" style="width:10%">
+	    					<select style="width:100%; height:37.89px; border-radius:4px; font-size:14px; padding-left: 10px;" id="tel1" name="tel1">
+								<option value="010" selected>010</option>
+								<option value="011">011</option>
+								<option value="016">016</option>
+								<option value="017">017</option>
+								<option value="019">019</option>
+							</select>
+						</div>
+						 - <div class="ui input"><input type="text" id="tel2" name="tel2" maxlength="4" style="width: 30%"></div>
+						 - <div class="ui input"><input type="text" id="tel3" name="tel3" maxlength="4" style="width: 30%"></div>
 					<input type="hidden" id="tel21" name="tel21">
 					<input type="hidden" id="tel31" name="tel31"></td>
     			</tr>
     			<tr>
     				<td>이메일</td>
     				<td>
+    				<div class="ui input">
     					<input type="text" id="firstEmail" name="firstEmail">
-						@ <select style="width: 30%; height: 30px; font-size: 12pt;" id="lastEmail" name="lastEmail">
+    					</div>
+						@ <select style="width:25%; height:37.89px; border-radius:4px; font-size:14px; padding-left: 10px;" id="lastEmail" name="lastEmail">
 						<option value="none" selected>example.com</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="naver.com">naver.com</option>
@@ -126,17 +120,17 @@
 						<option value="kakao.co.kr">kakao.co.kr</option>
 						</select>
 					</td>
-					<td><div align="center"><input type="file" id="teacherImg" name="ex" onchange="loadImg(this)"/></div></td>
     			</tr>
     			<tr>
     				<td>교사 한줄 소개</td>
-    				<td colspan="2"><input type="text" id="desc" name="desc" /></td>
+    				<td><div class="ui input"><input type="text" id="desc" name="desc" style="width:100%" /></div></td>
+    				<td style="width:340px"><div align="center"><div class="ui secondary button" id="selectImg">사진선택</div><input type="file" id="teacherImg" name="ex" onchange="loadImg(this)"/></div></td>
     			</tr>
     		</table>
    		</form>
   		</div>
   		<div class="actions">
-    		<div class="ui button" onclick="changeInfo();">변경하기</div>
+    		<div class="ui positive button" onclick="changeInfo();">변경하기</div>
   		</div>
 	</div>
 
@@ -149,6 +143,13 @@
 		}
 	});
 	
+	$(function() {
+		$("#teacherImg").hide();
+	});
+	
+	$("#selectImg").click(function () {
+		$("#teacherImg").click();
+	}) ;
 	
 	var pattern1 = /[0-9]/; // 숫자 
 	var pattern2 = /[a-zA-Z]/; // 문자 
