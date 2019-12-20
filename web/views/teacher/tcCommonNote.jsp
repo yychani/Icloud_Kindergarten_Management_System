@@ -126,7 +126,7 @@
     <div style="margin: 5px auto; width: fit-content; min-width: 712px;">
         <label>날짜 : </label><span id="dateOutput"></span><br><br>
         <label>내용</label><br>
-        <textarea name="dateCont" id="dateCont" cols="100" rows="5" readonly></textarea><br>
+        <textarea name="dateCont" id="dateCont" cols="100" rows="5" readonly style="width:100%";></textarea><br>
         <input type="button" name="edit" id="edit" value="수정하기" style="float:right;">
         <input type="hidden" name="dateVal" id="dateVal" />
         <input type="hidden" name="editComplete" id="editComplete" value="수정완료" style="float:right;"> 

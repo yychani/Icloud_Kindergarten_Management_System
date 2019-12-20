@@ -151,7 +151,7 @@
     </script>
 </head>
 
-<body style="overflow-x: hidden">
+<body style="overflow-x: hidden; overflow-y:hidden">
     <%@ include file="/views/common/teacherMenu.jsp"%>
     <div style="margin: 0 15%;">
         <h1 style="text-decoration: underline; text-underline-position: under;">방과후 신청 관리 페이지</h1>

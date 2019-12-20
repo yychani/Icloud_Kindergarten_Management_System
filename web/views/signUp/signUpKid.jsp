@@ -336,7 +336,7 @@
 	 
 	    // 암호화 이전의 문자열은 toString 함수를 사용하여 추출할 수 있다.
 	    var address1 = decrypted1.toString(CryptoJS.enc.Utf8);
-	    $("#address1").val(decrypted1);
+	    $("#address1").val(encrypt1);
 	    
 		if(validAll){ // 유효성 모두 통과
 			return true;

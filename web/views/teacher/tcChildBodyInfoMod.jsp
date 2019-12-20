@@ -41,8 +41,6 @@
         new Rolldate({
         	el: '#date',
         	format: 'YYYY-MM-DD',
-        	beginYear : 2019,
-        	endYear : 2019,
         	lang: {
         		title: '날짜를 선택하세요',
         		cancel : '취소',
