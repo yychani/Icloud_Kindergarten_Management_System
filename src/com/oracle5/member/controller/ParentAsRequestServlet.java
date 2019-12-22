@@ -34,38 +34,62 @@ public class ParentAsRequestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int pNo = Integer.parseInt(request.getParameter("userNo"));
 		String kidName = request.getParameter("cName");
-		System.out.println(kidName);
-		// 원아명과 부모 번호 일치 확인 후 cid가져오기
-		/*int cId = new MemberService().cNamepNoCheck(kidName, pNo);*/
-		int cId = Integer.parseInt(kidName);
-		//해당 월 신청 이력 확인
-		Calendar calendar = new GregorianCalendar(Locale.KOREA);
-		int currentMonth = 0;
-		currentMonth = calendar.get(Calendar.MONTH) + 1;
-		int currentYear = calendar.get(Calendar.YEAR);
 		
-		int check = new MemberService().selectAsCheck(cId, currentMonth, currentYear);
-
-
-		if(cId != 0) {
-			if(check == 0) {
-				int result = new MemberService().asRequest(cId);
+		
+		if(kidName.contains("/")) {
+			String[] split = kidName.split("/");
+			String[] splitl = new String[split.length];
+			for (int i = 0; i < split.length; i++) {
+				splitl[i] = split[i];
+				System.out.println(splitl[i]);
+			}
+			
+			if(splitl != null) {
+				int result = new MemberService().asRequest(splitl);
 				
-				if(result > 0) {
+				if(result == splitl.length) {
 					response.sendRedirect("views/common/successPage.jsp?successCode=8");
 				}else {
 					response.sendRedirect("views/common/successPage.jsp?successCode=9");
 
 				}
+			}
+		} else {
+			int cId = Integer.parseInt(kidName);
+			//해당 월 신청 이력 확인
+			Calendar calendar = new GregorianCalendar(Locale.KOREA);
+			int currentMonth = 0;
+			currentMonth = calendar.get(Calendar.MONTH) + 1;
+			int currentYear = calendar.get(Calendar.YEAR);
+			
+			int check = new MemberService().selectAsCheck(cId, currentMonth, currentYear);
+
+
+			if(cId != 0) {
+				if(check == 0) {
+					int result = new MemberService().asRequest(cId);
+					
+					if(result > 0) {
+						response.sendRedirect("views/common/successPage.jsp?successCode=8");
+					}else {
+						response.sendRedirect("views/common/successPage.jsp?successCode=9");
+
+					}
+				} else {
+					request.setAttribute("msg", "이번 달에 이미 신청하셨습니다.");
+					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				}
+				
 			} else {
-				request.setAttribute("msg", "이번 달에 이미 신청하셨습니다.");
+				request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
 				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 			}
-			
-		} else {
-			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
+		
+		
+		
+		
+		
 
 	}
 

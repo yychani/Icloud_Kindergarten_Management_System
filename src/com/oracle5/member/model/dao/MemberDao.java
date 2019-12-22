@@ -3679,5 +3679,31 @@ public class MemberDao {
 		return checkList;
 	}
 
+	//귀가동의서 전체원아 요청
+	public int returnApply(Connection con, ReturnAgree returnAgree, int i) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertReturnApply");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, returnAgree.getCId());
+			pstmt.setInt(2, returnAgree.getPNo());
+			pstmt.setDate(3, returnAgree.getApplyDate());
+			pstmt.setString(4, returnAgree.getApplyTime());
+			pstmt.setString(5, returnAgree.getGuideName());
+			pstmt.setString(6, returnAgree.getGuideName());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 
 }

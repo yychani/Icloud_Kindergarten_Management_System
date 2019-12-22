@@ -32,35 +32,60 @@ public class ParentFtlApplyServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 
-		int cId = Integer.parseInt(request.getParameter("cName"));
+		String cId = request.getParameter("cName");
 
 		String page = "";
+		
+		if(cId.contains("/")) {
+			String[] split = cId.split("/");
+			String[] splitl = new String[split.length];
+			for (int i = 0; i < split.length; i++) {
+				splitl[i] = split[i];
+				System.out.println(splitl[i]);
+			}
 
-		if (cId != 0) {
-			// 이미 신청했는지 확인
-			int check = new MemberService().checkFtlApply(cId);
-			
-			if (check == 0) {
-				// 현장학습신청서 insert
-				int result = new MemberService().insertFtlApply(cId);
-
-				if (result > 0) {
+			if(splitl != null) {
+				int result = new MemberService().insertFtlApply(splitl);
+				
+				if(result == splitl.length) {
 					response.sendRedirect("views/common/successPage.jsp?successCode=13");
 				} else {
 					page = "views/common/errorPage.jsp";
 					request.setAttribute("msg", "현장학습 신청 에러");
 					request.getRequestDispatcher(page).forward(request, response);
 				}
+			}
+			
+		} else {
+			int icId = Integer.parseInt(cId);
+			if (icId != 0) {
+				// 이미 신청했는지 확인
+				int check = new MemberService().checkFtlApply(icId);
+				
+				if (check == 0) {
+					// 현장학습신청서 insert
+					int result = new MemberService().insertFtlApply(icId);
+
+					if (result > 0) {
+						response.sendRedirect("views/common/successPage.jsp?successCode=13");
+					} else {
+						page = "views/common/errorPage.jsp";
+						request.setAttribute("msg", "현장학습 신청 에러");
+						request.getRequestDispatcher(page).forward(request, response);
+					}
+				} else {
+					page = "views/common/errorPage.jsp";
+					request.setAttribute("msg", "이미 신청하셨습니다.");
+					request.getRequestDispatcher(page).forward(request, response);
+				}
 			} else {
 				page = "views/common/errorPage.jsp";
-				request.setAttribute("msg", "이미 신청하셨습니다.");
+				request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
 				request.getRequestDispatcher(page).forward(request, response);
 			}
-		} else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "입력하신 원아를 찾을 수 없습니다.");
-			request.getRequestDispatcher(page).forward(request, response);
 		}
+
+		
 
 	}
 
