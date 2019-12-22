@@ -2,6 +2,11 @@
     pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
 <%
 	ArrayList<Note> list = (ArrayList<Note>) request.getAttribute("list");
+	String met = (String) request.getParameter("met");
+	if(met == null) {
+		met = (String) request.getAttribute("met");
+	}
+	System.out.println(met);
 	String date = (String) request.getParameter("date");
 	String[] spdate = date.split("-");
 	String day = spdate[0] + "년 " + spdate[1] + "월 " + spdate[2] + "일";
@@ -14,8 +19,6 @@
 				n = list.get(i);
 			}
 		}
-	} else if(list.size() != 0 && list.get(0) != null) {
-		n = list.get(0);
 	}
 %>
 <!DOCTYPE html>
@@ -103,9 +106,9 @@ table {
         
         $("#childList").change(function() {
         	var cid = $(this).val();
-        	var tno = $("#tno").val();
         	var date = $("#date").val(); 
-        	location.href="<%= request.getContextPath() %>/selectChildNote.me?date=" + date + "&tno=" + tno + "&cid=" + cid;
+        	var met = $("#materials").val();
+        	page_move('<%= request.getContextPath() %>/selectChildNote.me?cid='+cid, date, met);
         });
         
         if($("#shealth").val() != null) {
@@ -114,7 +117,7 @@ table {
         			$(this).prop("checked", true);
         		}
         	});
-        }
+        };
 	});
 </script>
 </head>
@@ -123,7 +126,7 @@ table {
  	<div style="margin: 0 15%;">
  	<h1 style="text-decoration: underline; text-underline-position: under;"><%= day %>&nbsp;알림장</h1>
  	</div>
-	<form action="<%= request.getContextPath() %>/insertChildNote.me" method="get">
+	<form action="<%= request.getContextPath() %>/insertChildNote.me" method="post">
 	<div style="margin: 0 30%; padding-top :10px; padding-bottom:50px">
 		<input type="hidden" id="tno" name="tno" value="<%= loginUser.getMemberNo() %>" />
 		<input type="hidden" id="date" name="date" value="<%= request.getParameter("date") %>" />
@@ -133,14 +136,12 @@ table {
 		<% if(n == null) { %>
 		<h3 style="text-decoration: underline; text-underline-position: under;">특이사항</h3>
 		<textarea id="unique" name="unique" style="resize: none;" rows="10"></textarea>
-		<h3 style="text-decoration: underline; text-underline-position: under;">준비물</h3>
-		<textarea id="materials" name="materials" style="resize: none;" rows="10"></textarea>
+		<input type="hidden" id="materials" name="materials" value="<%= met %>"/>
 		<h3 style="text-decoration: underline; text-underline-position: under;">오늘 하루 건강</h3>
 		<% } else { %>
 		<h3 style="text-decoration: underline; text-underline-position: under;">특이사항</h3>
 		<textarea id="unique" name="unique" style="resize: none;" rows="10"><%= n.getUnique() %></textarea>
-		<h3 style="text-decoration: underline; text-underline-position: under;">준비물</h3>
-		<textarea id="materials" name="materials" style="resize: none;" rows="10"><%= n.getMaterials() %></textarea>
+		<input type="hidden" id="materials" name="materials" value="<%= met %>"/>
 		<h3 style="text-decoration: underline; text-underline-position: under;">오늘 하루 건강</h3>
 		<input type="hidden" id="shealth" name="shealth" value=<%= n.getHealth() %> />
 		<% } %>
@@ -153,5 +154,30 @@ table {
 	</form>
     <%@ include file="/views/common/footer.jsp" %>
 	<%@ include file="/views/common/chat.jsp" %>
+	
+	<script>
+		 function page_move(url, date, met) {
+	     	var form = document.createElement("form");
+	     	
+	     	form.action = url;
+	     	form.method = "post";
+	     	
+	     	inputDate = document.createElement("input");
+	     	inputDate.setAttribute("type", "hidden");
+	     	inputDate.setAttribute("name", "date");
+	     	inputDate.setAttribute("value", date);
+	     	form.appendChild(inputDate);
+	     	
+	     	inputMet = document.createElement("input");
+	     	inputMet.setAttribute("type", "hidden");
+	     	inputMet.setAttribute("name", "met");
+	     	inputMet.setAttribute("value", met);
+	     	form.appendChild(inputMet);
+	     	
+	     	document.body.appendChild(form);
+	     	
+	     	form.submit();
+	     }
+	</script>
 </body>
 </html>

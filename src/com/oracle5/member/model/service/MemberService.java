@@ -1343,4 +1343,14 @@ public class MemberService {
 
 	}
 
+	public ArrayList<Member> selectNotAcceptParents() {
+		Connection con = getConnection();
+		
+		ArrayList<Member> checkList = new MemberDao().selectNotAcceptParents(con);
+		
+		close(con);
+		
+		return checkList;
+	}
+
 }

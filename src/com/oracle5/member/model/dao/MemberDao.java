@@ -3649,5 +3649,35 @@ public class MemberDao {
 
 	}
 
+	public ArrayList<Member> selectNotAcceptParents(Connection con) {
+		Statement stmt = null;
+		ResultSet rset = null;
+		ArrayList<Member> checkList = null;
+		Member m = null;
+		
+		String sql = prop.getProperty("selectNotAcceptParents");
+		
+		try {
+			stmt = con.createStatement();
+			
+			rset = stmt.executeQuery(sql);
+			
+			checkList = new ArrayList<>();
+			
+			while(rset.next()) {
+				m = new Member();
+				m.setMemberId(rset.getString(1));
+				checkList.add(m);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(stmt);
+		}
+		
+		return checkList;
+	}
+
 
 }

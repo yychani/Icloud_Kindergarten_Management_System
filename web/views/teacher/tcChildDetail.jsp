@@ -67,9 +67,6 @@
 		padding-right:0;
 		height: 300px;
 	}
-	.imgDetail {
-		width: 250px;
-	}
 	input[type='button'] {
 		width: 100px;
 		height: 40px;
@@ -88,50 +85,42 @@
  	<h1  align="center" style="text-decoration: underline; text-underline-position: under;"><%= ((Children) hmap.get("c")).getName() %> 상세정보</h1>
  	</div>
  	<hr width="60%" />
- 	<div class="outerDetail">  	
-		<div class="imgDetail" >
-		<img src="<%= request.getContextPath() %>/<%= ((Children) hmap.get("c")).getImgSrc() %>" alt=""/>
-		</div>
-	
-	<div class="detail" >
-		<table style="text-align:left; margin:0 auto; margin-top:40px;">
-			<tr>
-				<td>이름 : <%= ((Children) hmap.get("c")).getName() %></td>
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			<tr>
-				<td>반 : <%= ((Ban) hmap.get("b")).getBanName() %></td>
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			<tr>
-				<td>키 : <%= ((BodyInfo) hmap.get("bi")).getHeight() %>cm</td>
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			<tr>
-				<td>몸무게 : <%= ((BodyInfo) hmap.get("bi")).getWeight() %>kg</td>
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			<tr>
-				<td>특이사항 : <%= ((Children) hmap.get("c")).getDescription() %></td>
-			</tr>
-		</table>
-	</div>
-	<div class="detail">
-		<table style="text-align:left; margin:0 auto; margin-top:40px;">
-			<tr>
-				<td>부모님 이름 : <%= ((Member) hmap.get("m")).getMemberName() %></td>
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			<tr>
-				<td>관계 : <%= ((Member) hmap.get("m")).getUType() %></td>
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			<tr>
-				<td id="phone">연락처 : <%= ((Member) hmap.get("m")).getPhone() %></td>
-			</tr>
-		</table>
-	</div>
-	</div>
+ 	
+ 	
+ 	<div align="center">
+ 		<table class="ui celled table" style="width: 50%;" >
+ 			<tr style="text-align:center; background:#e3fad0">
+ 				<th style="width:33.3%; height:50px">사진</th>
+ 				<th style="width:33.3%; height:50px">아이 정보</th>
+ 				<th style="width:33.3%; height:50px">부모님 정보</th>
+ 			</tr>
+ 			<tr>
+ 				<td rowspan="6" style="border-right:1px solid rgba(34,36,38,.1)">
+					<img src="<%= request.getContextPath() %>/<%= ((Children) hmap.get("c")).getImgSrc() %>" alt=""/>
+				</td>
+ 			</tr>
+ 			<tr>
+ 				<td>이름 : <%= ((Children) hmap.get("c")).getName() %></td>
+ 				<td>부모님 이름 : <%= ((Member) hmap.get("m")).getMemberName() %></td>
+ 			</tr>
+ 			<tr>
+ 				<td>반 : <%= ((Ban) hmap.get("b")).getBanName() %></td>
+ 				<td>관계 : <%= ((Member) hmap.get("m")).getUType() %></td>
+ 			</tr>
+ 			<tr>
+ 				<td>키 : <%= ((BodyInfo) hmap.get("bi")).getHeight() %>cm</td>
+ 				<td id="phone">연락처 : <%= ((Member) hmap.get("m")).getPhone() %></td>
+ 			</tr>
+ 			<tr>
+ 				<td>몸무게 : <%= ((BodyInfo) hmap.get("bi")).getWeight() %>kg</td>
+ 				<td>&nbsp;</td>
+ 			</tr>
+ 			<tr>
+ 				<td>특이사항 : <%= ((Children) hmap.get("c")).getDescription() %></td>
+ 				<td>&nbsp;</td>
+ 			</tr>
+ 		</table>
+ 	</div>
 	<hr width="60%"/>
 	<div style="margin:0 20%; height:40px">
 		<input type="button" class="childbutton" value="생활기록부" onclick="location.href='<%= request.getContextPath() %>/selectChildRcBook.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>

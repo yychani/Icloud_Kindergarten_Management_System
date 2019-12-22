@@ -136,7 +136,7 @@
     </style>
 </head>
 
-<body style="overflow-x: hidden">
+<body style="overflow-x: hidden; overflow-y:hidden">
     <%@ include file="/views/common/teacherMenu.jsp"%>
     <div style="margin: 0 15%;">
         <h1 style="text-decoration: underline; text-underline-position: under;">투약 의뢰서 관리 페이지</h1>
@@ -149,7 +149,7 @@
 	        <option value="반려 이력">반려 이력</option>
 	    </select>
     </div>
-    <table id="table1" class="asTable ui celled table" >
+    <table id="table1" class="asTable ui celled table" style="text-align:center;">
         <tr id="applyTr" style="background: #e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
@@ -178,8 +178,8 @@
             <th></th>
         </tr>
     </table>
-    <table id="table2" hidden>
-        <tr id="applyTr">
+    <table id="table2" class="asTable ui celled table" style="text-align:center;" hidden >
+        <tr id="applyTr" style="background: #e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">증상</th>
@@ -203,11 +203,10 @@
             <th></th>
             <th></th>
             <th></th>
-            <th></th>
         </tr>
     </table>
-    <table id="table3" hidden>
-        <tr id="applyTr">
+     <table id="table3" class="asTable ui celled table" style="text-align:center;" hidden>
+        <tr id="applyTr" style="background: #e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">증상</th>
@@ -231,11 +230,10 @@
             <th></th>
             <th></th>
             <th></th>
-            <th></th>
         </tr>
     </table>
-    <table id="table4" hidden>
-        <tr id="applyTr">
+     <table id="table4" class="asTable ui celled table" style="text-align:center;" hidden>
+        <tr id="applyTr" style="background: #e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">증상</th>
@@ -258,8 +256,7 @@
             <th style="height: 30px;"></th>
             <th></th>
             <th></th>
-            <th></th>
-            <th></th>
+            <th></th> 
         </tr>
     </table>
     

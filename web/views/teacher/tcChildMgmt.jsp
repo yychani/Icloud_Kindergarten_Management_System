@@ -29,35 +29,38 @@
       }); 
 </script>
 <style>
-	.main {
-		text-align: center;
-		margin: 50 auto;
-	}
 	.list{
 		padding: 50px;
 	}
 	.no {
 		width: 100px !important;
 		height: 30px !important;
-		border-right: 1px solid black;
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
 	}
 	.name {
 		width: 700px !important;
 		height: 30px !important;
-		border-left: 1px solid black;
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
 	}
+	#tbarea {
+		width:60%;
+		margin: 0 20%;
+	}
+	#tb {
+		text-align: center;
+	}
+	a:link { color: black; text-decoration: none;}
+ 	a:visited { color: black; text-decoration: none;}
+ 	#tb a:hover { color: orangered !important;}
+
 </style>
 </head>
 <body> 
 	<%@ include file="/views/common/teacherMenu.jsp" %>
 	<div class="list">
 		<h1 align="center">해바라기반 원아 목록</h1>
-		<table class="main" align="center">
-			<tr style="background:lightgray">
+	</div>
+	<div id="tbarea">
+		<table id="tb" class="main ui celled table">
+			<tr style="background:#e3fad0; height:50px">
 				<th class="no">No.</th>
 				<th class="name">이름</th>
 			</tr>
