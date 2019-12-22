@@ -95,15 +95,17 @@ public class MemberService {
 
 	public int deleteTeacher(String userId) {
 		Connection con = getConnection();
-
+		int bcno = md.selectTeacherBcno(con, userId);
+		int result2 = md.deleteBanList(con, bcno);
 		int result = md.deleteTeacher(con, userId);
-		if (result > 0) {
+		int result3 = md.deleteTeacherM(con, userId);
+		if (result3 > 0) {
 			commit(con);
 		} else {
 			rollback(con);
 		}
 		close(con);
-		return result;
+		return result3;
 	}
 
 	public Member idCheck(String userId) {
@@ -1343,6 +1345,16 @@ public class MemberService {
 
 	}
 
+
+	public ArrayList<Children> selectChildrenBan(int i) {
+		Connection con = getConnection();
+		
+		ArrayList<Children> childrenBanList = new MemberDao().selectChildrenBan(con, i);
+		
+		close(con);
+		return childrenBanList;
+  	}
+
 	public ArrayList<Member> selectNotAcceptParents() {
 		Connection con = getConnection();
 		
@@ -1443,6 +1455,7 @@ public class MemberService {
 		close(con);
 		
 		return result;
+
 	}
 
 }

@@ -701,6 +701,7 @@ public class MemberDao {
 					MemberAndTeacher mt = new MemberAndTeacher();
 					mt.setMemberNo(rset.getInt("T_NO"));
 					mt.setMemberName(rset.getString("NAME"));
+					mt.setUType(rset.getString("HQ"));
 
 					list.add(mt);
 				}
@@ -3649,6 +3650,109 @@ public class MemberDao {
 
 	}
 
+
+	public int selectTeacherBcno(Connection con, String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int bcno = 0;
+		
+		String query = prop.getProperty("selectTeacherBcno");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				bcno = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return bcno;
+	}
+
+	public int deleteBanList(Connection con, int bcno) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = prop.getProperty("deleteBanList");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, bcno);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int deleteTeacherM(Connection con, String userId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = prop.getProperty("deleteTeacherM");
+
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, userId);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public ArrayList<Children> selectChildrenBan(Connection con, int i) {
+		ArrayList<Children> childBanList = null;
+		ResultSet rset = null;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("selectChildrenIntoBan");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, i);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset != null) {
+				childBanList = new ArrayList<>();
+				while(rset.next()) {
+					Children c = new Children();
+					
+					c.setBcNo(rset.getInt("B_NO"));
+					c.setPno(rset.getInt("P_NO"));
+					c.setName(rset.getString("C_NAME"));
+					c.setBloodType(rset.getString("HQ"));
+					
+					childBanList.add(c);
+				}
+       }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+      close(pstmt);
+			close(rset);
+		}
+		
+		return childBanList;
+	}
+
 	public ArrayList<Member> selectNotAcceptParents(Connection con) {
 		Statement stmt = null;
 		ResultSet rset = null;
@@ -3696,7 +3800,7 @@ public class MemberDao {
 			
 			if(rset.next()) {
 				userId = rset.getString(1);
-			}
+        }
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -3706,6 +3810,7 @@ public class MemberDao {
 		
 		return userId;
 	}
+
 
 	//귀가동의서 전체원아 요청
 	public int returnApply(Connection con, ReturnAgree returnAgree, int i) {
