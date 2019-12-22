@@ -24,17 +24,18 @@ public class LoginServlet extends HttpServlet {
 		ArrayList<Member> checkList = new MemberService().selectNotAcceptParents();
 		
 		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
+		Member requestMember = new Member();
+		requestMember.setMemberId(userId); 
+		requestMember.setMemberPwd(userPwd);
+		Member loginMember = new MemberService().loginMember(requestMember);
+		
 		for(int i = 0; i < checkList.size(); i++) {
-			if(checkList.get(i).getMemberId().equals(userId)) {
+			if(loginMember != null && checkList.get(i).getMemberId().equals(userId)) {
 				request.setAttribute("msg", "아직 승인되지 않은 계정입니다.");
 				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 				break;
 			} else if(i == checkList.size() - 1) {
-				String userPwd = request.getParameter("userPwd");
-				Member requestMember = new Member();
-				requestMember.setMemberId(userId); 
-				requestMember.setMemberPwd(userPwd);
-				Member loginMember = new MemberService().loginMember(requestMember);
 				
 				if(loginMember != null) {
 					request.getSession().setAttribute("loginMember", loginMember);

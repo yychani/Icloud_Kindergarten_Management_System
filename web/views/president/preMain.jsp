@@ -21,26 +21,33 @@
     #todoList tr td {
         padding: 15px 10px;
     }
-        th {
-            text-align: left;
-        }
-        input[type=text] {
-            border-radius: 10px;
-            border: 1px;
-            width: 300px;
-            height: 30px;
-        }
-        input[type=checkbox] {
-        	width: 15px;
-        	height: 15px;
-        	vertical-align: center;
-        }
-        .ui.labeled.icon.button>.icon:after, 
-        .ui.labeled.icon.button>.icon:before, 
-        .ui.labeled.icon.buttons>.button>.icon:after, 
-        .ui.labeled.icon.buttons>.button>.icon:before{
-    		top: 69% !important;
-    	}
+    th {
+        text-align: left;
+    }
+    input[type=text] {
+        border-radius: 10px;
+        border: 1px;
+        width: 300px;
+        height: 30px;
+    }
+    input[type=checkbox] {
+    	width: 15px;
+    	height: 15px;
+    	vertical-align: center;
+    }
+    .ui.labeled.icon.button>.icon:after, 
+    .ui.labeled.icon.button>.icon:before, 
+    .ui.labeled.icon.buttons>.button>.icon:after, 
+    .ui.labeled.icon.buttons>.button>.icon:before{
+		top: 69% !important;
+	}
+	#pwdChange {
+		top:25%;
+		left:27%;
+	}
+	.ui.small.modal {
+		width:730px !important;
+	}
     </style>
 <script>
 	$(document).ready(function(){
@@ -160,7 +167,71 @@
      		</div>
     	</div>
   	</div>
+  	
+  	
+  	<div class="ui small modal" id="pwdChange">
+	  <i class="close icon"></i>
+	  <div class="header">
+	    	비밀번호 변경
+	  </div>
+	  <div class="image content" style="display:inline-block; padding:1.25rem 1.5rem">
+    	<div class="ui input">
+    		<input type="hidden" name="rno" id="rno" value="<%= loginUser.getMemberRno() %>"/>
+	    	<span style="line-height: 37px;">변경할 비밀번호 : </span> &nbsp;&nbsp;
+	    	<input type="password" id="password" name="userPwd" /> &nbsp;&nbsp;
+	    	<span style="line-height: 37px;" id="pass1Check"></span>
+    	</div>
+	    <br />
+	    <br />
+	    <div class="ui input">
+	    	<span style="line-height: 37px;">비밀번호 확인 : </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    	<input type="password" id="passCheck" /> &nbsp;&nbsp;
+	    	<span style="line-height: 37px;" id="pass2Check"></span>
+	    </div>
+	  </div>
+	  <div class="actions">
+	    <div class="ui positive right labeled icon button" id="okbtn">
+	      	확인
+	      <i class="checkmark icon"></i>
+	    </div>
+	  </div>
+	</div>
+  	
+  	
     <script>
+	    $(document).ready(function(){
+	        $("#passCheck").keypress(function (e) {
+	         	if (e.which == 13){
+	         		$('#pwdChange').modal('hide');
+	         		updatePwd();
+	         	}
+	     	});
+	 	});
+    
+	    $("#okbtn").click(function() {
+	    	updatePwd();
+	    });
+	    
+	    function updatePwd() {
+	    	$.ajax({
+	    		url:"<%= request.getContextPath() %>/updatePwd.me",
+	    		type:"post",
+	    		data: {
+	    			mno:<%= loginUser.getMemberNo() %>,
+	    			rno:$("#rno").val(),
+	    			userPwd:$("#password").val()
+	    		},
+	    		success:function(data) {
+	    			if(data == 't') {
+						alert("변경완료");
+					}
+	    		},
+	    		error:function() {
+	    			console.log("실패")
+	    		}
+	    	});
+	    }
+	    
     	$(function(){
             $("#edit").click(function() {
                 $("#ok").attr("type", "button");
@@ -230,6 +301,36 @@
     <%@ include file="/views/common/chat.jsp" %> 
     
     <script>
+    $(function() {
+    	if(<%= loginUser.getMemberRno().endsWith("~") %>) {
+    		alert("임시 비밀번호로 로그인 하셨습니다.\n비밀번호를 변경해주세요.");
+    		$('#pwdChange').modal('show');
+    	}
+    });
+    
+    var pattern1 = /[0-9]/; // 숫자 
+	var pattern2 = /[a-zA-Z]/; // 문자 
+	var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자
+
+	$("#password").keyup(function(){
+		if (!pattern1.test($('#password').val()) || !pattern2.test($('#password').val()) || !pattern3.test($('#password').val()) || $("#password").val().length <= 8) {
+			$("#pass1Check").css({"color":"tomato"},{"height":"30px"});
+			$("#pass1Check").html("비밀번호는 8자리 이상 문자, 숫자, 특수문자로 구성하여야 합니다.");	
+		} else {
+			$("#pass1Check").css({"color":"green"});
+			$("#pass1Check").html("사용가능한 비밀번호 입니다.");	
+		} 
+	});
+	
+	$("#passCheck").keyup(function(){
+		if ($('#password').val() == $('#passCheck').val()) {
+			$("#pass2Check").css({"color":"green"});
+			$("#pass2Check").html("비밀번호가 일치합니다.");	
+		} else {
+			$("#pass2Check").css({"color":"tomato"});
+			$("#pass2Check").html("비밀번호가 일치하지 않습니다.");	
+		}
+	});
     
     $(function(){
 		getTodoListTimeCheck();

@@ -1353,4 +1353,39 @@ public class MemberService {
 		return checkList;
 	}
 
+	public String findUserId(String userName, String userEmail) {
+		Connection con = getConnection();
+		
+		String userId = new MemberDao().findUserId(con, userName, userEmail);
+		
+		close(con);
+		
+		return userId;
+	}
+
+	public Member findUserPwd(Member requestMember) {
+		Connection con = getConnection();
+		
+		Member findMember = new MemberDao().findUserPwd(con, requestMember);
+		
+		close(con);
+		
+		return findMember;
+	}
+
+	public int updateMemberPwd(int mno, String check, String userRno) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().updateMemberPwd(con, mno, check, userRno);
+		
+		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
 }

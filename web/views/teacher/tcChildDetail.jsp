@@ -81,10 +81,9 @@
 </head>
 <body> 
 	<%@ include file="/views/common/teacherMenu.jsp" %>
-	<div style="margin: 0 15%;">
- 	<h1  align="center" style="text-decoration: underline; text-underline-position: under;"><%= ((Children) hmap.get("c")).getName() %> 상세정보</h1>
+	<div style="margin: 50px 15%;">
+ 		<h1  align="center"><%= ((Children) hmap.get("c")).getName() %> 상세정보</h1>
  	</div>
- 	<hr width="60%" />
  	
  	
  	<div align="center">
@@ -121,8 +120,7 @@
  			</tr>
  		</table>
  	</div>
-	<hr width="60%"/>
-	<div style="margin:0 20%; height:40px">
+	<div style="margin:10px 20%; height:40px">
 		<input type="button" class="childbutton" value="생활기록부" onclick="location.href='<%= request.getContextPath() %>/selectChildRcBook.me?cid=<%= ((Children) hmap.get("c")).getCId() %>'"/>
 		<p class="childbutton">&nbsp;&nbsp;</p>
 		<input type="button" class="childbutton" value="유아관찰표" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildObserve.jsp?cid=<%= ((Children) hmap.get("c")).getCId() %>&age=3'"/>

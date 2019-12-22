@@ -101,7 +101,7 @@
         
         .ui.basic.modal {
         	top:35%;
-        	left:25%;
+        	left:20%;
         }
     </style>
 </head>
