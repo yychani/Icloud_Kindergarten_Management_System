@@ -1353,4 +1353,67 @@ public class MemberService {
 		return checkList;
 	}
 
+	//귀가동의서 전체원아 요청
+	public int returnApply(ArrayList<ReturnAgree> rList) {
+		Connection con = getConnection();
+		int result = 0;
+		
+		for(int i = 0; i < rList.size(); i++) {
+			result += md.returnApply(con, rList.get(i), i);
+		}
+		if(result == rList.size()) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	public int insertFtlApply(String[] splitl) {
+		Connection con = getConnection();
+		int result = 0;
+		//현장체험학습 MAX값 가져오기
+		int ftlMax = new MemberDao().selectFtl(con);
+		System.out.println(ftlMax);
+		//insert
+		for(int i = 0; i < splitl.length; i++) {
+			int cId = Integer.parseInt(splitl[i]);
+			
+			result += md.insertFtlApply(con, cId, ftlMax);
+		}
+		if(result == splitl.length) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
+	public int asRequest(String[] splitl) {
+		Connection con = getConnection();
+		int result = 0;
+		
+		for(int i = 0; i < splitl.length; i++) {
+			int cId = Integer.parseInt(splitl[i]);
+			
+			result += md.asRequest(con, cId);
+		}
+		
+		if(result == splitl.length) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
+
 }

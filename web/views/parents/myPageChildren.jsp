@@ -139,6 +139,7 @@ tr {
 						<td colspan="3"><div class="ui fluid icon input">
 								<input type="text" name="description" id="description"
 									readonly>
+									<input type="hidden" name="cId" id="cId">
 							</div></td>
 					</tr>
 				</table>
