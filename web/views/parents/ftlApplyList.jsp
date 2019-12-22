@@ -18,6 +18,8 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 	
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+	
 <style>
 .accordion {
 	background-color: rgb(255, 255, 255);
@@ -59,6 +61,9 @@ tr{
     font-size: 15px;
     font-weight:bold;
     color: rgb(209, 57, 57)
+}
+#list{
+font-family: 'Noto Sans KR', sans-serif;
 }
 </style>	
 	
@@ -103,7 +108,7 @@ tr{
 		%>
 
 		<button class="accordion"> 일자 :  <%= ((ArrayList<FieldLearning>)hmap.get("flList")).get(i).getFtlDate() %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;원아명 : <%= ((ArrayList<Children>)hmap.get("cList")).get(i).getName() %></button>
-		<div class="panel">
+		<div class="panel" id="list">
 			<table align="center" class="goHomeTable">
 				<tr>
 					<td><label>일자 : </label></td>

@@ -38,22 +38,38 @@ public class ParentFtlApplyServlet extends HttpServlet {
 		
 		if(cId.contains("/")) {
 			String[] split = cId.split("/");
-			String[] splitl = new String[split.length];
+			String[] cIdString = new String[split.length];
 			for (int i = 0; i < split.length; i++) {
-				splitl[i] = split[i];
-				System.out.println(splitl[i]);
+				cIdString[i] = split[i];
 			}
 
-			if(splitl != null) {
-				int result = new MemberService().insertFtlApply(splitl);
+			if(cIdString != null) {
+				// 이미 신청했는지 확인
+				int check1 = 0;
+				for(int i = 0; i < cIdString.length; i++) {
+					int cid = Integer.parseInt(cIdString[i]);
+					check1 += new MemberService().checkFtlApply(cid);
+				}
 				
-				if(result == splitl.length) {
-					response.sendRedirect("views/common/successPage.jsp?successCode=13");
+				if(check1 == 0) {
+					//신청이력 없으면 신청
+					int result = new MemberService().insertFtlApply(cIdString);
+					
+					if(result == cIdString.length) {
+						response.sendRedirect("views/common/successPage.jsp?successCode=13");
+					} else {
+						page = "views/common/errorPage.jsp";
+						request.setAttribute("msg", "현장학습 신청 에러");
+						request.getRequestDispatcher(page).forward(request, response);
+					}
 				} else {
+					//신청이력 존재
 					page = "views/common/errorPage.jsp";
-					request.setAttribute("msg", "현장학습 신청 에러");
+					request.setAttribute("msg", "신청 이력이 존재하는 원아가 있습니다. 이력확인 후 다시 신청해주세요.");
 					request.getRequestDispatcher(page).forward(request, response);
 				}
+				
+				
 			}
 			
 		} else {

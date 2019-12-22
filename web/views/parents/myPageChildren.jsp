@@ -286,7 +286,7 @@ function childInfoChange(){
 	console.log("아이정보 변경 버튼 클릭");
 	/* readonly 해제 */
 	$('input').removeAttr("readonly");
-	$('input').css("border-color","rgb(140, 201, 240)");
+	$('input').css("background","rgba(204, 255, 115, 0.102)");
 	
 	$("#divSubmitBtn").show();
 	console.log($("#cNameSelect").val());
