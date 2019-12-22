@@ -3397,7 +3397,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 
 
 	//모든걸로 글 찾기
-	public ArrayList<Board> searchAll(Connection con, String text1, String selected, int bdid, int currentPage, int limit) {
+	public ArrayList<Board> searchAll(Connection con, String text1, String selected, int bdid, int currentPage, int limit, int user) {
 		PreparedStatement pstmt= null;
 		ResultSet rset = null;
 		ArrayList<Board> list = null;
@@ -3425,7 +3425,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
 				b.setPno(rset.getInt("RNUM1"));
-				
+				b.setTwriter(user);
 				list.add(b);
 			}
 		} catch (SQLException e) {
@@ -3441,7 +3441,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 	}
 
 	//제목으로 글찾기
-	public ArrayList<Board> searchTitle(Connection con, String text1, int bdid, int currentPage, int limit) {
+	public ArrayList<Board> searchTitle(Connection con, String text1, int bdid, int currentPage, int limit, int user) {
 		PreparedStatement pstmt = null;
 		ArrayList<Board> list = null;
 		ResultSet rset = null;
@@ -3467,6 +3467,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
 				b.setPno(rset.getInt("RNUM1"));
+				b.setTwriter(user);
 				
 				list.add(b);
 			}
@@ -3482,7 +3483,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 	}
 
 	//이름으로 글찾기
-	public ArrayList<Board> searchName(String text1,Connection con, String selected, int bdid, int currentPage, int limit) {
+	public ArrayList<Board> searchName(String text1,Connection con, String selected, int bdid, int currentPage, int limit, int user) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Board> list = null;
@@ -3496,8 +3497,8 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 			
 			pstmt.setInt(1, bdid);
 			pstmt.setString(2, text1);
-			pstmt.setInt(4, startRow);
-			pstmt.setInt(5, endRow);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
 			
 			rset = pstmt.executeQuery();
 			list = new ArrayList<>();
@@ -3509,7 +3510,7 @@ public ArrayList<Attachment> selectOnePreHBoardImg(Connection con, int num) {
 				b.setTcount(rset.getInt("T_COUNT"));
 				b.setTtime(rset.getDate("T_TIME"));
 				b.setPno(rset.getInt("RNUM1"));
-				
+				b.setTwriter(user);
 				list.add(b);
 			}
 		} catch (SQLException e) {
