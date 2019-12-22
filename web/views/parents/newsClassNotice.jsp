@@ -1,8 +1,9 @@
 <%@page import="com.oracle5.common.model.vo.PageInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"  import="java.util.ArrayList, com.oracle5.board.model.vo.Board"%>
+    pageEncoding="UTF-8"  import="java.util.ArrayList, com.oracle5.board.model.vo.Board, com.oracle5.member.model.vo.Children"%>
     
      <% 
+     	
     	ArrayList<Board> list = (ArrayList<Board>) request.getAttribute("list");
      	PageInfo pi = (PageInfo) request.getAttribute("pi");
      	int currentPage = pi.getCurrentPage();
@@ -137,9 +138,10 @@ input[type='button'] {
 				</tr>
 			</thead>
 			<tbody id="tbodyArea"> 
-			<%for(Board b : list) { %>
+			<%for(Board b : list) { %> 
 				<tr>
-					<td id="no"><%=b.getPno() %><input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>"></td>
+					<td id="no"><%=b.getTid() %><input type="hidden" name="tid" id="tid" value="<%=b.getTid() %>">
+					<input type="hidden" name="pno" id="pno" value="<%=b.getPno()%>"></td>
 					<td id="title"><%=b.getTtitle() %></td>
                     <td id="writer"><%=b.getName()%></td>
                     <td id="count"><%=b.getTcount() %></td>
@@ -149,9 +151,8 @@ input[type='button'] {
 				
 			</tbody>
 		</table>
-		
-		<div style="width:fit-content; margin: auto">
-		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=startPage%>">처음</button>
+	<div style="width: fit-content; margin: auto">
+		<button style="width: 50px; height: 30px;" onclick="<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=startPage%>">처음</button>
 		<%
 			if(currentPage <= 1){
 		%>

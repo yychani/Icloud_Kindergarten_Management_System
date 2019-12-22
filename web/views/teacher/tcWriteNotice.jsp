@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.oracle5.board.model.vo.Board"%>
+    
+<%  
+ 	Board b = (Board) request.getAttribute("b");
+ 
+  %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,11 +57,10 @@ textarea {
 	<div style="margin: 0 15%;">
  	<h1 style="text-decoration: underline; text-underline-position: under;">반 공지사항 작성</h1>
  	</div>
- 	<form action="<%= request.getContextPath() %>/insertNotice.ban" method="post" encType="multipart/form-data">
- 	<%@ include file="/views/common/boardWrite.jsp" %>
-	
- 	</form>
  	
+ 	<form action="<%= request.getContextPath() %>/insertNotice.ban?tno=<%=loginUser.getMemberNo() %>" method="post" encType="multipart/form-data">
+ 	<%@ include file="/views/common/boardWrite.jsp" %>
+ 	</form>
     <%@ include file="/views/common/footer.jsp" %>
     <%@ include file="/views/common/chat.jsp" %>
 </body>
