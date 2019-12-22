@@ -3679,6 +3679,34 @@ public class MemberDao {
 		return checkList;
 	}
 
+
+	public String findUserId(Connection con, String userName, String userEmail) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String userId = null;
+		
+		String sql = prop.getProperty("findUserId");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, userEmail);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				userId = rset.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return userId;
+	}
+
 	//귀가동의서 전체원아 요청
 	public int returnApply(Connection con, ReturnAgree returnAgree, int i) {
 		PreparedStatement pstmt = null;
@@ -3706,4 +3734,68 @@ public class MemberDao {
 	}
 
 
+	public Member findUserPwd(Connection con, Member requestMember) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Member findMember = null;
+		
+		String sql = prop.getProperty("findUserPwd");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, requestMember.getMemberId());
+			pstmt.setString(2, requestMember.getMemberName());
+			pstmt.setString(3, requestMember.getEmail());
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				findMember = new Member();
+				
+				findMember.setMemberNo(rset.getInt("M_NO"));
+				findMember.setMemberId(rset.getString("ID"));
+				findMember.setMemberPwd(rset.getString("PWD"));
+				findMember.setMemberRno(rset.getString("RNO"));
+				findMember.setUType(rset.getString("TYPE"));
+				findMember.setEmail(rset.getString("EMAIL"));
+				findMember.setPhone(rset.getString("PHONE"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return findMember;
+	}
+
+	public int updateMemberPwd(Connection con, int mno, String check, String userRno) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String rno = "";
+		
+		if(userRno.endsWith("~")) {
+			rno = userRno.substring(0, userRno.lastIndexOf("~"));
+		} else {
+			rno = userRno + "~";
+		}
+		
+		String sql = prop.getProperty("updateMemberPwd");
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, check);
+			pstmt.setString(2, rno);
+			pstmt.setInt(3, mno);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 }

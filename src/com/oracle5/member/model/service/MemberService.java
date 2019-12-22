@@ -1353,6 +1353,34 @@ public class MemberService {
 		return checkList;
 	}
 
+
+	public String findUserId(String userName, String userEmail) {
+		Connection con = getConnection();
+		
+		String userId = new MemberDao().findUserId(con, userName, userEmail);
+		
+		close(con);
+		
+		return userId;
+	}
+
+	public Member findUserPwd(Member requestMember) {
+		Connection con = getConnection();
+		
+		Member findMember = new MemberDao().findUserPwd(con, requestMember);
+		
+		close(con);
+		
+		return findMember;
+	}
+
+	public int updateMemberPwd(int mno, String check, String userRno) {
+		Connection con = getConnection();
+		
+		int result = new MemberDao().updateMemberPwd(con, mno, check, userRno);
+		
+		if(result > 0) {
+
 	//귀가동의서 전체원아 요청
 	public int returnApply(ArrayList<ReturnAgree> rList) {
 		Connection con = getConnection();
@@ -1406,6 +1434,7 @@ public class MemberService {
 		}
 		
 		if(result == splitl.length) {
+
 			commit(con);
 		} else {
 			rollback(con);

@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.net.InetAddress"%>
-<% InetAddress inet = InetAddress.getLocalHost();
-		String svrIP = inet.getHostAddress();
-		int svrPort = request.getServerPort();%>
+<% 
+	InetAddress inet = InetAddress.getLocalHost();
+	String svrIP = inet.getHostAddress();
+	int svrPort = request.getServerPort();
+%>
 <!DOCTYPE html>
 <html>
 
@@ -67,7 +69,7 @@
 						style="width: 20px; height: 20px;"><label for="remember">아이디기억</label></td>
 			</tr>
 			<tr>
-				<td colspan="2" style="padding: 10px 0;"><a href="">아이디나
+				<td colspan="2" style="padding: 10px 0;"><a href="findId.jsp">아이디나
 						비밀번호가 생각나지 않으십니까?</a></td>
 			</tr>
 			
@@ -79,6 +81,14 @@
 		
 	</form>
 	<%@ include file="/views/common/footer.jsp" %>
+	
+	<script>
+		<% if(request.getParameter("e") != null) { %>
+			$(function() {
+				alert("임시 비밀번호를 이메일로 발송하였습니다.");
+			});
+		<% } %>
+	</script>
 </body>
 
 </html>

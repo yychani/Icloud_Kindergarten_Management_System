@@ -48,6 +48,16 @@
 	#infotable td>input {
 		height: 30px;
 	}
+	#pwdChange {
+		top:25%;
+		left:27%;
+	}
+	.ui.small.modal {
+		width:730px !important;
+	}
+	.ui.labeled.icon.button>.icon:before {
+		top: 67% !important; 
+	}
 </style>
 </head>
 <body> 
@@ -134,11 +144,82 @@
   		</div>
 	</div>
 
+	<div class="ui small modal" id="pwdChange">
+	  <i class="close icon"></i>
+	  <div class="header">
+	    	비밀번호 변경
+	  </div>
+	  <div class="image content" style="display:inline-block; padding:1.25rem 1.5rem">
+    	<div class="ui input">
+    		<input type="hidden" name="rno" id="rno" value="<%= loginUser.getMemberRno() %>"/>
+	    	<span style="line-height: 37px;">변경할 비밀번호 : </span> &nbsp;&nbsp;
+	    	<input type="password" id="password1" name="userPwd" /> &nbsp;&nbsp;
+	    	<span style="line-height: 37px;" id="pass1Check1"></span>
+    	</div>
+	    <br />
+	    <br />
+	    <div class="ui input">
+	    	<span style="line-height: 37px;">비밀번호 확인 : </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    	<input type="password" id="passCheck1" /> &nbsp;&nbsp;
+	    	<span style="line-height: 37px;" id="pass2Check1"></span>
+	    </div>
+	  </div>
+	  <div class="actions">
+	    <div class="ui positive right labeled icon button" id="okbtn">
+	      	확인
+	      <i class="checkmark icon"></i>
+	    </div>
+	  </div>
+	</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
-	<script>
+	<script> 
+    $(function() {
+    	if('<%= loginUser.getMemberRno() %>' != 'null' && <%= loginUser.getMemberRno().endsWith("~") %>) {
+    		alert("임시 비밀번호로 로그인 하셨습니다.\n비밀번호를 변경해주세요.");
+    		$('#pwdChange').modal('show');
+    	}
+    });
+     
+	 $(document).ready(function(){
+        $("#passCheck1").keypress(function (e) {
+         	if (e.which == 13){
+         		$('#pwdChange').modal('hide');
+         		updatePwd();
+         	}
+     	});
+ 	});
+ 
+    $("#okbtn").click(function() {
+    	updatePwd();
+    });
+    
+    function updatePwd() {
+    	var rno = $("#rno").val();
+    	$.ajax({
+    		url:"<%= request.getContextPath() %>/updatePwd.me",
+    		type:"post",
+    		data: {
+    			mno:<%= loginUser.getMemberNo() %>,
+    			rno:rno,
+    			userPwd:$("#password1").val()
+    		},
+    		success:function(data) {
+    			if(data == 't') {
+    	console.log(rno);
+    				alert("변경완료")
+    			}
+    		},
+    		error:function() {
+    			console.log("실패")
+    		}
+    	});
+    }
+    
+    
 	$(function(){
-		if(<%= loginUser.getMemberRno() %> == null) {
+		if('<%= loginUser.getMemberRno() %>' == 'null') {
 			$('.fullscreen.modal').modal('show');
 		}
 	});
@@ -172,6 +253,26 @@
 		} else {
 			$("#pass2Check").css({"color":"tomato"});
 			$("#pass2Check").html("비밀번호가 일치하지 않습니다.");	
+		}
+	});
+	
+	$("#password1").keyup(function(){
+		if (!pattern1.test($('#password1').val()) || !pattern2.test($('#password1').val()) || !pattern3.test($('#password1').val()) || $("#password1").val().length <= 8) {
+			$("#pass1Check1").css({"color":"tomato"},{"height":"30px"});
+			$("#pass1Check1").html("비밀번호는 8자리 이상 문자, 숫자, 특수문자로 구성하여야 합니다.");	
+		} else {
+			$("#pass1Check1").css({"color":"green"});
+			$("#pass1Check1").html("사용가능한 비밀번호 입니다.");	
+		} 
+	});
+	
+	$("#passCheck1").keyup(function(){
+		if ($('#password1').val() == $('#passCheck1').val()) {
+			$("#pass2Check1").css({"color":"green"});
+			$("#pass2Check1").html("비밀번호가 일치합니다.");	
+		} else {
+			$("#pass2Check1").css({"color":"tomato"});
+			$("#pass2Check1").html("비밀번호가 일치하지 않습니다.");	
 		}
 	});
 	
