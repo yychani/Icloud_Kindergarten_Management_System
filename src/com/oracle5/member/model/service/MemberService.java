@@ -1392,6 +1392,15 @@ public class MemberService {
 		int result = new MemberDao().updateMemberPwd(con, mno, check, userRno);
 		
 		if(result > 0) {
+			commit(con);
+		} else {
+			rollback(con);
+		}
+		
+		close(con);
+		
+		return result;
+	}
 
 	//귀가동의서 전체원아 요청
 	public int returnApply(ArrayList<ReturnAgree> rList) {
