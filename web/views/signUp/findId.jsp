@@ -116,7 +116,7 @@
 					},
 					success:function(data) {
 						if(data != null){
-							data = data.replace(data.charAt(data.length / 2), "*");
+							data = data.replace(/(?<=.{1})./gi, "*");
 							$("#content").text(data);
 							$("#succesbtn").show();
 						} else {
