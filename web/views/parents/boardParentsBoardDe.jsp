@@ -129,7 +129,6 @@ function getReply(){
 			var rid = 0;
 			var rid2 = 0;
 			
-			console.log(data);
 			for(var key in data) {
 				if(data[key].refrid == 0){
 					var $contentDiv = $("<div class='content'>");
@@ -164,12 +163,12 @@ function getReply(){
 					
 					$(".rereArea").hide();
 					rid = data[key].rid;
-					console.log("rid123 : " + rid);
+					//console.log("rid123 : " + rid);
 				}
 				else {
 					//for(var key2 in data){
 						//console.log(index++);
-					console.log(data[key].rid);
+					//console.log(data[key].rid);
 					if(rid == data[key].refrid && rid != rid2){
 						var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
 						
@@ -308,7 +307,6 @@ $(document).on("click", "#rereBtn", function() {
 	var content = $(this).parent().find("input").val();
 
 	var refrid = $(this).parent().prev().prev().find("input").val();
-	console.log(refrid);
 	
 	$.ajax({
 			url:"/main/preHBoardInsertReReply.bo",
@@ -318,6 +316,7 @@ $(document).on("click", "#rereBtn", function() {
 					refrid:refrid},
 			type:"post",
 			success:function(data){
+				console.log(data);
 				var $content = $("#rplycontent");
 				var rid2 = 0;
 				$content.text("");
@@ -357,12 +356,12 @@ $(document).on("click", "#rereBtn", function() {
 						
 						$(".rereArea").hide();
 						rid = data[key].rid;
-						console.log("rid123 : " + rid);
+						//console.log("rid123 : " + rid);
 					}
 					else {
 						//for(var key2 in data){
 							//console.log(index++);
-						console.log(data[key].rid);
+						//console.log(data[key].rid);
 						if(rid == data[key].refrid && rid != rid2){
 							var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
 							
