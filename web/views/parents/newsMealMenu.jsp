@@ -110,11 +110,17 @@
 		border: none;
 		cursor: pointer;
 	}
+	body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
     </style>
 </head>
 
 <body style="overflow-x: hidden">
     <%@ include file="/views/common/parentsMenu.jsp"%>
+       <div style="margin: 0 15%;">
+        <h1 style="text-decoration: underline; text-underline-position: under;">식단표</h1>
+    </div>
     <%@ include file="/views/common/dietTable.jsp" %>
     <script>
       $(function() {
@@ -134,9 +140,7 @@
       }); 
 </script>
     
-    <div style="margin: 0 15%;">
-        <h1 style="text-decoration: underline; text-underline-position: under;">식단표</h1>
-    </div>
+ 
    <div>
    		
    </div>

@@ -17,7 +17,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>원 공지 사항</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script
@@ -128,7 +128,7 @@ input[type='button'] {
 </head>
 <body style="overflow-x: hidden">
 
-	<%@ include file="/views/common/teacherMenu.jsp"%>
+	<%@ include file="/views/common/presidentMenu.jsp"%>
 
 	<div style="margin: 0 15%;">
 		<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항</h1>
@@ -151,14 +151,14 @@ input[type='button'] {
 					<td id="title"><%=b.getTtitle() %></td>
                     <td id="writer"><%=b.getName() %></td>
                     <td id="count"><%=b.getTcount() %></td>
-					<td id="date"><%=b.getTtime() %></td>
+					<td id="date"><%=b.getTtime() %><input type="hidden" id="bdid" value="<%=b.getBdid() %>"></td>
 				</tr>
 				<%} %>
 				
 			</tbody>
 		</table>
 		
-		<div style="width:fit-content; margin: auto">
+		<div style="width:fit-content; margin: auto" id="paging">
 		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=startPage%>">처음</button>
 		<%
 			if(currentPage <= 1){
@@ -203,12 +203,12 @@ input[type='button'] {
 				onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
 		<br>
-		<form action="<%=request.getContextPath()%>/searchPreKNotice.bo" method="post" onsubmit="return check();">
+		<form name="search" action="<%=request.getContextPath()%>/searchPreKNotice.bo" method="post" onsubmit="return check();">
         <div id="searchArea">
-                <div class="ui action input">
-  					<input type="text" id="cont" name="text1" placeholder="Search..." style="width:170px; height:45px;">
+                 <div class="ui action input">
+  					<input type="text" name="text1" id="cont" placeholder="Search..." style="width:170px; height:45px;">
   					<input type="hidden" name="bdid" value="3">
-  					<input type="hidden" name="user" value="2">
+  					<input type="hidden" name="user" value="3">
  				    <select class="ui compact selection dropdown" name="select" style="height:45px;">
     				<option selected="" value="all">전체</option>
    				 	<option value="title1">제목</option>
@@ -216,9 +216,9 @@ input[type='button'] {
   					</select>
   					<button class="ui button" type="submit">찾기</button>
 				</div>
-        </div> 
-        </form>
-              <%if((loginUser.getMemberId()).equals("admin")){ %>
+        </div>
+        </form> 
+              <%if((loginUser.getMemberId()).equals("admin")) {%>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
               <%} %>
 	</div>
@@ -228,21 +228,19 @@ input[type='button'] {
 	<%@ include file="/views/common/chat.jsp"%>
 	
 	<script>
-	$(function() {
-		  $(".li:nth-child(1)").addClass("on");
-		  
-	    $(".topMenuLi:nth-child(1)").addClass("on");
-	   
-	    $(".topMenuLi").mouseover(function() {
-	      $(".li:nth-child(1)").removeClass("on");
-	      $(".topMenuLi:nth-child(1)").removeClass("on");
-	   });
-	  
-	    $(".topMenuLi").mouseleave(function() {
-	      $(".li:nth-child(1)").addClass("on");
-	      $(".topMenuLi:nth-child(1)").addClass("on");
-	   });
-	}); 
+		$(function() {
+			$(".li1").addClass("on");
+			$(".topMenuLi:nth-child(1)").addClass("on");
+
+			$(".topMenuLi").mouseover(function() {
+				$(".li1").removeClass("on");
+				$(".topMenuLi:nth-child(1)").removeClass("on");
+			});
+			$(".topMenuLi").mouseleave(function() {
+				$(".li1").addClass("on");
+				$(".topMenuLi:nth-child(1)").addClass("on");
+			});
+		}); 
 		
 		$(function(){
 			$(".writing").click(function(){
@@ -258,6 +256,7 @@ input[type='button'] {
 				location.href="<%=request.getContextPath()%>/selectOnePreKNotice.bo?num="+num;
 			});
 		});
+		
 		function check(){
 			if($("#cont").val() == ""){
 				alert("검색할 내용을 입력하세요.");

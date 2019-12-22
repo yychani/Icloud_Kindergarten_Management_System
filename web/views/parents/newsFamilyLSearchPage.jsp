@@ -27,18 +27,19 @@
 $(function() {
 	  $(".li:nth-child(5)").addClass("on");
 	  
-    $(".topMenuLi:nth-child(1)").addClass("on");
+    $(".topMenuLi:nth-child(2)").addClass("on");
    
     $(".topMenuLi").mouseover(function() {
       $(".li:nth-child(5)").removeClass("on");
-      $(".topMenuLi:nth-child(1)").removeClass("on");
+      $(".topMenuLi:nth-child(2)").removeClass("on");
    });
   
     $(".topMenuLi").mouseleave(function() {
       $(".li:nth-child(5)").addClass("on");
-      $(".topMenuLi:nth-child(1)").addClass("on");
+      $(".topMenuLi:nth-child(2)").addClass("on");
    });
 }); 
+
 </script>
 <style>
  .writing > button {
@@ -122,7 +123,7 @@ input[type='button'] {
 </style>
 </head>
 <body>
- 	<%@ include file="/views/common/teacherMenu.jsp" %>
+ 	<%@ include file="/views/common/parentsMenu.jsp" %>
  	<div style="margin: 0 15%;">
  	<h1 style="text-decoration: underline; text-underline-position: under;">가정통신문</h1>
  	</div>
@@ -192,12 +193,13 @@ input[type='button'] {
 			<button style="width: 60px; height: 30px;"
 				onclick="location.href='<%=request.getContextPath()%>/selectFLetterList.tbo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
-		<form action="<%=request.getContextPath()%>/searchFamilyLetter.bo" method="post" onsubmit="return check();">
 		 <div id="searchArea">
-               <div class="ui action input">
+              <form action="<%=request.getContextPath()%>/searchFamilyLetter.bo" method="post" onsubmit="return check();">
+        <div id="searchArea">
+                <div class="ui action input">
   					<input type="text" id="cont" name="text1" placeholder="Search..." style="width:170px; height:45px;">
   					<input type="hidden" name="bdid" value="2">
-  					<input type="hidden" name="user" value="2">
+  					<input type="hidden" name="user" value="3">
  				    <select class="ui compact selection dropdown" name="select" style="height:45px;">
     				<option selected="" value="all">전체</option>
    				 	<option value="title1">제목</option>
@@ -205,21 +207,20 @@ input[type='button'] {
   					</select>
   					<button class="ui button" type="submit">찾기</button>
 				</div>
-              
+        </div> 
+        </form>              
+              <%if(loginUser.getUType().equals("교사")) {%>
+              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
+              <%} %>
+        
               
         </div> 
-        </form>
-              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
 	</div>
 	
 
 
     <script>
-    $(function(){
-    	$(".writing").click(function(){
-    		location.href="./views/teacher/tcWriteFamilyLetter.jsp";
-    	});
-    });
+
     
     $(function(){
     	$("#tableArea td").click(function(){
@@ -230,7 +231,7 @@ input[type='button'] {
     	});
     	
     });
-   
+    
     function check(){
 		if($("#cont").val() == ""){
 			alert("검색할 내용을 입력하세요.");

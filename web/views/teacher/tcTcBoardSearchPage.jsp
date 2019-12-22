@@ -1,6 +1,8 @@
+<%@page import="com.oracle5.board.model.vo.Board"%>
 <%@page import="com.oracle5.common.model.vo.PageInfo"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.ArrayList, com.oracle5.board.model.vo.Board"%>
+	pageEncoding="UTF-8"%>
 	<%
 		ArrayList<Board> list = (ArrayList<Board>) request.getAttribute("list");
 		PageInfo pi = (PageInfo) request.getAttribute("pi");
@@ -10,14 +12,13 @@
 		int maxPage = pi.getMaxPage();
 		int startPage = pi.getStartPage();
 		int endPage = pi.getEndPage();
-		
 	%>
 <!DOCTYPE html>
 <html>
 
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>선생님 게시판</title>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script
@@ -25,18 +26,7 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 <style>
-input[type=text] {
-	border-radius: 10px;
-	width: 300px;
-	height: 30px;
-}
-
-input[type=checkbox] {
-	width: 15px;
-	height: 15px;
-	vertical-align: center;
-}
-	button {
+button {
 		width: 80px;
 		height: 40px;
 		border-radius: 10px;
@@ -124,14 +114,39 @@ input[type='button'] {
       cursor: pointer;
      background: rgba(245, 245, 245, 0.802);
      }
+
+input[type=text] {
+	border-radius: 10px;
+	width: 300px;
+	height: 30px;
+}
+
+td {
+	padding: 0px 0px;
+	padding-left: 0;
+}
+
+input[type=checkbox] {
+	width: 15px;
+	height: 15px;
+	vertical-align: center;
+}
+	button {
+		width: 80px;
+		height: 40px;
+		border-radius: 10px;
+		background: rgb(63, 63, 63);
+		color: white;
+		font-weight: bold;
+		border: none;
+		cursor: pointer;
+	}
 </style>
 </head>
 <body style="overflow-x: hidden">
-
 	<%@ include file="/views/common/teacherMenu.jsp"%>
-
 	<div style="margin: 0 15%;">
-		<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항</h1>
+		<h1 style="text-decoration: underline; text-underline-position: under;">선생님 게시판</h1>
     </div>
     <div id="outBox">
 		<table class="ui celled table boardTable" id="tableArea">
@@ -159,7 +174,7 @@ input[type='button'] {
 		</table>
 		
 		<div style="width:fit-content; margin: auto">
-		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=startPage%>">처음</button>
+		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=startPage%>">처음</button>
 		<%
 			if(currentPage <= 1){
 		%>
@@ -167,7 +182,7 @@ input[type='button'] {
 		<%
 			}else { 
 		%>
-		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=currentPage -1%>'">이전</button>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=currentPage -1%>'">이전</button>
 		<%
 			} 
 		%>
@@ -180,7 +195,7 @@ input[type='button'] {
 		<%
 			}else{
 		%>
-		<button class="other" style="width:30px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=p%>'"><%=p %></button>
+		<button class="other" style="width:30px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=p%>'"><%=p %></button>
 		<%
 			}
 		%>
@@ -195,19 +210,19 @@ input[type='button'] {
 		<%
 			} else { 
 		%>
-		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=currentPage +1%>'">다음</button>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=currentPage +1%>'">다음</button>
 		<%
 			} 
 		%>
 		<button style="width: 60px; height:30px;"
-				onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=maxPage%>'">마지막</button>
+				onclick="location.href='<%=request.getContextPath()%>/selectAllTctc.bo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
 		<br>
-		<form action="<%=request.getContextPath()%>/searchPreKNotice.bo" method="post" onsubmit="return check();">
+		<form name="search" action="<%=request.getContextPath()%>/searchTctc.bo" method="post" onsubmit="return check();">
         <div id="searchArea">
                 <div class="ui action input">
-  					<input type="text" id="cont" name="text1" placeholder="Search..." style="width:170px; height:45px;">
-  					<input type="hidden" name="bdid" value="3">
+  					<input type="text" name="text1" placeholder="Search..." style="width:170px; height:45px;">
+  					<input type="hidden" name="bdid" value="5">
   					<input type="hidden" name="user" value="2">
  				    <select class="ui compact selection dropdown" name="select" style="height:45px;">
     				<option selected="" value="all">전체</option>
@@ -216,73 +231,55 @@ input[type='button'] {
   					</select>
   					<button class="ui button" type="submit">찾기</button>
 				</div>
+              
+              
         </div> 
         </form>
-              <%if((loginUser.getMemberId()).equals("admin")){ %>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
-              <%} %>
 	</div>
-	
-	
-	<%@ include file="/views/common/footer.jsp"%>
-	<%@ include file="/views/common/chat.jsp"%>
-	
 	<script>
 	$(function() {
 		  $(".li:nth-child(1)").addClass("on");
 		  
-	    $(".topMenuLi:nth-child(1)").addClass("on");
+	    $(".topMenuLi:nth-child(3)").addClass("on");
 	   
 	    $(".topMenuLi").mouseover(function() {
 	      $(".li:nth-child(1)").removeClass("on");
-	      $(".topMenuLi:nth-child(1)").removeClass("on");
+	      $(".topMenuLi:nth-child(3)").removeClass("on");
 	   });
 	  
 	    $(".topMenuLi").mouseleave(function() {
 	      $(".li:nth-child(1)").addClass("on");
-	      $(".topMenuLi:nth-child(1)").addClass("on");
+	      $(".topMenuLi:nth-child(3)").addClass("on");
 	   });
-	}); 
-		
-		$(function(){
-			$(".writing").click(function(){
-				location.href="./views/president/preKNoticeWrite.jsp";
+	});  
+	      
+	      $(function(){
+				$(".writing").click(function(){
+					location.href="./views/teacher/tcTcBoardWrite.jsp";
+				});
 			});
-		});
-		
-		$(function(){
-			$("#tableArea td").click(function(){
-				var num = $(this).parent().children().eq(0).children().val();
-				
-				console.log(num);
-				location.href="<%=request.getContextPath()%>/selectOnePreKNotice.bo?num="+num;
+			
+			$(function(){
+				$("#tableArea td").click(function(){
+					var num = $(this).parent().children().eq(0).children().val();
+					
+					console.log(num);
+					location.href="<%=request.getContextPath()%>/selectOneTctc.bo?num="+num;
+				});
 			});
-		});
-		function check(){
-			if($("#cont").val() == ""){
-				alert("검색할 내용을 입력하세요.");
-				return false;
-			} else {
-				return true;
-			}
+			function check(){
+				if($("#cont").val() == ""){
+					alert("검색할 내용을 입력하세요.");
+					return false;
+				} else {
+					return true;
+				}
 
-		}
+			}
 	</script>
-	
-	
+	<%@ include file="/views/common/footer.jsp"%>
+	<%@ include file="/views/common/chat.jsp"%>
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

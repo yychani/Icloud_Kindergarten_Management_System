@@ -200,20 +200,26 @@ input[type='button'] {
 		</div>
 		
 		<br>
+		<form action="<%=request.getContextPath()%>/searchBan.bo" method="post" onsubmit="return check();">
         <div id="searchArea">
                 <div class="ui action input">
-  					<input type="text" id="text1" placeholder="Search..." style="width:170px; height:45px;">
- 				    <select class="ui compact selection dropdown" id="select" style="height:45px;">
+  					<input type="text" id="cont" name="text1" placeholder="Search..." style="width:170px; height:45px;">
+  					<input type="hidden" name="bdid" value="4">
+  					<input type="hidden" name="user" value="2">
+ 				    <select class="ui compact selection dropdown" name="select" style="height:45px;">
     				<option selected="" value="all">전체</option>
    				 	<option value="title1">제목</option>
     				<option value="name1">작성자</option>
   					</select>
-  					<div class="ui button" id="search">찾기</div>
+  					<button class="ui button" type="submit">찾기</button>
 				</div>
               
-              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
               
-        </div> 
+        </div>
+        </form> 
+        <%if(loginUser.getUType().equals("교사")){ %>
+              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
+              <%} %>
 	</div>
  	
 
@@ -235,49 +241,15 @@ input[type='button'] {
     	});
     	
     });
-    $(function(){
-		$("#search").click(function(){
-			var text1 = $("#text1").val();
-			var selected = $("#select").find(":selected").val();
-			var bdid = 4;
-			console.log(text1);
-			console.log(bdid);
-			console.log(selected);
-			 $.ajax({
-				url:"/main/searchText",
-				data : {
-					text1:text1,
-					selected:selected,
-					bdid:bdid
-				},
-				type:"post",
-				success:function(data){
-					console.log(data);
-					var $tbody = $("#tbodyArea");
-					$tbody.html('');
-					for(var key in data){
-						$tr = $("<tr>");
-						$no = $("<td id='no'>").text(data[key].pno);
-						$tid = $("<input type='hidden' name='tid' id='tid' value='data[key].tid'>");
-						$no.append($tid);
-						$title1 = $("<td id='title'>").text(data[key].ttitle);
-						$writer = $("<td id='writer'>").text(data[key].name);
-						$count = $("<td id='count'>").text(data[key].tcount);
-						$date = $("<td id='date'>").text(data[key].ttime);
-						
-						$tr.append($no);
-						$tr.append($title1);
-						$tr.append($writer);
-						$tr.append($count);
-						$tr.append($date);
-						
-						$tbody.append($tr);
-					}
-					
-				}
-			});  
-		});
-	}); 
+    function check(){
+		if($("#cont").val() == ""){
+			alert("검색할 내용을 입력하세요.");
+			return false;
+		} else {
+			return true;
+		}
+
+	}
     </script>
     <%@ include file="/views/common/footer.jsp" %>
  	<%@ include file="/views/common/chat.jsp" %>

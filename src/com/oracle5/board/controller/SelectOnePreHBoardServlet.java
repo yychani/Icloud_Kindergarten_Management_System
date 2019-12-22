@@ -51,7 +51,7 @@ public class SelectOnePreHBoardServlet extends HttpServlet {
 			}else if(loginUser.getUType().equals("교사")) {
 				page="views/teacher/tcHBoardDetail.jsp";
 			}else {
-				page="views/parents/boardCommitteDetail.jsp";
+				page="views/parents/boardCommitteeDetail.jsp";
 			}
 			
 			request.setAttribute("b", b);

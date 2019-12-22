@@ -127,11 +127,9 @@ input[type='button'] {
 </style>
 </head>
 <body style="overflow-x: hidden">
-
 	<%@ include file="/views/common/teacherMenu.jsp"%>
-
 	<div style="margin: 0 15%;">
-		<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항</h1>
+		<h1 style="text-decoration: underline; text-underline-position: under;">유치원 운영위원회 게시판</h1>
     </div>
     <div id="outBox">
 		<table class="ui celled table boardTable" id="tableArea">
@@ -159,7 +157,7 @@ input[type='button'] {
 		</table>
 		
 		<div style="width:fit-content; margin: auto">
-		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=startPage%>">처음</button>
+		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllPreHBoard.bo?currentPage=<%=startPage%>">처음</button>
 		<%
 			if(currentPage <= 1){
 		%>
@@ -167,7 +165,7 @@ input[type='button'] {
 		<%
 			}else { 
 		%>
-		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=currentPage -1%>'">이전</button>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreHBoard.bo?currentPage=<%=currentPage -1%>'">이전</button>
 		<%
 			} 
 		%>
@@ -180,7 +178,7 @@ input[type='button'] {
 		<%
 			}else{
 		%>
-		<button class="other" style="width:30px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=p%>'"><%=p %></button>
+		<button class="other" style="width:30px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreHBoard.bo?currentPage=<%=p%>'"><%=p %></button>
 		<%
 			}
 		%>
@@ -195,20 +193,20 @@ input[type='button'] {
 		<%
 			} else { 
 		%>
-		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=currentPage +1%>'">다음</button>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllPreHBoard.bo?currentPage=<%=currentPage +1%>'">다음</button>
 		<%
 			} 
 		%>
 		<button style="width: 60px; height:30px;"
-				onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=maxPage%>'">마지막</button>
+				onclick="location.href='<%=request.getContextPath()%>/selectAllPreHBoard.bo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
 		<br>
-		<form action="<%=request.getContextPath()%>/searchPreKNotice.bo" method="post" onsubmit="return check();">
+		<form action="<%=request.getContextPath()%>/searchPreHNotice.bo" method="post" onsubmit="return check();">
         <div id="searchArea">
-                <div class="ui action input">
+              <div class="ui action input">
   					<input type="text" id="cont" name="text1" placeholder="Search..." style="width:170px; height:45px;">
-  					<input type="hidden" name="bdid" value="3">
-  					<input type="hidden" name="user" value="2">
+  					<input type="hidden" name="bdid" value="1">
+  					<input type="hidden" name="user" value="3">
  				    <select class="ui compact selection dropdown" name="select" style="height:45px;">
     				<option selected="" value="all">전체</option>
    				 	<option value="title1">제목</option>
@@ -218,7 +216,7 @@ input[type='button'] {
 				</div>
         </div> 
         </form>
-              <%if((loginUser.getMemberId()).equals("admin")){ %>
+              <%if((loginUser.getMemberId()).equals("admin")) {%>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
               <%} %>
 	</div>
@@ -229,24 +227,24 @@ input[type='button'] {
 	
 	<script>
 	$(function() {
-		  $(".li:nth-child(1)").addClass("on");
+		  $(".li:nth-child(3)").addClass("on");
 		  
-	    $(".topMenuLi:nth-child(1)").addClass("on");
+	    $(".topMenuLi:nth-child(3)").addClass("on");
 	   
 	    $(".topMenuLi").mouseover(function() {
-	      $(".li:nth-child(1)").removeClass("on");
-	      $(".topMenuLi:nth-child(1)").removeClass("on");
+	      $(".li:nth-child(3)").removeClass("on");
+	      $(".topMenuLi:nth-child(3)").removeClass("on");
 	   });
 	  
 	    $(".topMenuLi").mouseleave(function() {
-	      $(".li:nth-child(1)").addClass("on");
-	      $(".topMenuLi:nth-child(1)").addClass("on");
+	      $(".li:nth-child(3)").addClass("on");
+	      $(".topMenuLi:nth-child(3)").addClass("on");
 	   });
 	}); 
 		
 		$(function(){
 			$(".writing").click(function(){
-				location.href="./views/president/preKNoticeWrite.jsp";
+				location.href="./views/president/preHBoardWrite.jsp";
 			});
 		});
 		
@@ -255,9 +253,10 @@ input[type='button'] {
 				var num = $(this).parent().children().eq(0).children().val();
 				
 				console.log(num);
-				location.href="<%=request.getContextPath()%>/selectOnePreKNotice.bo?num="+num;
+				location.href="<%=request.getContextPath()%>/selectOnePreHBoard.bo?num="+num;
 			});
 		});
+		
 		function check(){
 			if($("#cont").val() == ""){
 				alert("검색할 내용을 입력하세요.");

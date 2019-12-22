@@ -114,7 +114,7 @@ $(function() {
 					</div>
 				</form>
 	</div>
-	
+
 	<script>
 		
 			function getReply(){
