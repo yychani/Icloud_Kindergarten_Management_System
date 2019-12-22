@@ -35,35 +35,46 @@ public class ParentAsRequestServlet extends HttpServlet {
 		int pNo = Integer.parseInt(request.getParameter("userNo"));
 		String kidName = request.getParameter("cName");
 		
+		//해당 월 신청 이력 확인을 위한 변수
+		Calendar calendar = new GregorianCalendar(Locale.KOREA);
+		int currentMonth = 0;
+		currentMonth = calendar.get(Calendar.MONTH) + 1;
+		int currentYear = calendar.get(Calendar.YEAR);
 		
+		//전체원아 선택 시
 		if(kidName.contains("/")) {
 			String[] split = kidName.split("/");
-			String[] splitl = new String[split.length];
+			String[] cIdString = new String[split.length];
 			for (int i = 0; i < split.length; i++) {
-				splitl[i] = split[i];
-				System.out.println(splitl[i]);
+				cIdString[i] = split[i];
 			}
 			
-			if(splitl != null) {
-				int result = new MemberService().asRequest(splitl);
-				
-				if(result == splitl.length) {
-					response.sendRedirect("views/common/successPage.jsp?successCode=8");
-				}else {
-					response.sendRedirect("views/common/successPage.jsp?successCode=9");
-
+			int check1 = 0;
+			if(cIdString != null) {
+				for(int i = 0; i < cIdString.length; i++) {
+					int cid = Integer.parseInt(cIdString[i]);
+					check1 += new MemberService().selectAsCheck(cid, currentMonth, currentYear);
 				}
+				//해당월 신청이력 없음 신청 INSERT
+				if(check1 == 0) {
+					int result = new MemberService().asRequest(cIdString);
+					if(result == cIdString.length) {
+						response.sendRedirect("views/common/successPage.jsp?successCode=8");
+					}else {
+						response.sendRedirect("views/common/successPage.jsp?successCode=9");
+					}
+				}else {
+					request.setAttribute("msg", "당월 신청하신 원아가 존재합니다. 이력 확인 후 개별 신청해주세요.");
+					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				}
+				
 			}
 		} else {
+			//특정 원아 선택 시
 			int cId = Integer.parseInt(kidName);
-			//해당 월 신청 이력 확인
-			Calendar calendar = new GregorianCalendar(Locale.KOREA);
-			int currentMonth = 0;
-			currentMonth = calendar.get(Calendar.MONTH) + 1;
-			int currentYear = calendar.get(Calendar.YEAR);
-			
-			int check = new MemberService().selectAsCheck(cId, currentMonth, currentYear);
 
+			//해당 월 이력 확인
+			int check = new MemberService().selectAsCheck(cId, currentMonth, currentYear);
 
 			if(cId != 0) {
 				if(check == 0) {

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<style>
+footer{
+font-family: 'Noto Sans KR', sans-serif;
+}
+</style>
 <footer align="center">
     <hr>
     <p>떡잎유치원 | 주소 : 서울특별시 강서구 방화도 878번지 동부센트레빌단지내 | 원 전화번호 : 02-2667-0645</small>
