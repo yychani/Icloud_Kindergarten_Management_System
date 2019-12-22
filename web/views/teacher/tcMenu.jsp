@@ -10,107 +10,128 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
     <style>
-        table {
-            margin: 50px auto;
-        }
+table {
+	margin: 50px auto;
+}
 
-        input[type=text] {
-            background: none;
-            border: none;
-        }
+input[type=text] {
+	background: none;
+	border: none;
+}
 
-        input[type=checkbox] {
-            width: 15px;
-            height: 15px;
-            vertical-align: center;
-        }
+input[type=checkbox] {
+	width: 15px;
+	height: 15px;
+	vertical-align: center;
+}
 
-        button {
-            width: 80px;
-            height: 40px;
-            border-radius: 10px;
-            background: rgb(63, 63, 63);
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
+button {
+	width: 80px;
+	height: 40px;
+	border-radius: 10px;
+	background: rgb(63, 63, 63);
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+}
 
-        #teacher {
-            border-radius: 10px;
-            background: rgba(216, 216, 216, 0.486);
-        }
+th {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	background: rgba(216, 216, 216, 0.486);
+}
 
-        #pictureTd {
-            width: 300px;
-            height: 250px;
-            padding-right: 0;
-        }
+#no {
+	width: 50px;
+}
 
-        #picture {
-            width: 250px;
-            height: 250px;
-            border: 1px solid black;
-        }
+#name {
+	width: 120px;
+}
 
-        th {
-            border-top: 1px solid black;
-            border-bottom: 1px solid black;
-            background: rgba(216, 216, 216, 0.486);
-        }
+#class, #parents {
+	width: 200px;
+}
 
-        #no {
-            width: 50px;
-        }
+#children {
+	margin-top: 20px;
+	text-align: center;
+}
 
-        #name {
-            width: 120px;
-        }
+.no, .name, .class, .parents {
+	padding: 5px 0;
+	border-bottom: 1px solid black;
+}
 
-        #class,
-        #parents {
-            width: 200px;
-        }
+input[type='submit'] {
+	width: 80px;
+	height: 40px;
+	border-radius: 10px;
+	background: rgb(63, 63, 63);
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+}
 
-        #children {
-            margin-top: 20px;
-            text-align: center;
-        }
+input[type='text'] {
+	margin: 3px 0;
+	text-align: center;
+	background: none;
+	border: 1px solid rgb(63, 63, 63);
+	height: 40px;
+	border-radius: 5px;
+}
 
-        .no,
-        .name,
-        .class,
-        .parents {
-            padding: 5px 0;
-            border-bottom: 1px solid black;
-        }
-        input[type='submit'] {
-            width: 80px;
-            height: 40px;
-            border-radius: 10px;
-            background: rgb(63, 63, 63);
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
-        input[type='text'] {
-            text-align: center;
-            background: rgba(30, 143, 255, 0.432);
-        }
-        .menu {
-        	width: 900px;
-        }
-        .menu td {
-        	width: 14%;
-        } 
-        .menu tr:nth-of-type(2n+3) {
-        	height: 120px;
-        }
-        .menu tr:nth-of-type(2n+4) {
-        	height: 60px;
-        }
-    </style>
+#dietmenu {
+	width: 1000px;
+	font-family: 'Noto Sans KR', sans-serif;
+	margin: 50px; auto;
+}
+
+#dietmenu td {
+	width: 14%;
+	text-align: center;
+}
+
+#dietmenu tr:nth-of-type(2n+3) {
+	height: 120px;
+}
+
+#dietmenu tr:nth-of-type(2n+4) {
+	height: 60px;
+}
+.label {
+	width: 100px;
+	text-align: left;
+}
+.edit {
+	margin-left: .75em;
+	background-color: #1b1c1d;
+	color: #fff;
+	text-shadow: none;
+	background-image: none;
+	cursor: pointer;
+	display: inline-block;
+	min-height: 1em;
+	outline: 0;
+	border: none;
+	vertical-align: baseline;
+	font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+	margin: 0 .25em 0 0;
+	padding: .78571em 1.5em;
+	text-transform: none;
+	text-shadow: none;
+	font-weight: 700;
+	line-height: 1;
+	font-style: normal;
+	text-align: center;
+	text-decoration: none;
+	background-image: none;
+	border-radius: .2857rem;
+}
+</style>
 </head>
 
 <body style="overflow-x: hidden">

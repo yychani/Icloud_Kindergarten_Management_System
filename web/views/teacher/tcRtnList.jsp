@@ -19,6 +19,7 @@
         }
         #table1, #table2, #table3, #table4 {
             margin: 10px auto;
+            width: 60%;
         }
 
         input[type=text] {
@@ -49,20 +50,17 @@
             cursor: pointer;
         }
         th[id="no"]{
-            width: 100px;
+            width: 10%;
             height: 50px;
         } 
         th[id="apply"]{
-            width: 100px;
+            width: 10%;
             height: 50px;
             padding-right: 0;
         } 
         th[id="applicant"] {
-            width: 500px;
+            width: 80%;
             height: 50px;
-        }
-        th {
-            background: lightgrey;
         }
         #applyTr{
             border-bottom: 1px solid black;
@@ -124,10 +122,15 @@
     td#applicant:nth-of-type(n+1) {
     	cursor:pointer;
     }
+    #as{
+	   width:161px;
+	   height:34px;
+	   border-radius:4px;
+	}
     </style>
 </head>
 
-<body style="overflow-x: hidden">
+<body style="overflow-x: hidden; overflow-y:hidden;">
     <%@ include file="/views/common/teacherMenu.jsp"%>
     <div style="margin: 0 15%;">
         <h1 style="text-decoration: underline; text-underline-position: under;">귀가 동의서 관리 페이지</h1>
@@ -140,8 +143,8 @@
 	        <option value="처리완료 리스트">처리완료 리스트</option>
 	    </select>
     </div>
-    <table id="table1" >
-        <tr id="applyTr">
+     <table id="table1" class="asTable ui celled table" style="text-align:center;">
+        <tr id="applyTr" style="background: #e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">신청일</th>
@@ -164,8 +167,8 @@
                 <th></th>
         </tr>
     </table>
-    <table id="table2" hidden>
-        <tr id="applyTr">
+     <table id="table2" class="asTable ui celled table" style="text-align:center;" hidden>
+        <tr id="applyTr" style="background: #e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">신청일</th>
@@ -188,8 +191,8 @@
                 <th></th>
         </tr>
     </table>
-    <table id="table3" hidden>
-        <tr id="applyTr">
+   <table id="table3" class="asTable ui celled table" style="text-align:center;" hidden>
+        <tr id="applyTr" style="background: #e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">신청일</th>
@@ -212,8 +215,8 @@
                 <th></th>
         </tr>
     </table>
-    <table id="table4" hidden>
-        <tr id="applyTr">
+     <table id="table4" class="asTable ui celled table" style="text-align:center;" hidden>
+        <tr id="applyTr" style="background: #e3fad0">
             <th id="no">No</th>
             <th id="applicant">신청자</th>
             <th id="apply">신청일</th>
