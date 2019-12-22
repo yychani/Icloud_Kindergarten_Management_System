@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import com.oracle5.board.model.dao.BoardDao;
@@ -228,14 +230,35 @@ public class BoardService {
 	}
 
 	// 반 공지사항 리스트 테이블 조회용 메소드 -한솔
-	public ArrayList<Board> selectAllBanNoticeList(int currentPage, int limit) {
+	public ArrayList<Board> selectAllBanNoticeList(int currentPage, int limit,int[] tnoArr) {
 		Connection con = getConnection();
-
-		ArrayList<Board> list = new BoardDao().selectAllBanNoticeList(con, currentPage, limit);
+		HashMap<String, Object> hmap = new HashMap<>();
+		for(int i = 0; i < tnoArr.length; i++) {
+			ArrayList<Board> list = new BoardDao().selectAllBanNoticeList(con, currentPage, limit,tnoArr[i]);
+			
+			hmap.put(Integer.toString(i), list);
+		}
+		ArrayList<Board> boardList = new ArrayList<>();
+		for(int i = 0; i < hmap.size(); i++) {
+			
+			boardList.addAll((ArrayList<Board>)hmap.get(Integer.toString(i)));
+		}
+		
+		Collections.sort(boardList, new Comparator<Board>() {
+            @Override
+            public int compare(Board s1, Board s2) {
+                if (s1.getTid() > s2.getTid()) {
+                    return -1;
+                } else if (s1.getTid() < s2.getTid()) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
 
 		close(con);
 
-		return list;
+		return boardList;
 	}
 
 	// 반 공지사항 하나 조회용 메소드 - 한솔

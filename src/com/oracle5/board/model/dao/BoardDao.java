@@ -462,7 +462,7 @@ public class BoardDao {
 		return result;
 	}
 	//반 공지사항 테이블 조회용 리스트 - 한솔selectAllBanNoticeList
-	public ArrayList<Board> selectAllBanNoticeList(Connection con, int currentPage, int limit) {
+	public ArrayList<Board> selectAllBanNoticeList(Connection con, int currentPage, int limit, int tno) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Board> list = null;
@@ -473,8 +473,10 @@ public class BoardDao {
 		
 		try {
 			pstmt=con.prepareStatement(query);
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
+			pstmt.setInt(1, tno);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
 			
 			rset = pstmt.executeQuery();
 			
@@ -487,7 +489,9 @@ public class BoardDao {
 					b.setTcount(rset.getInt("T_COUNT"));
 					b.setTtime(rset.getDate("T_TIME"));
 					b.setPno(rset.getInt("RNUM"));
-					System.out.println(b);
+					
+			
+			
 					
 					list.add(b); 
 				}

@@ -101,7 +101,7 @@ $(function() {
 			$("#updateForm").attr("action","<%=request.getContextPath()%>/updateBanBoard.bo");
 		}
 		function deleteBanBoard(){
-			$("#updateForm").attr("action","<%=request.getContextPath()%>/deleteBanBoard.bo")
+			$("#updateForm").attr("action","<%=request.getContextPath()%>/deleteBanBoard.bo?tno="+<%=loginUser.getMemberNo() %>)
 		}
 	</script>
 
