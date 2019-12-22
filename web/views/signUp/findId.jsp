@@ -65,7 +65,7 @@
 			<tr align="center">
 				<td colspan="2" style="padding: 10px 0;">
 					<button class="ui secondary button" onclick="find_id()">확인</button>
-					<button class="ui button" type="button" onclick="location.href = 'findPwd.jsp'" style="margin-left: 50px;">비밀번호 찾기</button>
+					<button class="ui button" type="button" onclick="location.href = 'findPwd.jsp'">비밀번호 찾기</button>
 					<button class="ui button" type="button" onclick="location.href='login.jsp'">이전으로</button>
 				</td>
 			</tr>
@@ -94,14 +94,14 @@
 		
 		
 		<script>
-		$(document).ready(function(){
-	        $("#userEmail").keypress(function (e) {
-	         	if (e.which == 13){
-	         		$('#pwdChange').modal('hide');
-	         		find_id();
-	         	}
-	     	});
-	 	});
+			$(document).ready(function(){
+		        $("#userEmail").keypress(function (e) {
+		         	if (e.which == 13){
+		         		$('#pwdChange').modal('hide');
+		         		find_id();
+		         	}
+		     	});
+		 	});
 		
 			function find_id() {
 				var userName = $("#userName").val();
@@ -116,7 +116,8 @@
 					},
 					success:function(data) {
 						if(data != null){
-							data = data.replace(/(?<=.{1})./gi, "*");
+							var regExp = new RegExp("(?<=.{" + data.length / 2 + "}).","gi");
+							data = data.replace(regExp, "*");
 							$("#content").text(data);
 							$("#succesbtn").show();
 						} else {

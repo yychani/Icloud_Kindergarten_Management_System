@@ -223,7 +223,6 @@ $(function() {
 				var rid = 0;
 				var rid2 = 0;
 				
-				console.log(data);
 				for(var key in data) {
 					if(data[key].refrid == 0){
 						var $contentDiv = $("<div class='content'>");
@@ -258,35 +257,28 @@ $(function() {
 						
 						$(".rereArea").hide();
 						rid = data[key].rid;
-						console.log("rid123 : " + rid);
-					}
-					else {
-						//for(var key2 in data){
-							//console.log(index++);
-							console.log("rid : " + rid);
-							console.log("rid2 : " + data[key].refrid);
+					} else {
+						if(rid != 0){
 							for(var key2 in data){
-						if(rid == data[key2].refrid && rid != rid2){
-							
-							var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
-							
-							var $contentDiv2 = $("<div class='content'>");
-							var $a1 = $("<a class='author'>").text(data[key2].rname);
-							var $div11 = $("<div class='metadata'>");
-							var $span1 = $("<span class='date'>").text(data[key2].rdate);
-							var $div21 = $("<div class='text'>").text(data[key2].rcont);
-							
-							$contentDiv2.append($a1);
-							$contentDiv2.append($div11.append($span1));
-							$contentDiv2.append($div21);
-							
-							$rereplyArea.append($contentDiv2);
-							
-							$content.append($rereplyArea);
-							rid2 = data[key2].rid;
-						}
-						//console.log(key2);
-						//}
+								if(rid == data[key2].refrid){
+									var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+									
+									var $contentDiv2 = $("<div class='content'>");
+									var $a1 = $("<a class='author'>").text(data[key2].rname);
+									var $div11 = $("<div class='metadata'>");
+									var $span1 = $("<span class='date'>").text(data[key2].rdate);
+									var $div21 = $("<div class='text'>").text(data[key2].rcont);
+									
+									$contentDiv2.append($a1);
+									$contentDiv2.append($div11.append($span1));
+									$contentDiv2.append($div21);
+									
+									$rereplyArea.append($contentDiv2);
+									
+									$content.append($rereplyArea);
+								}
+							}
+							rid = 0;
 						}
 					}
 				}
