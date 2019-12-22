@@ -313,12 +313,12 @@
     </div>
 	<table class="ui celled table" table id="table1" hidden>
 		<thead>
-			<tr id="applyTH" style="background: #e3fad0 !important">
-	            <th id="no" style="background: #e3fad0 !important">No</th>
-	            <th id="applicantKid" style="background: #e3fad0 !important">신청 아이</th>
-	            <th id="applicantP" style="background: #e3fad0 !important">신청 학부모</th>
-	            <th id="applyDate" style="background: #e3fad0 !important">신청 날짜</th>
-	            <th id="apply" style="width: 82px; background: #e3fad0 !important">납부 확인</th>
+			<tr id="applyTH" style="background: rgba(248, 250, 222, 0.3) !important">
+	            <th id="no" style="background: rgba(248, 250, 222, 0.3) !important">No</th>
+	            <th id="applicantKid" style="background: rgba(248, 250, 222, 0.3) !important">신청 아이</th>
+	            <th id="applicantP" style="background: rgba(248, 250, 222, 0.3) !important">신청 학부모</th>
+	            <th id="applyDate" style="background: rgba(248, 250, 222, 0.3) !important">신청 날짜</th>
+	            <th id="apply" style="width: 82px; background: rgba(248, 250, 222, 0.3) !important">납부 확인</th>
 	        </tr>
 		</thead>
 	 	<tbody>
@@ -339,7 +339,7 @@
 	        </tr>
 		</tbody>											
 	</table>
-	<div hidden id="acceptBtnArea" style="width: 911px; margin: 5px auto; margin-bottom: 100px;"><button class="ui inverted olive button" id="accept" style="width: 70px; height:30px; float:right;">승인</button></div>
+	<div hidden id="acceptBtnArea" style="width: 911px; margin: 5px auto; margin-bottom: 100px;"><button class="ui active button" id="accept" style="width: 96px; height: 35px; float:right;"><i class="check icon"></i>승인</button></div>
 
     <script>
 	    $("#accept").click(function() {
@@ -370,11 +370,11 @@
     <table class="ui celled table" table id="table2" hidden>
 		<thead>
 			<tr id="applyTr">
-            	<th id="no" style="background: #e3fad0 !important">No</th>
-	            <th id="place" style="width: 350px; background: #e3fad0 !important">장소</th>
-	            <th id="applicant" style="background: #e3fad0 !important">신청자</th>
-	            <th id="applicant" style="background: #e3fad0 !important">참여 여부</th>
-	            <th id="apply" style="background: #e3fad0 !important; width: 150px;">납부 확인 날짜</th>
+            	<th id="no" style="background: rgba(248, 250, 222, 0.3) !important">No</th>
+	            <th id="place" style="width: 350px; background: rgba(248, 250, 222, 0.3) !important">장소</th>
+	            <th id="applicant" style="background: rgba(248, 250, 222, 0.3) !important">신청자</th>
+	            <th id="applicant" style="background: rgba(248, 250, 222, 0.3) !important">참여 여부</th>
+	            <th id="apply" style="background: rgba(248, 250, 222, 0.3) !important; width: 150px;">납부 확인 날짜</th>
 	        </tr>
 		</thead>
 	 	<tbody>

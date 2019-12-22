@@ -128,6 +128,9 @@
 							<li>|</li>
 							<li class="li8"><a href="<%=request.getContextPath()%>/selectParticipant.ftl"
 									class="submenuLink">현장체험학습</a></li>
+							<li>|</li>
+							<li class="li13"><a href="<%=request.getContextPath()%>/headQuarters.hq"
+									class="submenuLink longLink">유치원 운영위원회 설정</a></li>
 						</ul>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>

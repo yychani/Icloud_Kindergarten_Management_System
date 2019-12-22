@@ -41,6 +41,9 @@
         .ui.labeled.icon.buttons>.button>.icon:before{
     		top: 69% !important;
     	}
+    	input[name="today"], input[name="tomorrow"] {
+    		font-family: 'Noto Sans KR', sans-serif !important;
+    	}
     </style>
 <script>
 	$(document).ready(function(){
@@ -74,11 +77,11 @@
             <td><input type="checkbox" name="todaycheck"></td>
             <td style="padding-right: 30px;">
 	            <div class="ui input">
-	  				<input type="text" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" name="today" style="background: none; border: none;" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
             <td>
             	<div class="ui input">
-	  				<input type="text" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
 			</td>
         </tr>
@@ -86,11 +89,11 @@
             <td><input type="checkbox" name="todaycheck"></td>
             <td style="padding-right: 30px;">
 	            <div class="ui input">
-	  				<input type="text" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
             <td>
             	<div class="ui input">
-	  				<input type="text" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
 			</td>
         </tr>
@@ -98,11 +101,11 @@
             <td><input type="checkbox" name="todaycheck"></td>
             <td style="padding-right: 30px;">
 	            <div class="ui input">
-	  				<input type="text" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
             <td>
             	<div class="ui input">
-	  				<input type="text" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
 			</td>
         </tr>
@@ -110,11 +113,11 @@
             <td><input type="checkbox" name="todaycheck"></td>
             <td style="padding-right: 30px;">
 	            <div class="ui input">
-	  				<input type="text" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
             <td>
             	<div class="ui input">
-	  				<input type="text" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
 			</td>
         </tr>
@@ -122,11 +125,11 @@
             <td><input type="checkbox" name="todaycheck"></td>
             <td style="padding-right: 30px;" style="padding-right: 30px;">
 	            <div class="ui input">
-	  				<input type="text" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
             <td>
             	<div class="ui input">
-	  				<input type="text" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
 			</td>
         </tr>
@@ -134,11 +137,11 @@
             <td><input type="checkbox" name="todaycheck"></td>
             <td style="padding-right: 30px;">
 	            <div class="ui input">
-	  				<input type="text" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="today" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
             <td>
             	<div class="ui input">
-	  				<input type="text" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
+	  				<input type="text" style="background: none; border: none;" name="tomorrow" placeholder="수정은 버튼을 눌러주세요" readonly>
 				</div>
 			</td>
         </tr>
@@ -167,11 +170,13 @@
                 $(this).attr("type", "hidden");
                 $("input[name=today]").each(function(index){
                     $(this).attr("readonly", false);
+                    $(this).css({"background":"#fff", "border":"1px solid rgba(34,36,38,.15)"});
                     $(this).attr("placeholder", "오늘 해야할 일");
                 });
                 
                 $("input[name=tomorrow]").each(function(index){
                     $(this).attr("readonly", false);
+                    $(this).css({"background":"#fff", "border":"1px solid rgba(34,36,38,.15)"});
                     $(this).attr("placeholder", "내일 해야할 일");
                 });
             });
@@ -181,10 +186,12 @@
 				$(this).attr("type", "hidden");
 				$("input[name=today]").each(function(index){
 					$(this).attr("readonly", true);
+					$(this).css({"background":"none", "border":"0"});
 					$(this).attr("placeholder", "수정은 버튼을 눌러주세요");
 				});
 				$("input[name=tomorrow]").each(function(index){
 					$(this).attr("readonly", true);
+					$(this).css({"background":"none", "border":"0"});
 					$(this).attr("placeholder", "수정은 버튼을 눌러주세요");
 				});
 				 
@@ -258,7 +265,7 @@
 	function onMessage6(event){
 		var serverMessage = event.data;
 		
-		if(serverMessage == "12:42:00"){
+		if(serverMessage == "11:15:00"){
 			var today = $("input[name='today']").length;
 			var todayList = new Array(today);
 			for(var i = 0; i < today; i++){                          

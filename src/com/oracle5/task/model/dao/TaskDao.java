@@ -1076,4 +1076,43 @@ public class TaskDao {
 		return todoList;
 	}
 
+	public int updateHQ(Connection con, int hqNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("updateHQ");
+		
+		try {
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, hqNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteHQ(Connection con) {
+		int result = 0;
+		Statement stmt = null;
+		
+		String query = prop.getProperty("deleteHQ");
+		
+		try {
+			stmt = con.createStatement();
+			
+			result = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(stmt);
+		}
+		
+		return result;
+	}
+
 }

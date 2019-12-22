@@ -390,4 +390,20 @@ public class TaskService {
 		close(con);
 		return todoList;
 	}
+
+	public int updateHQ(String[] selectArr) {
+		Connection con = getConnection();
+		
+		int result = 0;
+		int result1 = new TaskDao().deleteHQ(con);
+		for(int i = 0; i < selectArr.length; i++) {
+			result += new TaskDao().updateHQ(con, Integer.parseInt(selectArr[i]));
+		}
+		if(result > 4) {
+			commit(con);
+		}else {
+			rollback(con);
+		}
+		return result;
+	}
 }
