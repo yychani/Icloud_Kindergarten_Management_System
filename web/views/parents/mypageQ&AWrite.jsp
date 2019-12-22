@@ -38,7 +38,7 @@ h2 {
 	padding-left: 30px;
 }
 
-#cNameSelect {
+#cNameSelect, #toSomeone {
 	width: 161px;
 	height: 34px;
 	border-radius: 4px;
@@ -104,7 +104,8 @@ body {
 				
 			</div> -->
 			<div id="divSubmitBtn" align="right">
-					<button class="ui pink  basic button" type="submit" id="submit">완료</button>
+			  <button class="ui inverted green button">완료</button>
+					<!-- <button class="ui pink  basic button" type="submit" id="submit">완료</button> -->
 				</div>
 		</form>
 	</div>

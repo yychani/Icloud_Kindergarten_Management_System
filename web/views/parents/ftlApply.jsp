@@ -225,19 +225,30 @@ tr {
 				type:"get",
 				success:function(data){
 					console.log(data);
-
 					$select = $("#cNameSelect");
 					$select.find("option").remove();
+					var $option = $("<option>");
 					
+					var totalVal  = "";
 					for(var key in data){
-						var $option = $("<option>");
-						$option.val(data[key].cId);
-						$option.text(data[key].name);
-						$select.append($option);
-						
-						$("#cNameSelect").trigger("change");
-						
+						totalVal += data[key].cId + "/";
 					}
+					console.log(totalVal);
+					$option.val(totalVal);
+					$option.text("전체원아");
+					$select.append($option);
+					
+					
+					 for(var key in data){
+						 console.log(data[key])
+						var $o1 = $("<option>").val(data[key].cId).text(data[key].name);
+						/* var $o2 = $("<option>"); */
+						$select.append($o1);
+						//$select.append($o2);
+
+					}  
+					
+					$("#cNameSelect").trigger("change");
 					
 				},
 				error:function(data){

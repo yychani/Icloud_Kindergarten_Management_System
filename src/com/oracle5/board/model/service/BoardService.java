@@ -1036,7 +1036,7 @@ public class BoardService {
 
 		if (result > 0) {
 			commit(con);
-			replyList = new BoardDao().selectPreHBoardReplyList(con, r.getTid());
+			replyList = new BoardDao().selectAllPreHBoardReply(con, r.getTid());
 			System.out.println(replyList);
 		} else {
 			rollback(con);
@@ -1309,7 +1309,7 @@ public class BoardService {
 		int result = 0;
 
 		result = new BoardDao().insertPreHrereply(con, r);
-
+		System.out.println("result :"+result);
 		if (result > 0) {
 			commit(con);
 		    replyList = new BoardDao().selectAllPreHBoardReply(con, r.getTid());
@@ -1459,20 +1459,20 @@ public class BoardService {
 	}
 
 	//게시판 글 검색용 메소드
-	public ArrayList<Board> searchTextServlet(String text1, String selected, int bdid, int currentPage, int limit) {
+	public ArrayList<Board> searchTextServlet(String text1, String selected, int bdid, int currentPage, int limit, int user) {
 		Connection con = getConnection();
 		ArrayList<Board> list =null;
 		if(selected.equals("all")) {
 			
-			list = new BoardDao().searchAll(con,text1,selected,bdid, currentPage,limit);
+			list = new BoardDao().searchAll(con,text1,selected,bdid, currentPage,limit,user);
 			
 		}else if(selected.equals("title1")) {
 			
-			list = new BoardDao().searchTitle(con,text1,bdid, currentPage,limit);
+			list = new BoardDao().searchTitle(con,text1,bdid, currentPage,limit,user);
 			
 		}else if(selected.equals("name1")){
 			
-			list = new BoardDao().searchName(text1,con,selected,bdid, currentPage,limit);
+			list = new BoardDao().searchName(text1,con,selected,bdid, currentPage,limit,user);
 		}
 		
 		close(con);

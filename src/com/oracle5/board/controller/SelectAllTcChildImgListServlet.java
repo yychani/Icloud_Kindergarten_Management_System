@@ -71,7 +71,7 @@ public class SelectAllTcChildImgListServlet extends HttpServlet {
 			if((loginUser).getUType().equals("교사")) {
 				page="views/teacher/tcChildImgMain.jsp";
 				
-			}else {
+			}else if((loginUser).getUType().equals("학부모")) {
 				page="views/parents/boardThumbnailMain.jsp";
 				
 			}

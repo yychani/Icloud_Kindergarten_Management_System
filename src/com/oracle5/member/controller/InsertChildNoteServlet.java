@@ -23,6 +23,7 @@ public class InsertChildNoteServlet extends HttpServlet {
 		String date = request.getParameter("date");
 		String unique = request.getParameter("unique");
 		String materials = request.getParameter("materials");
+		System.out.println("insert : " + materials);
 		String health = request.getParameter("health");
 
 		Date nDate = Date.valueOf(date);
@@ -40,7 +41,9 @@ public class InsertChildNoteServlet extends HttpServlet {
 		Member m = (Member) request.getSession().getAttribute("loginMember");
 		
 		if(result > 0) {
-			response.sendRedirect(request.getContextPath() + "/selectChildNote.me?date=" + date + "&tno=" + m.getMemberNo() + "&cid=" + cid);
+			request.setAttribute("date", date);
+			request.setAttribute("met", materials);
+			request.getRequestDispatcher("/selectChildNote.me?cid=" + cid).forward(request, response);
 		} else {
 			request.setAttribute("msg", "원아별 알림장 입력 실패!");
 			request.getRequestDispatcher("/views/common/errorPage.jsp").forward(request, response);

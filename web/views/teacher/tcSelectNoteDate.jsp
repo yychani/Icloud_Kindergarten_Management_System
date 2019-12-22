@@ -98,6 +98,11 @@
             text-align: center;
             background: rgba(30, 143, 255, 0.432);
         }
+        
+        .ui.basic.modal {
+        	top:35%;
+        	left:20%;
+        }
     </style>
 </head>
 
@@ -108,6 +113,28 @@
     </div>
     <%@ include file="/views/common/calendar.jsp" %>
  
+    <div class="ui basic modal">
+  		<div class="ui icon header">
+    		<i class="bullhorn icon"></i>
+    		준비물을 입력하세요 !
+  		</div>
+  		<div class="content"  align="center">
+  			<div class="ui input" style="width: 400px;">
+  				<input type="text" id="materials"/>
+  			</div>
+  		</div>
+  		<div class="actions">
+    		<div class="ui red basic cancel inverted button">
+      			<i class="remove icon"></i>
+      				취소
+    		</div>
+    		<div class="ui green ok inverted button" onclick="page_move('<%= request.getContextPath() %>/selectChildNote.me', date, $('#materials').val());">
+      			<i class="checkmark icon"></i>
+      				확인
+   			</div>
+		</div>
+	</div>
+    
     
     <script>
         $(function () {
@@ -134,13 +161,36 @@
 
             $(".date").on("click", function(){
                 calColor();
-                var date = $(this).children(".dailyDate").val();
+                $('.ui.basic.modal').modal('show');
+                date = $(this).children(".dailyDate").val();
                 $(this).css("background", "rgba(30, 143, 255, 0.432)")
                 date = date.split(" ");
                 date = date[0].substring(0, date[0].length - 1) + "-" + date[1].substring(0, date[1].length - 1) + "-" + date[2].substring(0, date[2].length - 1)
-                location.href="<%= request.getContextPath() %>/selectChildNote.me?date=" + date + "&tno=<%= loginUser.getMemberNo() %>";
             });
         }); 
+        
+        function page_move(url, date, met) {
+        	var form = document.createElement("form");
+        	
+        	form.action = url;
+        	form.method = "post";
+        	
+        	inputDate = document.createElement("input");
+        	inputDate.setAttribute("type", "hidden");
+        	inputDate.setAttribute("name", "date");
+        	inputDate.setAttribute("value", date);
+        	form.appendChild(inputDate);
+        	
+        	inputMet = document.createElement("input");
+        	inputMet.setAttribute("type", "hidden");
+        	inputMet.setAttribute("name", "met");
+        	inputMet.setAttribute("value", met);
+        	form.appendChild(inputMet);
+        	
+        	document.body.appendChild(form);
+        	
+        	form.submit();
+        }
     </script>
     <%@ include file="/views/common/footer.jsp"%>
     <%@ include file="/views/common/chat.jsp"%>

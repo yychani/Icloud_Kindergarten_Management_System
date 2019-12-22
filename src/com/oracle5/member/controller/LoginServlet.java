@@ -1,6 +1,8 @@
 package com.oracle5.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +21,8 @@ public class LoginServlet extends HttpServlet {
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		ArrayList<Member> checkList = new MemberService().selectNotAcceptParents();
+		
 		String userId = request.getParameter("userId");
 		String userPwd = request.getParameter("userPwd");
 		Member requestMember = new Member();
@@ -26,22 +30,35 @@ public class LoginServlet extends HttpServlet {
 		requestMember.setMemberPwd(userPwd);
 		Member loginMember = new MemberService().loginMember(requestMember);
 		
-		if(loginMember != null) {
-			request.getSession().setAttribute("loginMember", loginMember);
-			
-			if(loginMember.getUType().equals("교사")) {
-				if(loginMember.getMemberId().equals("admin")) {
-					response.sendRedirect(request.getContextPath() + "/selectTodoList.todo");
+		for(int i = 0; i < checkList.size(); i++) {
+			if(loginMember != null && checkList.get(i).getMemberId().equals(userId)) {
+				request.setAttribute("msg", "아직 승인되지 않은 계정입니다.");
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+				break;
+			} else if(i == checkList.size() - 1) {
+				
+				if(loginMember != null) {
+					request.getSession().setAttribute("loginMember", loginMember);
+					
+					if(loginMember.getUType().equals("교사")) {
+						if(loginMember.getMemberId().equals("admin")) {
+							response.sendRedirect(request.getContextPath() + "/selectTodoList.todo");
+							break;
+						}else {
+							response.sendRedirect("teacher");
+							break;
+						}
+					}else if(loginMember.getUType().equals("학부모")) {
+						response.sendRedirect(request.getContextPath() + "/selectChildCidServlet.me?pno=" + loginMember.getMemberNo());
+						break;
+					}
 				}else {
-					response.sendRedirect("teacher");
+					request.setAttribute("msg", "로그인에러!!");
+					
+					request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+					break;
 				}
-			}else if(loginMember.getUType().equals("학부모")) {
-				response.sendRedirect(request.getContextPath() + "/selectChildCidServlet.me?pno=" + loginMember.getMemberNo());
 			}
-		}else {
-			request.setAttribute("msg", "로그인에러!!");
-			
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 	}
 
