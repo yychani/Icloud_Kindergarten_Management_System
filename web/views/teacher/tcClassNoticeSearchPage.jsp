@@ -1,44 +1,47 @@
-
+<%@page import="com.oracle5.common.model.vo.PageInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"  import="java.util.ArrayList, com.oracle5.board.model.vo.Board"%>
-
     
- <%@ page import="com.oracle5.common.model.vo.PageInfo" %>
-    <%
+     <% 
     	ArrayList<Board> list = (ArrayList<Board>) request.getAttribute("list");
-    	PageInfo pi = (PageInfo) request.getAttribute("pi");
-    	int currentPage = pi.getCurrentPage();
-    	int listCount = pi.getListCount();
-    	int limit = pi.getLimit(); 
-    	int maxPage = pi.getMaxPage(); 
-    	int startPage = pi.getStartPage(); 
-    	int endPage = pi.getEndPage();
+     	PageInfo pi = (PageInfo) request.getAttribute("pi");
+     	int currentPage = pi.getCurrentPage();
+     	int listCount = pi.getListCount();
+     	int limit = pi.getLimit();
+     	int maxPage = pi.getMaxPage();
+     	int startPage = pi.getStartPage();
+     	int endPage = pi.getEndPage();
+    
     %>
-
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>가정통신문</title>
+<title>반 공지사항</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
 <script>
-$(function() {
-	  $(".li:nth-child(5)").addClass("on");
-	  
-    $(".topMenuLi:nth-child(1)").addClass("on");
-   
-    $(".topMenuLi").mouseover(function() {
-      $(".li:nth-child(5)").removeClass("on");
-      $(".topMenuLi:nth-child(1)").removeClass("on");
-   });
-  
-    $(".topMenuLi").mouseleave(function() {
-      $(".li:nth-child(5)").addClass("on");
-      $(".topMenuLi:nth-child(1)").addClass("on");
-   });
-}); 
+      $(function() {
+    	  $(".li:nth-child(3)").addClass("on");
+    	  
+          $(".topMenuLi:nth-child(1)").addClass("on");
+         
+          $(".topMenuLi").mouseover(function() {
+            $(".li:nth-child(3)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
+         });
+        
+          $(".topMenuLi").mouseleave(function() {
+            $(".li:nth-child(3)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
+         });
+          
+          $(".writing").click("click", function(){
+   			location.href="tcWriteNotice.jsp";
+   		 });
+      }); 
 </script>
 <style>
  .writing > button {
@@ -124,7 +127,7 @@ input[type='button'] {
 <body>
  	<%@ include file="/views/common/teacherMenu.jsp" %>
  	<div style="margin: 0 15%;">
- 	<h1 style="text-decoration: underline; text-underline-position: under;">가정통신문</h1>
+ 	<h1 style="text-decoration: underline; text-underline-position: under;">반 공지사항</h1>
  	</div>
  	<div id="outBox">
 		<table class="ui celled table boardTable" id="tableArea">
@@ -149,54 +152,59 @@ input[type='button'] {
 				<%} %>
 				
 			</tbody>
-		</table>	<div style="width: fit-content; margin: auto">
-			<button style="width: 50px; height: 30px;" onclick="<%=request.getContextPath()%>/selectFLetterList.tbo?currentPage=<%=startPage%>">처음</button>
-			<%
-				if (currentPage <= 1) {
-			%>
-			<button style="width: 50px; height: 30px;" disabled>이전</button>
-			<%
-				} else {
-			%>
-			<button style="width: 50px; height: 30px;" onclick="location.href='<%=request.getContextPath()%>/selectFLetterList.tbo?currentPage=<%=currentPage - 1%>'">이전</button>
-			<%
-				}
-			%>
-			<%
-				for (int p = startPage; p <= endPage; p++) {
-					if (p == currentPage) {
-			%>
-			<button disabled class="current" style="width: 30px; height: 30px;"><%=p%></button>
-			<%
-				} else {
-			%>
-			<button class="other" style="width: 30px; height: 30px;" onclick="location.href='<%=request.getContextPath()%>/selectFLetterList.tbo?currentPage=<%=p%>'"><%=p%></button>
-			<%
-				}
-			%>
-			<%
-				}
-			%>
-
-			<%
-				if (currentPage >= maxPage) {
-			%>
-			<button style="width: 50px; height: 30px;" disabled>다음</button>
-			<%
-				} else {
-			%>
-			<button style="width: 50px; height: 30px;" onclick="location.href='<%=request.getContextPath()%>/selectFLetterList.tbo?currentPage=<%=currentPage + 1%>'">다음</button>
-			<%
-				}
-			%>
-			<button style="width: 60px; height: 30px;"
-				onclick="location.href='<%=request.getContextPath()%>/selectFLetterList.tbo?currentPage=<%=maxPage%>'">마지막</button>
+		</table>
+		
+		<div style="width:fit-content; margin: auto">
+		<button style="width:50px; height:30px;" onclick="<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=startPage%>">처음</button>
+		<%
+			if(currentPage <= 1){
+		%>
+		<button style="width:50px; height:30px;" disabled>이전</button>
+		<%
+			}else { 
+		%>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=currentPage -1%>'">이전</button>
+		<%
+			} 
+		%>
+		<%
+			for(int p = startPage; p <= endPage; p++){
+				if(p == currentPage){
+			
+		%> 
+		<button disabled class="curent" style="width:30px; height:30px;"><%=p %></button>
+		<%
+			}else{
+		%>
+		<button class="other" style="width:30px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=p%>'"><%=p %></button>
+		<%
+			}
+		%>
+		<%
+			}
+		%>
+		
+		<%
+			if(currentPage >= maxPage) {
+		%>
+		<button style="width:50px; height:30px;" disabled>다음</button>
+		<%
+			} else { 
+		%>
+		<button style="width:50px; height:30px;" onclick="location.href='<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=currentPage +1%>'">다음</button>
+		<%
+			} 
+		%>
+		<button style="width: 60px; height:30px;"
+				onclick="location.href='<%=request.getContextPath()%>/selectAllBanList?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
-		<form action="<%=request.getContextPath()%>/searchFamilyLetter.bo" method="post" onsubmit="return check();">
-		 <div id="searchArea">
-               <div class="ui action input">
+		
+		<br>
+		<form action="<%=request.getContextPath()%>/searchBan.bo" method="post" onsubmit="return check();">
+        <div id="searchArea">
+                <div class="ui action input">
   					<input type="text" id="cont" name="text1" placeholder="Search..." style="width:170px; height:45px;">
-  					<input type="hidden" name="bdid" value="2">
+  					<input type="hidden" name="bdid" value="4">
   					<input type="hidden" name="user" value="2">
  				    <select class="ui compact selection dropdown" name="select" style="height:45px;">
     				<option selected="" value="all">전체</option>
@@ -205,32 +213,32 @@ input[type='button'] {
   					</select>
   					<button class="ui button" type="submit">찾기</button>
 				</div>
-              
-              
         </div> 
         </form>
+              <%if(loginUser.getUType().equals("교사")){ %>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
+              <%} %>
 	</div>
-	
-
+ 	
 
     <script>
     $(function(){
     	$(".writing").click(function(){
-    		location.href="./views/teacher/tcWriteFamilyLetter.jsp";
+    		location.href="./views/teacher/tcWriteNotice.jsp";
     	});
     });
     
     $(function(){
     	$("#tableArea td").click(function(){
     		var num = $(this).parent().children().eq(0).children().val();
-    		console.log(num)
-    		location.href="<%=request.getContextPath()%>/selectOneFLetter.tbo?num=" + num;
+    		
+    		console.log(num);
+    		location.href="<%=request.getContextPath()%>/selectOneBanBoard.bo?num="+num;
+    		
     		
     	});
     	
     });
-   
     function check(){
 		if($("#cont").val() == ""){
 			alert("검색할 내용을 입력하세요.");
@@ -241,7 +249,7 @@ input[type='button'] {
 
 	}
     </script>
-     	<%@ include file="/views/common/footer.jsp" %>
+    <%@ include file="/views/common/footer.jsp" %>
  	<%@ include file="/views/common/chat.jsp" %>
 </body>
 </html>

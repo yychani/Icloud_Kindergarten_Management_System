@@ -128,7 +128,7 @@ input[type='button'] {
 </head>
 <body style="overflow-x: hidden">
 
-	<%@ include file="/views/common/teacherMenu.jsp"%>
+	<%@ include file="/views/common/parentsMenu.jsp"%>
 
 	<div style="margin: 0 15%;">
 		<h1 style="text-decoration: underline; text-underline-position: under;">원 공지사항</h1>
@@ -203,12 +203,12 @@ input[type='button'] {
 				onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
 		<br>
-		<form action="<%=request.getContextPath()%>/searchPreKNotice.bo" method="post" onsubmit="return check();">
+		<form name="search" action="<%=request.getContextPath()%>/searchPreKNotice.bo" method="post" onsubmit="return check();">
         <div id="searchArea">
-                <div class="ui action input">
+                 <div class="ui action input">
   					<input type="text" id="cont" name="text1" placeholder="Search..." style="width:170px; height:45px;">
   					<input type="hidden" name="bdid" value="3">
-  					<input type="hidden" name="user" value="2">
+  					<input type="hidden" name="user" value="3">
  				    <select class="ui compact selection dropdown" name="select" style="height:45px;">
     				<option selected="" value="all">전체</option>
    				 	<option value="title1">제목</option>
@@ -218,7 +218,7 @@ input[type='button'] {
 				</div>
         </div> 
         </form>
-              <%if((loginUser.getMemberId()).equals("admin")){ %>
+              <%if((loginUser.getMemberId()).equals("admin")) {%>
               <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
               <%} %>
 	</div>
@@ -229,20 +229,20 @@ input[type='button'] {
 	
 	<script>
 	$(function() {
-		  $(".li:nth-child(1)").addClass("on");
-		  
-	    $(".topMenuLi:nth-child(1)").addClass("on");
-	   
-	    $(".topMenuLi").mouseover(function() {
-	      $(".li:nth-child(1)").removeClass("on");
-	      $(".topMenuLi:nth-child(1)").removeClass("on");
-	   });
-	  
-	    $(".topMenuLi").mouseleave(function() {
-	      $(".li:nth-child(1)").addClass("on");
-	      $(".topMenuLi:nth-child(1)").addClass("on");
-	   });
-	}); 
+	   	  $(".li:nth-child(1)").addClass("on");
+	   	  
+	         $(".topMenuLi:nth-child(2)").addClass("on");
+	        
+	         $(".topMenuLi").mouseover(function() {
+	           $(".li:nth-child(1)").removeClass("on");
+	           $(".topMenuLi:nth-child(2)").removeClass("on");
+	        });
+	       
+	         $(".topMenuLi").mouseleave(function() {
+	           $(".li:nth-child(1)").addClass("on");
+	           $(".topMenuLi:nth-child(2)").addClass("on");
+	        });
+	     });
 		
 		$(function(){
 			$(".writing").click(function(){
@@ -258,6 +258,8 @@ input[type='button'] {
 				location.href="<%=request.getContextPath()%>/selectOnePreKNotice.bo?num="+num;
 			});
 		});
+		
+		
 		function check(){
 			if($("#cont").val() == ""){
 				alert("검색할 내용을 입력하세요.");

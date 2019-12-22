@@ -188,13 +188,25 @@ input[type='button'] {
 			<button style="width: 60px; height: 30px;"
 				onclick="location.href='<%=request.getContextPath()%>/selectFLetterList.tbo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
+		<form action="<%=request.getContextPath()%>/searchParents.bo" method="post" onsubmit="return check();">
 		 <div id="searchArea">
-                <input type="text" placeholder="Search" style="width:150px; height:30px;">
-              <button class="searchBtn" style="width:100px; height:30px; margin: 0 .25em 0 0; background-color: #e0e0e0;
-                      color: rgba(0,0,0,.6); ">Search</button>
-              
+                <div class="ui action input">
+  					<input type="text" id="cont" name="text1" placeholder="Search..." style="width:170px; height:45px;">
+  					<input type="hidden" name="bdid" value="6">
+  					<input type="hidden" name="user" value="1">
+ 				    <select class="ui compact selection dropdown" name="select" style="height:45px;">
+    				<option selected="" value="all">전체</option>
+   				 	<option value="title1">제목</option>
+    				<option value="name1">작성자</option>
+  					</select>
+  					<button class="ui button" type="submit">찾기</button>
+				</div>
               
         </div> 
+        </form>
+               <%if(loginUser != null && loginUser.getUType().equals("학부모")) {%>
+              <button style="float:right; width:100px; height:30px;" class="writing" >글쓰기</button>
+			  <%} %>
 	</div>
 
 
@@ -211,6 +223,15 @@ input[type='button'] {
     	
     });
     
+    function check(){
+		if($("#cont").val() == ""){
+			alert("검색할 내용을 입력하세요.");
+			return false;
+		} else {
+			return true;
+		}
+
+	}
     </script>
      	<%@ include file="/views/common/footer.jsp" %>
  	<%@ include file="/views/common/chat.jsp" %>

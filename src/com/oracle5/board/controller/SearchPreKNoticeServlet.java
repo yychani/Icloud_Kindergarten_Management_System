@@ -2,7 +2,6 @@ package com.oracle5.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,10 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
 import com.oracle5.board.model.service.BoardService;
 import com.oracle5.board.model.vo.Board;
 import com.oracle5.common.model.vo.PageInfo;
+import com.oracle5.member.model.vo.Member;
 
 /**
  * Servlet implementation class SearchPreKNoticeServlet
@@ -37,6 +36,7 @@ public class SearchPreKNoticeServlet extends HttpServlet {
 		String text1 = request.getParameter("text1");
 		String selected = request.getParameter("select");
 		int bdid = Integer.parseInt(request.getParameter("bdid"));
+		int user = Integer.parseInt(request.getParameter("user"));
 		int currentPage;
 		int limit;
 		int maxPage;
@@ -64,15 +64,23 @@ public class SearchPreKNoticeServlet extends HttpServlet {
 		
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage,startPage, endPage);
 		
-		ArrayList<Board> list = new BoardService().searchTextServlet(text1, selected, bdid, currentPage, limit);
+		ArrayList<Board> list = new BoardService().searchTextServlet(text1, selected, bdid, currentPage, limit,user);
 		
+		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
+		String page="";
+		if((loginUser).getMemberId().equals("admin")) {
+			 page="views/president/preKNoticeSearchPage.jsp";
+		}else if((loginUser).getUType().equals("교사")){
+			page="views/teacher/tcKNoticeSearchPage.jsp";
+		}else {
+			page="views/parents/parKNoticeSearchPage.jsp";
+		}
 		
-		if(list != null) {
+			
 			
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
-		}
-		String page="views/common/searchPrekBoardList.jsp";
+		
 		request.getRequestDispatcher(page).forward(request, response);
 		
 	}

@@ -203,7 +203,7 @@ input[type='button'] {
 				onclick="location.href='<%=request.getContextPath()%>/selectAllPreNotice.bo?currentPage=<%=maxPage%>'">마지막</button>
 		</div>
 		<br>
-		<form action="<%=request.getContextPath()%>/searchPreKNotice.bo" method="post" onsubmit="return check();">
+        <form action="<%=request.getContextPath()%>/searchPreKNotice.bo" method="post" onsubmit="return check();">
         <div id="searchArea">
                 <div class="ui action input">
   					<input type="text" id="cont" name="text1" placeholder="Search..." style="width:170px; height:45px;">
@@ -258,6 +258,7 @@ input[type='button'] {
 				location.href="<%=request.getContextPath()%>/selectOnePreKNotice.bo?num="+num;
 			});
 		});
+		
 		function check(){
 			if($("#cont").val() == ""){
 				alert("검색할 내용을 입력하세요.");
