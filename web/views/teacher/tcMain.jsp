@@ -176,10 +176,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/sha256.js"></script>
 	<script> 
     $(function() {
+    	<% if(loginUser.getMemberRno() != null) {%>
     	if('<%= loginUser.getMemberRno() %>' != 'null' && <%= loginUser.getMemberRno().endsWith("~") %>) {
     		alert("임시 비밀번호로 로그인 하셨습니다.\n비밀번호를 변경해주세요.");
     		$('#pwdChange').modal('show');
     	}
+    	<% } %>
     });
      
 	 $(document).ready(function(){
@@ -219,7 +221,7 @@
     
     
 	$(function(){
-		if('<%= loginUser.getMemberRno() %>' == 'null') {
+		if('<%= loginUser.getMemberRno() %>' == 'null' || '<%= loginUser.getMemberRno() %>' == "") {
 			$('.fullscreen.modal').modal('show');
 		}
 	});

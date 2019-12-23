@@ -1389,6 +1389,9 @@ public class MemberService {
 	public int updateMemberPwd(int mno, String check, String userRno) {
 		Connection con = getConnection();
 		
+		if(userRno == null) {
+			userRno = "";
+		}
 		int result = new MemberDao().updateMemberPwd(con, mno, check, userRno);
 		
 		if(result > 0) {

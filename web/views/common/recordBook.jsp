@@ -70,7 +70,6 @@
 		cursor: pointer;
 	}
 </style>
-
 	<div style="margin: 0 15%;">
 		<h1 align="center"
 			style="text-decoration: underline; text-underline-position: under;"><%= c.getName() %>
