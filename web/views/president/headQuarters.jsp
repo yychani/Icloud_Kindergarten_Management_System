@@ -53,7 +53,7 @@
 						if(teacherList.get(i).getUType().equals("N")) {%>
 						<option value="<%=teacherList.get(i).getMemberNo() %>"><%=teacherList.get(i).getMemberName() %> 선생님</option>
 						<% } else { %>
-						<option value="<%=teacherList.get(i).getMemberNo() %> selected"><%=teacherList.get(i).getMemberName() %> 선생님</option>
+						<option value="<%=teacherList.get(i).getMemberNo() %>" selected><%=teacherList.get(i).getMemberName() %> 선생님</option>
 						<%}
 						}
 					}%>
@@ -94,7 +94,10 @@
 			<td>
 				<select id="tulip" disabled>
 					<% for(int i = 0; i < TulipList.size(); i++) {
+
+						System.out.println(TulipList.get(i));
 					if(TulipList.get(i).getBloodType().equals("N")) {%>
+					
 					<option value="<%=TulipList.get(i).getPno() %>"><%=TulipList.get(i).getName() %> 학부모</option>
 					<% }else { %>
 					<option value="<%=TulipList.get(i).getPno() %>" selected><%=TulipList.get(i).getName() %> 학부모</option>
