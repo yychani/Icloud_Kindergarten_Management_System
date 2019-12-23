@@ -82,28 +82,13 @@
         td[id="does"]{
             padding-right: 0;
         } 
-        
-     .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-
-    /* Modal Content/Box */
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 30%; /* Could be more or less, depending on screen size */                          
-    }
+    .ui .modal {
+		top:25%;
+		left:20%;
+	}
+	.ui.labeled.icon.button>.icon:before {
+		top: 67% !important;
+	}
      td#applicant:nth-of-type(n+1) {
     	cursor:pointer;
     }
@@ -146,7 +131,7 @@
   		});
   		
   		
-  		$("#myModal").show();
+  		$('.ui.modal').modal('show');
   	});      
     </script>
 </head>
@@ -199,49 +184,46 @@
     <div style="margin: 0 20%" align="right">
     	<input type="button" id="accept" value="승인" style="width: 70px; height:30px">
     </div>
-        <!-- The Modal -->
-    <div id="myModal" class="modal">
- 
-      <!-- Modal content -->
-      	<div class="modal-content">
-				<table style="text-align:left">
-					<tr>
-						<td id="childName"></td>
-						<td rowspan="4"><img id="childImg" alt="" width="200px" style="margin:0 10%"/></td>
-					</tr>
-					<tr>
-						<td id="childGender"></td>
-					</tr>
-					<tr>
-						<td id="childBirth"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-				</table>
-                <p><br /></p>
-            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
-                <span class="pop_bt" style="font-size: 13pt;" >
-                     	닫기
-                </span>
-            </div>
-	     </div>
- 
-    </div>
+    
+    
+    
+    
+    <div class="ui modal">
+	  <i class="close icon"></i>
+	  <div class="header">
+	    	아이상세보기
+	  </div>
+	  <div class="image content">
+	    <div class="ui medium image">
+	      <img id="childImg">
+	    </div>
+	    <div class="description">
+	      <div class="ui header" id="childName"></div>
+	      	<p id="childGender"></p>
+	      	<p id="childBirth"></p>
+	    </div>
+	  </div>
+	  <div class="actions">
+	    <div class="ui positive right labeled icon button">
+	      	확인
+	      <i class="checkmark icon"></i>
+	    </div>
+	  </div>
+	</div>
     <script>
         $(function () {
         	 $(".li:nth-child(13)").addClass("on");
        	  
-             $(".topMenuLi:nth-child(2)").addClass("on");
+             $(".topMenuLi:nth-child(1)").addClass("on");
             
              $(".topMenuLi").mouseover(function() {
                $(".li:nth-child(13)").removeClass("on");
-               $(".topMenuLi:nth-child(2)").removeClass("on");
+               $(".topMenuLi:nth-child(1)").removeClass("on");
             });
            
              $(".topMenuLi").mouseleave(function() {
                $(".li:nth-child(13)").addClass("on");
-               $(".topMenuLi:nth-child(2)").addClass("on");
+               $(".topMenuLi:nth-child(1)").addClass("on");
             });
             
             $("#allCheck").click(function() {
@@ -256,18 +238,15 @@
                  if($(this).val() == "신청자 리스트"){
                     $("#table2").attr("hidden", true);
                     $("#table1").attr("hidden", false);
+                    $("#accept").show();
                  }else if($(this).val() == "이전 신청 이력"){
                     $("#table1").attr("hidden", true);
                     $("#table2").attr("hidden", false);
+                    $("#accept").hide();
                  }
             });
           }); 
     		
-        
-        function close_pop() {
-			$("#myModal").hide();
-		};
-		
 		$("#accept").click(function() {
 			var cid = [];
 			var cnt = 0;

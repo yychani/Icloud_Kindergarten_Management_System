@@ -213,6 +213,20 @@
 			if(age != 'default')
 				location.href="<%= request.getContextPath() %>/views/teacher/tcChildObserveMod.jsp?cid=<%= request.getParameter("cid") %>&age=" + age; 
 		});
+		
+		 $(".li:nth-child(9)").addClass("on");
+   	  
+         $(".topMenuLi:nth-child(1)").addClass("on");
+        
+         $(".topMenuLi").mouseover(function() {
+           $(".li:nth-child(9)").removeClass("on");
+           $(".topMenuLi:nth-child(1)").removeClass("on");
+        });
+       
+         $(".topMenuLi").mouseleave(function() {
+           $(".li:nth-child(9)").addClass("on");
+           $(".topMenuLi:nth-child(1)").addClass("on");
+        });
     });
 </script>
 </head>

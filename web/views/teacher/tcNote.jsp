@@ -149,14 +149,18 @@ table {
 		<input type="radio" name="health" id="health2" value="보통"/><label for="health2">보통</label>
 		<input type="radio" name="health" id="health3" value="나쁨"/><label for="health3">나쁨</label>
 		<br><br>
-		<input type="submit" value="완료" style="float:right; border-radius:5px;"/>
+		<input type="submit" id="subbtn" value="완료" style="float:right; border-radius:5px;"/>
 	</div>
 	</form>
     <%@ include file="/views/common/footer.jsp" %>
 	<%@ include file="/views/common/chat.jsp" %>
 	
 	<script>
-		 function page_move(url, date, met) {
+		$("#subbtn").click(function() {
+			alert("저장되었습니다.");
+		});
+		 
+		function page_move(url, date, met) {
 	     	var form = document.createElement("form");
 	     	
 	     	form.action = url;

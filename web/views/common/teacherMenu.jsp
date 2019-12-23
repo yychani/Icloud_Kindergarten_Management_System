@@ -96,19 +96,6 @@
 		<td id="menu">
 			<nav id="topMenu">
 				<ul>
-					<li class="topMenuLi"><a class="menuLink" href="">소식</a>
-						<ul class="submenu">
-							<li class="li"><a href="<%= request.getContextPath() %>/selectAllPreNotice.bo" class="submenuLink">원 공지사항</a></li>
-							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/selectAllBanList?tno=<%=loginUser.getMemberNo() %>" class="submenuLink">반 공지사항</a></li>
-							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/selectFLetterList.tbo" class="submenuLink">가정통신문</a></li>
-							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/selectAllSchedule.sch" class="submenuLink">일정표</a></li>
-							<li>|</li>
-							<li class="li"><a href="<%= request.getContextPath() %>/selectAllDietTable.diet" class="submenuLink">식단표</a></li>
-						</ul>
-					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">업무</a>
 						<ul class="submenu">
 							<li class="li"><a href="<%= request.getContextPath() %>/selectWorkList.task" class="submenuLink">업무분장</a></li>
@@ -129,6 +116,19 @@
 							<li>|</li>
 							<li class="li"><a href="<%= request.getContextPath() %>/selectBanRtnList.me" class="submenuLink">귀가 동의서 관리</a></li>
 						</ul>
+					<li class="topMenuLi"><a class="menuLink" href="">소식</a>
+						<ul class="submenu">
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllPreNotice.bo" class="submenuLink">원 공지사항</a></li>
+							<li>|</li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllBanList?tno=<%=loginUser.getMemberNo() %>" class="submenuLink">반 공지사항</a></li>
+							<li>|</li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectFLetterList.tbo" class="submenuLink">가정통신문</a></li>
+							<li>|</li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllSchedule.sch" class="submenuLink">일정표</a></li>
+							<li>|</li>
+							<li class="li"><a href="<%= request.getContextPath() %>/selectAllDietTable.diet" class="submenuLink">식단표</a></li>
+						</ul>
+					</li>
 					</li>
 					<li class="topMenuLi"><a class="menuLink" href="">게시판</a>
 						<ul class="submenu">

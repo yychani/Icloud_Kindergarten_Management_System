@@ -118,6 +118,24 @@
 			if(age != 'default')
 				location.href="<%= request.getContextPath() %>/views/teacher/tcChildObserve.jsp?cid=<%= request.getParameter("cid") %>&age=" + age; 
 		});
+		
+		 $(".li:nth-child(9)").addClass("on");
+   	  
+         $(".topMenuLi:nth-child(1)").addClass("on");
+        
+         $(".topMenuLi").mouseover(function() {
+           $(".li:nth-child(9)").removeClass("on");
+           $(".topMenuLi:nth-child(1)").removeClass("on");
+        });
+       
+         $(".topMenuLi").mouseleave(function() {
+           $(".li:nth-child(9)").addClass("on");
+           $(".topMenuLi:nth-child(1)").addClass("on");
+        });
+         
+         $("#print").click(function() {
+       	  window.print();
+         });
 	});
 </script>
 </head>
@@ -301,7 +319,7 @@
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<input type="button" value="수정하기" style="float:right" onclick="location.href='<%= request.getContextPath() %>/views/teacher/tcChildObserveMod.jsp?cid=<%= cid %>&age=<%= age %>'" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		<input type="button" value="인쇄하기" style="float:right; background:lightgray; color:black" />
+		<input type="button" value="인쇄하기" id="print" style="float:right; background:lightgray; color:black" />
 	</div>
 	<%@ include file="/views/common/chat.jsp" %>
     <%@ include file="/views/common/footer.jsp" %>

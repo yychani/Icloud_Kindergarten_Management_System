@@ -132,6 +132,23 @@ input[type='text'] {
 	border-radius: .2857rem;
 }
 </style>
+<script>
+	$(function() {
+		 $(".li:nth-child(9)").addClass("on");
+     	  
+         $(".topMenuLi:nth-child(2)").addClass("on");
+        
+         $(".topMenuLi").mouseover(function() {
+           $(".li:nth-child(9)").removeClass("on");
+           $(".topMenuLi:nth-child(2)").removeClass("on");
+        });
+       
+         $(".topMenuLi").mouseleave(function() {
+           $(".li:nth-child(9)").addClass("on");
+           $(".topMenuLi:nth-child(2)").addClass("on");
+        });
+	});
+</script>
 </head>
 
 <body style="overflow-x: hidden">
