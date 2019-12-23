@@ -66,11 +66,11 @@ $(function(){
 					$("#presidentNotice").text("");
 					$("#teacherNotice").text(""); 
 					
-					$("#uniqueness").text(data.tNote.unique);
+					$("#uniqueness").text(data.tNote.unique); 
 					$("#materials").text(data.tNote.materials);
 					$("input:radio[name='example2']:input[value='"+ data.tNote.health +"']").prop("checked",true);
 					$("#banName").text(data.b.banName + "반 알림장");
-					$("#presidentNotice").text(data.cNote.note);
+					$("#presidentNotice").text(data.pNote.note);
 					$("#teacherNotice").text(data.cNote.note); 
 				},
 				error:function(data){
