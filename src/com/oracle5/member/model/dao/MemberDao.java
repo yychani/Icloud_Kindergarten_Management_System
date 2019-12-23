@@ -2435,10 +2435,10 @@ public class MemberDao {
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, n.getCid());
-			pstmt.setString(2, n.getUnique());
-			pstmt.setString(3, n.getMaterials());
-			pstmt.setString(4, n.getHealth());
-			pstmt.setDate(5, n.getNDate());
+			pstmt.setDate(2, n.getNDate());
+			pstmt.setString(3, n.getUnique());
+			pstmt.setString(4, n.getMaterials());
+			pstmt.setString(5, n.getHealth());
 			pstmt.setInt(6, n.getTno());
 			pstmt.setInt(7, n.getCid());
 			pstmt.setString(8, n.getUnique());
