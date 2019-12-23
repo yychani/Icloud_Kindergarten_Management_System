@@ -24,16 +24,10 @@
 	.no {
 		width: 100px !important;
 		height: 30px !important;
-		border-right: 1px solid black;
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
 	}
 	.name {
 		width: 700px !important;
 		height: 30px !important;
-		border-left: 1px solid black;
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
 	}
 	.ui .modal {
 		top:10%;
@@ -58,17 +52,27 @@
 	.ui.labeled.icon.button>.icon:before {
 		top: 67% !important; 
 	}
+	#tb {
+		text-align: center;
+	}
+	#tbarea {
+		width:60%;
+		margin: 0 20%;
+	}
+	a:link { color: black; text-decoration: none;}
+ 	a:visited { color: black; text-decoration: none;}
+ 	#tb a:hover { color: orangered !important;}
 </style>
 </head>
 <body> 
 	<%@ include file="/views/common/teacherMenu.jsp" %>
 	<div class="list">
-		<div style="margin: 0 15%;">
- 		<h1 align="center" style="text-decoration: underline; text-underline-position: under;"><%= bn %>반 원아 목록</h1>
- 		</div>
+		<h1 align="center">해바라기반 원아 목록</h1>
+	</div>
 		<input type="hidden" id="tno" value="<%= loginUser.getMemberNo() %>" />
-		<table class="main" align="center">
-			<tr>
+		<div id="tbarea">
+		<table id="tb" class="main ui celled table" align="center">
+			<tr style="background:#e3fad0; height:50px">
 				<th class="no">No.</th>
 				<th class="name">이름</th>
 			</tr>
@@ -79,7 +83,7 @@
 			</tr>
 			<% } %>
 		</table>
-	</div>
+		</div>
 	
 	<div class="ui fullscreen modal" id="infomodal">
   		<div class="header" style="text-align: center;">필수 정보 입력</div>

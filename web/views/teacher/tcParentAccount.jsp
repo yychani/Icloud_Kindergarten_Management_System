@@ -277,13 +277,16 @@
 	.ui.labeled.icon.button>.icon:before {
 		top: 67% !important;
 	}
+	.list{
+		padding: 50px;
+	}
 </style>
 
 </head>
 <body>
     <%@ include file="/views/common/teacherMenu.jsp" %>
-    <div style="margin: 0 15%;">
-		<h1 align="center" style="text-decoration: underline; text-underline-position: under;">학부모 계정관리</h1>
+    <div class="list">
+		<h1 align="center">해바라기반 원아 목록</h1>
 	</div>
 
 	<div style="margin: 0 20%;">
