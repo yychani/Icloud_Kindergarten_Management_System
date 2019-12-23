@@ -66,9 +66,7 @@
     <div style="margin: 0 15%; height:50px;">
 		<input type="button" value="뒤로가기" style="float:right; background:lightgray; color:black" onclick="location.href='selectChild.c'" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		<input type="button" value="수정하기" style="float:right" onclick="" />
-		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		<input type="button" value="인쇄하기" style="float:right; background:lightgray; color:black" />
+		<input type="button" value="인쇄하기" id="print" style="float:right; background:lightgray; color:black" />
 	</div>
     <script> 
         $(function () {
@@ -83,6 +81,9 @@
             $(".detailBtn").on("click", function(){
             	var cId = $(this).parent().siblings("input[type=hidden]").val();
             	location.href = "<%=request.getContextPath() %>/childRecordBook.me?cId=" + cId;
+            });
+            $("#print").click(function() {
+                window.print();
             });
         }); 
     </script>

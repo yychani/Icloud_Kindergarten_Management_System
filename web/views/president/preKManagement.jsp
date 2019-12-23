@@ -126,7 +126,7 @@
     <div style="margin: 0 15%;">
         <h1 style="text-decoration: underline; text-underline-position: under;">원아 관리</h1>
     </div>
-    <form action="<%=request.getContextPath()%>/views/president/preKManagement.jsp" method="get">
+    <%-- <form action="<%=request.getContextPath()%>/views/president/preKManagement.jsp" method="get">
         <div align="center" style="margin-top: 50px;">
             <select name="yearSelect" id="year">
                 <option value="none">년도 선택</option>
@@ -149,7 +149,7 @@
             <input type="submit" value="검색" style="margin-left: 20px; width: 50px; height: 30px;">
             <input type="submit" value="전체보기" style="margin-left: 35%; width: 70px; height: 30px;">
         </div>
-    </form>
+    </form> --%>
     <table id="children">
         <tr>
             <th id="no">No</th>

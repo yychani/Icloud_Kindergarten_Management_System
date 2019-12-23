@@ -54,7 +54,7 @@ public class SaveFeedServlet extends HttpServlet {
 
 			} 
 			String filePath = request.getContextPath() + "/uploadFiles/" + saveFiles.get(0);
-			//System.out.println("file : " + filePath);
+
 			int cid = Integer.parseInt(multiRequest.getParameter("reciever"));
 			int sendUser = Integer.parseInt(multiRequest.getParameter("sendUser"));
 			String message = "";

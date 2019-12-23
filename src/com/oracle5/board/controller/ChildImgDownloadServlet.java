@@ -48,7 +48,7 @@ public class ChildImgDownloadServlet extends HttpServlet {
 		downOut = response.getOutputStream();
 		
 
-		File downFile = new File(file.getFilePath() + file.getChangeName());
+		File downFile = new File(request.getContextPath() + "/uploadFiles/" + file.getChangeName());
 		
 		response.setContentType("text/plain; charset=UTF-8"); 
 		
