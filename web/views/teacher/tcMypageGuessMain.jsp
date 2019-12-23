@@ -40,7 +40,7 @@
 </head>
 <body>
 	<%@include file="/views/common/teacherMenu.jsp" %>
-	   <div style="margin: 0 15%;">
+	   <div style="margin: 50px 15%;">
 		<h1 align="center" style="text-decoration: underline; text-underline-position: under;">건의/문의 확인</h1>
 	</div>
 	<%@include file="/views/common/qna.jsp" %>
