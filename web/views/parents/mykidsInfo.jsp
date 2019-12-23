@@ -215,7 +215,7 @@ article section .chart {
 					data:{cId},
 					type:"get",
 					success:function(data){
-
+						console.log(data);
 						$("#kidName").text(data.c.name);
 						$("#kidImg").attr("src", '<%= request.getContextPath() %>/uploadFiles/'+ data.c.imgSrc);
 						$("#kidAge").text(data.c.cId + " 세");
