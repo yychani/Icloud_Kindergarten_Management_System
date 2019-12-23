@@ -106,7 +106,7 @@ tr{
 	<%} else {
 			for (ReturnAgree r : list) {
 		%>
-		<button class="accordion"><%=r.getApplyDate()%>
+		<button class="accordion">귀가 일자 : <%=r.getApplyDate()%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<%=r.getCName()%></button>
 		<div class="panel">
 			<table align="center" class="goHomeTable">
