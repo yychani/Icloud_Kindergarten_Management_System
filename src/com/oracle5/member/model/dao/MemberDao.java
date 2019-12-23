@@ -81,6 +81,7 @@ public class MemberDao {
 				loginMember.setEmail(rset.getString("EMAIL"));
 				loginMember.setPhone(rset.getString("PHONE"));
 				loginMember.setLeaveDate(rset.getDate("LEAVE_DATE"));
+				loginMember.setHq(rset.getString("HQ"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
