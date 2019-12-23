@@ -360,11 +360,13 @@
             		if(data[key].changeName == null){
             			message = data[key].content;
             		}else {
-            			fileP = "<img src='<%=request.getContextPath() %>/uploadFiles/" + data[key].changeName + "' style='max-width: 300px; max-height: 200px;'>";
+            			fileP = "<img src='<%=request.getContextPath() %>/uploadFiles/" + data[key].changeName
+            			+ "' style='max-width: 300px; max-height: 200px;'>";
             		}
 	    			if(<%=pno %> == <%=loginUser.getMemberNo() %>){
 		   				$feedContext.append("<div class='d-flex justify-content-start mb-4'>"
-		   						+ "<div class='img_cont_msg'>" + "<img src='" + img2 + "' class='rounded-circle user_img_msg'></div>" + "<div class='msg_cotainer'>" + message + fileP +"<span class='msg_time'>" + date + " " + time + "</span></div></div>");
+		   						+ "<div class='img_cont_msg'>" + "<img src='" + img2 + "' class='rounded-circle user_img_msg'></div>"
+		   						+ "<div class='msg_cotainer'>" + message + fileP +"<span class='msg_time'>" + date + " " + time + "</span></div></div>");
 	        		}else {
 	        			var $div1 = $('<div class="d-flex justify-content-end mb-4">')
 	        			var $div2 = $('<div class="msg_cotainer_send">').html(message + fileP);
