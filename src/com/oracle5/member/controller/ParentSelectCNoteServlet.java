@@ -48,13 +48,24 @@ public class ParentSelectCNoteServlet extends HttpServlet {
 			cDate = new java.sql.Date(new GregorianCalendar().getTimeInMillis());
 		}
 		
-		//날짜랑 원아번호로 원아 알림장 조회해오기
-		Note cNote = new MemberService().selectCNote(cId, cDate);
-		System.out.println(cNote);
-		int tNo = cNote.getTno();
-		
-		//선생님 알림장
-		CNote tNote = new MemberService().selectTNote(tNo, cDate);
+		//날짜랑 원아번호로  반알림장 조회해오기
+		Note Note = new MemberService().selectCNote(cId, cDate);
+		System.out.println(Note);
+		CNote cNote = null;
+		if(Note == null) {
+			//반 알림장 없을 때
+			//선생님 알림장
+			Note = new Note();
+			Note.setCid(cId);
+			Note.setMaterials("준비물이 없습니다.");
+			Note.setUnique("특이사항이 없습니다.");
+			
+		}else {
+			//반 알림장 있을 때
+			//cNote = new CNote();
+			int tNo = Note.getTno();
+			cNote = new MemberService().selectTNote(tNo, cDate);
+		}
 		
 		//원장님 알림장
 		CNote pNote = new MemberService().selectPNote(cDate);
@@ -64,7 +75,7 @@ public class ParentSelectCNoteServlet extends HttpServlet {
 		
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("cNote", cNote);
-		hmap.put("tNote", tNote);
+		hmap.put("tNote", Note);
 		hmap.put("pNote", pNote);
 		hmap.put("b", b);
 		

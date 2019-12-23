@@ -16,6 +16,10 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
+<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+  integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+  crossorigin="anonymous"></script>
 <script>
 $(function(){
 	$.ajax({
@@ -55,19 +59,19 @@ $(function(){
 				data:{cId, date},
 				type:"get",
 				success:function(data){
-
+					console.log(data);
 					$("#uniqueness").text("");
 					$("#materials").text("");
 					$("#banName").text("");
 					$("#presidentNotice").text("");
 					$("#teacherNotice").text(""); 
 					
-					$("#uniqueness").text(data.cNote.unique);
-					$("#materials").text(data.cNote.materials);
-					$("input:radio[name='example2']:input[value='"+ data.cNote.health +"']").prop("checked",true);
+					$("#uniqueness").text(data.tNote.unique);
+					$("#materials").text(data.tNote.materials);
+					$("input:radio[name='example2']:input[value='"+ data.tNote.health +"']").prop("checked",true);
 					$("#banName").text(data.b.banName + "반 알림장");
-					$("#presidentNotice").text(data.pNote.note);
-					$("#teacherNotice").text(data.tNote.note); 
+					$("#presidentNotice").text(data.cNote.note);
+					$("#teacherNotice").text(data.cNote.note); 
 				},
 				error:function(data){
 					$("#uniqueness").text("");
@@ -179,7 +183,7 @@ $(function(){
 
 	<!-- 날짜 선택 -->
 	<script>
- 	$(function() {
+ 	
         //input을 datepicker로 선언
         $(".datepicker").datepicker({
             dateFormat: 'yy-mm-dd' //Input Display Format 변경
@@ -203,7 +207,7 @@ $(function(){
         
         //초기값을 오늘 날짜로 설정
         $('#datepicker').datepicker('setDate', '-1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
-    }); 
+ 
 
 		
 	</script>

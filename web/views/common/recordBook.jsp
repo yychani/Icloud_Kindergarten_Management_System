@@ -269,7 +269,7 @@
 			   for(int i = 0; i < 3; i++) { %>
 			<tr>
 				<td>만 <%= i+3 %> 세</td>
-				<% if(bi.isEmpty() && j < 6) { %>
+				<% if(!bi.isEmpty() && j < 6) { %>
 				
 						<td><%= bi.get(j).getBiDate() %></td>
 						<td><%= bi.get(j).getHeight() %></td>

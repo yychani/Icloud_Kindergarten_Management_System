@@ -13,17 +13,21 @@
       $(function() {
     	  $(".li:nth-child(9)").addClass("on");
     	  
-          $(".topMenuLi:nth-child(2)").addClass("on");
+          $(".topMenuLi:nth-child(1)").addClass("on");
          
           $(".topMenuLi").mouseover(function() {
             $(".li:nth-child(9)").removeClass("on");
-            $(".topMenuLi:nth-child(2)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
          });
         
           $(".topMenuLi").mouseleave(function() {
             $(".li:nth-child(9)").addClass("on");
-            $(".topMenuLi:nth-child(2)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
          });
+          
+          $("#print").click(function() {
+        	  window.print();
+          });
       }); 
 </script>
 
@@ -35,9 +39,7 @@
 	<div style="margin: 0 15%; height:50px;">
 		<input type="button" value="뒤로가기" style="float:right; background:lightgray; color:black" onclick="location.href='tcChildDetail.jsp'" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		<input type="button" value="수정하기" style="float:right" onclick="location.href='tcChildRecodeBookMod.jsp'" />
-		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-		<input type="button" value="인쇄하기" class="print" style="float:right; background:lightgray; color:black" />
+		<input type="button" id="print" value="인쇄하기" style="float:right; background:lightgray; color:black" />
 	</div>
 	<%@ include file="/views/common/chat.jsp" %>
 	<%@ include file="/views/common/footer.jsp" %>

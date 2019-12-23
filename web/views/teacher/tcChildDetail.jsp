@@ -15,16 +15,16 @@
       $(function() {
     	  $(".li:nth-child(9)").addClass("on");
     	  
-          $(".topMenuLi:nth-child(2)").addClass("on");
+          $(".topMenuLi:nth-child(1)").addClass("on");
          
           $(".topMenuLi").mouseover(function() {
             $(".li:nth-child(9)").removeClass("on");
-            $(".topMenuLi:nth-child(2)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
          });
         
           $(".topMenuLi").mouseleave(function() {
             $(".li:nth-child(9)").addClass("on");
-            $(".topMenuLi:nth-child(2)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
          });
       }); 
 </script>
@@ -95,7 +95,7 @@
  			</tr>
  			<tr>
  				<td rowspan="6" style="border-right:1px solid rgba(34,36,38,.1)">
-					<img src="<%= request.getContextPath() %>/<%= ((Children) hmap.get("c")).getImgSrc() %>" alt=""/>
+					<img src="<%= request.getContextPath() %>/<%= ((Children) hmap.get("c")).getImgSrc() %>" alt="" width="300px"/>
 				</td>
  			</tr>
  			<tr>
