@@ -210,7 +210,6 @@ $(function() {
 	
 	</div>
 	<script>
-
 	function getReply(){
 		var tid='<%=b.getTid()%>'
 		$.ajax({
@@ -223,6 +222,7 @@ $(function() {
 				var rid = 0;
 				var rid2 = 0;
 				
+				console.log(data);
 				for(var key in data) {
 					if(data[key].refrid == 0){
 						var $contentDiv = $("<div class='content'>");
@@ -257,28 +257,32 @@ $(function() {
 						
 						$(".rereArea").hide();
 						rid = data[key].rid;
-					} else {
-						if(rid != 0){
-							for(var key2 in data){
-								if(rid == data[key2].refrid){
-									var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
-									
-									var $contentDiv2 = $("<div class='content'>");
-									var $a1 = $("<a class='author'>").text(data[key2].rname);
-									var $div11 = $("<div class='metadata'>");
-									var $span1 = $("<span class='date'>").text(data[key2].rdate);
-									var $div21 = $("<div class='text'>").text(data[key2].rcont);
-									
-									$contentDiv2.append($a1);
-									$contentDiv2.append($div11.append($span1));
-									$contentDiv2.append($div21);
-									
-									$rereplyArea.append($contentDiv2);
-									
-									$content.append($rereplyArea);
-								}
-							}
-							rid = 0;
+						console.log("rid123 : " + rid);
+					}
+					else if(data[key].refrid != 0) {
+						for(var key2 in data){
+							//console.log(index++);
+						console.log(data[key2].rid);
+						if(rid == data[key2].refrid && rid != rid2){
+							var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
+							
+							var $contentDiv2 = $("<div class='content'>");
+							var $a1 = $("<a class='author'>").text(data[key2].rname);
+							var $div11 = $("<div class='metadata'>");
+							var $span1 = $("<span class='date'>").text(data[key2].rdate);
+							var $div21 = $("<div class='text'>").text(data[key2].rcont);
+							
+							$contentDiv2.append($a1);
+							$contentDiv2.append($div11.append($span1));
+							$contentDiv2.append($div21);
+							
+							$rereplyArea.append($contentDiv2);
+							
+							$content.append($rereplyArea);
+							rid2 = data[key2].rid;
+							data[key2].refrid=-1;
+						}
+						//console.log(key2);
 						}
 					}
 				}
@@ -308,9 +312,11 @@ $(function() {
 		var writer = '<%= loginUser.getMemberName()%>'
 		var tid ='<%=b.getTid()%>'
 		var content = $("#textAreaRe").val();
-		console.log("1")
+		console.log("1");
+		var index = 0;
 		var rid = 0;
 		var rid2 = 0;
+		
 		$.ajax({
 			url:"/main/preHBoardInsertReply.bo",
 			data : {writer:writer,
@@ -318,12 +324,8 @@ $(function() {
 				tid:tid},
 				type:"post",
 				success:function(data){
-					var $contents = $("#rplycontent");
-					$contents.html('');
-					var index = 0;
-					var rid = 0;
-					var rid2 = 0;
-					
+					var $content = $("#rplycontent");
+					$content.html('');
 					console.log(data);
 					for(var key in data) {
 						if(data[key].refrid == 0){
@@ -339,13 +341,13 @@ $(function() {
 							$contentDiv.append($div1.append($span));
 							$contentDiv.append($div2);
 							$contentDiv.append($inputRid);
-							$contents.append($contentDiv);
+							$content.append($contentDiv);
 							
 							var $actionDiv = $("<div class='actions' onclick=''>");
 							var $rereply = $("<a class='rereply'>댓글달기</a>");
 							$actionDiv.append($rereply);
 							
-							$contents.append($actionDiv);
+							$content.append($actionDiv);
 							
 							var $rereAreaDiv = $("<div class='rereArea'>");
 							var $inputText = $("<input type='text' class='reretext'>");
@@ -355,24 +357,24 @@ $(function() {
 							$rereAreaDiv.append($inputText);
 							$rereAreaDiv.append($rereBtn);
 							
-							$contents.append($rereAreaDiv);
+							$content.append($rereAreaDiv);
 							
 							$(".rereArea").hide();
 							rid = data[key].rid;
 							console.log("rid123 : " + rid);
 						}
-						else {
-							//for(var key2 in data){
+						else if(data[key].refrid != 0) {
+							for(var key2 in data){
 								//console.log(index++);
-							console.log(data[key].rid);
-							if(rid == data[key].refrid && rid != rid2){
+							console.log(data[key2].rid);
+							if(rid == data[key2].refrid && rid != rid2){
 								var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
 								
 								var $contentDiv2 = $("<div class='content'>");
-								var $a1 = $("<a class='author'>").text(data[key].rname);
+								var $a1 = $("<a class='author'>").text(data[key2].rname);
 								var $div11 = $("<div class='metadata'>");
-								var $span1 = $("<span class='date'>").text(data[key].rdate);
-								var $div21 = $("<div class='text'>").text(data[key].rcont);
+								var $span1 = $("<span class='date'>").text(data[key2].rdate);
+								var $div21 = $("<div class='text'>").text(data[key2].rcont);
 								
 								$contentDiv2.append($a1);
 								$contentDiv2.append($div11.append($span1));
@@ -380,14 +382,14 @@ $(function() {
 								
 								$rereplyArea.append($contentDiv2);
 								
-								$contents.append($rereplyArea);
-								rid2 = data[key].rid;
+								$content.append($rereplyArea);
+								rid2 = data[key2].rid;
+								data[key2].refrid=-1;
 							}
 							//console.log(key2);
-							//}
+							}
 						}
-					}
-					$("#textAreaRe").val('');
+					} $("#textAreaRe").val('');
 				},
 				error:function(date){
 					console.log("댓글달기 실패");
@@ -425,6 +427,7 @@ $(function() {
 					$content.text("");
 					var index = 0;
 					var rid = 0;
+					
 					for(var key in data) {
 						if(data[key].refrid == 0){
 							var $contentDiv = $("<div class='content'>");
@@ -461,18 +464,18 @@ $(function() {
 							rid = data[key].rid;
 							console.log("rid123 : " + rid);
 						}
-						else {
-							//for(var key2 in data){
+						else if(data[key].refrid != 0) {
+							for(var key2 in data){
 								//console.log(index++);
-							console.log(data[key].rid);
-							if(rid == data[key].refrid && rid != rid2){
+							console.log(data[key2].rid);
+							if(rid == data[key2].refrid && rid != rid2){
 								var  $rereplyArea = $("<div class='rereply' id='rereplycontent' style='margin-left:20px;'>");
 								
 								var $contentDiv2 = $("<div class='content'>");
-								var $a1 = $("<a class='author'>").text(data[key].rname);
+								var $a1 = $("<a class='author'>").text(data[key2].rname);
 								var $div11 = $("<div class='metadata'>");
-								var $span1 = $("<span class='date'>").text(data[key].rdate);
-								var $div21 = $("<div class='text'>").text(data[key].rcont);
+								var $span1 = $("<span class='date'>").text(data[key2].rdate);
+								var $div21 = $("<div class='text'>").text(data[key2].rcont);
 								
 								$contentDiv2.append($a1);
 								$contentDiv2.append($div11.append($span1));
@@ -481,12 +484,12 @@ $(function() {
 								$rereplyArea.append($contentDiv2);
 								
 								$content.append($rereplyArea);
-								rid2 = data[key].rid;
+								rid2 = data[key2].rid;
+								data[key2].refrid=-1;
 							}
 							//console.log(key2);
-							//}
+							}
 						}
-						//$("#rereBtn").trigger("#click");
 					}
 				},
 				error:function(data){
@@ -494,8 +497,6 @@ $(function() {
 				}
 			});
 	});
-	
-
 	</script>
 	<%@ include file="/views/common/footer.jsp"%>
 	<%@ include file="/views/common/chat.jsp"%>
