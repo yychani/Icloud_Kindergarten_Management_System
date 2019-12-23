@@ -346,6 +346,7 @@
         				dno:dno
         			},
         			success:function(data) {
+        				console.log(data)
         				$("#name").text(data.cName);
         				$("#startDate").text(changeDate(data.startDate));
         				$("#endDate").text(changeDate(data.endDate));

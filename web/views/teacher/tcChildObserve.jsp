@@ -97,7 +97,7 @@
 						for(var i = 0, k = 0; i < second.length; i+=3,k++){
 							for(var j = 0; j < 3; j++) {
 								if(score2[k] == second[i+j].innerText){
-									$(second[i+j]).css("background-color","gray");
+									$(second[i+j]).addClass("ui olive circular label");
 									break;
 								}
 								
@@ -304,11 +304,11 @@
  			<tr>
  				<td rowspan="2" style="width:3%; height:10em"><span style="writing-mode: tb-rl;">총평</span></td>
  				<td style="width:3%;"><span style="font-size:8px">1학기</span></td> 
- 				<td colspan="9" style="height:4em;"><span id="total1"></span></td>
+ 				<td colspan="9" style="height:4em;"><span id="total1" style="word-spacing: 0em;"></span></td>
  			</tr>
  			<tr>
  				<td style="width:3%; font-size:0.5em"><span>2학기</span></td>
- 				<td colspan="9" style="height:4em;"><span id="total2"></span>
+ 				<td colspan="9" style="height:4em;"><span id="total2" style="word-spacing: 0em;"></span>
  				
  				</td>
  			</tr>		
