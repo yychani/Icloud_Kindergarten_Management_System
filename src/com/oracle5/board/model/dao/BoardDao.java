@@ -897,17 +897,19 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 	}
 
 	//반 리스트 공지사항 보기
-	public int getListCountBan(Connection con) {
-		Statement stmt = null;
+	public int getListCountBan(Connection con ,int tno) {
+		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int listCount = 0;
 		
 		String query = prop.getProperty("listCountBan");
 		
 		try {
-			stmt = con.createStatement();
+			pstmt = con.prepareStatement(query);
 			
-			rset = stmt.executeQuery(query);
+			pstmt.setInt(1, tno);
+			
+			rset = pstmt.executeQuery();
 		
 		if(rset.next()) {
 			listCount = rset.getInt(1);
@@ -915,7 +917,7 @@ public ArrayList<Board> selectAllParentsBoar(Connection con) {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			close(stmt);
+			close(pstmt);
 			close(rset);
 		}
 		

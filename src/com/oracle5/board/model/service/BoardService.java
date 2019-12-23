@@ -403,10 +403,10 @@ public class BoardService {
 	}
 
 	// 반공지사항 listCount
-	public int getListCountBan() {
+	public int getListCountBan(int tno) {
 		Connection con = getConnection();
 
-		int listCount = new BoardDao().getListCountBan(con);
+		int listCount = new BoardDao().getListCountBan(con,tno);
 
 		close(con);
 		return listCount;
