@@ -30,16 +30,16 @@
     	  <%-- 메뉴 활성화 --%>
     	  $(".li:nth-child(11)").addClass("on");
     	  
-          $(".topMenuLi:nth-child(2)").addClass("on");
+          $(".topMenuLi:nth-child(1)").addClass("on");
          
           $(".topMenuLi").mouseover(function() {
             $(".li:nth-child(11)").removeClass("on");
-            $(".topMenuLi:nth-child(2)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
          });
         
           $(".topMenuLi").mouseleave(function() {
             $(".li:nth-child(11)").addClass("on");
-            $(".topMenuLi:nth-child(2)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
          });
           
           <%-- 아이 이름 부분 클릭 시 모달에 아이 정보 넣어서 보여줌 --%>
@@ -75,7 +75,7 @@
       		});
       		
       		
-      		$("#myModal").show();
+      		$('.ui.modal').modal('show');
       	});      
       }); 
 
@@ -84,7 +84,7 @@
          	 $.ajax({
 				url:"<%=request.getContextPath()%>/notApprovalList.do",
 				type:"get",	
-				data:{currentPage},
+				data:{currentPage:currentPage},
 				success:function(data) {
            		$tableBody = $(".pAccountList tbody tr:nth-of-type(1)");
    				paging = data.pi;
@@ -149,7 +149,7 @@
       	 $.ajax({
 				url:"<%=request.getContextPath()%>/acceptApproval.do",
 				type:"get",	
-				data:{currentPage},
+				data:{currentPage:currentPage},
 				success:function(data) {
         		$tableBody = $(".pAccountList tbody tr:nth-of-type(1)");
 				paging = data.pi;
@@ -250,54 +250,33 @@
 		border: none;
 		cursor: pointer;
 	}
-	.modal-content table td {
-		border:none;
+	.clickable {cursor: pointer;}
+	.hover {text-decoration: underline;}
+	.odd{ background: #FFC;}
+	.even{ background: #FF9;}
+	.active{ width:10px; height:20px; }
+	 .pagination {
+		 text-align:center;
+	 }
+	 .pagination li {
+		 margin: 10px;
+		 display: inline-block;
+	 }
+	 .pagination li:hover{
+		 cursor:pointer;
+	 }
+	 #selectList{
+	   width:161px;
+	   height:34px;
+	   border-radius:4px;
 	}
-
-    /* The Modal (background) */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-
-    /* Modal Content/Box */
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 30%; /* Could be more or less, depending on screen size */                          
-    }
-    
- 
-.clickable {cursor: pointer;}
-.hover {text-decoration: underline;}
-.odd{ background: #FFC;}
-.even{ background: #FF9;}
-.active{ width:10px; height:20px; background:#f60; color:white;}
- .pagination {
-	 text-align:center;
- }
- .pagination li {
-	 margin: 10px;
-	 display: inline-block;
- }
- .pagination li:hover{
-	 cursor:pointer;
- }
- #selectList{
-   width:161px;
-   height:34px;
-   border-radius:4px;
-}
+	.ui .modal {
+		top:25%;
+		left:20%;
+	}
+	.ui.labeled.icon.button>.icon:before {
+		top: 67% !important;
+	}
 </style>
 
 </head>
@@ -327,46 +306,34 @@
 
 	
 	</ul> 
-
 	<div style="margin: 0 20%; height:50px;">
 		<input id="subBtn" type="button" value="승인완료" style="float:right"/>
 	</div>
-	
 
-	<!-- The Modal -->
-    <div id="myModal" class="modal">
- 
-      <!-- Modal content -->
-      	<div class="modal-content">
-				<table style="text-align:left">
-					<tr>
-						<td id="childName"></td>
-						<td rowspan="4"><img id="childImg" width="200px" style="margin:0 10%"/></td>
-					</tr>
-					<tr>
-						<td id="childGender"></td>
-					</tr>
-					<tr>
-						<td id="childBirth"></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-					</tr>
-				</table>
-                <p><br /></p>
-            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
-                <span class="pop_bt" style="font-size: 13pt;" >
-                     	닫기
-                </span>
-            </div>
-	     </div>
- 
-    </div>
+    <div class="ui modal">
+	  <i class="close icon"></i>
+	  <div class="header">
+	    	아이상세보기
+	  </div>
+	  <div class="image content">
+	    <div class="ui medium image">
+	      <img id="childImg">
+	    </div>
+	    <div class="description">
+	      <div class="ui header" id="childName"></div>
+	      	<p id="childGender"></p>
+	      	<p id="childBirth"></p>
+	    </div>
+	  </div>
+	  <div class="actions">
+	    <div class="ui positive right labeled icon button">
+	      	확인
+	      <i class="checkmark icon"></i>
+	    </div>
+	  </div>
+	</div>
+    
     <script>
-  		function close_pop(){
-      		$("#myModal").hide();
-      	};
-      	
       	//클릭한 페이지 버튼 이벤트
 		$(document).on("click",".goPage", function() {
      		currentPage = $(this).attr("data-page");

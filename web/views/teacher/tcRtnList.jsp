@@ -83,42 +83,6 @@
         td[id="does"]{
             padding-right: 0;
         } 
-        
-     .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-
-    /* Modal Content/Box */
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 40%; /* Could be more or less, depending on screen size */                          
-    }
-    
-    #modaltable td{
-    	height:30px
-    }
-    .modalBtn {
-    	cursor:pointer;
-    	background-color:#DDDDDD;
-    	text-align: center;
-    	padding-bottom: 10px;
-    	padding-top: 10px;
-    	display:inline-block;
-    	width: 40px;
-    }
-    
     td#applicant:nth-of-type(n+1) {
     	cursor:pointer;
     }
@@ -126,6 +90,13 @@
 	   width:161px;
 	   height:34px;
 	   border-radius:4px;
+	}
+	.ui .modal {
+		top:25%;
+		left:25%;
+	}
+	.ui.labeled.icon.button>.icon:before {
+		top: 67% !important;
 	}
     </style>
 </head>
@@ -161,11 +132,6 @@
         </tr>
         <% }
         } %>
-        <tr id="applyTr">
-                <th style="height: 30px;"></th>
-                <th align="right"></th>
-                <th></th>
-        </tr>
     </table>
      <table id="table2" class="asTable ui celled table" style="text-align:center;" hidden>
         <tr id="applyTr" style="background: #e3fad0">
@@ -185,11 +151,6 @@
         </tr>
         <% }
         } %>
-        <tr id="applyTr">
-                <th style="height: 30px;"></th>
-                <th align="right"></th>
-                <th></th>
-        </tr>
     </table>
    <table id="table3" class="asTable ui celled table" style="text-align:center;" hidden>
         <tr id="applyTr" style="background: #e3fad0">
@@ -209,11 +170,6 @@
         </tr>
         <% }
         } %>
-        <tr id="applyTr">
-                <th style="height: 30px;"></th>
-                <th align="right"></th>
-                <th></th>
-        </tr>
     </table>
      <table id="table4" class="asTable ui celled table" style="text-align:center;" hidden>
         <tr id="applyTr" style="background: #e3fad0">
@@ -233,20 +189,17 @@
         </tr>
         <% }
         } %>
-        <tr id="applyTr">
-                <th style="height: 30px;"></th>
-                <th align="right"></th>
-                <th></th>
-        </tr>
     </table>
 
-        
-        <!-- The Modal -->
-    <div id="myModal" class="modal" style="overflow-y: hidden">
- 
-      <!-- Modal content -->
-      	<div class="modal-content">
-				<table id="modaltable" style="text-align:center; width:100%;" border=1>
+    <div class="ui modal">
+	  <i class="close icon"></i>
+	  <div class="header">
+	    귀가 동의서 상세보기
+	  </div>
+	  <div class="image content">
+	    <div class="description">
+	      <div class="ui header"></div>
+	      <table class="ui celled table" id="modaltable" style="text-align:center; width:100%;" border=1>
 					<tr>
 						<td colspan="2" style="width:50%">이름</td>
 						<td colspan="2" style="width:50%" id="name"></td>
@@ -264,46 +217,46 @@
 						<td id="guidephone"></td>
 					</tr>
 				</table>
-                <p><br /></p>
-                <div style="display: inline-block; margin-left: 75%; width: 200px;" id="btndiv">
-	                <div class="modalBtn" id="return" style="margin-right:20px;" onClick="updateStatus('반려');">
-	            		<span class="pop_bt" style="font-size: 13pt;" >
-	                     		반려
-	                	</span>
-	            	</div>
-	                <div class="modalBtn" id="take" style="margin-right:20px;" onClick="updateStatus('인계');">
-	            		<span class="pop_bt" style="font-size: 13pt;" >
-	                     		인계
-	                	</span>
-	            	</div>
-	                <div class="modalBtn" id="check" style="margin-right:20px;" onClick="updateStatus('확인');">
-	            		<span class="pop_bt" style="font-size: 13pt;" >
-	                     		확인
-	                	</span>
-	            	</div>
-	           		<div class="modalBtn" onClick="close_pop();">
-	               		<span class="pop_bt" style="font-size: 13pt;" >
-	                    		닫기
-	               		</span>
-	           		</div>
-             </div>
-	     </div>
- 
-    </div>
+	    </div>
+	  </div>
+	  <div class="actions">
+	    <div class="ui negative right labeled icon button" onClick="updateStatus('반려');" id="return">
+	      	반려
+	      <i class="ban icon"></i>
+	    </div>
+	    <div class="ui positive right labeled icon button" onClick="updateStatus('확인');" id="check">
+	      	확인
+	      <i class="checkmark icon"></i>
+	    </div>
+	    <div class="ui black right labeled icon button" id="close">
+	      	닫기
+	      <i class="x icon icon"></i>
+	    </div>
+	    <div class="ui positive right labeled icon button" onClick="updateStatus('인계');" id="take">
+	      	인계
+	      <i class="checkmark icon"></i>
+	    </div>
+	  </div>
+	</div>
+    
+    
+    
+    
+    
     <script>
         $(function () {
         	 $(".li:nth-child(17)").addClass("on");
        	  
-             $(".topMenuLi:nth-child(2)").addClass("on");
+             $(".topMenuLi:nth-child(1)").addClass("on");
             
              $(".topMenuLi").mouseover(function() {
                $(".li:nth-child(17)").removeClass("on");
-               $(".topMenuLi:nth-child(2)").removeClass("on");
+               $(".topMenuLi:nth-child(1)").removeClass("on");
             });
            
              $(".topMenuLi").mouseleave(function() {
                $(".li:nth-child(17)").addClass("on");
-               $(".topMenuLi:nth-child(2)").addClass("on");
+               $(".topMenuLi:nth-child(1)").addClass("on");
             });
             
             $("#allCheck").click(function() {
@@ -340,14 +293,10 @@
             
             
         	$("td#applicant:nth-of-type(n+1)").click(function() {
-    			$("#myModal").show();
+        		$('.ui.modal').modal('show');
     		});
     		
         }); 
-        
-        function close_pop() {
-			$("#myModal").hide();
-		};
 		
 		$("td#applicant:nth-of-type(n+1)").click(function() {
     		rano = $(this).parent().find("#rano").val();
@@ -356,17 +305,14 @@
     			$("#return").show();
     			$("#check").show();
     			$("#take").hide();
-    			$("#btndiv").css("margin-left","75%");
     		} else if($("#as option:selected").val() == '인계 대기 리스트') {
     			$("#take").show();
     			$("#return").hide();
     			$("#check").hide();
-    			$("#btndiv").css("margin-left","85%");
     		} else {
     			$("#return").hide();
     			$("#check").hide();
     			$("#take").hide();
-    			$("#btndiv").css("margin-left","95%");
     		}
     		
     		$.ajax({
@@ -409,7 +355,6 @@
 	        		stat = "인계 완료";
 	        	}
 	        	console.log(stat);
-	        	close_pop();
 	        	
 	        	$.ajax({
 	        		url:"<%= request.getContextPath() %>/updateRtnStatus.do",
@@ -428,6 +373,10 @@
 	        	});
         	}
         }
+		
+		$("#close").click(function() {
+    		$('.ui.modal').modal('hide');
+    	});
     </script>
     <%@ include file="/views/common/footer.jsp"%>
     <%@ include file="/views/common/chat.jsp"%>

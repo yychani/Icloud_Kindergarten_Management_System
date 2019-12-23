@@ -11,9 +11,9 @@
 <head>
     <meta charset="UTF-8">
     <title>투약 의뢰서 관리</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style>
     
         table {
@@ -89,41 +89,6 @@
         td[id="does"]{
             padding-right: 0;
         } 
-        
-     .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-
-    /* Modal Content/Box */
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 40%; /* Could be more or less, depending on screen size */                          
-    }
-    
-    #modaltable td{
-    	height:30px
-    }
-    .modalBtn {
-    	cursor:pointer;
-    	background-color:#DDDDDD;
-    	text-align: center;
-    	padding-bottom: 10px;
-    	padding-top: 10px;
-    	display:inline-block;
-    	width: 40px;
-    }
     
     td#applicant:nth-of-type(n+1) {
     	cursor:pointer;
@@ -132,6 +97,13 @@
 	   width:161px;
 	   height:34px;
 	   border-radius:4px;
+	}
+	.ui .modal {
+		top:25%;
+		left:25%;
+	}
+	.ui.labeled.icon.button>.icon:before {
+		top: 67% !important;
 	}
     </style>
 </head>
@@ -158,7 +130,7 @@
         </tr>
         <% for(int i = 0; i < list.size(); i++) { 
         		if(list.get(i).getStatus().equals("수신 확인")) {
-        				if(list.get(i).getEndDate().after(d) || String.valueOf(list.get(1).getEndDate()).equals(String.valueOf(d))) {%>
+        				if(list.get(i).getEndDate().after(d) || String.valueOf(list.get(i).getEndDate()).equals(String.valueOf(d))) {%>
         <tr id="applyTr" class="child<%= i %>">
             <td id="no"><%= i + 1 %> 
             	<input type="hidden" id="cid" value="<%= list.get(i).getCNo() %>" />
@@ -260,71 +232,75 @@
         </tr>
     </table>
     
-        <!-- The Modal -->
-    <div id="myModal" class="modal" style="overflow-y: hidden">
- 
-      <!-- Modal content -->
-      	<div class="modal-content">
-				<table id="modaltable" style="text-align:center; width:100%;" border=1>
+    
+    <div class="ui modal">
+	  <i class="close icon"></i>
+	  <div class="header">
+	    투약 의뢰서 상세보기
+	  </div>
+	  <div class="image content">
+	    <div class="description">
+	      <div class="ui header"></div>
+	      <table class="ui celled table" id="modaltable" style="text-align:center; width:100%;" border=1>
 					<tr>
-						<td style="width:25%">이름</td>
+						<th style="width:25%">이름</th>
 						<td style="width:25%" id="name"></td>
-						<td style="width:25%">보관방법</td>
+						<th style="width:25%">보관방법</th>
 						<td style="width:25%" id="keep"></td>
 					</tr>
 					<tr>
-						<td>투약시작일자</td>
+						<th>투약시작일자</th>
 						<td id="startDate"></td>
-						<td>투약종료일자</td>
+						<th>투약종료일자</th>
 						<td id="endDate"></td>
 					</tr>
 					<tr>
-						<td>증상</td>
+						<th>증상</th>
 						<td id="symptom"></td>
-						<td>요청사항</td>
+						<th>요청사항</th>
 						<td id="remarks"></td>
 					</tr>
 					<tr>
-						<td>투약시간</td>
+						<th>투약시간</th>
 						<td colspan="3" id="dosingTime"></td>
 						
 					</tr>
 				</table>
-                <p><br /></p>
-                <div style="display: inline-block; margin-left: 75%; width: 200px;" id="btndiv">
-	                <div class="modalBtn" id="return" style="margin-right:20px;" onClick="updateStatus('반려');">
-	            		<span class="pop_bt" style="font-size: 13pt;" >
-	                     		반려
-	                	</span>
-	            	</div>
-	                <div class="modalBtn" id="check" style="margin-right:20px;" onClick="updateStatus('확인');">
-	            		<span class="pop_bt" style="font-size: 13pt;" >
-	                     		확인
-	                	</span>
-	            	</div>
-	           		<div class="modalBtn" onClick="close_pop();">
-	               		<span class="pop_bt" style="font-size: 13pt;" >
-	                    		닫기
-	               		</span>
-	           		</div>
-             </div>
-	     </div>
- 
-    </div>
+	    </div>
+	  </div>
+	  <div class="actions">
+	    <div class="ui negative right labeled icon button" onClick="updateStatus('반려');" id="return">
+	      	반려
+	      <i class="ban icon"></i>
+	    </div>
+	    <div class="ui positive right labeled icon button" onClick="updateStatus('확인');" id="check">
+	      	확인
+	      <i class="checkmark icon"></i>
+	    </div>
+	    <div class="ui black right labeled icon button" id="close">
+	      	닫기
+	      <i class="x icon icon"></i>
+	    </div>
+	  </div>
+	</div>
     <script>
+    	$("#close").click(function() {
+    		$('.ui.modal').modal('hide');
+    	});
+    
         $(function () {
         	 $(".li:nth-child(15)").addClass("on");
        	  
-             $(".topMenuLi:nth-child(2)").addClass("on");
+             $(".topMenuLi:nth-child(1)").addClass("on");
             
              $(".topMenuLi").mouseover(function() {
                $(".li:nth-child(15)").removeClass("on");
-               $(".topMenuLi:nth-child(2)").removeClass("on");
+               $(".topMenuLi:nth-child(1)").removeClass("on");
             });
            
              $(".topMenuLi").mouseleave(function() {
                $(".li:nth-child(15)").addClass("on");
-               $(".topMenuLi:nth-child(2)").addClass("on");
+               $(".topMenuLi:nth-child(1)").addClass("on");
             });
             
             $("#as").change(function(){
@@ -358,11 +334,9 @@
         		if($("#as option:selected").val() != '미확인 리스트') {
         			$("#return").hide();
         			$("#check").hide();
-        			$("#btndiv").css("margin-left","95%");
         		} else {
         			$("#return").show();
         			$("#check").show();
-        			$("#btndiv").css("margin-left","75%");
         		}
         		
         		$.ajax({
@@ -386,7 +360,7 @@
         		});
         		
         		
-    			$("#myModal").show();
+        		$('.ui.modal').modal('show');
     		});
     		
         }); 
@@ -396,10 +370,6 @@
         	date = date[2] + "년 " + date[0] + " " + date[1].substring(0, date[1].length - 1) + "일";
         	return date;
         }
-        
-        function close_pop() {
-			$("#myModal").hide();
-		};
 		
         function updateStatus(status) {
         	console.log(status)
@@ -413,7 +383,7 @@
 	        		stat = "반려";
 	        	}
 	        	
-	        	close_pop();
+	        	$('.ui.modal').modal('hide');
 	        	
 	        	$.ajax({
 	        		url:"<%= request.getContextPath() %>/updateDoseReqStatus.do",
