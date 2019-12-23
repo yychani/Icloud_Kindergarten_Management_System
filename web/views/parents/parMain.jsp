@@ -252,11 +252,49 @@
 	.ui.small.modal {
 		width:730px !important;
 	}
+	#cNameSelect{
+	   width:161px;
+	   height:34px;
+	   border-radius:4px;
+	   margin-left: 21%;
+	}
+	#cNameSelect:focus { 
+		outline: none; 
+	}
+	.chat {
+		margin-top: 10px !important;
+	}
 </style>
+<script>
+$(function(){
+	$.ajax({
+		url:"<%=request.getContextPath()%>/pCName.me",
+		type:"get",
+		success:function(data){
+			console.log(data);
+
+			$select = $("#cNameSelect");
+			$select.find("option").remove();
+			
+			for(var key in data){
+				var $option = $("<option>");
+				$option.val(data[key].cId);
+				$option.text(data[key].name);
+				$select.append($option);
+				
+			}
+		},
+		error:function(data){
+			console.log("faileㅠㅠ");
+		}
+	});
+});
+</script>
     </head>
 <body> 
 	 <%@ include file="/views/common/parentsMenu.jsp" %>
 	 <% int pno = loginUser.getMemberNo(); %>
+	 <select id="cNameSelect"></select>
 	<%@ include file="/views/common/feed.jsp" %>
 	<div class="ui small modal" id="pwdChange">
 	  <i class="close icon"></i>
@@ -352,5 +390,64 @@
 	</script>
 	<%@ include file="/views/common/footer.jsp" %>
     <%@ include file="/views/common/chat.jsp" %>
+    <script>
+    	$(document).ready(function(){
+    		$(document).on("change", "#cNameSelect", function(){
+    			var cid = $(this).val();
+    			//console.log(cid);
+    			$("#childrenName").text("");
+    			$("#feedContext").text("");
+    			
+    			$.ajax({
+					url: "<%=request.getContextPath()%>/myKidsInfo.me",
+					data:{cId:cid},
+					async: false,
+					type:"get",
+					success:function(data){
+						$("#childrenName").text(data.c.name);
+    					$("#mainChildImg").attr('src', '<%= request.getContextPath() %>/uploadFiles/'+ data.c.imgSrc);
+					}
+    			});
+    			$.ajax({
+    				url:"<%=request.getContextPath()%>/selectChildFeed.feed",
+    				data:{cid:cid},
+    				async: false,
+    				type:"post",
+    				success:function(data){
+    					var img2 = $("#mainChildImg").prop("src");
+    	        		//console.log(img2);
+    	        		var $feedContext = $("#feedContext");
+    	        		for(var key in data){
+    	        			var date = data[key].fdate;
+    	            		var time = data[key].time;
+    	            		var fileP = "";
+    	            		var message = "";
+    	            		if(data[key].changeName == null){
+    	            			message = data[key].content;
+    	            		}else {
+    	            			fileP = "<img src='<%=request.getContextPath() %>/uploadFiles/" + data[key].changeName + "' style='max-width: 300px; max-height: 200px;'>";
+    	            		}
+    		    			if(<%=pno %> == <%=loginUser.getMemberNo() %>){
+    			   				$feedContext.append("<div class='d-flex justify-content-start mb-4'>"
+    			   						+ "<div class='img_cont_msg'>" + "<img src='" + img2 + "' class='rounded-circle user_img_msg'></div>" + "<div class='msg_cotainer'>" + message + fileP +"<span class='msg_time'>" + date + " " + time + "</span></div></div>");
+    		        		}else {
+    		        			var $div1 = $('<div class="d-flex justify-content-end mb-4">')
+    		        			var $div2 = $('<div class="msg_cotainer_send">').html(message + fileP);
+    		        			var $span = $('<span class="msg_time_send">').text(date + "년    " + time);
+    		        			$div2.append($span);
+    		        			
+    		        			$div1.append($div2);
+    		        			$feedContext.append($div1);
+    		        		}
+    		    			$("#feedContext").scrollTop($("#feedContext")[0].scrollHeight);
+    	        		}
+    				},
+    				error:function(data){
+    					alert("피드 불러오기 실패");
+    				}
+    			});
+    		});
+    	});
+    </script>
 </body>
 </html>
