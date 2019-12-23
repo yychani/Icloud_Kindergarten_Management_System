@@ -16,7 +16,8 @@ public class Member implements Serializable{
 	private String uType;
 	private String email;
 	private String phone;
-	private Date leaveDate;   
+	private Date leaveDate;
+	private String hq;
 } 
  
 

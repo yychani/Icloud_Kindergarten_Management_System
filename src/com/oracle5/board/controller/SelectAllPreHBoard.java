@@ -65,20 +65,26 @@ public class SelectAllPreHBoard extends HttpServlet {
 		Member loginUser = (Member) request.getSession().getAttribute("loginMember");
 		
 		String page="";
-		if(list != null) {
-			if((loginUser).getMemberId().equals("admin")) {
-				page="views/president/preHBoard.jsp";	
-			}else if((loginUser).getUType().equals("교사")){
-				page="views/teacher/tcHBoard.jsp";
+		System.out.println("사용자의 hq" + loginUser.getHq());
+		if(loginUser.getHq().equals("Y")) {
+			if(list != null) {
+				if((loginUser).getMemberId().equals("admin")) {
+					page="views/president/preHBoard.jsp";	
+				}else if((loginUser).getUType().equals("교사")){
+					page="views/teacher/tcHBoard.jsp";
+				}else {
+					page="views/parents/boardCommittee.jsp";
+				}
+				
+				request.setAttribute("list", list);
+				request.setAttribute("pi", pi);
 			}else {
-				page="views/parents/boardCommittee.jsp";
+				request.setAttribute("msg", "유치원 운영위원회 조회 실패");
+				page="views/common/errorPage.jsp";
 			}
-			
-			request.setAttribute("list", list);
-			request.setAttribute("pi", pi);
 		}else {
-			request.setAttribute("msg", "유치원 운영위원회 조회 실패");
 			page="views/common/errorPage.jsp";
+			request.setAttribute("msg", "허용된 사용자만 열람 가능합니다.");
 		}
 		request.getRequestDispatcher(page).forward(request, response);
 	}
