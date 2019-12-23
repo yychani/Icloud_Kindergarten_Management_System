@@ -69,7 +69,7 @@ public class SelectAllBanNoticeListServlet extends HttpServlet {
 		}
 		limit =10;
 		
-		int listCount = new BoardService().getListCountBan();
+		int listCount = new BoardService().getListCountBan(tno);
 		
 		maxPage = (int)((double)listCount/limit+0.9);
 		System.out.println(maxPage);
