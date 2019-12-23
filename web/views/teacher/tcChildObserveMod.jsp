@@ -172,9 +172,8 @@
 					var first = $(".childOb tbody tr:nth-of-type(n+4) td").find('input');
 					console.log(first)
 					for(var i = 0, k = 0; i < first.length - 2; i+=6, k++) {
-						for(var j = 0; j < 5; j+=2) {
+						for(var j = 0; j < 3; j++) {
 							if(first[i+j].value == score[k]) {
-								console.log(i+j)
 								first[i+j].checked = true;
 							}
 						}
@@ -187,13 +186,13 @@
 						date2 = date2.split(" ");
 						date2 = date2[2] + "년 " + date2[0] + " " + date2[1].substring(0,2) + "일"
 						$("#sdate").val(date2);
-
+						
 						var score2 = data.list[1].ob.escore.split("/");
-						var first = $(".childOb tbody tr:nth-of-type(n+4) td").find('input').parent();
-						for(var i = 1, k = 0; i < first.length - 2; i+=2, k++) {
-							for(var j = 0; j < 5; j+=2) {
-								if(first[i].children[j].value == score2[k]) {
-									first[i].children[j].checked = true;
+						var first = $(".childOb tbody tr:nth-of-type(n+4) td").find('input');
+						for(var i = 1, k = 0; i < first.length - 2; i+=6, k++) {
+							for(var j = 2; j < 5; j++) {
+								if(first[i+j].value == score2[k]) {
+									first[i+j].checked = true;
 								}
 							}
 						}

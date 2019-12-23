@@ -94,12 +94,10 @@
  				<th style="width:33.3%; height:50px">부모님 정보</th>
  			</tr>
  			<tr>
- 				<td rowspan="6" style="border-right:1px solid rgba(34,36,38,.1)">
+ 				<td rowspan="5" style="border-right:1px solid rgba(34,36,38,.1)">
 					<img src="<%= request.getContextPath() %>/<%= ((Children) hmap.get("c")).getImgSrc() %>" alt="" width="300px"/>
 				</td>
- 			</tr>
- 			<tr>
- 				<td>이름 : <%= ((Children) hmap.get("c")).getName() %></td>
+				<td>이름 : <%= ((Children) hmap.get("c")).getName() %></td>
  				<td>부모님 이름 : <%= ((Member) hmap.get("m")).getMemberName() %></td>
  			</tr>
  			<tr>

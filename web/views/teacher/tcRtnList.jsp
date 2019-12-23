@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.*, com.oracle5.member.model.vo.*"%>
+	pageEncoding="UTF-8" import="java.util.*, java.sql.Date, com.oracle5.member.model.vo.*"%>
 <%
 	ArrayList<ReturnAgree> list = (ArrayList<ReturnAgree>) request.getAttribute("list");
+
+	java.sql.Date d = new Date(new java.util.Date().getTime());
 %>
 <!DOCTYPE html>
 <html>
@@ -121,7 +123,8 @@
             <th id="apply">신청일</th>
         </tr>
         <% for(int i = 0; i < list.size(); i++) { 
-        	if(list.get(i).getStatus().equals("수신 확인")) { %>
+        	if(list.get(i).getStatus().equals("수신 확인")) { 
+        		if(list.get(i).getApplyDate().after(d) || String.valueOf(list.get(i).getApplyDate()).equals(String.valueOf(d))) {%>
         <tr id="applyTr">
             <td id="no"><%= i + 1 %> 
             	<input type="hidden" id="cid" value="<%= list.get(i).getCId() %>" />
@@ -130,8 +133,9 @@
             <td id="applicant"><%= list.get(i).getCName() %></td>
             <td id="apply"><%= list.get(i).getSubmitDate() %></td>
         </tr>
-        <% }
-        } %>
+        <% 		}
+        	} 
+        }%>
     </table>
      <table id="table2" class="asTable ui celled table" style="text-align:center;" hidden>
         <tr id="applyTr" style="background: #e3fad0">
