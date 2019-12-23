@@ -47,7 +47,7 @@ public class SelectAllTctcBoardServlet extends HttpServlet {
 		
 		int listCount = new BoardService().getListCountTctcBoard();
 		
-		maxPage = (int)((double)currentPage /limit +0.9);
+		maxPage = (int)((double)listCount /limit +0.9);
 		
 		startPage = (((int)((double)currentPage/limit+0.9))-1)*10+1;
 		
