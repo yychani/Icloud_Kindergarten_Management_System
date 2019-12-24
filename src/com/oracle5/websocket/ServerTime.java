@@ -77,7 +77,7 @@ public class ServerTime {
 							String time = hour + ":" + min + ":" + sec;
 							
 							session.getBasicRemote().sendText(time);
-							//System.out.println(time);
+							System.out.println(time);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
