@@ -13,16 +13,16 @@
       $(function() {
     	  $(".li:nth-child(9)").addClass("on");
     	  
-          $(".topMenuLi:nth-child(2)").addClass("on");
+          $(".topMenuLi:nth-child(1)").addClass("on");
          
           $(".topMenuLi").mouseover(function() {
             $(".li:nth-child(9)").removeClass("on");
-            $(".topMenuLi:nth-child(2)").removeClass("on");
+            $(".topMenuLi:nth-child(1)").removeClass("on");
          });
         
           $(".topMenuLi").mouseleave(function() {
             $(".li:nth-child(9)").addClass("on");
-            $(".topMenuLi:nth-child(2)").addClass("on");
+            $(".topMenuLi:nth-child(1)").addClass("on");
          });
          $("#print").click(function() {
              window.print();
@@ -36,7 +36,7 @@
 	<%@ include file="/views/common/recordBook.jsp" %>
                      
 	<div style="margin: 0 15%; height:50px;">
-		<input type="button" value="뒤로가기" style="float:right; background:lightgray; color:black" onclick="location.href='tcChildDetail.jsp'" />
+		<input type="button" value="뒤로가기" style="float:right; background:lightgray; color:black" onclick="history.go(-1)" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<input type="button" value="인쇄하기" id="print" style="float:right; background:lightgray; color:black" />
 	</div>

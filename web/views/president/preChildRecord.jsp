@@ -64,7 +64,7 @@
     <%@ include file="/views/common/presidentMenu.jsp"%>
     <%@ include file="/views/common/recordBook.jsp" %>
     <div style="margin: 0 15%; height:50px;">
-		<input type="button" value="뒤로가기" style="float:right; background:lightgray; color:black" onclick="location.href='selectChild.c'" />
+		<input type="button" value="뒤로가기" style="float:right; background:lightgray; color:black" onclick="history.go(-1);" />
 		<span style="float:right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 		<input type="button" value="인쇄하기" id="print" style="float:right; background:lightgray; color:black" />
 	</div>

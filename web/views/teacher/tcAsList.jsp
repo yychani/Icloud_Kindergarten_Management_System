@@ -155,15 +155,15 @@
         </tr>
         <% for(int i = 0; i < nolist.size(); i++) { %>
         <tr id="applyTr">
-            <td id="no" style="border-bottom: 1px solid rgba(34,36,38,.1);"><%= i + 1 %><input type="hidden" name="cid" id="cid" value="<%= nolist.get(i).getCId() %>" /></td>
-            <td id="applicant" style="border-bottom: 1px solid rgba(34,36,38,.1);"><%= nolist.get(i).getName() %></td>
-            <td id="apply" align="center" style="border-bottom: 1px solid rgba(34,36,38,.1);"><input id="check" class="asCheck" type="checkbox"></td>
+            <td id="no"><%= i + 1 %><input type="hidden" name="cid" id="cid" value="<%= nolist.get(i).getCId() %>" /></td>
+            <td id="applicant"><%= nolist.get(i).getName() %></td>
+            <td id="apply" align="center"><input id="check" class="asCheck" type="checkbox"></td>
         </tr>
         <% } %>
         <tr id="applyTr">
-                <th style="height: 30px;"></th>
-                <th align="right" style="border-left:none;">전체선택</th>
-                <th style="border-left:none;"><input id="allCheck" type="checkbox"></th>
+                <th style="height: 30px; border-top: 1px solid rgba(34, 36, 38, .1)"></th>
+                <th align="right" style="border-left:none; border-top: 1px solid rgba(34, 36, 38, .1)"">전체선택</th>
+                <th style="border-left:none; border-top: 1px solid rgba(34, 36, 38, .1)""><input id="allCheck" type="checkbox"></th>
         </tr>
     </table>
     

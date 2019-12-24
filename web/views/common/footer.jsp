@@ -12,12 +12,14 @@ font-family: 'Noto Sans KR', sans-serif;
         <br><br>
         <small>POWERED BY</small> <img src="<%=request.getContextPath() %>/images/icloud.jpg" style="width: 80px;">
         <br>
-        <!-- <small>서버시간 : </small><span id="serverTime"></span>  -->
+        <small id="tttime">서버시간 : </small><span id="serverTime"></span>
 </footer>
 
 <script>
 	$(function(){
 		getServerTime();
+		$("#tttime").hide();
+		$("#serverTime").hide();
 	});
 	  
 	function getServerTime() {
@@ -53,8 +55,8 @@ font-family: 'Noto Sans KR', sans-serif;
 			$("#chat").show();
 		}*/ // 채팅 비활성화
 		
-		//$("#serverTime").text(serverMessage);
-		//$("#todoListTime").val(serverMessage);
+		$("#serverTime").text(serverMessage);
+		$("#todoListTime").val(serverMessage);
 	}
 		
 	function onError2(event){
